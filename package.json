@@ -1,0 +1,26 @@
+{
+  "name": "node.js-server",
+  "version": "1.0.0",
+  "description": "Generic implementation of a MERN Stack",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/peterjoseph/node.js-server.git"
+  },
+  "keywords": [
+    "node.js",
+    "server",
+    "node",
+    "express",
+    "mern"
+  ],
+  "author": "Peter Joseph",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/peterjoseph/node.js-server/issues"
+  },
+  "homepage": "https://github.com/peterjoseph/node.js-server#readme"
+}
