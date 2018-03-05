@@ -22,5 +22,8 @@
   "bugs": {
     "url": "https://github.com/peterjoseph/node.js-server/issues"
   },
-  "homepage": "https://github.com/peterjoseph/node.js-server#readme"
+  "homepage": "https://github.com/peterjoseph/node.js-server#readme",
+  "dependencies": {
+    "dotenv": "^5.0.1"
+  }
 }
