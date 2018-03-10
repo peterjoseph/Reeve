@@ -1,54 +1,40 @@
-let cluster = require('cluster');
+let express = require('express'); // Express Server
+let session = require('express-session');
+let redis = require("redis");
+let redisStore = require('connect-redis')(session);
+let path = require('path');
+let async = require("async");
+let fs = require('fs');
+let mongoose = require('mongoose'); // Database
+let passport = require('passport'); // Passport authentication management
+let LocalStrategy = require('passport-local').Strategy;
+let JwtStrategy = require('passport-jwt').Strategy;  
+let ExtractJwt = require('passport-jwt').ExtractJwt;  
+let cookieParser = require('cookie-parser');
+let bodyParser = require('body-parser');
+let routes = require('./router'); // Server Routes
+let client = redis.createClient(); // Create redis client
+let app = express();
 
-if (cluster.isMaster) {  
-    let cpus = require('os').cpus().length;
-    for (let i = 0; i < cpus; i += 1) {
-        cluster.fork();
-    }
-    cluster.on('exit', function (worker) {
-        cluster.fork();
-    });    
-} else {
-    let express = require('express'); // Express Server
-    let session = require('express-session');
-    let redis = require("redis");
-    let redisStore = require('connect-redis')(session);
-    let path = require('path');
-    let async = require("async");
-    let fs = require('fs');
-    let mongoose = require('mongoose'); // Database
-    let passport = require('passport'); // Passport authentication management
-    let LocalStrategy = require('passport-local').Strategy;
-    let JwtStrategy = require('passport-jwt').Strategy;  
-    let ExtractJwt = require('passport-jwt').ExtractJwt;  
-    let cookieParser = require('cookie-parser');
-    let bodyParser = require('body-parser');
-    let routes = require('./router'); // Server Routes
-    let client = redis.createClient(); // Create redis client
-	let app = express();
-    
-    app.set('view engine', 'html');
-    app.engine('html', function (path, options, callbacks) { fs.readFile(path, 'utf-8', callback); });
-    app.use(bodyParser.json());
-    app.use(bodyParser.urlencoded({ extended: false }));
-    app.use(cookieParser());
+app.set('view engine', 'html');
+app.engine('html', function (path, options, callbacks) { fs.readFile(path, 'utf-8', callback); });
+app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({ extended: false }));
+app.use(cookieParser());
 
-    app.use(passport.initialize());
-    app.use(passport.session());
-    app.use(express.static(path.join(__dirname, '../client')));
+app.use(passport.initialize());
+app.use(passport.session());
+app.use(express.static(path.join(__dirname, '../client')));
 
-    app.use(function (err, req, res, next) { res.status(err.status || 500); });
-    app.use('/', routes);
+app.use(function (err, req, res, next) { res.status(err.status || 500); });
+app.use('/', routes);
 
-    app.use(function noCache(req, res, next) {
-        res.header("Cache-Control", "no-cache, no-store, must-revalidate");
-        res.header("Pragma", "no-cache");
-        res.header("Expires", 0);
-        next();
-    });
+app.use(function noCache(req, res, next) {
+    res.header("Cache-Control", "no-cache, no-store, must-revalidate");
+    res.header("Pragma", "no-cache");
+    res.header("Expires", 0);
+    next();
+});
 
-    // Listen on Port
-    let port = 3000;
-    counter = 10000 + Math.round(Math.random() * 10000);
-    app.listen(port);
-}
+// Listen on Port
+app.listen(3000);
