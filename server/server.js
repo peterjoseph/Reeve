@@ -36,5 +36,17 @@ app.use(function noCache(req, res, next) {
     next();
 });
 
-// Listen on Port
-app.listen(3000);
+const port = normalizePort(process.env.PORT || '3000');
+app.set('port', port);
+app.listen(port);
+
+function normalizePort(val) {
+    const port = parseInt(val, 10);
+    if (isNaN(port)) {
+        return val;
+    }
+    if (port >= 0) {
+        return port;
+    }
+    return false;
+}
