@@ -4,7 +4,7 @@ import PropTypes from 'prop-types'
 class App extends React.Component {
 
 	render() {
-		<div>Root Component</div>
+		return <div>Root Component</div>
 	}
 
 };
