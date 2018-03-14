@@ -1,5 +1,6 @@
 import React from 'react'
 import PropTypes from 'prop-types'
+import './common/styles/entry.scss';
 
 class App extends React.Component {
 

@@ -3,8 +3,7 @@ var webpack = require('webpack');
 
 module.exports = {
   entry: [
-    './client/index.js',
-    './common/styles/style.css'
+    './client/index.js'
   ],
   entry: [
     'whatwg-fetch',
@@ -24,8 +23,18 @@ module.exports = {
       }
     },
     {
-        test: /\.css$/,
-        loader: 'style-loader!css-loader'
+      test: /\.css$/,
+      loader: 'style-loader!css-loader'
+    },
+    {
+      test: /\.scss$/,
+      use: [{
+        loader: "style-loader"
+      }, {
+        loader: "css-loader" 
+      }, {
+        loader: "sass-loader"
+      }]
     },
     {
       test: /.*\.(gif|png|jpe?g|svg)$/i,
@@ -37,7 +46,7 @@ module.exports = {
           }
         },
       ]
-    }]
+    }],
   },
   plugins: [  
       new webpack.ProvidePlugin({
