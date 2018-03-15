@@ -14,13 +14,7 @@
     "type": "git",
     "url": "git+https://github.com/peterjoseph/node.js-server.git"
   },
-  "keywords": [
-    "node.js",
-    "server",
-    "node",
-    "express",
-    "mern"
-  ],
+  "keywords": ["node.js", "server", "node", "express", "mern"],
   "author": "Peter Joseph",
   "license": "MIT",
   "bugs": {
