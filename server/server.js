@@ -40,17 +40,7 @@ app.use(function noCache(req, res, next) {
   next();
 });
 
-const port = normalizePort(process.env.PORT || "3000");
-app.set("port", port);
-app.listen(port);
-
-function normalizePort(val) {
-  const port = parseInt(val, 10);
-  if (isNaN(port)) {
-    return val;
-  }
-  if (port >= 0) {
-    return port;
-  }
-  return false;
-}
+app.set("port", process.env.PORT || 3000);
+var server = app.listen(app.get("port"), function() {
+  console.log(`Listening on port: ${server.address().port}`);
+});

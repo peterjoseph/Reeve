@@ -5,8 +5,10 @@
   "main": "index.js",
   "scripts": {
     "start": "node bin/www",
-    "startWithPM2": "pm2 start ecosystem.config.js",
-    "watch": "webpack --watch",
+    "start:PM2": "pm2 start ecosystem.config.js",
+    "development:client":
+      "webpack-dev-server --content-base client --hot --inline --port 3000",
+    "development:server": "nodemon ./server/www localhost 8080",
     "build": "webpack -p",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
@@ -58,10 +60,11 @@
     "file-loader": "^1.1.5",
     "imports-loader": "^0.7.1",
     "node-sass": "^4.7.2",
+    "nodemon": "^1.17.2",
     "sass-loader": "^6.0.7",
     "style-loader": "^0.18.2",
     "webpack": "^3.11.0",
     "webpack-dev-middleware": "^2.0.6",
-    "webpack-dev-server": "^2.7.1"
+    "webpack-dev-server": "^2.11.2"
   }
 }
