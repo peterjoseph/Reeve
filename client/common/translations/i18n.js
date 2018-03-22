@@ -1,15 +1,24 @@
-import i18n from "i18next";
+import i18next from "i18next";
 
-i18n.init({
+const languages = {
+  en: require("./languages/en/translation.json")
+};
+
+i18next.init({
+  ns: ["translation"],
   interpolation: {
     escapeValue: false
   },
   lng: "en",
-  resources: {
-    en: {
-      translation: {}
-    }
+  fallbackLng: "en",
+  resources: languages,
+  react: {
+    wait: true
   }
 });
 
-export default i18n;
+export default i18next;
+
+export function t(...args) {
+  return i18next.t(...args);
+}
