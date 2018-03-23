@@ -1,10 +1,15 @@
 import i18next from "i18next";
 
 const languages = {
-  en: require("./languages/en/translation.json")
+  en: {
+    "translation": require("./languages/en.json")
+  }
 };
 
+console.log(languages);
+
 i18next.init({
+  debug: true,
   ns: ["translation"],
   interpolation: {
     escapeValue: false
