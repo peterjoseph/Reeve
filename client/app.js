@@ -1,8 +1,7 @@
 import React from "react";
+import { connect } from "react-redux";
 import PropTypes from "prop-types";
 import { t } from "./common/translations/i18n";
-
-import "./common/styles/entry.scss";
 
 class App extends React.Component {
   render() {
@@ -10,4 +9,8 @@ class App extends React.Component {
   }
 }
 
-export default App;
+function mapStateToProps(state, props) {
+  return {};
+}
+
+export default connect(mapStateToProps, {})(App)

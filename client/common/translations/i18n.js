@@ -6,10 +6,7 @@ const languages = {
   }
 };
 
-console.log(languages);
-
 i18next.init({
-  debug: true,
   ns: ["translation"],
   interpolation: {
     escapeValue: false
