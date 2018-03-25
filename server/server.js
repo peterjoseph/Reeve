@@ -16,6 +16,8 @@ let routes = require("./router"); // Server Routes
 let client = redis.createClient(); // Create redis client
 let app = express();
 
+let config = require("../config");
+
 app.set("view engine", "html");
 app.engine("html", function(path, options, callbacks) {
   fs.readFile(path, "utf-8", callback);
@@ -40,7 +42,7 @@ app.use(function noCache(req, res, next) {
   next();
 });
 
-app.set("port", process.env.PORT || 3000);
+app.set("port", config.development.backendPort || 8080);
 var server = app.listen(app.get("port"), function() {
   console.log(`Listening on port: ${server.address().port}`);
 });
