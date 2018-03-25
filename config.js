@@ -2,7 +2,7 @@ require("dotenv").config();
 
 let config = {
   build: {
-    environment: process.env.ENVIRONMENT
+    environment: process.env.NODE_ENV
   },
   development: {
     protocol: process.env.PROTOCOL,
