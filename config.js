@@ -6,6 +6,8 @@ let config = {
   },
   development: {
     protocol: process.env.PROTOCOL,
+    key: process.env.KEY,
+    certificate: process.env.CERTIFICATE,
     frontendServer: process.env.FRONTENDSERVER,
     frontendPort: process.env.FRONTENDPORT,
     backendServer: process.env.BACKENDSERVER,

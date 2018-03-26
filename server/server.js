@@ -5,6 +5,7 @@ let redisStore = require("connect-redis")(session);
 let path = require("path");
 let async = require("async");
 let fs = require("fs");
+let https = require("https");
 let mongoose = require("mongoose"); // Database
 let passport = require("passport"); // Passport authentication management
 let LocalStrategy = require("passport-local").Strategy;
@@ -43,6 +44,18 @@ app.use(function noCache(req, res, next) {
 });
 
 app.set("port", config.development.backendPort || 8080);
-var server = app.listen(app.get("port"), function() {
-  console.log(`Listening on port: ${server.address().port}`);
-});
+
+let server = null;
+if (config.development.protocol === "https") { // Create https server if specified
+  server = https.createServer({
+    key: fs.readFileSync(config.development.key),
+    cert: fs.readFileSync(config.development.certificate)
+  }, app)
+    .listen(app.get("port"), function() {
+      console.log(`Listening securely on port: ${server.address().port}`);
+    });
+} else {
+  server = app.listen(app.get("port"), function() {
+    console.log(`Listening on port: ${server.address().port}`);
+  });
+}
