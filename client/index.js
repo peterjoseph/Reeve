@@ -1,6 +1,6 @@
 import React from "react";
 import ReactDOM from "react-dom";
-import i18next from "./common/translations/i18n";
+import i18next from "~/shared/translations/i18n";
 import Notifications from "react-notify-toast";
 import ReactTooltip from "react-tooltip";
 

@@ -1,7 +1,7 @@
 import React from "react";
 import { connect } from "react-redux";
 import PropTypes from "prop-types";
-import { t } from "./common/translations/i18n";
+import { t } from "~/shared/translations/i18n";
 
 class App extends React.Component {
   render() {
