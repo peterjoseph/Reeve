@@ -1,5 +1,5 @@
 {
-  "name": "node.js-server",
+  "name": "Kettlebell",
   "version": "1.0.0",
   "description": "Generic implementation of a MERN Stack",
   "main": "index.js",
@@ -13,7 +13,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/peterjoseph/node.js-server.git"
+    "url": "git+https://github.com/peterjoseph/kettlebell.git"
   },
   "keywords": [
     "node.js",
@@ -25,9 +25,9 @@
   "author": "Peter Joseph",
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/peterjoseph/node.js-server/issues"
+    "url": "https://github.com/peterjoseph/kettlebell/issues"
   },
-  "homepage": "https://github.com/peterjoseph/node.js-server#readme",
+  "homepage": "https://github.com/peterjoseph/kettlebell#readme",
   "dependencies": {
     "async": "^1.2.1",
     "body-parser": "^1.13.0",
