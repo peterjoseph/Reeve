@@ -1,6 +1,7 @@
 import React from "react";
 import { Route } from "react-router";
 import { Redirect, BrowserRouter, Switch } from "react-router-dom";
+import { ROLE_TYPE } from "~/shared/constants";
 
 import AuthenticateRoute from "./common/components/AuthenticateRoute";
 import MissingPath from "./common/components/MissingPath";
