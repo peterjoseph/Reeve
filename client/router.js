@@ -11,14 +11,14 @@ class Router extends React.Component {
       <BrowserRouter>
         <div>
           <Switch>
-            <RedirectRoute
+            <AuthenticateRoute
               exact
               path="/"
               user={null /* user */}
               role={null /* Account Type Array */}
               render={props => <Dashboard user={null /* user */} />}
             />
-            <RedirectRoute user={null /* user */} component={MissingPath} />
+            <AuthenticateRoute user={null /* user */} component={MissingPath} />
           </Switch>
         </div>
       </BrowserRouter>
