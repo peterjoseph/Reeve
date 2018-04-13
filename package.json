@@ -4,9 +4,10 @@
   "description": "Generic implementation of a MERN Stack",
   "main": "index.js",
   "scripts": {
-    "start": "node bin/www",
+    "start": "webpack && node bin/www",
     "start:PM2": "pm2 start ecosystem.config.js",
-    "development:client": "webpack-dev-server --content-base client --hot --inline --port 3000",
+    "development:client":
+      "webpack-dev-server --content-base client --hot --inline --port 3000",
     "development:server": "nodemon ./server/www localhost 8080",
     "build": "webpack -p",
     "test": "ava"
@@ -15,13 +16,7 @@
     "type": "git",
     "url": "git+https://github.com/peterjoseph/kettlebell.git"
   },
-  "keywords": [
-    "node.js",
-    "server",
-    "node",
-    "express",
-    "mern"
-  ],
+  "keywords": ["node.js", "server", "node", "express", "mern"],
   "author": "Peter Joseph",
   "license": "MIT",
   "bugs": {

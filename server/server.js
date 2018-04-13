@@ -46,11 +46,16 @@ app.use(function noCache(req, res, next) {
 app.set("port", config.development.backendPort || 8080);
 
 let server = null;
-if (config.development.protocol === "https") { // Create https server if specified
-  server = https.createServer({
-    key: fs.readFileSync(config.development.key),
-    cert: fs.readFileSync(config.development.certificate)
-  }, app)
+if (config.development.protocol === "https") {
+  // Create https server if specified
+  server = https
+    .createServer(
+      {
+        key: fs.readFileSync(config.development.key),
+        cert: fs.readFileSync(config.development.certificate)
+      },
+      app
+    )
     .listen(app.get("port"), function() {
       console.log(`Listening securely on port: ${server.address().port}`);
     });
@@ -59,3 +64,5 @@ if (config.development.protocol === "https") { // Create https server if specifi
     console.log(`Listening on port: ${server.address().port}`);
   });
 }
+
+module.exports = app;
