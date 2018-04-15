@@ -3,6 +3,7 @@ import ReactDOM from "react-dom";
 import i18next from "~/shared/translations/i18n";
 import Notifications from "react-notify-toast";
 import ReactTooltip from "react-tooltip";
+import feather from "feather-icons";
 
 import { Provider } from "react-redux";
 import { I18nextProvider } from "react-i18next";
