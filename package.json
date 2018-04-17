@@ -1,33 +1,28 @@
 {
-  "name": "Kettlebell",
+  "name": "Reeve",
   "version": "1.0.0",
-  "description": "Generic implementation of a MERN Stack",
+  "description": "Web application scaffolding for production environments",
   "main": "index.js",
   "scripts": {
     "start": "webpack && node bin/www",
     "start:PM2": "pm2 start ecosystem.config.js",
-    "development:client": "webpack-dev-server --content-base client --hot --inline --port 3000",
+    "development:client":
+      "webpack-dev-server --content-base client --hot --inline --port 3000",
     "development:server": "nodemon ./server/www localhost 8080",
     "build": "webpack -p",
     "test": "ava"
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/peterjoseph/kettlebell.git"
+    "url": "git+https://github.com/peterjoseph/reeve.git"
   },
-  "keywords": [
-    "node.js",
-    "server",
-    "node",
-    "express",
-    "mern"
-  ],
+  "keywords": ["node.js", "server", "node", "express", "mern"],
   "author": "Peter Joseph",
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/peterjoseph/kettlebell/issues"
+    "url": "https://github.com/peterjoseph/reeve/issues"
   },
-  "homepage": "https://github.com/peterjoseph/kettlebell#readme",
+  "homepage": "https://github.com/peterjoseph/reeve#readme",
   "dependencies": {
     "async": "^1.2.1",
     "body-parser": "^1.13.0",

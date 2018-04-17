@@ -1,9 +1,7 @@
 ![](https://i.imgur.com/8vZAbJs.png)
 
-# Kettlebell
+# Reeve
 
-### A **MERN** Stack implementation for production environments.
+### Web application scaffolding for production environments.
 
-Kettlebell is a boilerplate that assists developers in reducing the setup time required to build production-ready scalable web applications.
-
-The boilerplate is based on a MERN stack implementation (MongoDB, Express, React, NodeJS) and includes a number of additional features built-in to speed up development.
+Reeve is a boilerplate that assists developers in reducing the setup time required to build production-ready scalable web applications.
