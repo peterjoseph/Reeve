@@ -16,7 +16,7 @@ npm start
 
 ## Server Architecture
 
-![]()
+![](https://i.imgur.com/NUYlFdg.jpg)
 
 ## Services
 
