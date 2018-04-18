@@ -4,23 +4,22 @@
 
 ### Web application scaffolding for production environments.
 
-Reeve is a boilerplate that assists developers in reducing the setup time required to build production-ready scalable web applications.
+Reeve is a boilerplate framework that assists developers in reducing the setup time required to build production-ready scalable web applications.
+
+Unfortunately Reeve is not currently feature complete and suitable for use in a production environment. Development is ongoing.
 
 ## Quickstart
 
 ```
 git clone https://github.com/peterjoseph/Reeve.git
-npm install
-npm start
+cd Reeve
+npm install && npm start
 ```
 
 ## Server Architecture
 
 ![](https://i.imgur.com/NUYlFdg.jpg)
-
-## Services
-
-![]()
+\*Subject to change as new services are implemented
 
 ## Development Progress
 
