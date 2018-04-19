@@ -6,8 +6,7 @@
   "scripts": {
     "start": "webpack && node bin/www",
     "start:PM2": "pm2 start ecosystem.config.js",
-    "development:client":
-      "webpack-dev-server --content-base client --hot --inline --port 3000",
+    "development:client": "webpack-dev-server --content-base client --hot --inline --port 3000",
     "development:server": "nodemon ./server/www localhost 8080",
     "build": "webpack -p",
     "test": "ava"
@@ -16,7 +15,13 @@
     "type": "git",
     "url": "git+https://github.com/peterjoseph/reeve.git"
   },
-  "keywords": ["node.js", "server", "node", "express", "mern"],
+  "keywords": [
+    "node.js",
+    "server",
+    "node",
+    "express",
+    "mern"
+  ],
   "author": "Peter Joseph",
   "license": "MIT",
   "bugs": {
@@ -36,6 +41,7 @@
     "i18next": "^10.5.1",
     "immutable": "^3.8.2",
     "mongoose": "^4.9.8",
+    "mysql": "^2.15.0",
     "passport": "^0.3.2",
     "passport-jwt": "^3.0.0",
     "passport-local": "^1.0.0",
