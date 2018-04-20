@@ -17,7 +17,8 @@ let config = {
   database: {
     host: process.env.DB_HOST,
     username: process.env.DB_USER,
-    password: process.env.DB_PASS
+    password: process.env.DB_PASS,
+    schema: process.env.DB_SCHEMA
   }
 };
 

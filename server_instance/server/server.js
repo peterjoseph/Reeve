@@ -17,6 +17,7 @@ let routes = require("./router"); // Server Routes
 let client = redis.createClient(); // Create redis client
 let app = express();
 
+let database = require("./database");
 let config = require("../config");
 
 app.set("view engine", "html");
@@ -45,24 +46,33 @@ app.use(function noCache(req, res, next) {
 
 app.set("port", config.development.backendPort || 8080);
 
-let server = null;
-if (config.development.protocol === "https") {
-  // Create https server if specified
-  server = https
-    .createServer(
-      {
-        key: fs.readFileSync(config.development.key),
-        cert: fs.readFileSync(config.development.certificate)
-      },
-      app
-    )
-    .listen(app.get("port"), function() {
-      console.log(`Listening securely on port: ${server.address().port}`);
-    });
-} else {
-  server = app.listen(app.get("port"), function() {
-    console.log(`Listening on port: ${server.address().port}`);
-  });
-}
+// Connect to MySQL database
+database.connect(function(err) {
+  if (err) {
+    console.log("Unable to connect to database");
+    process.exit(1);
+  } else {
+    // Load server if database connection successful
+    let server = null;
+    if (config.development.protocol === "https") {
+      // Create https server if specified
+      server = https
+        .createServer(
+          {
+            key: fs.readFileSync(config.development.key),
+            cert: fs.readFileSync(config.development.certificate)
+          },
+          app
+        )
+        .listen(app.get("port"), function() {
+          console.log(`Listening securely on port: ${server.address().port}`);
+        });
+    } else {
+      server = app.listen(app.get("port"), function() {
+        console.log(`Listening on port: ${server.address().port}`);
+      });
+    }
+  }
+});
 
 module.exports = app;

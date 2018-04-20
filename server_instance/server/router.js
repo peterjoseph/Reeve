@@ -1,6 +1,6 @@
-var express = require("express");
-var path = require("path");
-var subdomain = require("subdomain-router-middleware");
+let express = require("express");
+let path = require("path");
+let subdomain = require("subdomain-router-middleware");
 
 // Define our express router object
 let router = express.Router();
