@@ -4,8 +4,10 @@ The folder ./scripts contains all the sql scripts required to build the MySQL da
 
 All files should be run sequentially from the earliest to most recent date.
 
-*First time Setup:*
-Windows:
+### First time Setup:
+
+**Windows:**
+
 Modify and execute the .bat file 'execute.bat` in the scripts folder.
 
 for %%G in (*.sql) do sqlcmd /S *servername* /d reeve -E -i"%%G"
