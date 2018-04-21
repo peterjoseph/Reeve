@@ -40,7 +40,6 @@
     "feather-icons": "^4.7.0",
     "i18next": "^10.5.1",
     "immutable": "^3.8.2",
-    "mongoose": "^4.9.8",
     "mysql": "^2.15.0",
     "passport": "^0.3.2",
     "passport-jwt": "^3.0.0",
