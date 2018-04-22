@@ -13,6 +13,7 @@ Unfortunately Reeve is not currently feature complete and suitable for use in a 
 ```
 git clone https://github.com/peterjoseph/Reeve.git
 cd Reeve
+cd server_instance
 npm install && npm start
 ```
 

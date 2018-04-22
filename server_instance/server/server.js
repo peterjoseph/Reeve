@@ -37,7 +37,9 @@ app.use(
       port: config.redis.port
     }),
     secret: config.redis.secret,
-    resave: config.redis.resave
+    proxy: false,
+    resave: config.redis.resave,
+    saveUninitialized: false
   })
 );
 
