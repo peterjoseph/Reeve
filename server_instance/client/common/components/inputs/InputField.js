@@ -7,8 +7,8 @@ class InputField extends React.Component {
 
     return (
       <div className="input-field">
-        <input>input component</input>
-        {error & <div>error</div>}
+        <input />
+        {error && <div>error</div>}
       </div>
     );
   }
