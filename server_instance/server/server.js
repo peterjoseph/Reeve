@@ -75,7 +75,7 @@ app.use(function noCache(req, res, next) {
 });
 
 // Set server port
-app.set("port", config.development.backendPort || 8080);
+app.set("port", config.build.port || 3000);
 
 // Connect to MySQL database
 database.connect(function(err) {
@@ -85,13 +85,13 @@ database.connect(function(err) {
   } else {
     // Load server if database connection successful
     let server = null;
-    if (config.development.protocol === "https") {
+    if (config.build.protocol === "https") {
       // Create https server if specified
       server = https
         .createServer(
           {
-            key: fs.readFileSync(config.development.key),
-            cert: fs.readFileSync(config.development.certificate)
+            key: fs.readFileSync(config.build.key),
+            cert: fs.readFileSync(config.build.certificate)
           },
           app
         )

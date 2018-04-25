@@ -2,16 +2,12 @@ require("dotenv").config({ path: "config.env" });
 
 let config = {
   build: {
-    environment: process.env.NODE_ENV
-  },
-  development: {
+    environment: process.env.NODE_ENV,
     protocol: process.env.PROTOCOL,
     key: process.env.KEY,
     certificate: process.env.CERTIFICATE,
-    frontendServer: process.env.FRONTENDSERVER,
-    frontendPort: process.env.FRONTENDPORT,
-    backendServer: process.env.BACKENDSERVER,
-    backendPort: process.env.BACKENDPORT
+    server: process.env.SERVER,
+    port: process.env.PORT
   },
   environment: process.env.ENVIRONMENT,
   database: {
