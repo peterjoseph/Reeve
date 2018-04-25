@@ -3,7 +3,7 @@ let config = require("../config");
 
 let connection = null;
 
-exports.connect = function(done) {
+function connect(done) {
   connection = mysql.createPool({
     host: config.database.host,
     user: config.database.username,
@@ -12,8 +12,13 @@ exports.connect = function(done) {
   });
 
   done();
-};
+}
 
-exports.perform = function() {
+function perform() {
   return connection;
+}
+
+module.exports = {
+  connect: connect,
+  perform: perform
 };

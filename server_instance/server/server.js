@@ -11,6 +11,7 @@ let JwtStrategy = require("passport-jwt").Strategy;
 let ExtractJwt = require("passport-jwt").ExtractJwt;
 let cookieParser = require("cookie-parser");
 let bodyParser = require("body-parser");
+let loadWebpack = require("./server.dev.js");
 let routes = require("./router"); // Server Routes
 let app = express();
 
@@ -27,7 +28,14 @@ app.use(cookieParser());
 
 app.use(passport.initialize());
 app.use(passport.session());
-app.use(express.static(path.join(__dirname, "../client")));
+
+// Handle reloading server in development mode
+if (config.build.environment !== "production") {
+  loadWebpack(app);
+} else {
+  // Load packaged files in production
+  app.use(express.static(path.join(__dirname, "../client")));
+}
 
 // Connection to Redis user session store
 app.use(
