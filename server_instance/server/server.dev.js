@@ -9,17 +9,11 @@ function loadWebpack(app) {
     webpackDevMiddleware(webpackcompiler, {
       publicPath: webpackconfig.output.publicPath,
       stats: {
-        colors: false,
-        chunks: false,
-        "errors-only": true
+        modules: 0
       }
     })
   );
-  app.use(
-    webpackHotMiddleware(webpackcompiler, {
-      log: console.log
-    })
-  );
+  app.use(webpackHotMiddleware(webpackcompiler));
 
   return app;
 }
