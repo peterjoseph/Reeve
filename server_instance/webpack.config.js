@@ -1,6 +1,22 @@
 var path = require("path");
 var webpack = require("webpack");
 
+function loadPlugins() {
+  var plugins = [];
+  plugins.push(
+    new webpack.ProvidePlugin({
+      Promise:
+        "imports-loader?this=>global!exports-loader?global.Promise!es6-promise",
+      fetch:
+        "imports-loader?this=>global!exports-loader?global.fetch!whatwg-fetch"
+    })
+  );
+  if (process.env.NODE_ENV === "development") {
+    plugins.push(new webpack.HotModuleReplacementPlugin());
+  }
+  return plugins;
+}
+
 module.exports = {
   entry: ["./client/index.js"],
   entry: ["whatwg-fetch", path.join(__dirname, "client", "index.js")],
@@ -49,12 +65,5 @@ module.exports = {
       }
     ]
   },
-  plugins: [
-    new webpack.ProvidePlugin({
-      Promise:
-        "imports-loader?this=>global!exports-loader?global.Promise!es6-promise",
-      fetch:
-        "imports-loader?this=>global!exports-loader?global.fetch!whatwg-fetch"
-    })
-  ]
+  plugins: loadPlugins()
 };

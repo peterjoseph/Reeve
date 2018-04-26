@@ -1,7 +1,7 @@
 let webpack = require("webpack");
 let webpackDevMiddleware = require("webpack-dev-middleware");
 let webpackHotMiddleware = require("webpack-hot-middleware");
-let webpackconfig = require("../webpack.dev.config.js");
+let webpackconfig = require("../webpack.config.js");
 let webpackcompiler = webpack(webpackconfig);
 
 function loadWebpack(app) {
