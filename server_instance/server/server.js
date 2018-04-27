@@ -13,19 +13,30 @@ let cookieParser = require("cookie-parser");
 let bodyParser = require("body-parser");
 let loadWebpack = require("./server.dev.js");
 let routes = require("./router"); // Server Routes
+let raven = require("raven");
 let app = express();
 
 let database = require("./database");
 let config = require("../config");
 
+// Set up Sentry Error Reporting
+if (config.sentry.enabled && config.build.environment === "production") {
+  raven.config(config.sentry.dns).install();
+  app.use(raven.requestHandler());
+  app.use(raven.errorHandler());
+}
+
+// Set up view engine
 app.set("view engine", "html");
 app.engine("html", function(path, options, callbacks) {
   fs.readFile(path, "utf-8", callback);
 });
+
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cookieParser());
 
+// Set up password authentication middleware
 app.use(passport.initialize());
 app.use(passport.session());
 

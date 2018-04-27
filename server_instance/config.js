@@ -23,6 +23,10 @@ let config = {
     secret: process.env.R_SECRET,
     resave: process.env.R_RESAVE,
     saveUninitialized: process.env.R_SAVE_UNINITIALIZED
+  },
+  sentry: {
+    enabled: process.env.SENTRY_ENABLED,
+    dns: process.env.SENTRY_DNS
   }
 };
 
