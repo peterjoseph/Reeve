@@ -49,6 +49,8 @@ npm install && npm start
 * [ ] Polyfills & IE Support
 * [ ] MailGun Email Sending
 * [ ] Stripe Payment & Subscription Gateway
+* [x] Sentry error logging
+* [x] Papertrail logging
 
 ## License
 

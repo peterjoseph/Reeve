@@ -14,6 +14,8 @@ let bodyParser = require("body-parser");
 let loadWebpack = require("./server.dev.js");
 let routes = require("./router"); // Server Routes
 let raven = require("raven");
+let winston = require("winston");
+let WinstonPapertrail = require("winston-papertrail").Papertrail;
 let app = express();
 
 let database = require("./database");
@@ -24,6 +26,23 @@ if (config.sentry.enabled && config.build.environment === "production") {
   raven.config(config.sentry.dns).install();
   app.use(raven.requestHandler());
   app.use(raven.errorHandler());
+}
+
+// Set up Papertrail Logging
+if (config.papertrail.enabled && config.build.environment === "production") {
+  const transport = new WinstonPapertrail({
+    host: config.papertrail.host,
+    port: config.papertrail.port,
+    hostname: config.papertrail.hostname,
+    level: config.papertrail.level,
+    logFormat: function(level, message) {
+      return "[" + level + "] " + message;
+    }
+  });
+
+  let logger = new winston.Logger({
+    transports: [transport]
+  });
 }
 
 // Set up view engine

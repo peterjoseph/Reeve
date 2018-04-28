@@ -27,6 +27,13 @@ let config = {
   sentry: {
     enabled: process.env.SENTRY_ENABLED,
     dns: process.env.SENTRY_DNS
+  },
+  papertrail: {
+    enabled: process.env.PAPERTRAIL_ENABLED,
+    host: process.env.PAPERTRAIL_HOST,
+    port: process.env.PAPERTRAIL_PORT,
+    hostname: process.env.PAPERTRAIL_HOSTNAME,
+    level: process.env.PAPERTRAIL_LEVEL
   }
 };
 
