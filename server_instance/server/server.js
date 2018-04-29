@@ -60,7 +60,7 @@ app.use(passport.initialize());
 app.use(passport.session());
 
 // Handle reloading server in development mode
-if (config.build.environment !== "production") {
+if (config.build.environment === "development") {
   loadWebpack(app);
 } else {
   // Load packaged files in production

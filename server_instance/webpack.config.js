@@ -17,9 +17,18 @@ function loadPlugins() {
   return plugins;
 }
 
+function loadEntryFile() {
+  if (process.env.NODE_ENV === "development") {
+    return [
+      "./client/index.js, 'webpack-hot-middleware/client', 'webpack/hot/dev-server'"
+    ];
+  } else {
+    return ["./client/index.js"];
+  }
+}
+
 module.exports = {
-  entry: ["./client/index.js"],
-  entry: ["whatwg-fetch", path.join(__dirname, "client", "index.js")],
+  entry: loadEntryFile(),
   output: {
     path: path.join(__dirname, "client"),
     filename: "bundle.js"
