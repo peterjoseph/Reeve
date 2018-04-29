@@ -19,17 +19,17 @@ let config = {
   redis: {
     host: process.env.R_HOST,
     port: process.env.R_PORT,
-    proxy: process.env.R_PROXY,
+    proxy: String(process.env.R_PROXY) === "true",
     secret: process.env.R_SECRET,
-    resave: process.env.R_RESAVE,
-    saveUninitialized: process.env.R_SAVE_UNINITIALIZED
+    resave: String(process.env.R_RESAVE) === "true",
+    saveUninitialized: String(process.env.R_SAVE_UNINITIALIZED) === "true"
   },
   sentry: {
-    enabled: process.env.SENTRY_ENABLED,
+    enabled: String(process.env.SENTRY_ENABLED) === "true",
     dns: process.env.SENTRY_DNS
   },
   papertrail: {
-    enabled: process.env.PAPERTRAIL_ENABLED,
+    enabled: String(process.env.PAPERTRAIL_ENABLED) === "true",
     host: process.env.PAPERTRAIL_HOST,
     port: process.env.PAPERTRAIL_PORT,
     hostname: process.env.PAPERTRAIL_HOSTNAME,
