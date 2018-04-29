@@ -1,6 +1,7 @@
 let express = require("express");
 let path = require("path");
 let subdomain = require("subdomain-router-middleware");
+let fs = require("fs");
 
 // Define our express router object
 let router = express.Router();
@@ -21,11 +22,16 @@ subdomain.init({
   }
 });
 
-router.get("/test", subdomain.route(), function(req, res) {
-  res.json({
-    success: true,
-    message: "Endpoint loaded successfully"
-  });
+// Recursively retrieve endpoints from routes folder
+fs.readdirSync(path.join(__dirname, "/routes")).forEach(function(file) {
+  if (file.toLowerCase().indexOf(".js")) {
+    require("./" + path.join("routes", file))(router);
+  }
+});
+
+// Load index file for all other calls
+router.get("*", function(req, res) {
+  res.sendFile(path.join(__dirname, "../client/index.html"));
 });
 
 module.exports = router;
