@@ -20,10 +20,11 @@ function loadPlugins() {
 function loadEntryFile() {
   if (process.env.NODE_ENV === "development") {
     return [
+      "babel-polyfill",
       "./client/index.js, 'webpack-hot-middleware/client', 'webpack/hot/dev-server'"
     ];
   } else {
-    return ["./client/index.js"];
+    return ["babel-polyfill", "./client/index.js"];
   }
 }
 

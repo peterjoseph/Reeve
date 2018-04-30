@@ -1,13 +1,29 @@
 import React from "react";
 import { connect } from "react-redux";
 import PropTypes from "prop-types";
+import { BrowserRouter, Switch } from "react-router-dom";
 import { t } from "~/shared/translations/i18n";
 
-import Authentication from "./modules/authentication";
+import RedirectComponent from "./common/components/RedirectComponent";
+import AsyncComponent from "./common/components/AsyncComponent";
+
+const Authentication = AsyncComponent(() =>
+  require("./modules/authentication")
+);
 
 class App extends React.Component {
   render() {
-    return <Authentication />;
+    return (
+      <BrowserRouter>
+        <Switch>
+          <RedirectComponent
+            exact
+            path="/"
+            render={props => <Authentication />}
+          />
+        </Switch>
+      </BrowserRouter>
+    );
   }
 }
 
