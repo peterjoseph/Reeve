@@ -7,9 +7,7 @@ import { t } from "~/shared/translations/i18n";
 import RedirectComponent from "./common/components/RedirectComponent";
 import AsyncComponent from "./common/components/AsyncComponent";
 
-const Authentication = AsyncComponent(() =>
-  require("./modules/authentication")
-);
+const Authentication = AsyncComponent(() => import("./modules/authentication"));
 
 class App extends React.Component {
   render() {
