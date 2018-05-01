@@ -1,5 +1,8 @@
 // Bootstrap
 @import "~bootstrap/scss/bootstrap";
 
+// CSS Reset
+@import "modules/reset";
+
 // Custom Styles
 @import "modules/authentication";

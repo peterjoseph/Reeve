@@ -1,7 +1,6 @@
 import React from "react";
 import ReactDOM from "react-dom";
 import i18next from "~/shared/translations/i18n";
-import Notifications from "react-notify-toast";
 import ReactTooltip from "react-tooltip";
 import feather from "feather-icons";
 
@@ -16,11 +15,10 @@ import "./common/styles/entry.scss";
 ReactDOM.render(
   <Provider store={store}>
     <I18nextProvider i18n={i18next}>
-      <div>
-        <Notifications />
+      <React.Fragment>
         <App />
         <ReactTooltip />
-      </div>
+      </React.Fragment>
     </I18nextProvider>
   </Provider>,
   document.getElementById("app")

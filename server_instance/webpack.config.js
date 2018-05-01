@@ -29,13 +29,14 @@ function loadEntryFile() {
 }
 
 module.exports = {
+  mode: process.env.NODE_ENV,
   entry: loadEntryFile(),
   output: {
     path: path.join(__dirname, "client"),
     filename: "bundle.js"
   },
   module: {
-    loaders: [
+    rules: [
       {
         test: /.jsx?$/,
         loader: "babel-loader",

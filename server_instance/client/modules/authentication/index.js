@@ -1,29 +1,23 @@
 import React from "react";
 import PropTypes from "prop-types";
 
-import { Grid, Row, Col } from "react-bootstrap";
-
 import InputField from "../../common/components/inputs/InputField";
 
 class Authentication extends React.Component {
   render() {
     return (
-      <div id="authentication">
-        <Grid fluid={true}>
-          <Row>
-            <Col xs={1} lg={5}>
-              <div className="h-100 d-inline-block">
-                <div className="d-flex justify-content-center">
-                  <InputField />
-                  <InputField />
-                </div>
-              </div>
-            </Col>
-            <Col xs={1} lg={7}>
-              <div className="h-100 d-inline-block" />
-            </Col>
-          </Row>
-        </Grid>
+      <div id="authentication container-fluid h-100">
+        <div class="row justify-content-center h-100">
+          <div className="form-container col-4 hidden-md-down">
+            <div className="justify-content-center">
+              <InputField />
+              <InputField />
+            </div>
+          </div>
+          <div className="background-container col-10 col-sm-10 col-md-10 col-lg-8 col-xl-8">
+            Right most column
+          </div>
+        </div>
       </div>
     );
   }
