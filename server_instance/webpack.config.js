@@ -1,5 +1,6 @@
-var path = require("path");
-var webpack = require("webpack");
+let path = require("path");
+let webpack = require("webpack");
+let config = require("./config");
 
 function loadPlugins() {
   var plugins = [];
@@ -11,17 +12,19 @@ function loadPlugins() {
         "imports-loader?this=>global!exports-loader?global.fetch!whatwg-fetch"
     })
   );
-  if (process.env.NODE_ENV === "development") {
+  if (config.build.environment === "development") {
     plugins.push(new webpack.HotModuleReplacementPlugin());
   }
   return plugins;
 }
 
 function loadEntryFile() {
-  if (process.env.NODE_ENV === "development") {
+  if (config.build.environment === "development") {
     return [
       "babel-polyfill",
-      "./client/index.js, 'webpack-hot-middleware/client', 'webpack/hot/dev-server'"
+      "./client/index.js",
+      "webpack-hot-middleware/client",
+      "webpack/hot/dev-server"
     ];
   } else {
     return ["babel-polyfill", "./client/index.js"];
@@ -29,7 +32,7 @@ function loadEntryFile() {
 }
 
 module.exports = {
-  mode: process.env.NODE_ENV,
+  mode: config.build.environment,
   entry: loadEntryFile(),
   output: {
     path: path.join(__dirname, "client"),
