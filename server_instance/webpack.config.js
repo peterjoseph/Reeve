@@ -1,6 +1,7 @@
 let path = require("path");
 let webpack = require("webpack");
 let config = require("./config");
+let UglifyJsPlugin = require("uglifyjs-webpack-plugin");
 
 function loadPlugins() {
   var plugins = [];
@@ -14,6 +15,23 @@ function loadPlugins() {
   );
   if (config.build.environment === "development") {
     plugins.push(new webpack.HotModuleReplacementPlugin());
+  }
+  if (config.build.environment === "production") {
+    plugins.push(
+      new UglifyJsPlugin({
+        uglifyOptions: {
+          warnings: false,
+          compress: true,
+          mangle: true,
+          output: {
+            comments: false,
+            beautify: false
+          },
+          toplevel: false,
+          keep_fnames: false
+        }
+      })
+    );
   }
   return plugins;
 }
