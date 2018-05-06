@@ -1,6 +1,7 @@
 import React from "react";
 import PropTypes from "prop-types";
 
+import Login from "./Login"
 import Register from "./Register";
 
 class Authentication extends React.Component {
@@ -13,7 +14,7 @@ class Authentication extends React.Component {
               <div className="w-100 pl-5 pr-5 position-absolute border-bottom">
                 Login | Register
               </div>
-              <Register />
+              <Login />
             </div>
             <div className="background-container col-7 nopadding" />
           </div>

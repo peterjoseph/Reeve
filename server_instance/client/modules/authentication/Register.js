@@ -9,9 +9,6 @@ class Register extends React.Component {
 		<div id="register">
 			<div className="pl-5 pr-5 align-vertical justify-content-center">
 				<form className="w-100">
-					<div className="w-100 mb-3 text-center">
-						<span className="h3">Logo</span>
-					</div>
 					<div className="w-100 mb-3">
 						<span className="h3">Register</span>
 					</div>
