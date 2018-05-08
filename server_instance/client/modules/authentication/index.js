@@ -14,6 +14,7 @@ class Authentication extends React.Component {
               <div className="w-100 pl-5 pr-5 position-absolute border-bottom">
                 Login | Register
               </div>
+              <span className="justify-content-center">Logo</span>
               <Login />
             </div>
             <div className="background-container col-7 nopadding" />
