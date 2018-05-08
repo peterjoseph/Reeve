@@ -27,14 +27,14 @@ class Login extends React.Component {
 
 	handleChecked(evt) {
     this.setState({[evt.target.name]: !this.state.keepSignedIn});
-  }
+  	}
 
 	login() {
 		this.setState({ loading: true });
 	}
 
   render() {
-		const { emailAddress, password, keepSignedIn, loading, errors } = this.state;
+	const { emailAddress, password, keepSignedIn, loading, errors } = this.state;
     return (
 		<div id="login">
 			<div className="pl-5 pr-5 align-vertical justify-content-center">
