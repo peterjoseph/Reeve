@@ -4,7 +4,36 @@ import PropTypes from "prop-types";
 import InputField from "../../common/components/inputs/InputField";
 
 class Login extends React.Component {
+	constructor(props) {
+		super(props);
+
+		this.state = {
+			workspaceURL: "",
+			emailAddress: "",
+			password: "",
+			keepSignedIn: false,
+			errors: {}
+		};
+
+		this.login = this.login.bind(this);
+		this.handleChecked = this.handleChecked.bind(this);
+		this.changeField = this.changeField.bind(this);
+	}
+
+	changeField(evt) {
+		this.setState({[evt.target.name]: evt.target.value});
+	}
+
+	handleChecked(evt) {
+    this.setState({[evt.target.name]: !this.state.keepSignedIn});
+  }
+
+	login() {
+		console.log("login!");
+	}
+
   render() {
+		const { emailAddress, password, keepSignedIn, errors } = this.props;
     return (
 		<div id="login">
 			<div className="pl-5 pr-5 align-vertical justify-content-center">
@@ -14,20 +43,33 @@ class Login extends React.Component {
 					</div>
 					<InputField
 						label={"Email Address"}
+						name="emailAddress"
 						id={"email-input"}
+						value={emailAddress}
 						type={"textField"}
 						ariaLabel={"emailAddress"}
+						onChange={this.changeField}
 					/>
 					<InputField
 						label={"Password"}
+						name="password"
 						id={"password-input"}
+						value={password}
 						type={"password"}
 						ariaLabel={"Password"}
+						onChange={this.changeField}
 					/>
 					<div className="form-row pl-4 pr-1">
 						<div className="col">
-							<input class="form-check-input" type="checkbox" value="" id="signedInCheck" />
-							<label class="form-check-label" htmlFor="signedInCheck">
+							<input
+								id="signedInCheck"
+								name="keepSignedIn"
+								className="form-check-input"
+								type="checkbox"
+								value={keepSignedIn}
+								onClick={this.handleChecked}
+							/>
+							<label className="form-check-label" htmlFor="signedInCheck">
 								Keep me signed in
 							</label>
 						</div>
@@ -37,7 +79,8 @@ class Login extends React.Component {
 					</div>
 					<button
 						type="button"
-						class="btn btn-primary btn-lg btn-block mt-4 p-3"
+						className="btn btn-primary btn-lg btn-block mt-4 p-3"
+						onClick={this.login}
 					>
 						Login
 					</button>
