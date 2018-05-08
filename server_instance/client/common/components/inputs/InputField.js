@@ -3,7 +3,7 @@ import PropTypes from "prop-types";
 
 class InputField extends React.Component {
   render() {
-    const { name, value, onChange, label, id, type, ariaLabel, placeholder, error } = this.props;
+    const { name, value, onChange, label, id, type, ariaLabel, placeholder, disabled, error } = this.props;
 
     return (
       <div className="form-group">
@@ -17,6 +17,7 @@ class InputField extends React.Component {
           aria-describedby={ariaLabel}
           onChange={onChange}
           placeholder={placeholder}
+          disabled={disabled}
         />
         {error && <div>error</div>}
       </div>
@@ -33,6 +34,7 @@ InputField.propTypes = {
   type: PropTypes.string,
   ariaLabel: PropTypes.string,
   placeholder: PropTypes.string,
+  disabled: PropTypes.bool,
   error: PropTypes.string
 };
 

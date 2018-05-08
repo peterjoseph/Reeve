@@ -12,6 +12,7 @@ class Login extends React.Component {
 			emailAddress: "",
 			password: "",
 			keepSignedIn: false,
+			loading: false,
 			errors: {}
 		};
 
@@ -29,11 +30,11 @@ class Login extends React.Component {
   }
 
 	login() {
-		console.log("login!");
+		this.setState({ loading: true });
 	}
 
   render() {
-		const { emailAddress, password, keepSignedIn, errors } = this.props;
+		const { emailAddress, password, keepSignedIn, loading, errors } = this.state;
     return (
 		<div id="login">
 			<div className="pl-5 pr-5 align-vertical justify-content-center">
@@ -49,6 +50,7 @@ class Login extends React.Component {
 						type={"textField"}
 						ariaLabel={"emailAddress"}
 						onChange={this.changeField}
+						disabled={loading}
 					/>
 					<InputField
 						label={"Password"}
@@ -58,6 +60,7 @@ class Login extends React.Component {
 						type={"password"}
 						ariaLabel={"Password"}
 						onChange={this.changeField}
+						disabled={loading}
 					/>
 					<div className="form-row pl-4 pr-1">
 						<div className="col">
@@ -68,6 +71,7 @@ class Login extends React.Component {
 								type="checkbox"
 								value={keepSignedIn}
 								onClick={this.handleChecked}
+								disabled={loading}
 							/>
 							<label className="form-check-label" htmlFor="signedInCheck">
 								Keep me signed in
@@ -81,6 +85,7 @@ class Login extends React.Component {
 						type="button"
 						className="btn btn-primary btn-lg btn-block mt-4 p-3"
 						onClick={this.login}
+						disabled={loading}
 					>
 						Login
 					</button>
