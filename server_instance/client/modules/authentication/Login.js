@@ -1,5 +1,8 @@
 import React from "react";
 import PropTypes from "prop-types";
+import validate from "validate.JS";
+
+import { login } from "~/shared/validation/authentication";
 
 import InputField from "../../common/components/inputs/InputField";
 
@@ -26,11 +29,25 @@ class Login extends React.Component {
 	}
 
 	handleChecked(evt) {
-    this.setState({[evt.target.name]: !this.state.keepSignedIn});
+    	this.setState({[evt.target.name]: !this.state.keepSignedIn});
   	}
 
 	login() {
 		this.setState({ loading: true });
+		const user = {
+			workspaceURL: this.state.organizationName,
+			emailAddress: this.state.emailAddress,
+			password: this.state.password
+		};
+
+		// Validate input parameters
+		const valid = validate(user, login);
+		if (valid != null) {
+			this.setState({
+				loading: false,
+				errors: valid
+			});
+		}
 	}
 
   render() {
@@ -51,6 +68,7 @@ class Login extends React.Component {
 						ariaLabel={"emailAddress"}
 						onChange={this.changeField}
 						disabled={loading}
+						error={errors}
 					/>
 					<InputField
 						label={"Password"}
@@ -61,6 +79,7 @@ class Login extends React.Component {
 						ariaLabel={"Password"}
 						onChange={this.changeField}
 						disabled={loading}
+						error={errors}
 					/>
 					<div className="form-row pl-4 pr-1">
 						<div className="col">

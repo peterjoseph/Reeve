@@ -8,18 +8,20 @@ class InputField extends React.Component {
     return (
       <div className="form-group">
         {label && <label htmlFor={id}>{label}</label>}
-        <input
-          name={name}
-          value={value}
-          type={type}
-          className={"form-control"}
-          id={id}
-          aria-describedby={ariaLabel}
-          onChange={onChange}
-          placeholder={placeholder}
-          disabled={disabled}
-        />
-        {error && <div>error</div>}
+        <div className="input-group">
+          <input
+            name={name}
+            value={value}
+            type={type}
+            className={"form-control"}
+            id={id}
+            aria-describedby={ariaLabel}
+            onChange={onChange}
+            placeholder={placeholder}
+            disabled={disabled}
+          />
+          {error && error[name] && <div className="d-block invalid-feedback">{error[name]}</div>}
+        </div>
       </div>
     );
   }
@@ -35,7 +37,7 @@ InputField.propTypes = {
   ariaLabel: PropTypes.string,
   placeholder: PropTypes.string,
   disabled: PropTypes.bool,
-  error: PropTypes.string
+  error: PropTypes.object
 };
 
 export default InputField;
