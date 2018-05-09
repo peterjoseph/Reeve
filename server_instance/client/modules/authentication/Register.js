@@ -1,7 +1,11 @@
 import React from "react";
 import PropTypes from "prop-types";
+import validate from "validate.JS";
+
+import { register } from "~/shared/validation/authentication";
 
 import InputField from "../../common/components/inputs/InputField";
+import WorkspaceURLField from "../../common/components/inputs/WorkspaceURLField";
 
 class Register extends React.Component {
 constructor(props) {
@@ -27,10 +31,26 @@ changeField(evt) {
 
 register() {
 	this.setState({ loading: true });
+	const client = {
+		workspaceURL: this.state.organizationName,
+		firstName: this.state.firstName,
+		lastName: this.state.lastName,
+		emailAddress: this.state.emailAddress,
+		password: this.state.password
+	};
+
+	// Validate input parameters
+	const valid = validate(client, register);
+	if (valid != null) {
+		this.setState({
+			loading: false,
+			errors: valid
+		});
+	}
 }
 
   render() {
-	const { firstName, lastName, emailAddress, password, loading, errors } = this.state;
+	const { firstName, lastName, emailAddress, password, workspaceURL, loading, errors } = this.state;
     return (
 		<div id="register">
 			<div className="pl-5 pr-5 align-vertical justify-content-center">
@@ -49,6 +69,7 @@ register() {
 							ariaLabel={"firstName"}
 							onChange={this.changeField}
 							disabled={loading}
+							error={errors}
 						/>
 						</div>
 						<div className="col">
@@ -61,6 +82,7 @@ register() {
 							ariaLabel={"lastName"}
 							onChange={this.changeField}
 							disabled={loading}
+							error={errors}
 						/>
 						</div>
 					</div>
@@ -73,6 +95,7 @@ register() {
 						ariaLabel={"emailAddress"}
 						onChange={this.changeField}
 						disabled={loading}
+						error={errors}
 					/>
 					<InputField
 						label={"Password"}
@@ -83,21 +106,14 @@ register() {
 						ariaLabel={"Password"}
 						onChange={this.changeField}
 						disabled={loading}
+						error={errors}
 					/>
-					<div className="form-group">
-						<label htmlFor={"domain-input"}>{"Workspace URL"}</label>
-						<div className="input-group">
-						<input
-							id="domain-input"
-							className={"form-control text-right"}
-							type="text"
-							placeholder="companyname"
-						/>
-						<div className="input-group-append">
-							<div className="input-group-text">.domainname.com</div>
-						</div>
-						</div>
-					</div>
+					<WorkspaceURLField
+						value={workspaceURL}
+						onChange={this.changeField}
+						disabled={loading}
+						error={errors}
+					/>
 					<button
 						type="button"
 						className="btn btn-primary btn-lg btn-block mt-4 p-3"
