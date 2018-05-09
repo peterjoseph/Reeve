@@ -1,5 +1,6 @@
 import React from "react";
 import PropTypes from "prop-types";
+import { t } from "~/shared/translations/i18n";
 
 class InputField extends React.Component {
   render() {
@@ -7,7 +8,7 @@ class InputField extends React.Component {
 
     return (
 		<div className="form-group">
-			<label htmlFor={"domain-input"}>{"Workspace URL"}</label>
+			<label htmlFor={"domain-input"}>{t("label.workspaceURL")}</label>
 			<div className="input-group">
 				<input
 					name={"workspaceURL"}
@@ -15,12 +16,12 @@ class InputField extends React.Component {
 					id="domain-input"
 					className={"form-control text-right"}
 					type="text"
-					placeholder="companyname"
+					placeholder={t("components.authentication.companyName")}
 					onChange={onChange}
 					disabled={disabled}
 				/>
 				<div className="input-group-append">
-					<div className="input-group-text">.domainname.com</div>
+					<div className="input-group-text">{t("components.authentication.domainName")}</div>
 				</div>
 				{error && error["workspaceURL"] && <div className="d-block invalid-feedback">{error["workspaceURL"]}</div>}
 			</div>

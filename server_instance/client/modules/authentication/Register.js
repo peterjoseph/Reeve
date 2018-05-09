@@ -1,6 +1,7 @@
 import React from "react";
 import PropTypes from "prop-types";
 import validate from "validate.JS";
+import { t } from "~/shared/translations/i18n";
 
 import { register } from "~/shared/validation/authentication";
 
@@ -32,7 +33,7 @@ changeField(evt) {
 register() {
 	this.setState({ loading: true });
 	const client = {
-		workspaceURL: this.state.organizationName,
+		workspaceURL: this.state.workspaceURL,
 		firstName: this.state.firstName,
 		lastName: this.state.lastName,
 		emailAddress: this.state.emailAddress,
@@ -56,12 +57,12 @@ register() {
 			<div className="pl-5 pr-5 align-vertical justify-content-center">
 				<form className="w-100">
 					<div className="w-100 mb-3">
-						<span className="h3">Register</span>
+						<span className="h3">{t("action.register")}</span>
 					</div>
 					<div className="form-row">
 						<div className="col">
 						<InputField
-							label={"First Name"}
+							label={t("label.firstName")}
 							name={"firstName"}
 							id={"firstName-input"}
 							value={firstName}
@@ -74,7 +75,7 @@ register() {
 						</div>
 						<div className="col">
 						<InputField
-							label={"Last Name"}
+							label={t("label.lastName")}
 							name={"lastName"}
 							id={"lastName-input"}
 							value={lastName}
@@ -87,7 +88,7 @@ register() {
 						</div>
 					</div>
 					<InputField
-						label={"Email Address"}
+						label={t("label.emailAddress")}
 						name={"emailAddress"}
 						id={"email-input"}
 						value={emailAddress}
@@ -98,7 +99,7 @@ register() {
 						error={errors}
 					/>
 					<InputField
-						label={"Password"}
+						label={t("label.password")}
 						name={"password"}
 						id={"password-input"}
 						value={password}
@@ -120,7 +121,7 @@ register() {
 						onClick={this.register}
 						disabled={loading}
 					>
-						Sign Up
+						{t("action.signUp")}
 					</button>
 					<div className="text-center">
 						<span>

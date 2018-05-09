@@ -1,6 +1,7 @@
 import React from "react";
 import PropTypes from "prop-types";
 import validate from "validate.JS";
+import { t } from "~/shared/translations/i18n";
 
 import { login } from "~/shared/validation/authentication";
 
@@ -57,10 +58,10 @@ class Login extends React.Component {
 			<div className="pl-5 pr-5 align-vertical justify-content-center">
 				<form className="w-100">
 					<div className="w-100 mb-3">
-						<span className="h3">Login</span>
+						<span className="h3">{t("action.login")}</span>
 					</div>
 					<InputField
-						label={"Email Address"}
+						label={t("label.emailAddress")}
 						name="emailAddress"
 						id={"email-input"}
 						value={emailAddress}
@@ -71,7 +72,7 @@ class Login extends React.Component {
 						error={errors}
 					/>
 					<InputField
-						label={"Password"}
+						label={t("label.password")}
 						name="password"
 						id={"password-input"}
 						value={password}
@@ -93,11 +94,11 @@ class Login extends React.Component {
 								disabled={loading}
 							/>
 							<label className="form-check-label" htmlFor="signedInCheck">
-								Keep me signed in
+								{t("components.authentication.keepSignedIn")}
 							</label>
 						</div>
 						<div className="col text-right">
-							Forgot Password?
+							{t("components.authentication.forgotPassword")}
 						</div>
 					</div>
 					<button
@@ -106,7 +107,7 @@ class Login extends React.Component {
 						onClick={this.login}
 						disabled={loading}
 					>
-						Login
+						{t("action.login")}
 					</button>
 				</form>
 			</div>

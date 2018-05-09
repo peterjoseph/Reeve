@@ -1,6 +1,23 @@
 {
+  "action": {
+    "login": "Login",
+    "signUp": "Sign Up",
+    "register": "Register"
+  },
   "label": {
-    "component": "Component"
+    "firstName": "First Name",
+    "lastName": "Last Name",
+    "emailAddress": "Email Address",
+    "password": "Password",
+    "workspaceURL": "Workspace URL"
+  },
+  "components": {
+    "authentication": {
+      "companyName": "companyname",
+      "domainName": ".domainname.com",
+      "keepSignedIn": "Keep me signed in",
+      "forgotPassword": "Forgot Password?"
+    }
   },
   "error": {
     "code": {
