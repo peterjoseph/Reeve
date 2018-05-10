@@ -10,12 +10,13 @@ class Authentication extends React.Component {
       <div id="authentication">
         <div className="container-fluid h-100">
           <div className="row justify-content-center h-100 nopadding">
-            <div className="form-container col-5 hidden-md-down">
-              <div className="w-100 pl-5 pr-5 position-absolute border-bottom">
+            <div className="form-container col-5 d-flex flex-column hidden-md-down">
+              <div className="w-100 pl-5 pr-5 border-bottom">
                 Login | Register
               </div>
-              <span className="justify-content-center">Logo</span>
-              <Register />
+              <div className="h-100 d-flex justify-content-center align-items-center">
+                <Register />
+              </div>
             </div>
             <div className="background-container col-7 nopadding" />
           </div>
