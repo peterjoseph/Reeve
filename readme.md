@@ -1,6 +1,4 @@
-![]()
-
-# Reeve
+# ![](https://i.imgur.com/KrEqmIP.png)
 
 ### Web application scaffolding for production environments.
 

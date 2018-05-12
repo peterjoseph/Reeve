@@ -57,7 +57,7 @@ register() {
 			<div className="p-5 align-vertical justify-content-center">
 				<form className="w-100">
 					<div className="w-100 text-center mb-4">
-						<span>Logo</span>
+						<span><img src={require("../../common/images/logo_small.png")} /></span>
 					</div>
 					<div className="w-100 mb-3">
 						<span className="h3">{t("action.register")}</span>
