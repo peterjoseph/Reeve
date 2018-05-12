@@ -54,9 +54,9 @@ register() {
 	const { firstName, lastName, emailAddress, password, workspaceURL, loading, errors } = this.state;
     return (
 		<div id="register">
-			<div className="pl-5 pr-5 justify-content-center">
+			<div className="p-5 align-vertical justify-content-center">
 				<form className="w-100">
-					<div className="w-100 text-center">
+					<div className="w-100 text-center mb-4">
 						<span>Logo</span>
 					</div>
 					<div className="w-100 mb-3">
@@ -134,6 +134,7 @@ register() {
 						</small>
 						</span>
 					</div>
+					<div className="mt-4">Already have an account? <a href="#">Login</a></div>
 				</form>
 			</div>
 		</div>

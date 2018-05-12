@@ -55,8 +55,11 @@ class Login extends React.Component {
 	const { emailAddress, password, keepSignedIn, loading, errors } = this.state;
     return (
 		<div id="login">
-			<div className="pl-5 pr-5 align-vertical justify-content-center">
+			<div className="p-5 align-vertical justify-content-center">
 				<form className="w-100">
+					<div className="w-100 text-center mb-4">
+						<span>Logo</span>
+					</div>
 					<div className="w-100 mb-3">
 						<span className="h3">{t("action.login")}</span>
 					</div>
@@ -109,6 +112,7 @@ class Login extends React.Component {
 					>
 						{t("action.login")}
 					</button>
+					<div className="mt-4">Don't have an account? <a href="#">Register</a></div>
 				</form>
 			</div>
 		</div>
