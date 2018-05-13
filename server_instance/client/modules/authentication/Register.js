@@ -54,7 +54,7 @@ register() {
 	const { firstName, lastName, emailAddress, password, workspaceURL, loading, errors } = this.state;
     return (
 		<div id="register">
-			<div className="p-5 align-vertical justify-content-center">
+			<div className="p-3 p-sm-5 align-vertical justify-content-center">
 				<form className="w-100">
 					<div className="w-100 text-center mb-4">
 						<span><img src={require("../../common/images/logo_small.png")} /></span>
