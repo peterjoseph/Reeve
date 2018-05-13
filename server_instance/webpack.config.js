@@ -88,9 +88,10 @@ module.exports = {
         test: /.*\.(gif|png|jpe?g|svg)$/i,
         use: [
           {
-            loader: "file-loader",
+            loader: "url-loader",
             options: {
-              name: "/common/images/[name].[ext]"
+              name: "/common/images/[name].[ext]",
+              limit: 8192
             }
           }
         ]
