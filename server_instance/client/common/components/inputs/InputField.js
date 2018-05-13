@@ -20,7 +20,7 @@ class InputField extends React.Component {
             placeholder={placeholder}
             disabled={disabled}
           />
-          {error && error[name] && <div className="d-block invalid-feedback">{error[name]}</div>}
+          {error && error[name] && <div className="d-block invalid-feedback">{error[name][0]}</div>}
         </div>
       </div>
     );

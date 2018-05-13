@@ -23,7 +23,7 @@ class InputField extends React.Component {
 				<div className="input-group-append">
 					<div className="input-group-text">{t("components.authentication.domainName")}</div>
 				</div>
-				{error && error["workspaceURL"] && <div className="d-block invalid-feedback">{error["workspaceURL"]}</div>}
+				{error && error["workspaceURL"] && <div className="d-block invalid-feedback">{error["workspaceURL"][0]}</div>}
 			</div>
 		</div>
     );
