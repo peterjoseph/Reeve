@@ -20,35 +20,35 @@ let config = require("../config");
 
 // Set up Sentry Error Reporting
 if (config.sentry.enabled && config.build.environment === "production") {
-  let raven = require("raven");
-  raven.config(config.sentry.dns).install();
-  app.use(raven.requestHandler());
-  app.use(raven.errorHandler());
+	let raven = require("raven");
+	raven.config(config.sentry.dns).install();
+	app.use(raven.requestHandler());
+	app.use(raven.errorHandler());
 }
 
 // Set up Papertrail Logging
 if (config.papertrail.enabled && config.build.environment === "production") {
-  let winston = require("winston");
-  let WinstonPapertrail = require("winston-papertrail").Papertrail;
-  const transport = new WinstonPapertrail({
-    host: config.papertrail.host,
-    port: config.papertrail.port,
-    hostname: config.papertrail.hostname,
-    level: config.papertrail.level,
-    logFormat: function(level, message) {
-      return "[" + level + "] " + message;
-    }
-  });
+	let winston = require("winston");
+	let WinstonPapertrail = require("winston-papertrail").Papertrail;
+	const transport = new WinstonPapertrail({
+		host: config.papertrail.host,
+		port: config.papertrail.port,
+		hostname: config.papertrail.hostname,
+		level: config.papertrail.level,
+		logFormat: function(level, message) {
+			return "[" + level + "] " + message;
+		}
+	});
 
-  let logger = new winston.Logger({
-    transports: [transport]
-  });
+	let logger = new winston.Logger({
+		transports: [transport]
+	});
 }
 
 // Set up view engine
 app.set("view engine", "html");
 app.engine("html", function(path, options, callbacks) {
-  fs.readFile(path, "utf-8", callback);
+	fs.readFile(path, "utf-8", callback);
 });
 
 app.use(bodyParser.json());
@@ -61,47 +61,47 @@ app.use(passport.session());
 
 // Handle reloading server in development mode
 if (config.build.environment === "development") {
-  loadWebpack(app);
+	loadWebpack(app);
 } else {
-  // Load packaged files in production
-  app.use(express.static(path.join(__dirname, "../client")));
+	// Load packaged files in production
+	app.use(express.static(path.join(__dirname, "../client")));
 }
 
 // Connection to Redis user session store
 app.use(
-  session({
-    store: new RedisStore({
-      host: config.redis.host,
-      port: config.redis.port
-    }),
-    secret: config.redis.secret,
-    proxy: false,
-    resave: config.redis.resave,
-    saveUninitialized: false
-  })
+	session({
+		store: new RedisStore({
+			host: config.redis.host,
+			port: config.redis.port
+		}),
+		secret: config.redis.secret,
+		proxy: false,
+		resave: config.redis.resave,
+		saveUninitialized: false
+	})
 );
 
 // Handle Redis connection failure
 app.use(function(req, res, next) {
-  if (!req.session) {
-    console.log("Unable to connect to Redis session store");
-    process.exit(1);
-  }
-  next();
+	if (!req.session) {
+		console.log("Unable to connect to Redis session store");
+		process.exit(1);
+	}
+	next();
 });
 
 // Set Routes
 app.use(function(err, req, res, next) {
-  res.status(err.status || 500);
+	res.status(err.status || 500);
 });
 app.use("/", routes);
 
 // Set Message Headers
 app.use(function noCache(req, res, next) {
-  res.header("Cache-Control", "no-cache, no-store, must-revalidate");
-  res.header("Pragma", "no-cache");
-  res.header("Expires", 0);
-  next();
+	res.header("Cache-Control", "no-cache, no-store, must-revalidate");
+	res.header("Pragma", "no-cache");
+	res.header("Expires", 0);
+	next();
 });
 
 // Set server port
@@ -109,31 +109,31 @@ app.set("port", config.build.port || 3000);
 
 // Connect to MySQL database
 database.connect(function(err) {
-  if (err) {
-    console.log("Unable to connect to MySQL Database");
-    process.exit(1);
-  } else {
-    // Load server if database connection successful
-    let server = null;
-    if (config.build.protocol === "https") {
-      // Create https server if specified
-      server = https
-        .createServer(
-          {
-            key: fs.readFileSync(config.build.key),
-            cert: fs.readFileSync(config.build.certificate)
-          },
-          app
-        )
-        .listen(app.get("port"), function() {
-          console.log(`Listening securely on port: ${server.address().port}`);
-        });
-    } else {
-      server = app.listen(app.get("port"), function() {
-        console.log(`Listening on port: ${server.address().port}`);
-      });
-    }
-  }
+	if (err) {
+		console.log("Unable to connect to MySQL Database");
+		process.exit(1);
+	} else {
+		// Load server if database connection successful
+		let server = null;
+		if (config.build.protocol === "https") {
+			// Create https server if specified
+			server = https
+				.createServer(
+					{
+						key: fs.readFileSync(config.build.key),
+						cert: fs.readFileSync(config.build.certificate)
+					},
+					app
+				)
+				.listen(app.get("port"), function() {
+					console.log(`Listening securely on port: ${server.address().port}`);
+				});
+		} else {
+			server = app.listen(app.get("port"), function() {
+				console.log(`Listening on port: ${server.address().port}`);
+			});
+		}
+	}
 });
 
 module.exports = app;

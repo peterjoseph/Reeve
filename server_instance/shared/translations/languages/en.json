@@ -1,27 +1,27 @@
 {
-  "action": {
-    "login": "Login",
-    "signUp": "Sign Up",
-    "register": "Register"
-  },
-  "label": {
-    "firstName": "First Name",
-    "lastName": "Last Name",
-    "emailAddress": "Email Address",
-    "password": "Password",
-    "workspaceURL": "Workspace URL"
-  },
-  "components": {
-    "authentication": {
-      "companyName": "companyname",
-      "domainName": ".domainname.com",
-      "keepSignedIn": "Keep me signed in",
-      "forgotPassword": "Forgot Password?"
-    }
-  },
-  "error": {
-    "code": {
-      "404": "Page could not be found."
-    }
-  }
+	"action": {
+		"login": "Login",
+		"signUp": "Sign Up",
+		"register": "Register"
+	},
+	"label": {
+		"firstName": "First Name",
+		"lastName": "Last Name",
+		"emailAddress": "Email Address",
+		"password": "Password",
+		"workspaceURL": "Workspace URL"
+	},
+	"components": {
+		"authentication": {
+			"companyName": "companyname",
+			"domainName": ".domainname.com",
+			"keepSignedIn": "Keep me signed in",
+			"forgotPassword": "Forgot Password?"
+		}
+	},
+	"error": {
+		"code": {
+			"404": "Page could not be found."
+		}
+	}
 }

@@ -4,21 +4,21 @@ let config = require("../config");
 let connection = null;
 
 function connect(done) {
-  connection = mysql.createPool({
-    host: config.database.host,
-    user: config.database.username,
-    password: config.database.password,
-    database: config.database.schema
-  });
+	connection = mysql.createPool({
+		host: config.database.host,
+		user: config.database.username,
+		password: config.database.password,
+		database: config.database.schema
+	});
 
-  done();
+	done();
 }
 
 function perform() {
-  return connection;
+	return connection;
 }
 
 module.exports = {
-  connect: connect,
-  perform: perform
+	connect: connect,
+	perform: perform
 };

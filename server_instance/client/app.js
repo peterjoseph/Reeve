@@ -10,23 +10,19 @@ import AsyncComponent from "./common/components/AsyncComponent";
 const Authentication = AsyncComponent(() => import("./modules/authentication"));
 
 class App extends React.Component {
-  render() {
-    return (
-      <BrowserRouter>
-        <Switch>
-          <RedirectComponent
-            exact
-            path="/"
-            render={props => <Authentication />}
-          />
-        </Switch>
-      </BrowserRouter>
-    );
-  }
+	render() {
+		return (
+			<BrowserRouter>
+				<Switch>
+					<RedirectComponent exact path="/" render={props => <Authentication />} />
+				</Switch>
+			</BrowserRouter>
+		);
+	}
 }
 
 function mapStateToProps(state, props) {
-  return {};
+	return {};
 }
 
 export default connect(mapStateToProps, {})(App);

@@ -26,12 +26,12 @@ class Login extends React.Component {
 	}
 
 	changeField(evt) {
-		this.setState({[evt.target.name]: evt.target.value});
+		this.setState({ [evt.target.name]: evt.target.value });
 	}
 
 	handleChecked(evt) {
-    	this.setState({[evt.target.name]: !this.state.keepSignedIn});
-  	}
+		this.setState({ [evt.target.name]: !this.state.keepSignedIn });
+	}
 
 	login() {
 		this.setState({ loading: true });
@@ -51,73 +51,62 @@ class Login extends React.Component {
 		}
 	}
 
-  render() {
-	const { emailAddress, password, keepSignedIn, loading, errors } = this.state;
-    return (
-		<div id="login">
-			<div className="p-3 p-sm-5 align-vertical justify-content-center">
-				<form className="w-100">
-					<div className="w-100 text-center mb-4">
-						<span><img src={require("../../common/images/logo_small.png")} /></span>
-					</div>
-					<div className="w-100 mb-3">
-						<span className="h3">{t("action.login")}</span>
-					</div>
-					<InputField
-						label={t("label.emailAddress")}
-						name="emailAddress"
-						id={"email-input"}
-						value={emailAddress}
-						type={"textField"}
-						ariaLabel={"emailAddress"}
-						onChange={this.changeField}
-						disabled={loading}
-						error={errors}
-					/>
-					<InputField
-						label={t("label.password")}
-						name="password"
-						id={"password-input"}
-						value={password}
-						type={"password"}
-						ariaLabel={"Password"}
-						onChange={this.changeField}
-						disabled={loading}
-						error={errors}
-					/>
-					<div className="form-row pl-4 pr-1">
-						<div className="col">
-							<input
-								id="signedInCheck"
-								name="keepSignedIn"
-								className="form-check-input"
-								type="checkbox"
-								value={keepSignedIn}
-								onClick={this.handleChecked}
-								disabled={loading}
-							/>
-							<label className="form-check-label" htmlFor="signedInCheck">
-								{t("components.authentication.keepSignedIn")}
-							</label>
+	render() {
+		const { emailAddress, password, keepSignedIn, loading, errors } = this.state;
+		return (
+			<div id="login">
+				<div className="p-3 p-sm-5 align-vertical justify-content-center">
+					<form className="w-100">
+						<div className="w-100 text-center mb-4">
+							<span>
+								<img src={require("../../common/images/logo_small.png")} />
+							</span>
 						</div>
-						<div className="col text-right">
-							{t("components.authentication.forgotPassword")}
+						<div className="w-100 mb-3">
+							<span className="h3">{t("action.login")}</span>
 						</div>
-					</div>
-					<button
-						type="button"
-						className="btn btn-primary btn-lg btn-block mt-4 p-3"
-						onClick={this.login}
-						disabled={loading}
-					>
-						{t("action.login")}
-					</button>
-					<div className="mt-4">Don't have an account? <a href="#">Register</a></div>
-				</form>
+						<InputField
+							label={t("label.emailAddress")}
+							name="emailAddress"
+							id={"email-input"}
+							value={emailAddress}
+							type={"textField"}
+							ariaLabel={"emailAddress"}
+							onChange={this.changeField}
+							disabled={loading}
+							error={errors}
+						/>
+						<InputField
+							label={t("label.password")}
+							name="password"
+							id={"password-input"}
+							value={password}
+							type={"password"}
+							ariaLabel={"Password"}
+							onChange={this.changeField}
+							disabled={loading}
+							error={errors}
+						/>
+						<div className="form-row pl-4 pr-1">
+							<div className="col">
+								<input id="signedInCheck" name="keepSignedIn" className="form-check-input" type="checkbox" value={keepSignedIn} onClick={this.handleChecked} disabled={loading} />
+								<label className="form-check-label" htmlFor="signedInCheck">
+									{t("components.authentication.keepSignedIn")}
+								</label>
+							</div>
+							<div className="col text-right">{t("components.authentication.forgotPassword")}</div>
+						</div>
+						<button type="button" className="btn btn-primary btn-lg btn-block mt-4 p-3" onClick={this.login} disabled={loading}>
+							{t("action.login")}
+						</button>
+						<div className="mt-4">
+							Don't have an account? <a href="#">Register</a>
+						</div>
+					</form>
+				</div>
 			</div>
-		</div>
-    );
-  }
+		);
+	}
 }
 
 export default Login;
