@@ -1,8 +1,9 @@
-import { fromJS } from "immutable";
+import { combineReducers } from "redux";
 
-export default function root(state = fromJS({}), action) {
-	if (action.entities) {
-		return state.merge(action.entities);
-	}
-	return state;
-}
+import authentication from "./authentication";
+
+const rootReducer = combineReducers({
+	authentication
+});
+
+export default rootReducer;

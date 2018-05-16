@@ -1,8 +1,11 @@
 import React from "react";
 import PropTypes from "prop-types";
+import { connect } from "react-redux";
+import { bindActionCreators } from "redux";
 import validate from "validate.JS";
 import { t } from "~/shared/translations/i18n";
 
+import { registerClient } from "../../common/store/reducers/authentication.js";
 import { register } from "~/shared/validation/authentication";
 
 import InputField from "../../common/components/inputs/InputField";
@@ -52,6 +55,8 @@ class Register extends React.Component {
 				errors: valid
 			});
 		}
+
+		this.props.registerClient(client);
 	}
 
 	render() {
@@ -140,4 +145,14 @@ class Register extends React.Component {
 	}
 }
 
-export default Register;
+function mapStateToProps(state) {
+	return {};
+}
+
+function mapDispatchToProps(dispatch) {
+	return {
+		registerClient: bindActionCreators(registerClient, dispatch)
+	};
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(Register);
