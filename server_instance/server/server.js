@@ -126,11 +126,11 @@ database.connect(function(err) {
 					app
 				)
 				.listen(app.get("port"), function() {
-					console.log(`Listening securely on port: ${server.address().port}`);
+					console.log(`Server listening securely on port: ${server.address().port}`);
 				});
 		} else {
 			server = app.listen(app.get("port"), function() {
-				console.log(`Listening on port: ${server.address().port}`);
+				console.log(`Server listening on port: ${server.address().port}`);
 			});
 		}
 	}

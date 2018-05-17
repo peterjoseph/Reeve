@@ -3,11 +3,11 @@ import { clientRegistration } from "~/client/api/authentication.js";
 
 import "./root";
 
-export const REGISTER = "register";
+export const AUTHENTICATION = "authentication";
 
-export const REGISTER_PENDING = REGISTER + "/REGISTER_PENDING";
-export const REGISTER_FULFILLED = REGISTER + "/REGISTER_FULFILLED";
-export const REGISTER_REJECTED = REGISTER + "/REGISTER_REJECTED";
+export const REGISTER_PENDING = AUTHENTICATION + "/REGISTER_PENDING";
+export const REGISTER_FULFILLED = AUTHENTICATION + "/REGISTER_FULFILLED";
+export const REGISTER_REJECTED = AUTHENTICATION + "/REGISTER_REJECTED";
 
 const DEFAULT_STATE = fromJS({});
 

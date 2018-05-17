@@ -54,9 +54,9 @@ class Register extends React.Component {
 				loading: false,
 				errors: valid
 			});
+		} else {
+			this.props.registerClient(client);
 		}
-
-		this.props.registerClient(client);
 	}
 
 	render() {
