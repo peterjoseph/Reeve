@@ -25,6 +25,8 @@
 		}
 	},
 	"validation": {
-		"validCharactersAZ09": "can only contain characters from a-z and 0-9"
+		"clientInvalidProperties": "Client object contains invalid properties",
+		"validCharactersAZ09": "can only contain characters from a-z and 0-9, and no spaces",
+		"validWorkspaceURL": "cannot contain the following name"
 	}
 }

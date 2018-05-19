@@ -12,6 +12,10 @@ const login = {
 			flags: "i",
 			message: t("validation.validCharactersAZ09")
 		},
+		exclusion: {
+			within: restrictedDomains,
+			message: t("validation.validWorkspaceURL")
+		},
 		length: {
 			maximum: 255
 		}
@@ -80,7 +84,7 @@ const register = {
 		},
 		exclusion: {
 			within: restrictedDomains,
-			message: "^Sorry, you cannot use the WorkspaceURL %{value}"
+			message: t("validation.validWorkspaceURL")
 		},
 		length: {
 			minimum: 4,
