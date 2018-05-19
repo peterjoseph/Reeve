@@ -1,5 +1,6 @@
+const _ = require("underscore");
 const database = require("../database.js");
-const restrictedDomains = require("../../shared/restricted_domains");
+const restrictedDomains = ["domain", "account", "accounts", "admin", "registration", "signup", "configuration", "web", "mobile", "app", "software", "com", "net", "org"];
 
 // Register New Client Account
 module.exports = function(router) {
@@ -14,10 +15,10 @@ module.exports = function(router) {
 	// Return securityKey
 	router.post("/internal/register", function(req, res) {
 		// Check Workspace URL is not a critical name
-		if (restrictedDomains.includes(req.body.workspaceURL)) {
-			res.status(403).send({ message: "WorkspaceURL is a restricted domain and cannot be used" });
+		if (_.contains(restrictedDomains, req.body.workspaceURL)) {
+			res.status(403).send({ message: "WorkspaceURL is a restricted domain and cannot be used." });
 		}
-
+		// Connect to Database to perform existing Workspace URL Lookup
 		database.perform().getConnection(function(err, connection) {
 			if (err) throw err;
 			// Check Workspace URL is unique in database

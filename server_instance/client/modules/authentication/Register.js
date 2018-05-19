@@ -48,7 +48,7 @@ class Register extends React.Component {
 		};
 
 		// Validate input parameters
-		const valid = validate(client, register);
+		const valid = null; //validate(client, register);
 		if (valid != null) {
 			this.setState({
 				loading: false,
