@@ -5,7 +5,6 @@ import validate from "validate.JS";
 
 // Register New Client Account
 module.exports = function(router) {
-	// Remove spaces and special characters from workspace url
 	// Check Workspace URL is not a critical name
 	// Validate workspace url does not exist
 	// Validate client object
@@ -15,8 +14,16 @@ module.exports = function(router) {
 	// Report to Papertrail
 	// Return securityKey
 	router.post("/internal/register", function(req, res) {
+		// Store received object properties
+		const clientObject = {
+			workspaceURL: req.body.workspaceURL,
+			firstName: req.body.firstName,
+			lastName: req.body.lastName,
+			emailAddress: req.body.emailAddress,
+			password: req.body.password
+		};
 		// Validate properties in received object
-		const valid = validate(req.body, register);
+		const valid = validate(clientObject, register);
 		if (valid != null) {
 			res.status(403).send({ message: t("validation.clientInvalidProperties"), errors: valid });
 		}
