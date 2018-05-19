@@ -23,5 +23,8 @@
 		"code": {
 			"404": "Page could not be found."
 		}
+	},
+	"validation": {
+		"validCharactersAZ09": "can only contain characters from a-z and 0-9"
 	}
 }

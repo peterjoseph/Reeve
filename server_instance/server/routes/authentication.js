@@ -1,6 +1,7 @@
-const _ = require("underscore");
+import { register } from "~/shared/validation/authentication";
+
 const database = require("../database.js");
-const restrictedDomains = ["domain", "account", "accounts", "admin", "registration", "signup", "configuration", "web", "mobile", "app", "software", "com", "net", "org"];
+const validate = require("validate.js");
 
 // Register New Client Account
 module.exports = function(router) {
@@ -14,9 +15,9 @@ module.exports = function(router) {
 	// Report to Papertrail
 	// Return securityKey
 	router.post("/internal/register", function(req, res) {
-		// Check Workspace URL is not a critical name
-		if (_.contains(restrictedDomains, req.body.workspaceURL)) {
-			res.status(403).send({ message: "WorkspaceURL is a restricted domain and cannot be used." });
+		// Validate received object
+		if (validate(req.body, register)) {
+			res.status(403).send({ message: "Client object contains invalid properties" });
 		}
 		// Connect to Database to perform existing Workspace URL Lookup
 		database.perform().getConnection(function(err, connection) {
