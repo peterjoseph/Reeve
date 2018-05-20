@@ -14,7 +14,13 @@
 		"type": "git",
 		"url": "git+https://github.com/peterjoseph/reeve.git"
 	},
-	"keywords": ["node.js", "server", "node", "express", "mern"],
+	"keywords": [
+		"node.js",
+		"server",
+		"node",
+		"express",
+		"mern"
+	],
 	"author": "Peter Joseph",
 	"license": "MIT",
 	"bugs": {
@@ -32,6 +38,7 @@
 		"express": "^4.16.3",
 		"express-session": "^1.15.6",
 		"feather-icons": "^4.7.0",
+		"helmet": "^3.12.1",
 		"i18next": "^11.2.3",
 		"immutable": "^3.8.2",
 		"jquery": "^3.3.1",

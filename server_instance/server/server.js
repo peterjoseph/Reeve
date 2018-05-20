@@ -1,5 +1,6 @@
 let express = require("express"); // Express Server
 let session = require("express-session");
+let helmet = require("helmet");
 let RedisStore = require("connect-redis")(session);
 let path = require("path");
 let async = require("async");
@@ -50,6 +51,9 @@ app.set("view engine", "html");
 app.engine("html", function(path, options, callbacks) {
 	fs.readFile(path, "utf-8", callback);
 });
+
+// Enable Helmet for improved endpoint security
+app.use(helmet());
 
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
