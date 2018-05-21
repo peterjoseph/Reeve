@@ -5,17 +5,15 @@ import validate from "validate.JS";
 
 // Register New Client Account
 module.exports = function(router) {
-	// Check Workspace URL is not a critical name
-	// Validate workspace url does not exist
-	// Validate client object
 	// Attempt to create client account
 	// Attempt to create new owner level user
+	// Pass and throw 'err'
 	// Report to Sentry
 	// Report to Papertrail
 	// Return securityKey
 	router.post("/internal/register", function(req, res) {
 		// Store received object properties
-		const clientObject = {
+		const received = {
 			workspaceURL: req.body.workspaceURL,
 			firstName: req.body.firstName,
 			lastName: req.body.lastName,
@@ -23,7 +21,7 @@ module.exports = function(router) {
 			password: req.body.password
 		};
 		// Validate properties in received object
-		const valid = validate(clientObject, register);
+		const valid = validate(received, register);
 		if (valid != null) {
 			res.status(403).send({ message: t("validation.clientInvalidProperties"), errors: valid });
 		}
@@ -31,10 +29,22 @@ module.exports = function(router) {
 		perform().getConnection(function(err, connection) {
 			if (err) throw err;
 			// Check Workspace URL is unique in database
-			connection.query("SELECT WORKSPACE_URL FROM `client` WHERE `WORKSPACE_URL` = ?", [req.body.workspaceURL], function(error, results, fields) {
+			connection.query("SELECT workspaceURL FROM `client` WHERE `workspaceURL` = ?", [req.body.workspaceURL], function(error, results, fields) {
+				if (error) throw error;
+				// Send error if workspace url is taken
+				if (results != null && results.length > 0) {
+					connection.release();
+					return res.status(403).send({ message: t("validation.clientInvalidProperties"), errors: valid });
+				}
+			});
+			// Create client row in database
+			const clientObject = { name: received.workspaceURL, workspaceURL: received.workspaceURL, createdDate: new Date(), modifiedDate: new Date() };
+			connection.query("INSERT INTO client SET ?", clientObject, function(error, results, fields) {
 				if (error) throw error;
 				// Release connection
 				connection.release();
+				// Return successful server response
+				return res.status(200);
 			});
 		});
 	});
