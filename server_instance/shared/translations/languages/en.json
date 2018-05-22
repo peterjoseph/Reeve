@@ -9,7 +9,8 @@
 		"lastName": "Last Name",
 		"emailAddress": "Email Address",
 		"password": "Password",
-		"workspaceURL": "Workspace URL"
+		"workspaceURL": "Workspace URL",
+		"success": "Success"
 	},
 	"components": {
 		"authentication": {
