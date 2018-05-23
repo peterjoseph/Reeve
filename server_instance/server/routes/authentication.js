@@ -8,6 +8,7 @@ module.exports = function(router) {
 	// Attempt to create new owner level user
 	// Report to Sentry
 	// Report to Papertrail
+	// Report to Kinesis
 	// Return securityKey
 
 	// Register New Client Account

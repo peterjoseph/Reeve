@@ -1,6 +1,6 @@
 INSERT INTO `executedScripts` (`name`, `description`, `createdDate`, `executedDate`)
 VALUES
-	('180523_01', 'Create new user roles features roleFeatures subscriptionFeatures tables ', NOW(), NOW());
+	('180523_01', 'Create new user table', NOW(), NOW());
 
 CREATE TABLE `user` (
   `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
