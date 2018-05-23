@@ -1,8 +1,8 @@
+import validate from "validate.JS";
+import async from "async";
 import { register } from "~/shared/validation/authentication";
 import { t } from "~/shared/translations/i18n";
 import { perform } from "../database.js";
-import validate from "validate.JS";
-import async from "async";
 
 module.exports = function(router) {
 	// Attempt to create new owner level user
@@ -56,7 +56,27 @@ module.exports = function(router) {
 								chain(null, results);
 							}
 						});
+					},
+					function(chain) {
+						// Encrypt and salt user password
+						// Create new user in user table
+						const userObject = {
+							firstName: received.firstName,
+							lastName: received.lastName,
+							emailAddress: received.emailAddress,
+							password: "",
+							createdDate: new Date(),
+							modifiedDate: new Date()
+						};
+						connection.query("INSERT INTO user SET ?", userObject, function(error, results, fields) {
+							if (error) {
+								chain(error, null);
+							} else {
+								chain(null, results);
+							}
+						});
 					}
+					// Assign owner role to user
 				],
 				function(error, data) {
 					// Close our connection regardless of success or failure
