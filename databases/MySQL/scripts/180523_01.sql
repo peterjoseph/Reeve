@@ -9,11 +9,10 @@ CREATE TABLE `user` (
   `clientId` int(11) unsigned NOT NULL,
   `emailAddress` varchar(255) NOT NULL DEFAULT '',
   `password` varchar(255) NOT NULL DEFAULT '',
-  `createdDate` datetime NOT NULL,
-  `ModifiedDate` int(11) NOT NULL,
   `active` tinyint(1) NOT NULL DEFAULT '1',
+  `createdDate` datetime NOT NULL,
+  `ModifiedDate` datetime NOT NULL,
   PRIMARY KEY (`id`),
-  KEY `FK_clientId` (`clientId`),
-  CONSTRAINT `FK_clientId` FOREIGN KEY (`clientId`) REFERENCES `client` (`id`)
+  KEY `FK_ClientId` (`clientId`),
+  CONSTRAINT `FK_ClientId` FOREIGN KEY (`clientId`) REFERENCES `client` (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
-
