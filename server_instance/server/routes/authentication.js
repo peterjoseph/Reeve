@@ -4,6 +4,7 @@ import { register } from "~/shared/validation/authentication";
 import { t } from "~/shared/translations/i18n";
 import { perform } from "../database";
 import { generateDate } from "../utilities/date";
+import { ROLE_TYPE } from "~/shared/constants";
 
 module.exports = function(router) {
 	// Attempt to create new owner level user
@@ -15,6 +16,7 @@ module.exports = function(router) {
 
 	// Register New Client Account
 	router.post("/internal/register", function(req, res) {
+
 		// Store received object properties
 		const received = {
 			workspaceURL: req.body.workspaceURL,
@@ -23,19 +25,29 @@ module.exports = function(router) {
 			emailAddress: req.body.emailAddress,
 			password: req.body.password
 		};
+
 		// Validate properties in received object
 		const valid = validate(received, register);
 		if (valid != null) {
 			res.status(403).send({ message: t("validation.clientInvalidProperties"), errors: valid });
 		}
+
 		// Generate current date
 		const dateTime = generateDate();
+
 		// Perform database connection
 		perform().getConnection(function(err, connection) {
+
 			// Return error if database connection error
 			if (err) {
 				res.status(500);
 			}
+
+			// Set clientId to null
+			let clientId = null;
+			// Set userId to null
+			let userId = null;
+
 			// Async update properties in database
 			async.series(
 				[
@@ -58,6 +70,8 @@ module.exports = function(router) {
 							if (error) {
 								chain(error, null);
 							} else {
+								// Set our clientId variable when the client has been inserted into table
+								clientId = results.insertId;
 								chain(null, results);
 							}
 						});
@@ -68,12 +82,27 @@ module.exports = function(router) {
 						const userObject = {
 							firstName: received.firstName,
 							lastName: received.lastName,
+							clientId: clientId,
 							emailAddress: received.emailAddress,
-							password: "",
+							password: "test",
 							createdDate: dateTime,
 							modifiedDate: dateTime
 						};
+
 						connection.query("INSERT INTO user SET ?", userObject, function(error, results, fields) {
+							if (error) {
+								chain(error, null);
+							} else {
+								// Set our userId variable when the user has been inserted into table
+								userId = results.insertId;
+								chain(null, results);
+							}
+						});
+					},
+					function(chain) {
+						// Assign owner role to user
+						const roleObject = { userId: userId, roleId: ROLE_TYPE.OWNER, active: true, createdDate: dateTime, modifiedDate: dateTime };
+						connection.query("INSERT INTO userRoles SET ?", roleObject, function(error, results, fields) {
 							if (error) {
 								chain(error, null);
 							} else {
@@ -81,7 +110,6 @@ module.exports = function(router) {
 							}
 						});
 					}
-					// Assign owner role to user
 				],
 				function(error, data) {
 					// Close our connection regardless of success or failure
