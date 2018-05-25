@@ -1,5 +1,6 @@
 import validate from "validate.JS";
 import async from "async";
+import bcrypt from "bcrypt";
 import { register } from "~/shared/validation/authentication";
 import { t } from "~/shared/translations/i18n";
 import { perform } from "../database";
@@ -7,8 +8,6 @@ import { generateDate } from "../utilities/date";
 import { ROLE_TYPE } from "~/shared/constants";
 
 module.exports = function(router) {
-	// Attempt to create new owner level user
-	// Encrypt password
 	// Report to Sentry
 	// Report to Papertrail
 	// Report to Kinesis
@@ -76,13 +75,14 @@ module.exports = function(router) {
 						},
 						function(chain) {
 							// Encrypt and salt user password
+							const password = bcrypt.hashSync(received.password, 10);
 							// Create new user in user table
 							const userObject = {
 								firstName: received.firstName,
 								lastName: received.lastName,
 								clientId: clientId,
 								emailAddress: received.emailAddress,
-								password: "test",
+								password: password,
 								createdDate: dateTime,
 								modifiedDate: dateTime
 							};

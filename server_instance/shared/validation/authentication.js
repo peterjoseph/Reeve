@@ -34,7 +34,7 @@ const login = {
 			allowEmpty: false
 		},
 		length: {
-			maximum: 255
+			maximum: 66
 		}
 	}
 };

@@ -29,6 +29,7 @@
 	"homepage": "https://github.com/peterjoseph/reeve#readme",
 	"dependencies": {
 		"async": "^2.6.0",
+		"bcrypt": "^2.0.1",
 		"body-parser": "^1.13.0",
 		"bootstrap": "^4.1.1",
 		"connect-redis": "^3.3.3",
