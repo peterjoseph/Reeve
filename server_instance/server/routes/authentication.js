@@ -53,7 +53,7 @@ module.exports = function(router) {
 									chain(error, results);
 								} else if (results != null && results.length > 0) {
 									// Pass through error object if WorkspaceURL already being used
-									const errorMsg = { status: 403, message: t("validation.clientInvalidProperties") };
+									const errorMsg = { status: 403, message: t("validation.clientInvalidProperties"), reason: { workspaceURL: [t("validation.validWorkspaceURL")] } };
 									chain(errorMsg, null);
 								} else {
 									chain(null, results);

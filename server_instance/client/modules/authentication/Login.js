@@ -34,7 +34,7 @@ class Login extends React.Component {
 	}
 
 	login() {
-		this.setState({ loading: true });
+		this.setState({ loading: true, errors: {} });
 		const user = {
 			workspaceURL: this.state.organizationName,
 			emailAddress: this.state.emailAddress,

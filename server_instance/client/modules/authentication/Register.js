@@ -37,7 +37,8 @@ class Register extends React.Component {
 
 	register() {
 		this.setState({
-			loading: true
+			loading: true,
+			errors: {}
 		});
 		const client = {
 			workspaceURL: this.state.workspaceURL,
@@ -67,13 +68,12 @@ class Register extends React.Component {
 					<form className="w-100">
 						<div className="w-100 text-center mb-4">
 							<span>
-								{" "}
 								<img src={require("../../common/images/logo_small.png")} />
 							</span>
-						</div>{" "}
+						</div>
 						<div className="w-100 mb-3">
 							<span className="h3"> {t("action.register")} </span>{" "}
-						</div>{" "}
+						</div>
 						<div className="form-row">
 							<div className="col">
 								<InputField
@@ -86,8 +86,8 @@ class Register extends React.Component {
 									onChange={this.changeField}
 									disabled={loading}
 									error={errors}
-								/>{" "}
-							</div>{" "}
+								/>
+							</div>
 							<div className="col">
 								<InputField
 									label={t("label.lastName")}
@@ -99,9 +99,9 @@ class Register extends React.Component {
 									onChange={this.changeField}
 									disabled={loading}
 									error={errors}
-								/>{" "}
-							</div>{" "}
-						</div>{" "}
+								/>
+							</div>
+						</div>
 						<InputField
 							label={t("label.emailAddress")}
 							name={"emailAddress"}
@@ -112,7 +112,7 @@ class Register extends React.Component {
 							onChange={this.changeField}
 							disabled={loading}
 							error={errors}
-						/>{" "}
+						/>
 						<InputField
 							label={t("label.password")}
 							name={"password"}
@@ -123,23 +123,21 @@ class Register extends React.Component {
 							onChange={this.changeField}
 							disabled={loading}
 							error={errors}
-						/>{" "}
+						/>
 						<WorkspaceURLField value={workspaceURL} onChange={this.changeField} disabled={loading} error={errors} />{" "}
 						<button type="button" className="btn btn-primary btn-lg btn-block mt-4 p-3" onClick={this.register} disabled={loading}>
-							{" "}
-							{t("action.signUp")}{" "}
-						</button>{" "}
+							{t("action.signUp")}
+						</button>
 						<div className="text-center">
 							<span>
 								<small>By signing up, you agree to our Terms & Conditions and Privacy policy </small>{" "}
-							</span>{" "}
-						</div>{" "}
+							</span>
+						</div>
 						<div className="mt-4">
-							{" "}
 							Already have an account ? <a href="#"> Login </a>
 						</div>
-					</form>{" "}
-				</div>{" "}
+					</form>
+				</div>
 			</div>
 		);
 	}
