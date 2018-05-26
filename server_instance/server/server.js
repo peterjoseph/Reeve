@@ -114,8 +114,7 @@ app.use(function noCache(req, res, next) {
 // Report to Papertrail
 // Report to Kinesis
 app.use(function errorHandler(err, req, res, next) {
-	res.status(500);
-	res.render("error", { error: err });
+	res.status(500).send({ status: 500, error: err });
 });
 
 // Set server port
