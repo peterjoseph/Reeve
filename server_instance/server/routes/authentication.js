@@ -8,13 +8,8 @@ import { generateDate } from "../utilities/date";
 import { ROLE_TYPE } from "~/shared/constants";
 
 module.exports = function(router) {
-	// Report to Sentry
-	// Report to Papertrail
-	// Report to Kinesis
-	// Return securityKey
-
 	// Register New Client Account
-	router.post("/internal/register", function(req, res) {
+	router.post("/internal/register", function(req, res, next) {
 		// Store received object properties
 		const received = {
 			workspaceURL: req.body.workspaceURL,
@@ -26,20 +21,22 @@ module.exports = function(router) {
 		// Validate properties in received object
 		const valid = validate(received, register);
 		if (valid != null) {
-			res.status(403).send({ message: t("validation.clientInvalidProperties"), errors: valid });
+			const errorMsg = { status: 403, message: t("validation.clientInvalidProperties"), errors: valid };
+			return next(errorMsg);
 		}
 		// Generate current date
 		const dateTime = generateDate();
 		// Perform database connection
-		perform().getConnection(function(err, connection) {
+		perform().getConnection(function(error, connection) {
 			// Return error if database connection error
-			if (err) {
-				res.status(500);
+			if (error) {
+				return next(error);
 			}
-			connection.beginTransaction(function(err) {
+			connection.beginTransaction(function(error) {
 				// Return error if begin transaction error
-				if (err) {
-					res.status(500);
+				if (error) {
+					connection.release();
+					return next(error);
 				}
 				// Set clientId to null
 				let clientId = null;
@@ -51,10 +48,13 @@ module.exports = function(router) {
 						function(chain) {
 							// Check if workspaceURL is already in use
 							connection.query("SELECT workspaceURL FROM `client` WHERE `workspaceURL` = ?", [req.body.workspaceURL], function(error, results, fields) {
-								if ((results != null && results.length > 0) || error) {
-									// Pass through error object if failure
-									const errorObj = { status: 403, message: t("validation.clientInvalidProperties"), errors: error || valid };
-									chain(errorObj, null);
+								// Return error if query fails
+								if (error) {
+									chain(error, results);
+								} else if ((results != null && results.length > 0)) {
+									// Pass through error object if WorkspaceURL already being used
+									const errorMsg = { status: 403, message: t("validation.clientInvalidProperties") };
+									chain(errorMsg, null);
 								} else {
 									chain(null, results);
 								}
@@ -110,22 +110,21 @@ module.exports = function(router) {
 					],
 					function(error, data) {
 						if (error) {
-							// Rollback transaction if and query is unsuccessful
+							// Rollback transaction if query is unsuccessful
 							connection.rollback(function() {
-								throw err;
+								return next(error);
 							});
-							connection.release();
-							res.status(error.status || 503).send({ ...error });
 						} else {
 							// Attempt to commit transaction
-							connection.commit(function(err) {
-								if (err) {
+							connection.commit(function(error) {
+								if (error) {
 									connection.rollback(function() {
-										throw err;
+										return next(error);
 									});
+								} else {
+									connection.release();
+									res.status(200).send({ status: 200, message: t("label.success") });
 								}
-								res.status(200).send({ status: 200, message: t("label.success") });
-								connection.release();
 							});
 						}
 					}

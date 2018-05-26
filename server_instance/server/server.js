@@ -108,6 +108,16 @@ app.use(function noCache(req, res, next) {
 	next();
 });
 
+// Handle server errors
+
+// Report to Sentry
+// Report to Papertrail
+// Report to Kinesis
+app.use(function errorHandler(err, req, res, next) {
+	res.status(500);
+	res.render("error", { error: err });
+});
+
 // Set server port
 app.set("port", config.build.port || 3000);
 
