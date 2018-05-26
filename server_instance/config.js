@@ -9,6 +9,9 @@ let config = {
 		server: process.env.SERVER,
 		port: process.env.PORT
 	},
+	development: {
+		analyzeBundle: String(process.env.ANALYZE_BUNDLE) === "true"
+	},
 	environment: process.env.ENVIRONMENT,
 	database: {
 		host: process.env.DB_HOST,

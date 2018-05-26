@@ -2,6 +2,7 @@ let path = require("path");
 let webpack = require("webpack");
 let config = require("./config");
 let UglifyJsPlugin = require("uglifyjs-webpack-plugin");
+let BundleAnalyzerPlugin = require("webpack-bundle-analyzer").BundleAnalyzerPlugin;
 
 function loadPlugins() {
 	var plugins = [];
@@ -30,6 +31,9 @@ function loadPlugins() {
 				}
 			})
 		);
+	}
+	if (config.development.analyzeBundle === true) {
+		plugins.push(new BundleAnalyzerPlugin());
 	}
 	return plugins;
 }
