@@ -109,12 +109,21 @@ app.use(function noCache(req, res, next) {
 });
 
 // Handle server errors
-
-// Report to Sentry
-// Report to Papertrail
-// Report to Kinesis
 app.use(function errorHandler(err, req, res, next) {
-	res.status(500).send({ status: 500, error: err });
+	// Report to Sentry
+	// Report to Papertrail
+	// Report to Kinesis
+	const status = err.status != null ? err.status : 500;
+	let response = {
+		status: status
+	};
+	if (err.message != null) {
+		response.message = err.message;
+	}
+	if (err.reason != null) {
+		response.reason = err.reason;
+	}
+	res.status(status).send(response);
 });
 
 // Set server port

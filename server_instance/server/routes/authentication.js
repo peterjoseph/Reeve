@@ -21,7 +21,7 @@ module.exports = function(router) {
 		// Validate properties in received object
 		const valid = validate(received, register);
 		if (valid != null) {
-			const errorMsg = { status: 403, message: t("validation.clientInvalidProperties"), errors: valid };
+			const errorMsg = { status: 403, message: t("validation.clientInvalidProperties"), reason: valid };
 			return next(errorMsg);
 		}
 		// Generate current date
@@ -51,7 +51,7 @@ module.exports = function(router) {
 								// Return error if query fails
 								if (error) {
 									chain(error, results);
-								} else if ((results != null && results.length > 0)) {
+								} else if (results != null && results.length > 0) {
 									// Pass through error object if WorkspaceURL already being used
 									const errorMsg = { status: 403, message: t("validation.clientInvalidProperties") };
 									chain(errorMsg, null);
