@@ -1,8 +1,11 @@
 import React from "react";
 import PropTypes from "prop-types";
+import { connect } from "react-redux";
+import { bindActionCreators } from "redux";
 import validate from "validate.JS";
 import { t } from "~/shared/translations/i18n";
 
+import { loginUser } from "../../common/store/reducers/authentication.js";
 import { login } from "~/shared/validation/authentication";
 
 import InputField from "../../common/components/inputs/InputField";
@@ -38,7 +41,8 @@ class Login extends React.Component {
 		const user = {
 			workspaceURL: this.state.organizationName,
 			emailAddress: this.state.emailAddress,
-			password: this.state.password
+			password: this.state.password,
+			keepSignedIn: this.state.keepSignedIn
 		};
 
 		// Validate input parameters
@@ -48,6 +52,8 @@ class Login extends React.Component {
 				loading: false,
 				errors: valid
 			});
+		} else {
+			this.props.loginUser(user);
 		}
 	}
 
@@ -109,4 +115,14 @@ class Login extends React.Component {
 	}
 }
 
-export default Login;
+function mapStateToProps(state) {
+	return {};
+}
+
+function mapDispatchToProps(dispatch) {
+	return {
+		registerClient: bindActionCreators(loginUser, dispatch)
+	};
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(Login);
