@@ -4,7 +4,7 @@ import bcrypt from "bcrypt";
 import { register } from "~/shared/validation/authentication";
 import { t } from "~/shared/translations/i18n";
 import { perform } from "../database";
-import { generateDate } from "../utilities/date";
+import { generateDate } from "~/shared/utilities/date";
 import { ROLE_TYPE } from "~/shared/constants";
 
 module.exports = function(router) {

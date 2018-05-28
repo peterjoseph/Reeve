@@ -4,6 +4,7 @@ import { connect } from "react-redux";
 import { bindActionCreators } from "redux";
 import validate from "validate.JS";
 import { t } from "~/shared/translations/i18n";
+import { extractSubdomain } from "~/shared/utilities/subdomain";
 
 import { loginUser } from "../../common/store/reducers/authentication.js";
 import { login } from "~/shared/validation/authentication";
@@ -26,6 +27,11 @@ class Login extends React.Component {
 		this.login = this.login.bind(this);
 		this.handleChecked = this.handleChecked.bind(this);
 		this.changeField = this.changeField.bind(this);
+	}
+
+	componentDidMount() {
+		// Retrieve current subdomain
+		const subdomain = extractSubdomain(window.location.href);
 	}
 
 	changeField(evt) {
