@@ -6,7 +6,7 @@ import validate from "validate.JS";
 import { t } from "~/shared/translations/i18n";
 import { extractSubdomain } from "~/shared/utilities/subdomain";
 
-import { loginUser } from "../../common/store/reducers/authentication.js";
+import { validateWorkspaceURL, loginUser } from "../../common/store/reducers/authentication.js";
 import { login } from "~/shared/validation/authentication";
 
 import InputField from "../../common/components/inputs/InputField";
@@ -32,6 +32,8 @@ class Login extends React.Component {
 	componentDidMount() {
 		// Retrieve current subdomain
 		const subdomain = extractSubdomain(window.location.href);
+		// Validate workspace url and retrieve client information
+		this.props.validateWorkspaceURL(subdomain);
 	}
 
 	changeField(evt) {
@@ -127,7 +129,8 @@ function mapStateToProps(state) {
 
 function mapDispatchToProps(dispatch) {
 	return {
-		registerClient: bindActionCreators(loginUser, dispatch)
+		loginUser: bindActionCreators(loginUser, dispatch),
+		validateWorkspaceURL: bindActionCreators(validateWorkspaceURL, dispatch)
 	};
 }
 

@@ -60,7 +60,7 @@ export function validateWorkspaceURL(body) {
 			error =>
 				dispatch({
 					type: VALIDATE_WORKSPACEURL_REJECTED,
-					payload: error.response
+					payload: error
 				})
 		);
 	};

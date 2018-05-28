@@ -42,10 +42,8 @@ export function workspaceURLValidation(workspaceURL) {
 		headers: {
 			Accept: "application/json",
 			"Content-Type": "application/json",
-			Pragma: "no-cache"
-		},
-		body: JSON.stringify({
+			Pragma: "no-cache",
 			workspaceURL: workspaceURL
-		})
+		}
 	});
 }

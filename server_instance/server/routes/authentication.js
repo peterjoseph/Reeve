@@ -132,4 +132,12 @@ module.exports = function(router) {
 			});
 		});
 	});
+
+	// Validate Workspace URL
+	router.get("/internal/validate_workspace_url/", function(req, res, next) {
+		// Get workspaceURL properties
+		const workspaceURL = req.headers["workspaceurl"] ? req.headers["workspaceurl"] : "";
+
+		res.status(200).send({ status: 200, message: t("label.success"), subdomain: workspaceURL });
+	});
 };
