@@ -3,6 +3,7 @@ let webpack = require("webpack");
 let config = require("./config");
 let UglifyJsPlugin = require("uglifyjs-webpack-plugin");
 let BundleAnalyzerPlugin = require("webpack-bundle-analyzer").BundleAnalyzerPlugin;
+let postcssPresetEnv = require("postcss-preset-env");
 
 function loadPlugins() {
 	var plugins = [];
@@ -75,6 +76,13 @@ module.exports = {
 					},
 					{
 						loader: "css-loader"
+					},
+					{
+						loader: "postcss-loader",
+						options: {
+							ident: "postcss",
+							plugins: () => [postcssPresetEnv()]
+						}
 					},
 					{
 						loader: "sass-loader"
