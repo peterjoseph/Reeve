@@ -135,9 +135,48 @@ module.exports = function(router) {
 
 	// Validate Workspace URL
 	router.get("/internal/validate_workspace_url/", function(req, res, next) {
-		// Get workspaceURL properties
+		// Get workspaceURL name from header
 		const workspaceURL = req.headers["workspaceurl"] ? req.headers["workspaceurl"] : "";
-
-		res.status(200).send({ status: 200, message: t("label.success"), subdomain: workspaceURL });
+		// Check database for existing WorkspaceURL
+		perform().getConnection(function(error, connection) {
+			// Return error if database connection error
+			if (error) {
+				return next(error);
+			}
+			connection.beginTransaction(function(error) {
+				// Return error if begin transaction error
+				if (error) {
+					connection.release();
+					return next(error);
+				}
+				async.series(
+					[
+						function(chain) {
+							// Check if workspaceURL is already in use
+							connection.query("SELECT ID FROM `client` WHERE `workspaceURL` = ?", [workspaceURL], function(error, results, fields) {
+								// Return error if query fails
+								if (error) {
+									chain(error, results);
+								} else if (results != null && results.length > 0) {
+									// Pass through error object if WorkspaceURL does not exist
+									const errorMsg = { status: 403, message: t("validation.clientInvalidProperties"), reason: { workspaceURL: [t("validation.emptyWorkspaceURL")] } };
+									chain(errorMsg, null);
+								} else {
+									chain(null, results);
+								}
+							});
+						}
+					],
+					function(error, data) {
+						if (error) {
+							return next(error);
+						} else {
+							connection.release();
+							res.status(200).send({ status: 200, message: t("label.success") });
+						}
+					}
+				);
+			});
+		});
 	});
 };
