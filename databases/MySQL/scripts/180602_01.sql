@@ -16,3 +16,6 @@ MODIFY COLUMN `subscriptionId` int(3) DEFAULT 1;
 UPDATE `subscriptions`
 SET `name` = 'Trial', `description` = 'Default Trial account when a new client is created'
 WHERE id = 1;
+
+ALTER TABLE `user`
+ADD `lastLoginDate` datetime DEFAULT NULL;
