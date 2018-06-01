@@ -5,7 +5,7 @@ import { register } from "~/shared/validation/authentication";
 import { t } from "~/shared/translations/i18n";
 import { perform } from "../database";
 import { generateDate } from "~/shared/utilities/date";
-import { ROLE_TYPE } from "~/shared/constants";
+import { SUBSCRIPTION_TYPE, ROLE_TYPE } from "~/shared/constants";
 
 module.exports = function(router) {
 	// Register New Client Account
@@ -62,7 +62,7 @@ module.exports = function(router) {
 						},
 						function(chain) {
 							// Create clientObject and insert new row in the client table
-							const clientObject = { name: received.workspaceURL, workspaceURL: received.workspaceURL, createdDate: dateTime, modifiedDate: dateTime };
+							const clientObject = { name: received.workspaceURL, workspaceURL: received.workspaceURL, subscriptionId: SUBSCRIPTION_TYPE.TRIAL, createdDate: dateTime, modifiedDate: dateTime };
 							connection.query("INSERT INTO client SET ?", clientObject, function(error, results, fields) {
 								if (error) {
 									chain(error, null);
