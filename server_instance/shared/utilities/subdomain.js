@@ -1,5 +1,5 @@
 // Extract a complete subdomain from a href url
-function extractSubdomain(href) {
+export function extractSubdomain(href) {
 	let regex = /(?:http[s]*\:\/\/)*(.*?)\.(?=[^\/]*\..{2,4})/;
 
 	// Alternative regex for localhost development environments
@@ -14,7 +14,3 @@ function extractSubdomain(href) {
 	}
 	return "";
 }
-
-module.exports = {
-	extractSubdomain: extractSubdomain
-};

@@ -1,4 +1,7 @@
 module.exports = {
+	FEATURES: Object.freeze({
+		STYLING: 1
+	}),
 	ROLE_TYPE: Object.freeze({
 		UNREGISTERED: 0,
 		OWNER: 1,
