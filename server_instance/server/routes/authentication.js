@@ -49,11 +49,12 @@ module.exports = function(router) {
 					[
 						function(chain) {
 							// Check if workspaceURL is already in use
-							connection.query("SELECT workspaceURL FROM `client` WHERE `workspaceURL` = ?", [req.body.workspaceURL], function(error, results, fields) {
+							connection.query("SELECT workspaceURL FROM `client` WHERE `workspaceURL` = ? AND `active` = true", [req.body.workspaceURL], function(error, results, fields) {
 								// Return error if query fails
 								if (error) {
 									chain(error, null);
 								} else if (results != null && results.length > 0) {
+									console.log(results);
 									// Pass through error object if WorkspaceURL already being used
 									const errorMsg = { status: 403, message: t("validation.clientInvalidProperties"), reason: { workspaceURL: [t("validation.validWorkspaceURL")] } };
 									chain(errorMsg, null);
@@ -163,7 +164,7 @@ module.exports = function(router) {
 					[
 						function(chain) {
 							// Check if workspaceURL is already in use
-							connection.query("SELECT `id`, `subscriptionId` FROM `client` WHERE `workspaceURL` = ?", [workspaceURL], function(error, results, fields) {
+							connection.query("SELECT `id`, `subscriptionId` FROM `client` WHERE `workspaceURL` = ? AND `active` = true", [workspaceURL], function(error, results, fields) {
 								// Return error if query fails
 								if (error) {
 									chain(error, null);
