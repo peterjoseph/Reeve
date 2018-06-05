@@ -2,6 +2,7 @@
 export default {
 	async execute(path, options) {
 		const route = `${path}`;
+		// Set default headers
 		options.headers = Object.assign(
 			{
 				Accept: "application/json",
@@ -14,13 +15,16 @@ export default {
 		// Perform fetch on the endpoint
 		const response = await fetch(route, options);
 
-		// Valid response if status 200
-		if (response.status === 200) {
-			return;
+		// Valid response if status 200 ~ 299
+		let json = response.json();
+		if (response.status >= 200 && response.status < 300) {
+			return json;
 		}
 
 		// Throw error if any other response from server
-		throw new Error(response);
+		return json.then(error => {
+			throw new Error(error);
+		});
 	},
 
 	perform(path, options = {}) {

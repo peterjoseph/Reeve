@@ -5,9 +5,9 @@ import "./root";
 
 export const AUTHENTICATION = "authentication";
 
-export const VALIDATE_WORKSPACEURL_PENDING = AUTHENTICATION + "/VALIDATE_WORKSPACEURL_PENDING";
-export const VALIDATE_WORKSPACEURL_FULFILLED = AUTHENTICATION + "/VALIDATE_WORKSPACEURL_FULFILLED";
-export const VALIDATE_WORKSPACEURL_REJECTED = AUTHENTICATION + "/VALIDATE_WORKSPACEURL_REJECTED";
+export const VALIDATE_WORKSPACE_URL_PENDING = AUTHENTICATION + "/VALIDATE_WORKSPACE_URL_PENDING";
+export const VALIDATE_WORKSPACE_URL_FULFILLED = AUTHENTICATION + "/VALIDATE_WORKSPACE_URL_FULFILLED";
+export const VALIDATE_WORKSPACE_URL_REJECTED = AUTHENTICATION + "/VALIDATE_WORKSPACE_URL_REJECTED";
 
 export const LOGIN_PENDING = AUTHENTICATION + "/LOGIN_PENDING";
 export const LOGIN_FULFILLED = AUTHENTICATION + "/LOGIN_FULFILLED";
@@ -33,11 +33,11 @@ export default function authentication(state = DEFAULT_STATE, action) {
 			return action;
 		case REGISTER_REJECTED:
 			return action;
-		case VALIDATE_WORKSPACEURL_PENDING:
+		case VALIDATE_WORKSPACE_URL_PENDING:
 			return action;
-		case VALIDATE_WORKSPACEURL_FULFILLED:
+		case VALIDATE_WORKSPACE_URL_FULFILLED:
 			return action;
-		case VALIDATE_WORKSPACEURL_REJECTED:
+		case VALIDATE_WORKSPACE_URL_REJECTED:
 			return action;
 		default:
 			return state;
@@ -47,19 +47,19 @@ export default function authentication(state = DEFAULT_STATE, action) {
 export function validateWorkspaceURL(body) {
 	return dispatch => {
 		dispatch({
-			type: VALIDATE_WORKSPACEURL_PENDING
+			type: VALIDATE_WORKSPACE_URL_PENDING
 		});
 
 		return workspaceURLValidation(body).then(
 			result => {
 				return dispatch({
-					type: VALIDATE_WORKSPACEURL_FULFILLED,
+					type: VALIDATE_WORKSPACE_URL_FULFILLED,
 					payload: result
 				});
 			},
 			error =>
 				dispatch({
-					type: VALIDATE_WORKSPACEURL_REJECTED,
+					type: VALIDATE_WORKSPACE_URL_REJECTED,
 					payload: error
 				})
 		);
