@@ -1,4 +1,5 @@
 import { fromJS } from "immutable";
+import { normalize, schema } from "normalizr";
 import { clientRegistration, userLogin, workspaceURLValidation } from "~/client/api/authentication.js";
 
 import "./root";
@@ -54,7 +55,7 @@ export function validateWorkspaceURL(body) {
 			result => {
 				return dispatch({
 					type: VALIDATE_WORKSPACE_URL_FULFILLED,
-					payload: result
+					payload: result.style
 				});
 			},
 			error =>

@@ -23,7 +23,7 @@ export default {
 
 		// Throw error if any other response from server
 		return json.then(error => {
-			throw new Error(error);
+			throw error;
 		});
 	},
 
