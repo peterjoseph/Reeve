@@ -1,6 +1,8 @@
+import fetch from "~/shared/utilities/fetch";
+
 // Account Registration
 export function clientRegistration(client) {
-	return fetch("/internal/register/", {
+	return fetch.perform("/internal/register/", {
 		method: "POST",
 		headers: {
 			Accept: "application/json",
@@ -19,7 +21,7 @@ export function clientRegistration(client) {
 
 // User Login
 export function userLogin(user) {
-	return fetch("/internal/login/", {
+	return fetch.perform("/internal/login/", {
 		method: "POST",
 		headers: {
 			Accept: "application/json",
@@ -37,7 +39,7 @@ export function userLogin(user) {
 
 // Workspace URL Validation
 export function workspaceURLValidation(workspaceURL) {
-	return fetch("/internal/validate_workspace_url/", {
+	return fetch.perform("/internal/validate_workspace_url/", {
 		method: "GET",
 		headers: {
 			Accept: "application/json",
