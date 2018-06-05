@@ -83,7 +83,7 @@ export function loginUser(body) {
 			error =>
 				dispatch({
 					type: LOGIN_REJECTED,
-					payload: error.response
+					payload: error
 				})
 		);
 	};
@@ -105,7 +105,7 @@ export function registerClient(body) {
 			error =>
 				dispatch({
 					type: REGISTER_REJECTED,
-					payload: error.response
+					payload: error
 				})
 		);
 	};
