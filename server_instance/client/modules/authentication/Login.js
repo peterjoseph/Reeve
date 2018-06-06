@@ -1,4 +1,4 @@
-import React from "react";
+import React, { Component } from "react";
 import PropTypes from "prop-types";
 import { connect } from "react-redux";
 import { bindActionCreators } from "redux";
@@ -11,7 +11,7 @@ import { login } from "~/shared/validation/authentication";
 
 import InputField from "../../common/components/inputs/InputField";
 
-class Login extends React.Component {
+class Login extends Component {
 	constructor(props) {
 		super(props);
 

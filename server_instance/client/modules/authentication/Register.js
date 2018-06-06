@@ -1,4 +1,4 @@
-import React from "react";
+import React, { Component } from "react";
 import PropTypes from "prop-types";
 import { connect } from "react-redux";
 import { bindActionCreators } from "redux";
@@ -11,7 +11,7 @@ import { register } from "~/shared/validation/authentication";
 import InputField from "../../common/components/inputs/InputField";
 import WorkspaceURLField from "../../common/components/inputs/WorkspaceURLField";
 
-class Register extends React.Component {
+class Register extends Component {
 	constructor(props) {
 		super(props);
 

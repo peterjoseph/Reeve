@@ -1,5 +1,9 @@
 {
-	"extends": "standard",
+	"extends": [
+		"standard",
+		"eslint:recommended",
+    	"plugin:react/recommended"
+	],
 	"rules": {
 		"quotes": [2, "double"],
 		"semi": [1, "always"],
