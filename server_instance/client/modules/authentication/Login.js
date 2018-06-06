@@ -114,7 +114,7 @@ class Login extends Component {
 							{t("action.login")}
 						</button>
 						<div className="mt-4">
-							Don't have an account? <a href="#">Register</a>
+							<span>{"Don't have an account?"}</span> <a href="#">Register</a>
 						</div>
 					</form>
 				</div>
@@ -122,6 +122,12 @@ class Login extends Component {
 		);
 	}
 }
+
+Login.propTypes = {
+	workspaceURLStatus: PropTypes.string,
+	loginUser: PropTypes.func,
+	validateWorkspaceURL: PropTypes.func
+};
 
 function mapStateToProps(state) {
 	return {

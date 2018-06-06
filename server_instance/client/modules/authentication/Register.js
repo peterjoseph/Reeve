@@ -143,6 +143,10 @@ class Register extends Component {
 	}
 }
 
+Register.propTypes = {
+	registerClient: PropTypes.func
+};
+
 function mapStateToProps(state) {
 	return {};
 }
