@@ -1,5 +1,5 @@
 import { fromJS } from "immutable";
-import { normalize, schema } from "normalizr";
+import { REDUX_STATE } from "~/shared/constants";
 import { clientRegistration, userLogin, workspaceURLValidation } from "~/client/api/authentication.js";
 
 import "./root";
@@ -35,11 +35,24 @@ export default function authentication(state = DEFAULT_STATE, action) {
 		case REGISTER_REJECTED:
 			return action;
 		case VALIDATE_WORKSPACE_URL_PENDING:
-			return action;
+			return state.setIn(["workspaceURL", "status"], REDUX_STATE.PENDING);
 		case VALIDATE_WORKSPACE_URL_FULFILLED:
-			return action;
+			return state.set(
+				"workspaceURL",
+				fromJS({
+					status: REDUX_STATE.FULFILLED,
+					result: action.payload
+				})
+			);
 		case VALIDATE_WORKSPACE_URL_REJECTED:
-			return action;
+			return state.set(
+				"workspaceURL",
+				fromJS({
+					status: REDUX_STATE.REJECTED,
+					result: {},
+					error: action.payload
+				})
+			);
 		default:
 			return state;
 	}

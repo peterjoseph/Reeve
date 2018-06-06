@@ -6,7 +6,7 @@ import validate from "validate.JS";
 import { t } from "~/shared/translations/i18n";
 import { extractSubdomain } from "~/shared/utilities/subdomain";
 
-import { validateWorkspaceURL, loginUser } from "../../common/store/reducers/authentication.js";
+import { AUTHENTICATION, validateWorkspaceURL, loginUser } from "../../common/store/reducers/authentication.js";
 import { login } from "~/shared/validation/authentication";
 
 import InputField from "../../common/components/inputs/InputField";
@@ -124,7 +124,9 @@ class Login extends React.Component {
 }
 
 function mapStateToProps(state) {
-	return {};
+	return {
+		workspaceURLStatus: state.getIn([AUTHENTICATION, "workspaceURL", "status"])
+	};
 }
 
 function mapDispatchToProps(dispatch) {
