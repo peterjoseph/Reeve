@@ -47,6 +47,43 @@ class Login extends Component {
 		this.setState({ [evt.target.name]: !this.state.keepSignedIn });
 	}
 
+	clientStyling() {
+		const style = { button: "", links: "", background: "" };
+		if (this.props.workspaceURLStatus == REDUX_STATE.FULFILLED && this.props.clientStyle != null && this.props.clientStyle.size > 0) {
+			style.button = css`
+				&,
+				&:hover,
+				&:active,
+				&:visited,
+				&:focus {
+					background-color: ${this.props.clientStyle.get("primaryColor")} !important;
+					border-color: ${this.props.clientStyle.get("primaryColor")} !important;
+				}
+				&:hover {
+					opacity: 0.9;
+				}
+			`;
+			style.links = css`
+				a,
+				a:active,
+				a.visited {
+					color: ${this.props.clientStyle.get("primaryColor")};
+				}
+				a:hover {
+					color: ${this.props.clientStyle.get("primaryColor")};
+				}
+			`;
+			style.background = css(
+				Object.assign(
+					{},
+					this.props.clientStyle.get("backgroundColor") != null && { backgroundColor: this.props.clientStyle.get("backgroundColor") },
+					this.props.clientStyle.get("backgroundImage") && { backgroundImage: `url('${this.props.clientStyle.get("backgroundImage")}')` }
+				)
+			);
+		}
+		return style;
+	}
+
 	login() {
 		this.setState({ loading: true, errors: {} });
 		const user = {
@@ -78,45 +115,11 @@ class Login extends Component {
 		}
 
 		// Handle client specific page styling
-		let clientLoginButton,
-			clientLinks,
-			clientRightColumn = "";
-		if (workspaceURLStatus == REDUX_STATE.FULFILLED && clientStyle != null && clientStyle.size > 0) {
-			clientLoginButton = css`
-				&,
-				&:hover,
-				&:active,
-				&:visited,
-				&:focus {
-					background-color: ${clientStyle.get("primaryColor")} !important;
-					border-color: ${clientStyle.get("primaryColor")} !important;
-				}
-				&:hover {
-					opacity: 0.9;
-				}
-			`;
-			clientLinks = css`
-				a,
-				a:active,
-				a.visited {
-					color: ${clientStyle.get("primaryColor")};
-				}
-				a:hover {
-					color: ${clientStyle.get("primaryColor")};
-				}
-			`;
-			clientRightColumn = css(
-				Object.assign(
-					{},
-					clientStyle.get("backgroundColor") != null && { backgroundColor: clientStyle.get("backgroundColor") },
-					clientStyle.get("backgroundImage") && { backgroundImage: `url('${clientStyle.get("backgroundImage")}')` }
-				)
-			);
-		}
+		const style = this.clientStyling();
 
 		return (
 			<Fragment>
-				<div className={`form-container col-xs-12 col-md-6 col-lg-5 d-flex flex-column hidden-md-down ${clientLinks}`}>
+				<div className={`form-container col-xs-12 col-md-6 col-lg-5 d-flex flex-column hidden-md-down ${style.links}`}>
 					<div id="login">
 						<div className="p-3 p-sm-5 align-vertical justify-content-center">
 							<form className="w-100">
@@ -167,7 +170,7 @@ class Login extends Component {
 									</div>
 									<div className="col text-right">{t("components.authentication.forgotPassword")}</div>
 								</div>
-								<button type="button" className={`btn btn-primary btn-lg btn-block mt-4 p-3 ${clientLoginButton}`} onClick={this.login} disabled={loading}>
+								<button type="button" className={`btn btn-primary btn-lg btn-block mt-4 p-3 ${style.button}`} onClick={this.login} disabled={loading}>
 									{t("action.login")}
 								</button>
 								<div className="mt-4">
@@ -177,7 +180,7 @@ class Login extends Component {
 						</div>
 					</div>
 				</div>
-				<div className={`background-container col-md-6 col-lg-7 ${clientRightColumn}`} />
+				<div className={`background-container col-md-6 col-lg-7 ${style.background}`} />
 			</Fragment>
 		);
 	}
