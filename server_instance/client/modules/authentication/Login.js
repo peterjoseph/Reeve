@@ -12,6 +12,7 @@ import { extractSubdomain } from "~/shared/utilities/subdomain";
 import { AUTHENTICATION, validateWorkspaceURL, loginUser } from "../../common/store/reducers/authentication.js";
 import { login } from "~/shared/validation/authentication";
 
+import Loading from "../../common/components/Loading";
 import InputField from "../../common/components/inputs/InputField";
 
 class Login extends Component {
@@ -23,7 +24,7 @@ class Login extends Component {
 			emailAddress: "",
 			password: "",
 			keepSignedIn: false,
-			loading: false,
+			loginPending: false,
 			errors: {}
 		};
 
@@ -85,7 +86,7 @@ class Login extends Component {
 	}
 
 	login() {
-		this.setState({ loading: true, errors: {} });
+		this.setState({ loginPending: true, errors: {} });
 		const user = {
 			workspaceURL: this.state.organizationName,
 			emailAddress: this.state.emailAddress,
@@ -97,7 +98,7 @@ class Login extends Component {
 		const valid = validate(user, login);
 		if (valid != null) {
 			this.setState({
-				loading: false,
+				loginPending: false,
 				errors: valid
 			});
 		} else {
@@ -106,27 +107,23 @@ class Login extends Component {
 	}
 
 	render() {
-		const { emailAddress, password, keepSignedIn, loading, errors } = this.state;
+		const { emailAddress, password, keepSignedIn, loginPending, errors } = this.state;
 		const { workspaceURLStatus, clientStyle } = this.props;
 
-		// Don't return the page if workspaceURL state is still pending
-		if (workspaceURLStatus == null || workspaceURLStatus == REDUX_STATE.PENDING) {
-			return <div />;
-		}
+		const workspaceURLPending = workspaceURLStatus == null || workspaceURLStatus == REDUX_STATE.PENDING;
 
 		// Handle client specific page styling
 		const style = this.clientStyling();
 
 		return (
 			<Fragment>
+				{(workspaceURLPending || loginPending) && <Loading />}
 				<div className={`form-container col-xs-12 col-md-6 col-lg-5 d-flex flex-column hidden-md-down ${style.links}`}>
 					<div id="login">
 						<div className="p-3 p-sm-5 align-vertical justify-content-center">
 							<form className="w-100">
 								<div className="w-100 text-center mb-4">
-									<span className="logo">
-										<img src={clientStyle.get("logoImage") || require("../../common/images/logo_small.png")} />
-									</span>
+									<span className="logo">{!workspaceURLPending && <img src={clientStyle.get("logoImage") || require("../../common/images/logo_small.png")} />}</span>
 								</div>
 								<div className="w-100 mb-3">
 									<span className="h3">{t("action.login")}</span>
@@ -139,7 +136,7 @@ class Login extends Component {
 									type={"textField"}
 									ariaLabel={"emailAddress"}
 									onChange={this.changeField}
-									disabled={loading}
+									disabled={loginPending || workspaceURLPending}
 									error={errors}
 								/>
 								<InputField
@@ -150,7 +147,7 @@ class Login extends Component {
 									type={"password"}
 									ariaLabel={"Password"}
 									onChange={this.changeField}
-									disabled={loading}
+									disabled={loginPending || workspaceURLPending}
 									error={errors}
 								/>
 								<div className="form-row pl-4 pr-1">
@@ -162,7 +159,7 @@ class Login extends Component {
 											type="checkbox"
 											value={keepSignedIn}
 											onClick={this.handleChecked}
-											disabled={loading}
+											disabled={loginPending || workspaceURLPending}
 										/>
 										<label className="form-check-label" htmlFor="signedInCheck">
 											{t("components.authentication.keepSignedIn")}
@@ -170,7 +167,7 @@ class Login extends Component {
 									</div>
 									<div className="col text-right">{t("components.authentication.forgotPassword")}</div>
 								</div>
-								<button type="button" className={`btn btn-primary btn-lg btn-block mt-4 p-3 ${style.button}`} onClick={this.login} disabled={loading}>
+								<button type="button" className={`btn btn-primary btn-lg btn-block mt-4 p-3 ${style.button}`} onClick={this.login} disabled={loginPending || workspaceURLPending}>
 									{t("action.login")}
 								</button>
 								<div className="mt-4">
