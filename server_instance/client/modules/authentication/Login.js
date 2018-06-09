@@ -12,6 +12,7 @@ import { extractSubdomain } from "~/shared/utilities/subdomain";
 import { AUTHENTICATION, validateWorkspaceURL, loginUser } from "../../common/store/reducers/authentication.js";
 import { login } from "~/shared/validation/authentication";
 
+import WorkspaceURL from "./components/WorkspaceURL";
 import Loading from "../../common/components/Loading";
 import InputField from "../../common/components/inputs/InputField";
 
@@ -125,54 +126,64 @@ class Login extends Component {
 								<div className="w-100 text-center mb-4">
 									<span className="logo">{!workspaceURLPending && <img src={(clientStyle && clientStyle.get("logoImage")) || require("../../common/images/logo_small.png")} />}</span>
 								</div>
-								<div className="w-100 mb-3">
-									<span className="h3">{t("action.login")}</span>
-								</div>
-								<InputField
-									label={t("label.emailAddress")}
-									name="emailAddress"
-									id={"email-input"}
-									value={emailAddress}
-									type={"textField"}
-									ariaLabel={"emailAddress"}
-									onChange={this.changeField}
-									disabled={loginPending || workspaceURLPending}
-									error={errors}
-								/>
-								<InputField
-									label={t("label.password")}
-									name="password"
-									id={"password-input"}
-									value={password}
-									type={"password"}
-									ariaLabel={"Password"}
-									onChange={this.changeField}
-									disabled={loginPending || workspaceURLPending}
-									error={errors}
-								/>
-								<div className="form-row pl-4 pr-1">
-									<div className="col">
-										<input
-											id="signedInCheck"
-											name="keepSignedIn"
-											className="form-check-input"
-											type="checkbox"
-											value={keepSignedIn}
-											onClick={this.handleChecked}
+								{workspaceURLStatus == REDUX_STATE.REJECTED && <WorkspaceURL />}
+								{workspaceURLStatus != REDUX_STATE.REJECTED && (
+									<div>
+										<div className="w-100 mb-3">
+											<span className="h3">{t("action.login")}</span>
+										</div>
+										<InputField
+											label={t("label.emailAddress")}
+											name="emailAddress"
+											id={"email-input"}
+											value={emailAddress}
+											type={"textField"}
+											ariaLabel={"emailAddress"}
+											onChange={this.changeField}
 											disabled={loginPending || workspaceURLPending}
+											error={errors}
 										/>
-										<label className="form-check-label" htmlFor="signedInCheck">
-											{t("components.authentication.keepSignedIn")}
-										</label>
+										<InputField
+											label={t("label.password")}
+											name="password"
+											id={"password-input"}
+											value={password}
+											type={"password"}
+											ariaLabel={"Password"}
+											onChange={this.changeField}
+											disabled={loginPending || workspaceURLPending}
+											error={errors}
+										/>
+										<div className="form-row pl-4 pr-1">
+											<div className="col">
+												<input
+													id="signedInCheck"
+													name="keepSignedIn"
+													className="form-check-input"
+													type="checkbox"
+													value={keepSignedIn}
+													onClick={this.handleChecked}
+													disabled={loginPending || workspaceURLPending}
+												/>
+												<label className="form-check-label" htmlFor="signedInCheck">
+													{t("components.authentication.keepSignedIn")}
+												</label>
+											</div>
+											<div className="col text-right">{t("components.authentication.forgotPassword")}</div>
+										</div>
+										<button
+											type="button"
+											className={`btn btn-primary btn-lg btn-block mt-4 p-3 ${style.button}`}
+											onClick={this.login}
+											disabled={loginPending || workspaceURLPending}
+										>
+											{t("action.login")}
+										</button>
+										<div className="mt-4">
+											<span>{"Don't have an account?"}</span> <a href="#">Register</a>
+										</div>
 									</div>
-									<div className="col text-right">{t("components.authentication.forgotPassword")}</div>
-								</div>
-								<button type="button" className={`btn btn-primary btn-lg btn-block mt-4 p-3 ${style.button}`} onClick={this.login} disabled={loginPending || workspaceURLPending}>
-									{t("action.login")}
-								</button>
-								<div className="mt-4">
-									<span>{"Don't have an account?"}</span> <a href="#">Register</a>
-								</div>
+								)}
 							</form>
 						</div>
 					</div>
