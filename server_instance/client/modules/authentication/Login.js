@@ -180,7 +180,7 @@ class Login extends Component {
 											{t("action.login")}
 										</button>
 										<div className="mt-4">
-											<span>{"Don't have an account?"}</span> <a href="#">Register</a>
+											<span>{t("components.authentication.noAccount")}</span> <a href="#">{t("action.register")}</a>
 										</div>
 									</div>
 								)}

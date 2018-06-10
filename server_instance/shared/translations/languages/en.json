@@ -2,7 +2,9 @@
 	"action": {
 		"login": "Login",
 		"signUp": "Sign Up",
-		"register": "Register"
+		"signIn": "Sign In",
+		"register": "Register",
+		"continue": "Continue"
 	},
 	"label": {
 		"firstName": "First Name",
@@ -17,7 +19,10 @@
 			"companyName": "companyname",
 			"domainName": ".domainname.com",
 			"keepSignedIn": "Keep me signed in",
-			"forgotPassword": "Forgot Password?"
+			"forgotPassword": "Forgot Password?",
+			"getStarted": "To get started, enter the Workspace URL associated with your account.",
+			"whatIsWorkspaceURL": "What is my Workspace URL?",
+			"noAccount": "Don't yet have an account?"
 		}
 	},
 	"error": {

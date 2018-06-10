@@ -4,11 +4,11 @@ import { t } from "~/shared/translations/i18n";
 
 class InputField extends React.Component {
 	render() {
-		const { value, onChange, disabled, error } = this.props;
+		const { label, value, onChange, disabled, error } = this.props;
 
 		return (
 			<div className="form-group">
-				<label htmlFor={"domain-input"}>{t("label.workspaceURL")}</label>
+				{label && <label htmlFor={"domain-input"}>{label}</label>}
 				<div className="input-group">
 					<input
 						name={"workspaceURL"}
@@ -31,6 +31,7 @@ class InputField extends React.Component {
 }
 
 InputField.propTypes = {
+	label: PropTypes.string,
 	value: PropTypes.string,
 	onChange: PropTypes.func,
 	disabled: PropTypes.bool,

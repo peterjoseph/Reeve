@@ -126,7 +126,7 @@ class Register extends Component {
 									disabled={loading}
 									error={errors}
 								/>
-								<WorkspaceURLField value={workspaceURL} onChange={this.changeField} disabled={loading} error={errors} />{" "}
+								<WorkspaceURLField label={t("label.workspaceURL")} value={workspaceURL} onChange={this.changeField} disabled={loading} error={errors} />
 								<button type="button" className="btn btn-primary btn-lg btn-block mt-4 p-3" onClick={this.register} disabled={loading}>
 									{t("action.signUp")}
 								</button>
