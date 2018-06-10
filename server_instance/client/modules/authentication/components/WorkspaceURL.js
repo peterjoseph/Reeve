@@ -12,15 +12,15 @@ class WorkspaceURL extends Component {
 					<span>{t("components.authentication.getStarted")}</span>
 				</div>
 				<WorkspaceURLField value={""} onChange={this.changeField} disabled={false} error={""} />
-				<button type="button" className={"btn btn-primary btn-lg btn-block mt-4 p-3"} onClick={this.login} disabled={false}>
-					{t("action.continue")}
-				</button>
-				<div className="mt-4 mb-4">
+				<div>
 					<span>
 						<a href="#">{t("components.authentication.whatIsWorkspaceURL")}</a>
 					</span>
 				</div>
-				<div>
+				<button type="button" className={"btn btn-primary btn-lg btn-block mt-4 p-3"} onClick={this.login} disabled={false}>
+					{t("action.continue")}
+				</button>
+				<div className="mt-4">
 					<span>{t("components.authentication.noAccount")}</span> <a href="#">{t("action.register")}</a>
 				</div>
 			</div>
