@@ -13,10 +13,10 @@ import { AUTHENTICATION, validateWorkspaceURL, loginUser } from "../../common/st
 import { login } from "~/shared/validation/authentication";
 
 import WorkspaceURL from "./components/WorkspaceURL";
+import LoginForm from "./components/LoginForm";
 import Loading from "../../common/components/Loading";
-import InputField from "../../common/components/inputs/InputField";
 
-class Login extends Component {
+class SignIn extends Component {
 	constructor(props) {
 		super(props);
 
@@ -128,61 +128,16 @@ class Login extends Component {
 								</div>
 								{workspaceURLStatus == REDUX_STATE.REJECTED && <WorkspaceURL />}
 								{workspaceURLStatus != REDUX_STATE.REJECTED && (
-									<div>
-										<div className="w-100 mb-3">
-											<span className="h3">{t("action.login")}</span>
-										</div>
-										<InputField
-											label={t("label.emailAddress")}
-											name="emailAddress"
-											id={"email-input"}
-											value={emailAddress}
-											type={"textField"}
-											ariaLabel={"emailAddress"}
-											onChange={this.changeField}
-											disabled={loginPending || workspaceURLPending}
-											error={errors}
-										/>
-										<InputField
-											label={t("label.password")}
-											name="password"
-											id={"password-input"}
-											value={password}
-											type={"password"}
-											ariaLabel={"Password"}
-											onChange={this.changeField}
-											disabled={loginPending || workspaceURLPending}
-											error={errors}
-										/>
-										<div className="form-row pl-4 pr-1">
-											<div className="col">
-												<input
-													id="signedInCheck"
-													name="keepSignedIn"
-													className="form-check-input"
-													type="checkbox"
-													value={keepSignedIn}
-													onClick={this.handleChecked}
-													disabled={loginPending || workspaceURLPending}
-												/>
-												<label className="form-check-label" htmlFor="signedInCheck">
-													{t("components.authentication.keepSignedIn")}
-												</label>
-											</div>
-											<div className="col text-right">{t("components.authentication.forgotPassword")}</div>
-										</div>
-										<button
-											type="button"
-											className={`btn btn-primary btn-lg btn-block mt-4 p-3 ${style.button}`}
-											onClick={this.login}
-											disabled={loginPending || workspaceURLPending}
-										>
-											{t("action.login")}
-										</button>
-										<div className="mt-4">
-											<span>{t("components.authentication.noAccount")}</span> <a href="#">{t("action.register")}</a>
-										</div>
-									</div>
+									<LoginForm
+										emailAddress={emailAddress}
+										password={password}
+										keepSignedIn={keepSignedIn}
+										loginPending={loginPending}
+										login={this.login}
+										handleChecked={this.handleChecked}
+										style={style}
+										errors={errors}
+									/>
 								)}
 							</form>
 						</div>
@@ -194,7 +149,7 @@ class Login extends Component {
 	}
 }
 
-Login.propTypes = {
+SignIn.propTypes = {
 	workspaceURLStatus: PropTypes.string,
 	clientStyle: PropTypes.object,
 	loginUser: PropTypes.func,
@@ -215,4 +170,4 @@ function mapDispatchToProps(dispatch) {
 	};
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(Login);
+export default connect(mapStateToProps, mapDispatchToProps)(SignIn);

@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 
-import Login from "./Login";
+import SignIn from "./SignIn";
 import Register from "./Register";
 
 class Authentication extends Component {
@@ -9,7 +9,7 @@ class Authentication extends Component {
 			<div id="authentication">
 				<div className="container-fluid nopadding">
 					<div className="row justify-content-center nopadding">
-						<Login />
+						<SignIn />
 					</div>
 				</div>
 			</div>
