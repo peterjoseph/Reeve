@@ -5,7 +5,7 @@ import { bindActionCreators } from "redux";
 import validate from "validate.JS";
 import { css } from "emotion";
 
-import { REDUX_STATE } from "~/shared/constants";
+import { REDUX_STATE, BUSINESS_DETAILS } from "~/shared/constants";
 import { extractSubdomain } from "~/shared/utilities/subdomain";
 
 import { AUTHENTICATION, validateWorkspaceURL, loginUser } from "../../common/store/reducers/authentication.js";
@@ -123,6 +123,7 @@ class SignIn extends Component {
 				errors: valid
 			});
 		} else {
+			window.location.replace(`${BUSINESS_DETAILS.PROTOCOL}://${subdomain.workspaceURL}.${BUSINESS_DETAILS.DOMAIN}`);
 		}
 	}
 

@@ -54,7 +54,6 @@ module.exports = function(router) {
 								if (error) {
 									chain(error, null);
 								} else if (results != null && results.length > 0) {
-									console.log(results);
 									// Pass through error object if WorkspaceURL already being used
 									const errorMsg = { status: 403, message: t("validation.clientInvalidProperties"), reason: { workspaceURL: [t("validation.validWorkspaceURL")] } };
 									chain(errorMsg, null);
@@ -65,7 +64,13 @@ module.exports = function(router) {
 						},
 						function(chain) {
 							// Create clientObject and insert new row in the client table
-							const clientObject = { name: received.workspaceURL, workspaceURL: received.workspaceURL, subscriptionId: SUBSCRIPTION_TYPE.TRIAL, createdDate: dateTime, modifiedDate: dateTime };
+							const clientObject = {
+								name: received.workspaceURL,
+								workspaceURL: received.workspaceURL,
+								subscriptionId: SUBSCRIPTION_TYPE.TRIAL,
+								createdDate: dateTime,
+								modifiedDate: dateTime
+							};
 							connection.query("INSERT INTO client SET ?", clientObject, function(error, results, fields) {
 								if (error) {
 									chain(error, null);
@@ -196,23 +201,27 @@ module.exports = function(router) {
 						function(chain) {
 							// Fetch client styling if properties exist and client has feature
 							if (dataConstructor.clientStyling === true) {
-								connection.query("SELECT `logoImage`, `backgroundImage`, `backgroundColor`, `primaryColor`, `secondaryColor` FROM `clientStyling` WHERE `clientId` = ?", [dataConstructor.clientId], function(error, results, fields) {
-									// Return error if query fails
-									if (error) {
-										chain(error, null);
-									} else {
-										if (results != null && results.length > 0) {
-											dataConstructor.clientStyles = {
-												logoImage: results[0].logoImage,
-												backgroundImage: results[0].backgroundImage,
-												backgroundColor: results[0].backgroundColor,
-												primaryColor: results[0].primaryColor,
-												secondaryColor: results[0].secondaryColor
-											};
+								connection.query(
+									"SELECT `logoImage`, `backgroundImage`, `backgroundColor`, `primaryColor`, `secondaryColor` FROM `clientStyling` WHERE `clientId` = ?",
+									[dataConstructor.clientId],
+									function(error, results, fields) {
+										// Return error if query fails
+										if (error) {
+											chain(error, null);
+										} else {
+											if (results != null && results.length > 0) {
+												dataConstructor.clientStyles = {
+													logoImage: results[0].logoImage,
+													backgroundImage: results[0].backgroundImage,
+													backgroundColor: results[0].backgroundColor,
+													primaryColor: results[0].primaryColor,
+													secondaryColor: results[0].secondaryColor
+												};
+											}
+											chain(null, results);
 										}
-										chain(null, results);
 									}
-								});
+								);
 							} else {
 								chain(null, null);
 							}
