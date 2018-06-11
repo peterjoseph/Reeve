@@ -1,4 +1,9 @@
 module.exports = {
+	BUSINESS_DETAILS: Object.freeze({
+		DOMAIN: ".domainname.com",
+		COMPANY_NAME: "companyname"
+	}),
+
 	FEATURES: Object.freeze({
 		STYLING: 1
 	}),
