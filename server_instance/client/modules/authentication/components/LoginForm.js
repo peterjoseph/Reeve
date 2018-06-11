@@ -6,7 +6,7 @@ import InputField from "../../../common/components/inputs/InputField";
 
 class LoginForm extends Component {
 	render() {
-		const { emailAddress, password, loginPending, workspaceURLPending, keepSignedIn, login, handleChecked, style, errors } = this.props;
+		const { emailAddress, password, loginPending, workspaceURLPending, keepSignedIn, login, changeField, handleChecked, style, errors } = this.props;
 
 		return (
 			<div>
@@ -20,7 +20,7 @@ class LoginForm extends Component {
 					value={emailAddress}
 					type={"textField"}
 					ariaLabel={"emailAddress"}
-					onChange={this.changeField}
+					onChange={changeField}
 					disabled={loginPending || workspaceURLPending}
 					error={errors}
 				/>
@@ -31,7 +31,7 @@ class LoginForm extends Component {
 					value={password}
 					type={"password"}
 					ariaLabel={"Password"}
-					onChange={this.changeField}
+					onChange={changeField}
 					disabled={loginPending || workspaceURLPending}
 					error={errors}
 				/>
@@ -71,6 +71,7 @@ LoginForm.propTypes = {
 	keepSignedIn: PropTypes.bool,
 	login: PropTypes.func,
 	handleChecked: PropTypes.func,
+	changeField: PropTypes.func,
 	style: PropTypes.object,
 	errors: PropTypes.object
 };

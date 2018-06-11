@@ -6,11 +6,10 @@ import validate from "validate.JS";
 import { css } from "emotion";
 
 import { REDUX_STATE } from "~/shared/constants";
-import { t } from "~/shared/translations/i18n";
 import { extractSubdomain } from "~/shared/utilities/subdomain";
 
 import { AUTHENTICATION, validateWorkspaceURL, loginUser } from "../../common/store/reducers/authentication.js";
-import { login } from "~/shared/validation/authentication";
+import { login, workspaceURL } from "~/shared/validation/authentication";
 
 import WorkspaceURL from "./components/WorkspaceURL";
 import LoginForm from "./components/LoginForm";
@@ -32,6 +31,7 @@ class SignIn extends Component {
 		this.login = this.login.bind(this);
 		this.handleChecked = this.handleChecked.bind(this);
 		this.changeField = this.changeField.bind(this);
+		this.changeSubdomain = this.changeSubdomain.bind(this);
 	}
 
 	componentDidMount() {
@@ -89,7 +89,7 @@ class SignIn extends Component {
 	login() {
 		this.setState({ loginPending: true, errors: {} });
 		const user = {
-			workspaceURL: this.state.organizationName,
+			workspaceURL: this.state.workspaceURL,
 			emailAddress: this.state.emailAddress,
 			password: this.state.password,
 			keepSignedIn: this.state.keepSignedIn
@@ -107,8 +107,25 @@ class SignIn extends Component {
 		}
 	}
 
+	changeSubdomain() {
+		// Fetch subdomain from state
+		const subdomain = {
+			workspaceURL: this.state.workspaceURL
+		};
+
+		// Validate input parameters
+		this.setState({ errors: {} });
+		const valid = validate(subdomain, workspaceURL);
+		if (valid != null) {
+			this.setState({
+				errors: valid
+			});
+		} else {
+		}
+	}
+
 	render() {
-		const { emailAddress, password, keepSignedIn, loginPending, errors } = this.state;
+		const { workspaceURL, emailAddress, password, keepSignedIn, loginPending, errors } = this.state;
 		const { workspaceURLStatus, clientStyle } = this.props;
 
 		const workspaceURLPending = workspaceURLStatus == null || workspaceURLStatus == REDUX_STATE.PENDING;
@@ -126,7 +143,9 @@ class SignIn extends Component {
 								<div className="w-100 text-center mb-4">
 									<span className="logo">{!workspaceURLPending && <img src={(clientStyle && clientStyle.get("logoImage")) || require("../../common/images/logo_small.png")} />}</span>
 								</div>
-								{workspaceURLStatus == REDUX_STATE.REJECTED && <WorkspaceURL />}
+								{workspaceURLStatus == REDUX_STATE.REJECTED && (
+									<WorkspaceURL workspaceURL={workspaceURL} changeSubdomain={this.changeSubdomain} changeField={this.changeField} errors={errors} />
+								)}
 								{workspaceURLStatus != REDUX_STATE.REJECTED && (
 									<LoginForm
 										emailAddress={emailAddress}
@@ -135,6 +154,7 @@ class SignIn extends Component {
 										loginPending={loginPending}
 										login={this.login}
 										handleChecked={this.handleChecked}
+										changeField={this.changeField}
 										style={style}
 										errors={errors}
 									/>
