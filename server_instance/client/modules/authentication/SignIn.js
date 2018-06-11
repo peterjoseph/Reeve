@@ -25,6 +25,7 @@ class SignIn extends Component {
 			password: "",
 			keepSignedIn: false,
 			loginPending: false,
+			redirectPending: false,
 			errors: {}
 		};
 
@@ -108,16 +109,17 @@ class SignIn extends Component {
 	}
 
 	changeSubdomain() {
+		this.setState({ redirectPending: true, errors: {} });
 		// Fetch subdomain from state
 		const subdomain = {
 			workspaceURL: this.state.workspaceURL
 		};
 
 		// Validate input parameters
-		this.setState({ errors: {} });
 		const valid = validate(subdomain, workspaceURL);
 		if (valid != null) {
 			this.setState({
+				redirectPending: false,
 				errors: valid
 			});
 		} else {
@@ -125,7 +127,7 @@ class SignIn extends Component {
 	}
 
 	render() {
-		const { workspaceURL, emailAddress, password, keepSignedIn, loginPending, errors } = this.state;
+		const { workspaceURL, emailAddress, password, keepSignedIn, loginPending, redirectPending, errors } = this.state;
 		const { workspaceURLStatus, clientStyle } = this.props;
 
 		const workspaceURLPending = workspaceURLStatus == null || workspaceURLStatus == REDUX_STATE.PENDING;
@@ -144,7 +146,7 @@ class SignIn extends Component {
 									<span className="logo">{!workspaceURLPending && <img src={(clientStyle && clientStyle.get("logoImage")) || require("../../common/images/logo_small.png")} />}</span>
 								</div>
 								{workspaceURLStatus == REDUX_STATE.REJECTED && (
-									<WorkspaceURL workspaceURL={workspaceURL} changeSubdomain={this.changeSubdomain} changeField={this.changeField} errors={errors} />
+									<WorkspaceURL workspaceURL={workspaceURL} changeSubdomain={this.changeSubdomain} changeField={this.changeField} redirectPending={redirectPending} errors={errors} />
 								)}
 								{workspaceURLStatus != REDUX_STATE.REJECTED && (
 									<LoginForm
