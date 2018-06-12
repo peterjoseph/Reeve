@@ -19,7 +19,7 @@ export function userLogin(user) {
 	return fetch.perform("/internal/login/", {
 		method: "POST",
 		body: JSON.stringify({
-			workspaceURL: user.organizationName,
+			workspaceURL: user.workspaceURL,
 			emailAddress: user.emailAddress,
 			password: user.password,
 			keepSignedIn: user.keepSignedIn

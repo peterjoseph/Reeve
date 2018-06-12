@@ -258,4 +258,15 @@ module.exports = function(router) {
 			});
 		});
 	});
+
+	// Login to user account
+	router.post("/internal/login", function(req, res, next) {
+		// Store received object properties
+		const received = {
+			workspaceURL: req.body.workspaceURL,
+			emailAddress: req.body.emailAddress,
+			password: req.body.password,
+			keepSignedIn: req.body.keepSignedIn
+		};
+	});
 };
