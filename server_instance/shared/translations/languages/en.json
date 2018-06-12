@@ -16,6 +16,7 @@
 	},
 	"components": {
 		"authentication": {
+			"companyName": "companyname",
 			"keepSignedIn": "Keep me signed in",
 			"forgotPassword": "Forgot Password?",
 			"getStarted": "To get started, enter the Workspace URL associated with your account.",

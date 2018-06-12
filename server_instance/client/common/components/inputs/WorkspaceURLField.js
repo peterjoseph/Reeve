@@ -1,6 +1,7 @@
 import React from "react";
 import PropTypes from "prop-types";
-import { BUSINESS_DETAILS } from "~/shared/constants";
+import { t } from "~/shared/translations/i18n";
+import { SERVER_DETAILS } from "~/shared/constants";
 
 class InputField extends React.Component {
 	render() {
@@ -16,12 +17,12 @@ class InputField extends React.Component {
 						id="domain-input"
 						className={"form-control text-right"}
 						type="text"
-						placeholder={BUSINESS_DETAILS.COMPANY_NAME}
+						placeholder={t("components.authentication.companyName")}
 						onChange={onChange}
 						disabled={disabled}
 					/>
 					<div className="input-group-append">
-						<div className="input-group-text">{BUSINESS_DETAILS.DOMAIN}</div>
+						<div className="input-group-text">{`.${SERVER_DETAILS.DOMAIN}`}</div>
 					</div>
 					{error && error["workspaceURL"] && <div className="d-block invalid-feedback">{error["workspaceURL"][0]}</div>}
 				</div>

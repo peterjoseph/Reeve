@@ -1,6 +1,5 @@
 module.exports = {
-	BUSINESS_DETAILS: Object.freeze({
-		COMPANY_NAME: "companyname",
+	SERVER_DETAILS: Object.freeze({
 		PROTOCOL: "http",
 		DOMAIN: "localhost:3000"
 	}),
