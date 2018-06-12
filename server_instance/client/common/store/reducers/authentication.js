@@ -23,11 +23,24 @@ const DEFAULT_STATE = fromJS({});
 export default function authentication(state = DEFAULT_STATE, action) {
 	switch (action.type) {
 		case LOGIN_PENDING:
-			return action;
+			return state.setIn(["userLogin", "status"], REDUX_STATE.PENDING);
 		case LOGIN_FULFILLED:
-			return action;
+			return state.set(
+				"userLogin",
+				fromJS({
+					status: REDUX_STATE.FULFILLED,
+					result: action.payload
+				})
+			);
 		case LOGIN_REJECTED:
-			return action;
+			return state.set(
+				"userLogin",
+				fromJS({
+					status: REDUX_STATE.REJECTED,
+					result: {},
+					error: action.payload
+				})
+			);
 		case REGISTER_PENDING:
 			return action;
 		case REGISTER_FULFILLED:

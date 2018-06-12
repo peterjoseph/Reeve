@@ -5,7 +5,7 @@ class Loading extends Component {
 	render() {
 		return (
 			<div style={{ zIndex: 9999 }}>
-				<Pace color="#0000FF" height={1} />
+				<Pace color="#0000FF" height={2} />
 			</div>
 		);
 	}
