@@ -36,10 +36,23 @@ class SignIn extends Component {
 	}
 
 	componentDidMount() {
-		// Retrieve current subdomain
-		const subdomain = extractSubdomain(window.location.href);
 		// Validate workspace url and retrieve client information
+		const subdomain = extractSubdomain(window.location.href);
 		this.props.validateWorkspaceURL(subdomain);
+	}
+
+	static getDerivedStateFromProps(nextProps, prevState) {
+		if (nextProps.workspaceURLStatus === prevState.workspaceURLStatus) {
+			return null;
+		}
+		// Store subdomain in state if valid
+		if (nextProps.workspaceURLStatus === REDUX_STATE.FULFILLED) {
+			const subdomain = extractSubdomain(window.location.href);
+			return {
+				workspaceURL: subdomain
+			};
+		}
+		return null;
 	}
 
 	changeField(evt) {
@@ -142,27 +155,37 @@ class SignIn extends Component {
 				<div className={`form-container col-xs-12 col-md-6 col-lg-5 d-flex flex-column hidden-md-down ${style.links}`}>
 					<div id="login">
 						<div className="p-3 p-sm-5 align-vertical justify-content-center">
-							<form className="w-100">
-								<div className="w-100 text-center mb-4">
-									<span className="logo">{!workspaceURLPending && <img src={(clientStyle && clientStyle.get("logoImage")) || require("../../common/images/logo_small.png")} />}</span>
-								</div>
-								{workspaceURLStatus == REDUX_STATE.REJECTED && (
-									<WorkspaceURL workspaceURL={workspaceURL} changeSubdomain={this.changeSubdomain} changeField={this.changeField} redirectPending={redirectPending} errors={errors} />
-								)}
-								{workspaceURLStatus != REDUX_STATE.REJECTED && (
-									<LoginForm
-										emailAddress={emailAddress}
-										password={password}
-										keepSignedIn={keepSignedIn}
-										loginPending={loginPending}
-										login={this.login}
-										handleChecked={this.handleChecked}
-										changeField={this.changeField}
-										style={style}
-										errors={errors}
-									/>
-								)}
-							</form>
+							{workspaceURLStatus !== REDUX_STATE.PENDING && (
+								<form className="w-100">
+									<div className="w-100 text-center mb-4">
+										<span className="logo">
+											{!workspaceURLPending && <img src={(clientStyle && clientStyle.get("logoImage")) || require("../../common/images/logo_small.png")} />}
+										</span>
+									</div>
+									{workspaceURLStatus == REDUX_STATE.REJECTED && (
+										<WorkspaceURL
+											workspaceURL={workspaceURL}
+											changeSubdomain={this.changeSubdomain}
+											changeField={this.changeField}
+											redirectPending={redirectPending}
+											errors={errors}
+										/>
+									)}
+									{workspaceURLStatus != REDUX_STATE.REJECTED && (
+										<LoginForm
+											emailAddress={emailAddress}
+											password={password}
+											keepSignedIn={keepSignedIn}
+											loginPending={loginPending}
+											login={this.login}
+											handleChecked={this.handleChecked}
+											changeField={this.changeField}
+											style={style}
+											errors={errors}
+										/>
+									)}
+								</form>
+							)}
 						</div>
 					</div>
 				</div>
