@@ -287,7 +287,8 @@ module.exports = function(router) {
 				}
 				// Create an object to temporarily store data we retrieve from our database
 				const dataConstructor = {
-					clientId: null
+					clientId: null,
+					password: null
 				};
 				async.series(
 					[
@@ -309,22 +310,35 @@ module.exports = function(router) {
 						},
 						function(chain) {
 							// Fetch user based on information provided
-							connection.query("SELECT `id` FROM `user` WHERE `clientId` = ? AND `emailAddress` = ? AND `active` = true", [dataConstructor.clientId, received.emailAddress], function(
-								error,
-								results,
-								fields
-							) {
-								// Return error if query fails
-								if (error) {
-									chain(error, null);
-								} else if (results != null && results.length > 0) {
-									chain(null, results);
-								} else {
-									// Pass through error object if WorkspaceURL does not exist
-									const errorMsg = { status: 403, message: t("validation.userInvalidProperties"), reason: { emailAddress: [t("validation.userDoesNotExist")] } };
-									chain(errorMsg, null);
+							connection.query(
+								"SELECT `id`, `password` FROM `user` WHERE `clientId` = ? AND `emailAddress` = ? AND `active` = true",
+								[dataConstructor.clientId, received.emailAddress],
+								function(error, results, fields) {
+									// Return error if query fails
+									if (error) {
+										chain(error, null);
+									} else if (results != null && results.length > 0) {
+										dataConstructor.password = results[0].password;
+										chain(null, results);
+									} else {
+										// Pass through error object if WorkspaceURL does not exist
+										const errorMsg = { status: 403, message: t("validation.userInvalidProperties"), reason: { emailAddress: [t("validation.userDoesNotExist")] } };
+										chain(errorMsg, null);
+									}
 								}
-							});
+							);
+						},
+						function(chain) {
+							// Validate the supplied user password
+							const valid = bcrypt.compareSync(received.password, dataConstructor.password);
+							if (valid === true) {
+								dataConstructor.password = null;
+								chain(null, valid);
+							} else {
+								// Pass through error object if password is incorrect
+								const errorMsg = { status: 403, message: t("validation.userInvalidProperties"), reason: { password: [t("validation.invalidPasswordSupplied")] } };
+								chain(errorMsg, null);
+							}
 						}
 					],
 					function(error, data) {
