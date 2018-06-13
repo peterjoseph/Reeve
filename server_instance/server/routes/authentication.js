@@ -1,7 +1,7 @@
 import validate from "validate.JS";
 import async from "async";
 import bcrypt from "bcrypt";
-import { register } from "~/shared/validation/authentication";
+import { register, login } from "~/shared/validation/authentication";
 import { t } from "~/shared/translations/i18n";
 import { perform } from "../database";
 import { generateDate } from "~/shared/utilities/date";
@@ -268,5 +268,54 @@ module.exports = function(router) {
 			password: req.body.password,
 			keepSignedIn: req.body.keepSignedIn
 		};
+		// Validate properties in received object
+		const valid = validate(received, login);
+		if (valid != null) {
+			const errorMsg = { status: 403, message: t("validation.userInvalidProperties"), reason: valid };
+			return next(errorMsg);
+		}
+		perform().getConnection(function(error, connection) {
+			// Return error if database connection error
+			if (error) {
+				return next(error);
+			}
+			connection.beginTransaction(function(error) {
+				// Return error if begin transaction error
+				if (error) {
+					connection.release();
+					return next(error);
+				}
+				async.series(
+					[
+						function(chain) {
+							console.log("chain function");
+						}
+					],
+					function(error, data) {
+						if (error) {
+							// Rollback transaction if query is unsuccessful
+							connection.rollback(function() {
+								return next(error);
+							});
+						} else {
+							// Attempt to commit transaction
+							connection.commit(function(error) {
+								if (error) {
+									connection.rollback(function() {
+										return next(error);
+									});
+								} else {
+									connection.release();
+									// Build our response object
+									const response = { status: 200, message: t("label.success") };
+									// Return the response object
+									res.status(200).send(response);
+								}
+							});
+						}
+					}
+				);
+			});
+		});
 	});
 };
