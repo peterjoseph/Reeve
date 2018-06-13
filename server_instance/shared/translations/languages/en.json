@@ -33,6 +33,7 @@
 		"userInvalidProperties": "User object contains invalid properties",
 		"clientInvalidProperties": "Client object contains invalid properties",
 		"validCharactersAZ09": "can only contain characters from a-z and 0-9, and no spaces",
+		"userDoesNotExist": "A user with this email address does not exist",
 		"validWorkspaceURL": "cannot contain the following name",
 		"emptyWorkspaceURL": "WorkspaceURL does not exist"
 	}

@@ -285,10 +285,46 @@ module.exports = function(router) {
 					connection.release();
 					return next(error);
 				}
+				// Create an object to temporarily store data we retrieve from our database
+				const dataConstructor = {
+					clientId: null
+				};
 				async.series(
 					[
 						function(chain) {
-							console.log("chain function");
+							// Check if workspaceURL is already in use
+							connection.query("SELECT `id` FROM `client` WHERE `workspaceURL` = ? AND `active` = true", [received.workspaceURL], function(error, results, fields) {
+								// Return error if query fails
+								if (error) {
+									chain(error, null);
+								} else if (results != null && results.length > 0) {
+									dataConstructor.clientId = results[0].id;
+									chain(null, results);
+								} else {
+									// Pass through error object if WorkspaceURL does not exist
+									const errorMsg = { status: 403, message: t("validation.userInvalidProperties"), reason: { workspaceURL: [t("validation.emptyWorkspaceURL")] } };
+									chain(errorMsg, null);
+								}
+							});
+						},
+						function(chain) {
+							// Fetch user based on information provided
+							connection.query("SELECT `id` FROM `user` WHERE `clientId` = ? AND `emailAddress` = ? AND `active` = true", [dataConstructor.clientId, received.emailAddress], function(
+								error,
+								results,
+								fields
+							) {
+								// Return error if query fails
+								if (error) {
+									chain(error, null);
+								} else if (results != null && results.length > 0) {
+									chain(null, results);
+								} else {
+									// Pass through error object if WorkspaceURL does not exist
+									const errorMsg = { status: 403, message: t("validation.userInvalidProperties"), reason: { emailAddress: [t("validation.userDoesNotExist")] } };
+									chain(errorMsg, null);
+								}
+							});
 						}
 					],
 					function(error, data) {
