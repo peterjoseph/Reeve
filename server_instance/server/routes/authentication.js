@@ -291,7 +291,8 @@ module.exports = function(router) {
 				const dataConstructor = {
 					clientId: null,
 					userId: null,
-					password: null
+					password: null,
+					token: null
 				};
 				async.series(
 					[
@@ -346,9 +347,10 @@ module.exports = function(router) {
 						},
 						function(chain) {
 							// Create the JSON Web Token for the User
-							jwt.sign({ data: dataConstructor.userId }, config.authentication.jwtSecret, {
+							const token = jwt.sign({ data: dataConstructor.userId }, config.authentication.jwtSecret, {
 								expiresIn: config.authentication.expiry
 							});
+							dataConstructor.token = token;
 							chain(null, true);
 						}
 					],
@@ -368,7 +370,7 @@ module.exports = function(router) {
 								} else {
 									connection.release();
 									// Build our response object
-									const response = { status: 200, message: t("label.success") };
+									const response = { status: 200, message: t("label.success"), token: dataConstructor.token };
 									// Return the response object
 									res.status(200).send(response);
 								}
