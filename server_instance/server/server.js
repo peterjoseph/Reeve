@@ -6,7 +6,6 @@ let path = require("path");
 let fs = require("fs");
 let https = require("https");
 let passport = require("passport"); // Passport authentication management
-let LocalStrategy = require("passport-local").Strategy;
 let JwtStrategy = require("passport-jwt").Strategy;
 let ExtractJwt = require("passport-jwt").ExtractJwt;
 let cookieParser = require("cookie-parser");
@@ -95,6 +94,47 @@ app.use(function(req, res, next) {
 		process.exit(1);
 	}
 	next();
+});
+
+// Handle user authentication with passport
+passport.use(
+	new JwtStrategy(
+		{
+			jwtFromRequest: ExtractJwt.fromAuthHeaderWithScheme("jwt"),
+			secretOrKey: config.authentication.jwtSecret
+		},
+		function(payload, done) {
+			database.perform().getConnection(function(error, connection) {
+				// Return error if database connection error
+				if (error) {
+					return done(error);
+				}
+				connection.query("select * from users where email = '" + payload.email + "'", function(err, rows) {
+					if (err) return done(err);
+					if (rows) {
+						done(null, rows[0]);
+					} else {
+						done(null, false);
+					}
+				});
+			});
+		}
+	)
+);
+
+passport.serializeUser(function(user, done) {
+	done(null, user.id);
+});
+passport.deserializeUser(function(id, done) {
+	database.perform().getConnection(function(error, connection) {
+		// Return error if database connection error
+		if (error) {
+			return done(error);
+		}
+		connection.query("select * from users where id = " + id, function(err, rows) {
+			done(err, rows[0]);
+		});
+	});
 });
 
 // Set Routes

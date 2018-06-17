@@ -9,6 +9,10 @@ let config = {
 		server: process.env.SERVER,
 		port: process.env.PORT
 	},
+	authentication: {
+		jwtSecret: process.env.JWT_SECRET,
+		expiry: process.env.JWT_EXPIRY
+	},
 	development: {
 		analyzeBundle: String(process.env.ANALYZE_BUNDLE) === "true"
 	},

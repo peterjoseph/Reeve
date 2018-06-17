@@ -1,6 +1,8 @@
 import validate from "validate.JS";
 import async from "async";
 import bcrypt from "bcrypt";
+import jwt from "jsonwebtoken";
+import config from "../../config";
 import { register, login } from "~/shared/validation/authentication";
 import { t } from "~/shared/translations/i18n";
 import { perform } from "../database";
@@ -288,6 +290,7 @@ module.exports = function(router) {
 				// Create an object to temporarily store data we retrieve from our database
 				const dataConstructor = {
 					clientId: null,
+					userId: null,
 					password: null
 				};
 				async.series(
@@ -318,6 +321,7 @@ module.exports = function(router) {
 									if (error) {
 										chain(error, null);
 									} else if (results != null && results.length > 0) {
+										dataConstructor.userId = results[0].id;
 										dataConstructor.password = results[0].password;
 										chain(null, results);
 									} else {
@@ -339,6 +343,13 @@ module.exports = function(router) {
 								const errorMsg = { status: 403, message: t("validation.userInvalidProperties"), reason: { password: [t("validation.invalidPasswordSupplied")] } };
 								chain(errorMsg, null);
 							}
+						},
+						function(chain) {
+							// Create the JSON Web Token for the User
+							jwt.sign({ data: dataConstructor.userId }, config.authentication.jwtSecret, {
+								expiresIn: config.authentication.expiry
+							});
+							chain(null, true);
 						}
 					],
 					function(error, data) {
