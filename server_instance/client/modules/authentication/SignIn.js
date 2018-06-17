@@ -3,7 +3,9 @@ import PropTypes from "prop-types";
 import { connect } from "react-redux";
 import { bindActionCreators } from "redux";
 import validate from "validate.JS";
+import { Helmet } from "react-helmet";
 import { css } from "emotion";
+import { t } from "~/shared/translations/i18n";
 
 import { REDUX_STATE, SERVER_DETAILS } from "~/shared/constants";
 import { extractSubdomain } from "~/shared/utilities/subdomain";
@@ -151,6 +153,10 @@ class SignIn extends Component {
 
 		return (
 			<Fragment>
+				<Helmet>
+					<title>{t("headers.login.title")}</title>
+					<meta name="description" content={t("headers.login.description")} />
+				</Helmet>
 				{(workspaceURLPending || loginPending) && <Loading />}
 				<div className={`form-container col-xs-12 col-md-6 col-lg-5 d-flex flex-column hidden-md-down ${style.links}`}>
 					<div id="login">

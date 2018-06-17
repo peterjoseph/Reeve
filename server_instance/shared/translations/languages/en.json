@@ -1,4 +1,7 @@
 {
+	"site": {
+		"name": "Reeve"
+	},
 	"action": {
 		"login": "Login",
 		"signUp": "Sign Up",
@@ -22,6 +25,12 @@
 			"getStarted": "To get started, enter the Workspace URL associated with your account.",
 			"whatIsWorkspaceURL": "What is my Workspace URL?",
 			"noAccount": "Don't yet have an account?"
+		}
+	},
+	"headers": {
+		"login": {
+			"title": "Sign in to your Account | $t(site.name)",
+			"description": "Enter your username and password to sign into your account."
 		}
 	},
 	"error": {
