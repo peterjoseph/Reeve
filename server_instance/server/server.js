@@ -61,10 +61,6 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cookieParser());
 
-// Set up password authentication middleware
-app.use(passport.initialize());
-app.use(passport.session());
-
 // Handle reloading server in development mode
 if (config.build.environment === "development") {
 	loadWebpack(app);
@@ -90,13 +86,16 @@ app.use(
 // Handle Redis connection failure
 app.use(function(req, res, next) {
 	if (!req.session) {
-		console.log("Unable to connect to Redis session store");
+		process.stdout.write("Unable to connect to Redis session store\n");
 		process.exit(1);
 	}
 	next();
 });
 
-// Handle user authentication with passport
+// Initialise user authentication with passport
+app.use(passport.initialize());
+app.use(passport.session());
+
 passport.use(
 	new JwtStrategy(
 		{
@@ -175,7 +174,7 @@ app.set("port", config.build.port || 3000);
 // Connect to MySQL database
 database.connect(function(err) {
 	if (err) {
-		console.log("Unable to connect to MySQL Database");
+		process.stdout.write("Unable to connect to MySQL Database\n");
 		process.exit(1);
 	} else {
 		// Load server if database connection successful
@@ -191,11 +190,11 @@ database.connect(function(err) {
 					app
 				)
 				.listen(app.get("port"), function() {
-					console.log(`Server listening securely on port: ${server.address().port}`);
+					process.stdout.write(`Server listening securely on port: ${server.address().port}\n`);
 				});
 		} else {
 			server = app.listen(app.get("port"), function() {
-				console.log(`Server listening on port: ${server.address().port}`);
+				process.stdout.write(`Server listening on port: ${server.address().port}\n`);
 			});
 		}
 	}
