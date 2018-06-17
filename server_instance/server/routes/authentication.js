@@ -42,7 +42,7 @@ module.exports = function(router) {
 					return next(error);
 				}
 				// Create an object to temporarily store data we retrieve from our database
-				const dataConstructor = {
+				let dataConstructor = {
 					clientId: null,
 					userId: null
 				};
@@ -122,6 +122,7 @@ module.exports = function(router) {
 						if (error) {
 							// Rollback transaction if query is unsuccessful
 							connection.rollback(function() {
+								dataConstructor = null; // Clean our garbage
 								return next(error);
 							});
 						} else {
@@ -134,6 +135,7 @@ module.exports = function(router) {
 								} else {
 									connection.release();
 									res.status(200).send({ status: 200, message: t("label.success") });
+									dataConstructor = null; // Clean our garbage
 								}
 							});
 						}
@@ -160,7 +162,7 @@ module.exports = function(router) {
 					return next(error);
 				}
 				// Create an object to temporarily store data we retrieve from our database
-				const dataConstructor = {
+				let dataConstructor = {
 					clientId: null,
 					clientSubscriptionId: null,
 					clientFeatures: null,
@@ -233,6 +235,7 @@ module.exports = function(router) {
 						if (error) {
 							// Rollback transaction if query is unsuccessful
 							connection.rollback(function() {
+								dataConstructor = null; // Clean our garbage
 								return next(error);
 							});
 						} else {
@@ -252,6 +255,7 @@ module.exports = function(router) {
 									}
 									// Return the response object
 									res.status(200).send(response);
+									dataConstructor = null; // Clean our garbage
 								}
 							});
 						}
@@ -288,7 +292,7 @@ module.exports = function(router) {
 					return next(error);
 				}
 				// Create an object to temporarily store data we retrieve from our database
-				const dataConstructor = {
+				let dataConstructor = {
 					clientId: null,
 					userId: null,
 					password: null,
@@ -347,9 +351,13 @@ module.exports = function(router) {
 						},
 						function(chain) {
 							// Create the JSON Web Token for the User
-							const token = jwt.sign({ data: dataConstructor.userId }, config.authentication.jwtSecret, {
-								expiresIn: config.authentication.expiry
-							});
+							const token = jwt.sign(
+								{ userId: dataConstructor.userId, clientId: dataConstructor.clientId, workspaceURL: received.workspaceURL.trim() },
+								config.authentication.jwtSecret,
+								{
+									expiresIn: config.authentication.expiry
+								}
+							);
 							dataConstructor.token = token;
 							chain(null, true);
 						}
@@ -358,6 +366,7 @@ module.exports = function(router) {
 						if (error) {
 							// Rollback transaction if query is unsuccessful
 							connection.rollback(function() {
+								dataConstructor = null; // Clean our garbage
 								return next(error);
 							});
 						} else {
@@ -373,6 +382,7 @@ module.exports = function(router) {
 									const response = { status: 200, message: t("label.success"), token: dataConstructor.token };
 									// Return the response object
 									res.status(200).send(response);
+									dataConstructor = null; // Clean our garbage
 								}
 							});
 						}
