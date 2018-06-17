@@ -3,7 +3,6 @@ let session = require("express-session");
 let helmet = require("helmet");
 let RedisStore = require("connect-redis")(session);
 let path = require("path");
-let async = require("async");
 let fs = require("fs");
 let https = require("https");
 let passport = require("passport"); // Passport authentication management
@@ -12,6 +11,7 @@ let JwtStrategy = require("passport-jwt").Strategy;
 let ExtractJwt = require("passport-jwt").ExtractJwt;
 let cookieParser = require("cookie-parser");
 let bodyParser = require("body-parser");
+let favicon = require("serve-favicon");
 let loadWebpack = require("./server.dev.js");
 let routes = require("./router"); // Server Routes
 let app = express();
@@ -45,6 +45,9 @@ if (config.papertrail.enabled && config.build.environment === "production") {
 		transports: [transport]
 	});
 }
+
+// Fetch Favicon
+app.use(favicon(path.join(__dirname, "favicon.ico")));
 
 // Set up view engine
 app.set("view engine", "html");
