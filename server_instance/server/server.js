@@ -5,9 +5,6 @@ let RedisStore = require("connect-redis")(session);
 let path = require("path");
 let fs = require("fs");
 let https = require("https");
-let passport = require("passport"); // Passport authentication management
-let JwtStrategy = require("passport-jwt").Strategy;
-let ExtractJwt = require("passport-jwt").ExtractJwt;
 let cookieParser = require("cookie-parser");
 let bodyParser = require("body-parser");
 let favicon = require("serve-favicon");
@@ -15,6 +12,7 @@ let loadWebpack = require("./server.dev.js");
 let routes = require("./router"); // Server Routes
 let app = express();
 
+let passport = require("./passport");
 let database = require("./database");
 let config = require("../config");
 
@@ -93,48 +91,7 @@ app.use(function(req, res, next) {
 });
 
 // Initialise user authentication with passport
-app.use(passport.initialize());
-app.use(passport.session());
-
-passport.use(
-	new JwtStrategy(
-		{
-			jwtFromRequest: ExtractJwt.fromAuthHeaderWithScheme("jwt"),
-			secretOrKey: config.authentication.jwtSecret
-		},
-		function(payload, done) {
-			database.perform().getConnection(function(error, connection) {
-				// Return error if database connection error
-				if (error) {
-					return done(error);
-				}
-				connection.query("select * from users where email = '" + payload.email + "'", function(err, rows) {
-					if (err) return done(err);
-					if (rows) {
-						done(null, rows[0]);
-					} else {
-						done(null, false);
-					}
-				});
-			});
-		}
-	)
-);
-
-passport.serializeUser(function(user, done) {
-	done(null, user.id);
-});
-passport.deserializeUser(function(id, done) {
-	database.perform().getConnection(function(error, connection) {
-		// Return error if database connection error
-		if (error) {
-			return done(error);
-		}
-		connection.query("select * from users where id = " + id, function(err, rows) {
-			done(err, rows[0]);
-		});
-	});
-});
+passport.initialize(app, database);
 
 // Set Routes
 app.use(function(err, req, res, next) {

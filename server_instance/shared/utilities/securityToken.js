@@ -1,5 +1,5 @@
 // Store security token in browser
-export function saveToken(securityToken) {
+export function saveToken(securityToken, keepSignedIn) {
 	localStorage.setItem("securityToken", JSON.stringify(securityToken));
 	return JSON.parse(localStorage.getItem("securityToken")) === securityToken;
 }

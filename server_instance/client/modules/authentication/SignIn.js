@@ -5,8 +5,9 @@ import { bindActionCreators } from "redux";
 import validate from "validate.JS";
 import { Helmet } from "react-helmet";
 import { css } from "emotion";
-import { t } from "~/shared/translations/i18n";
 
+import { t } from "~/shared/translations/i18n";
+import { saveToken } from "~/shared/utilities/securityToken";
 import { REDUX_STATE, SERVER_DETAILS } from "~/shared/constants";
 import { extractSubdomain } from "~/shared/utilities/subdomain";
 
@@ -144,12 +145,17 @@ class SignIn extends Component {
 
 	render() {
 		const { workspaceURL, emailAddress, password, keepSignedIn, loginPending, redirectPending, errors } = this.state;
-		const { workspaceURLStatus, clientStyle } = this.props;
+		const { workspaceURLStatus, logInStatus, clientStyle, userToken, userKeepSignedIn } = this.props;
 
 		const workspaceURLPending = workspaceURLStatus == null || workspaceURLStatus == REDUX_STATE.PENDING;
 
 		// Handle client specific page styling
 		const style = this.clientStyling();
+
+		// Store security token on sign in success
+		if (logInStatus == REDUX_STATE.FULFILLED && userToken != null) {
+			saveToken(userToken, userKeepSignedIn);
+		}
 
 		return (
 			<Fragment>
@@ -203,15 +209,21 @@ class SignIn extends Component {
 
 SignIn.propTypes = {
 	workspaceURLStatus: PropTypes.string,
+	logInStatus: PropTypes.string,
 	clientStyle: PropTypes.object,
 	loginUser: PropTypes.func,
-	validateWorkspaceURL: PropTypes.func
+	validateWorkspaceURL: PropTypes.func,
+	userToken: PropTypes.string,
+	userKeepSignedIn: PropTypes.bool
 };
 
 function mapStateToProps(state) {
 	return {
 		workspaceURLStatus: state.getIn([AUTHENTICATION, "workspaceURL", "status"]),
-		clientStyle: state.getIn([AUTHENTICATION, "workspaceURL", "result"])
+		logInStatus: state.getIn([AUTHENTICATION, "userLogin", "status"]),
+		clientStyle: state.getIn([AUTHENTICATION, "workspaceURL", "result"]),
+		userToken: state.getIn([AUTHENTICATION, "userLogin", "status", "result", "token"]),
+		userKeepSignedIn: state.getIn([AUTHENTICATION, "userLogin", "status", "result", "keepSignedIn"])
 	};
 }
 

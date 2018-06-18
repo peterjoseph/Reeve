@@ -2,6 +2,7 @@ import validate from "validate.JS";
 import async from "async";
 import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
+import passport from "../passport";
 import config from "../../config";
 import { register, login } from "~/shared/validation/authentication";
 import { t } from "~/shared/translations/i18n";
@@ -122,7 +123,6 @@ module.exports = function(router) {
 						if (error) {
 							// Rollback transaction if query is unsuccessful
 							connection.rollback(function() {
-								dataConstructor = null; // Clean our garbage
 								return next(error);
 							});
 						} else {
@@ -135,7 +135,6 @@ module.exports = function(router) {
 								} else {
 									connection.release();
 									res.status(200).send({ status: 200, message: t("label.success") });
-									dataConstructor = null; // Clean our garbage
 								}
 							});
 						}
@@ -235,7 +234,6 @@ module.exports = function(router) {
 						if (error) {
 							// Rollback transaction if query is unsuccessful
 							connection.rollback(function() {
-								dataConstructor = null; // Clean our garbage
 								return next(error);
 							});
 						} else {
@@ -255,7 +253,6 @@ module.exports = function(router) {
 									}
 									// Return the response object
 									res.status(200).send(response);
-									dataConstructor = null; // Clean our garbage
 								}
 							});
 						}
@@ -366,7 +363,6 @@ module.exports = function(router) {
 						if (error) {
 							// Rollback transaction if query is unsuccessful
 							connection.rollback(function() {
-								dataConstructor = null; // Clean our garbage
 								return next(error);
 							});
 						} else {
@@ -378,11 +374,17 @@ module.exports = function(router) {
 									});
 								} else {
 									connection.release();
-									// Build our response object
-									const response = { status: 200, message: t("label.success"), token: dataConstructor.token };
-									// Return the response object
-									res.status(200).send(response);
-									dataConstructor = null; // Clean our garbage
+									passport.perform().authenticate("jwt", function(error, user, info) {
+										req.logIn(user, function(err) {
+											if (error) {
+												return next(error);
+											}
+											// Build our response object
+											const response = { status: 200, message: t("label.success"), token: dataConstructor.token, keepSignedIn: received.keepSignedIn };
+											// Return the response object
+											return res.status(200).send(response);
+										});
+									})(req, res, next);
 								}
 							});
 						}
