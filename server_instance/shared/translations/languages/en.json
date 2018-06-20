@@ -28,6 +28,9 @@
 		}
 	},
 	"headers": {
+		"home": {
+			"title": "$t(site.name)"
+		},
 		"login": {
 			"title": "Sign in to your Account | $t(site.name)",
 			"description": "Enter your username and password to sign into your account."

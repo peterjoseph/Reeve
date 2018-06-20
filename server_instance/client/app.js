@@ -1,8 +1,9 @@
-import React, { Component } from "react";
+import React, { Component, Fragment } from "react";
 import { connect } from "react-redux";
 import { bindActionCreators } from "redux";
 import PropTypes from "prop-types";
 import bowser from "bowser";
+import { Helmet } from "react-helmet";
 import { notify } from "react-notify-toast";
 import { t } from "~/shared/translations/i18n";
 import { SERVER_DETAILS } from "~/shared/constants";
@@ -45,11 +46,14 @@ class App extends Component {
 		const { loading } = this.state;
 		const { logInStatus } = this.props;
 
-		if (loading === true) {
-			return <Loading />;
-		}
-
-		return <Router />;
+		return (
+			<Fragment>
+				<Helmet>
+					<title>{t("headers.login.title")}</title>
+				</Helmet>
+				{loading ? <Loading /> : <Router />}
+			</Fragment>
+		);
 	}
 }
 
