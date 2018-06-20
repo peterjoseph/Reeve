@@ -1,28 +1,47 @@
-import React from "react";
+import React, { Component } from "react";
 import { connect } from "react-redux";
+import { bindActionCreators } from "redux";
 import PropTypes from "prop-types";
 import { BrowserRouter, Switch } from "react-router-dom";
 import { t } from "~/shared/translations/i18n";
 
-import RedirectComponent from "./common/components/RedirectComponent";
-import AsyncComponent from "./common/components/AsyncComponent";
+import Router from "./Router";
 
-const Authentication = AsyncComponent(() => import("./modules/authentication"));
+import { AUTHENTICATION, loginUser } from "./common/store/reducers/authentication.js";
 
-class App extends React.Component {
+class App extends Component {
+	// Set state to loading
+	// Check browser
+	// Fetch security token from local storage
+	// Attempt login
+	// Redirect to correct subdomain if valid
+	// Build user model
+	// Set language locale if feature available
+	// Logout if login failed
+	// Display login screen on failure
+
 	render() {
-		return (
-			<BrowserRouter>
-				<Switch>
-					<RedirectComponent exact path="/" render={props => <Authentication />} />
-				</Switch>
-			</BrowserRouter>
-		);
+		const { logInStatus } = this.props;
+
+		return <Router />;
 	}
 }
 
+App.propTypes = {
+	logInStatus: PropTypes.string,
+	loginUser: PropTypes.func
+};
+
 function mapStateToProps(state, props) {
-	return {};
+	return {
+		logInStatus: state.getIn([AUTHENTICATION, "userLogin", "status"])
+	};
 }
 
-export default connect(mapStateToProps, {})(App);
+function mapDispatchToProps(dispatch) {
+	return {
+		loginUser: bindActionCreators(loginUser, dispatch)
+	};
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(App);
