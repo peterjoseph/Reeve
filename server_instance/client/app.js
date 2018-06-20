@@ -12,6 +12,7 @@ import Router from "./Router";
 import Loading from "./common/components/Loading";
 
 import { AUTHENTICATION, loginUser } from "./common/store/reducers/authentication";
+import { getToken, clearToken } from "~/shared/utilities/securityToken";
 
 class App extends Component {
 	// Fetch security token from local storage
@@ -19,7 +20,6 @@ class App extends Component {
 	// Redirect to correct subdomain if valid
 	// Build user model from login data
 	// Set language locale if feature available
-	// Logout if login failed
 	// Display login screen on failure
 
 	constructor(props) {
@@ -33,6 +33,8 @@ class App extends Component {
 	componentDidMount() {
 		// Check client is using a valid browser version
 		this.browserVersionCheck();
+		// Attempt user login
+		this.login();
 	}
 
 	browserVersionCheck() {
@@ -40,6 +42,34 @@ class App extends Component {
 		if (!isSupported) {
 			notify.show(t("error.outdatedBrowser"), "warning", -1);
 		}
+	}
+
+	login() {
+		// Fetch security token from browser
+		const token = getToken();
+
+		// Set loaded to true and load route as unauthenticated
+		if (token === null) {
+			clearToken();
+			this.setState({
+				loading: false
+			});
+			return;
+		}
+
+		this.props.loginUser().then(
+			result => {
+				this.setState({
+					loading: false
+				});
+			},
+			error => {
+				clearToken();
+				this.setState({
+					loading: false
+				});
+			}
+		);
 	}
 
 	render() {
