@@ -36,7 +36,8 @@
 	"error": {
 		"code": {
 			"404": "Page could not be found."
-		}
+		},
+		"outdatedBrowser": "Hey! You are using an out-of-date web browser version. This might cause compatibility issues with our service. Please consider upgrading your browser."
 	},
 	"validation": {
 		"userInvalidProperties": "User object contains invalid properties",

@@ -1,7 +1,17 @@
 module.exports = {
 	SERVER_DETAILS: Object.freeze({
 		PROTOCOL: "http",
-		DOMAIN: "localhost:3000"
+		DOMAIN: "localhost:3000",
+		MINIMUM_BROWSER_VERSIONS: {
+			msie: "11",
+			msedge: "16",
+			firefox: "45",
+			chrome: "59",
+			safari: "10",
+			opera: "46",
+			ios: "11",
+			android: "5.0"
+		}
 	}),
 
 	FEATURES: Object.freeze({
