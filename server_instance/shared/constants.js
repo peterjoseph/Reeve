@@ -1,5 +1,5 @@
-module.exports = {
-	SERVER_DETAILS: Object.freeze({
+module.exports = Object.freeze({
+	SERVER_DETAILS: {
 		PROTOCOL: "http",
 		DOMAIN: "localhost:3000",
 		MINIMUM_BROWSER_VERSIONS: {
@@ -12,25 +12,21 @@ module.exports = {
 			ios: "11",
 			android: "5.0"
 		}
-	}),
-
-	FEATURES: Object.freeze({
+	},
+	FEATURES: {
 		STYLING: 1
-	}),
-
-	ROLE_TYPE: Object.freeze({
+	},
+	ROLE_TYPE: {
 		UNREGISTERED: 0,
 		OWNER: 1,
 		ADMINISTRATOR: 2
-	}),
-
-	SUBSCRIPTION_TYPE: Object.freeze({
+	},
+	SUBSCRIPTION_TYPE: {
 		TRIAL: 1
-	}),
-
-	REDUX_STATE: Object.freeze({
+	},
+	REDUX_STATE: {
 		PENDING: "PENDING",
 		FULFILLED: "FULFILLED",
 		REJECTED: "REJECTED"
-	})
-};
+	}
+});
