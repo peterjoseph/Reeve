@@ -6,7 +6,7 @@ import bowser from "bowser";
 import { Helmet } from "react-helmet";
 import { notify } from "react-notify-toast";
 import { t } from "~/shared/translations/i18n";
-import { SERVER_DETAILS } from "~/shared/constants";
+import { SERVER_DETAILS, REDUX_STATE } from "~/shared/constants";
 
 import Router from "./Router";
 import Loading from "./common/components/Loading";
@@ -15,12 +15,6 @@ import { AUTHENTICATION, loginUser } from "./common/store/reducers/authenticatio
 import { getToken, clearToken } from "~/shared/utilities/securityToken";
 
 class App extends Component {
-	// Redirect to correct subdomain if valid
-	// Redirect to incorrect subdomain if invalid
-	// Build user model from login data
-	// Set language locale if feature available
-	// Display login screen on failure
-
 	constructor(props) {
 		super(props);
 
@@ -34,6 +28,19 @@ class App extends Component {
 		this.browserVersionCheck();
 		// Attempt user login
 		this.login();
+	}
+
+	static getDerivedStateFromProps(nextProps, prevState) {
+		if (nextProps.logInStatus === prevState.logInStatus) {
+			return null;
+		}
+		// Store subdomain in state if valid
+		if (nextProps.logInStatus === REDUX_STATE.FULFILLED) {
+			// Store token in browser
+			// Change locale
+			// Change client styling
+		}
+		return null;
 	}
 
 	browserVersionCheck() {
@@ -73,7 +80,6 @@ class App extends Component {
 
 	render() {
 		const { loading } = this.state;
-		const { logInStatus } = this.props;
 
 		return (
 			<Fragment>

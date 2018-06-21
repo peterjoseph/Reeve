@@ -15,5 +15,6 @@ export function clearToken() {
 
 // Retrieve security token from browser
 export function getToken() {
-	return JSON.parse(window.sessionStorage.getItem("securityToken") || window.localStorage.getItem("securityToken"));
+	const token = window.sessionStorage.getItem("securityToken") || window.localStorage.getItem("securityToken");
+	return JSON.parse(JSON.stringify(token));
 }
