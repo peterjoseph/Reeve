@@ -11,7 +11,7 @@ import { SERVER_DETAILS, REDUX_STATE } from "~/shared/constants";
 import Router from "./Router";
 import Loading from "./common/components/Loading";
 
-import { AUTHENTICATION, loginUser } from "./common/store/reducers/authentication";
+import { AUTHENTICATION, LOGIN_REJECTED, loginUser } from "./common/store/reducers/authentication";
 import { getToken, clearToken } from "~/shared/utilities/securityToken";
 
 class App extends Component {
@@ -63,19 +63,14 @@ class App extends Component {
 			return;
 		}
 
-		this.props.loginUser({ authToken: true, token }).then(
-			result => {
-				this.setState({
-					loading: false
-				});
-			},
-			error => {
-				clearToken();
-				this.setState({
-					loading: false
-				});
+		this.props.loginUser({ authToken: true, token }).then(result => {
+			if (result.type === LOGIN_REJECTED) {
+				clearToken(); // Clear security token if login rejected
 			}
-		);
+			this.setState({
+				loading: false
+			});
+		});
 	}
 
 	render() {
