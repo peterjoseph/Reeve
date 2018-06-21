@@ -4,14 +4,14 @@ import { t } from "~/shared/translations/i18n";
 
 import InputField from "../../../common/components/inputs/InputField";
 
-class LoginForm extends Component {
+class SignInForm extends Component {
 	render() {
 		const { emailAddress, password, loginPending, workspaceURLPending, keepSignedIn, login, changeField, handleChecked, style, errors } = this.props;
 
 		return (
 			<div>
 				<div className="w-100 mb-3">
-					<span className="h3">{t("action.login")}</span>
+					<span className="h3">{t("action.signIn")}</span>
 				</div>
 				<InputField
 					label={t("label.emailAddress")}
@@ -63,7 +63,7 @@ class LoginForm extends Component {
 	}
 }
 
-LoginForm.propTypes = {
+SignInForm.propTypes = {
 	emailAddress: PropTypes.string,
 	password: PropTypes.string,
 	loginPending: PropTypes.bool,
@@ -76,4 +76,4 @@ LoginForm.propTypes = {
 	errors: PropTypes.object
 };
 
-export default LoginForm;
+export default SignInForm;

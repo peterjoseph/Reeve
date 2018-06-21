@@ -15,7 +15,7 @@ import { AUTHENTICATION, validateWorkspaceURL, loginUser } from "../../common/st
 import { login, workspaceURL } from "~/shared/validation/authentication";
 
 import WorkspaceURL from "./components/WorkspaceURL";
-import LoginForm from "./components/LoginForm";
+import SignInForm from "./components/SignInForm";
 import Loading from "../../common/components/Loading";
 
 class SignIn extends Component {
@@ -184,7 +184,7 @@ class SignIn extends Component {
 										/>
 									)}
 									{workspaceURLStatus != REDUX_STATE.REJECTED && (
-										<LoginForm
+										<SignInForm
 											emailAddress={emailAddress}
 											password={password}
 											keepSignedIn={keepSignedIn}

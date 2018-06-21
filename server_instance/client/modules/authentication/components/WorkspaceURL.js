@@ -10,7 +10,7 @@ class WorkspaceURL extends Component {
 
 		return (
 			<div className="w-100 mb-3">
-				<span className="h3">{t("action.signIn")}</span>
+				<span className="h3">{t("components.authentication.workspaceURLQuestion")}</span>
 				<div className="mt-4 mb-4">
 					<span>{t("components.authentication.getStarted")}</span>
 				</div>
