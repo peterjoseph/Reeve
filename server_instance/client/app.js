@@ -15,9 +15,8 @@ import { AUTHENTICATION, loginUser } from "./common/store/reducers/authenticatio
 import { getToken, clearToken } from "~/shared/utilities/securityToken";
 
 class App extends Component {
-	// Fetch security token from local storage
-	// Attempt login
 	// Redirect to correct subdomain if valid
+	// Redirect to incorrect subdomain if invalid
 	// Build user model from login data
 	// Set language locale if feature available
 	// Display login screen on failure
@@ -57,7 +56,7 @@ class App extends Component {
 			return;
 		}
 
-		this.props.loginUser().then(
+		this.props.loginUser({ authToken: true, token }).then(
 			result => {
 				this.setState({
 					loading: false

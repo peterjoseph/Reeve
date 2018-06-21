@@ -16,14 +16,18 @@ export function clientRegistration(client) {
 
 // User Login
 export function userLogin(user) {
+	let body = {
+		workspaceURL: user.workspaceURL,
+		emailAddress: user.emailAddress,
+		password: user.password,
+		keepSignedIn: user.keepSignedIn
+	};
+	if (user.authToken) {
+		body = { token: user.token };
+	}
 	return fetch.perform("/internal/login/", {
 		method: "POST",
-		body: JSON.stringify({
-			workspaceURL: user.workspaceURL,
-			emailAddress: user.emailAddress,
-			password: user.password,
-			keepSignedIn: user.keepSignedIn
-		})
+		body: JSON.stringify(body)
 	});
 }
 
