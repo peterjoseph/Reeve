@@ -18,6 +18,7 @@ class InputField extends React.Component {
 						className={"form-control text-right"}
 						type="text"
 						placeholder={t("components.authentication.companyName")}
+						autoFocus={true}
 						onChange={onChange}
 						disabled={disabled}
 					/>

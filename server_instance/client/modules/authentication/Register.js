@@ -88,6 +88,7 @@ class Register extends Component {
 											onChange={this.changeField}
 											disabled={loading}
 											error={errors}
+											autoFocus={true}
 										/>
 									</div>
 									<div className="col">
