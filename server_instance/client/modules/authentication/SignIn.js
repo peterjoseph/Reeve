@@ -95,8 +95,8 @@ class SignIn extends Component {
 			style.background = css(
 				Object.assign(
 					{},
-					this.props.clientStyle.get("backgroundColor") != null && { backgroundColor: this.props.clientStyle.get("backgroundColor") },
-					this.props.clientStyle.get("backgroundImage") && { backgroundImage: `url('${this.props.clientStyle.get("backgroundImage")}')` }
+					this.props.clientStyle.get("backgroundColor") != null && { backgroundColor: `${this.props.clientStyle.get("backgroundColor")} !important` },
+					this.props.clientStyle.get("backgroundImage") && { backgroundImage: `url('${this.props.clientStyle.get("backgroundImage")}') !important` }
 				)
 			);
 		}

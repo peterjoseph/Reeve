@@ -264,6 +264,30 @@ module.exports = function(router) {
 
 	// Login to user account
 	router.post("/internal/login", function(req, res, next) {
+		if (req.body.token != null) {
+			authenticateWithToken(req, res, next);
+		} else {
+			authenticateWithoutToken(req, res, next);
+		}
+	});
+
+	// Validate authentication if security token is present
+	function authenticateWithToken(req, res, next) {
+		passport.perform().authenticate("jwt", function(error, user, info) {
+			req.logIn(user, function(err) {
+				if (error) {
+					return next(error);
+				}
+				// Build our response object
+				const response = { status: 200, message: t("label.success") };
+				// Return the response object
+				return res.status(200).send(response);
+			});
+		})(req, res, next);
+	}
+
+	// Validate authentication if username and password is present
+	function authenticateWithoutToken(req, res, next) {
 		// Store received object properties
 		const received = {
 			workspaceURL: req.body.workspaceURL,
@@ -374,17 +398,10 @@ module.exports = function(router) {
 									});
 								} else {
 									connection.release();
-									passport.perform().authenticate("jwt", function(error, user, info) {
-										req.logIn(user, function(err) {
-											if (error) {
-												return next(error);
-											}
-											// Build our response object
-											const response = { status: 200, message: t("label.success"), token: dataConstructor.token, keepSignedIn: received.keepSignedIn };
-											// Return the response object
-											return res.status(200).send(response);
-										});
-									})(req, res, next);
+									// Build our response object
+									const response = { status: 200, message: t("label.success"), token: dataConstructor.token, keepSignedIn: received.keepSignedIn };
+									// Return the response object
+									return res.status(200).send(response);
 								}
 							});
 						}
@@ -392,5 +409,5 @@ module.exports = function(router) {
 				);
 			});
 		});
-	});
+	}
 };

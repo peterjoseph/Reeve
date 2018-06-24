@@ -15,6 +15,7 @@
 		"emailAddress": "Email Address",
 		"password": "Password",
 		"workspaceURL": "Workspace URL",
+		"welcome": "Welcome",
 		"success": "Success"
 	},
 	"components": {
@@ -23,7 +24,6 @@
 			"keepSignedIn": "Keep me signed in",
 			"forgotPassword": "Forgot Password?",
 			"getStarted": "To get started, enter the Workspace URL associated with your account.",
-			"workspaceURLQuestion": "Your Workspace URL?",
 			"whatIsWorkspaceURL": "What is my Workspace URL?",
 			"noAccount": "Don't yet have an account?"
 		}
