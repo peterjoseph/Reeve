@@ -23,7 +23,7 @@ export function userLogin(user) {
 		keepSignedIn: user.keepSignedIn
 	};
 	if (user.authToken) {
-		body = { token: user.token };
+		body = { authToken: user.authToken };
 	}
 	return fetch.perform("/internal/login/", {
 		method: "POST",

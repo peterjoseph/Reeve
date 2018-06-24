@@ -12,6 +12,13 @@ export default {
 			options.headers || {}
 		);
 
+		// Add security token to header
+		if (this.token != null) {
+			options.headers = Object.assign(options.headers, {
+				jwt: this.token
+			});
+		}
+
 		// Perform fetch on the endpoint
 		const response = await fetch(route, options);
 
@@ -25,6 +32,18 @@ export default {
 		return json.then(error => {
 			throw error;
 		});
+	},
+
+	setSecurityToken(token) {
+		this.token = token;
+	},
+
+	getSecurityToken() {
+		return this.token;
+	},
+
+	clearSecurityToken() {
+		this.token = null;
 	},
 
 	perform(path, options = {}) {

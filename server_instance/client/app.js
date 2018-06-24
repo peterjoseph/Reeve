@@ -5,6 +5,7 @@ import PropTypes from "prop-types";
 import bowser from "bowser";
 import { Helmet } from "react-helmet";
 import { notify } from "react-notify-toast";
+import fetch from "~/shared/utilities/fetch";
 import { t } from "~/shared/translations/i18n";
 import { SERVER_DETAILS, REDUX_STATE } from "~/shared/constants";
 
@@ -61,11 +62,15 @@ class App extends Component {
 				loading: false
 			});
 			return;
+		} else {
+			// Pass the token to fetch header
+			fetch.setSecurityToken(token);
 		}
 
-		this.props.loginUser({ authToken: true, token }).then(result => {
+		this.props.loginUser({ authToken: true }).then(result => {
 			if (result.type === LOGIN_REJECTED) {
 				clearToken(); // Clear security token if login rejected
+				fetch.clearSecurityToken(); // Clear token in fetch header
 			}
 			this.setState({
 				loading: false

@@ -264,7 +264,7 @@ module.exports = function(router) {
 
 	// Login to user account
 	router.post("/internal/login", function(req, res, next) {
-		if (req.body.token != null) {
+		if (req.body.authToken != null && req.body.authToken === true) {
 			authenticateWithToken(req, res, next);
 		} else {
 			authenticateWithoutToken(req, res, next);
