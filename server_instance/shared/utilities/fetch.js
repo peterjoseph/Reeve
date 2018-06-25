@@ -15,7 +15,7 @@ export default {
 		// Add security token to header
 		if (this.token != null) {
 			options.headers = Object.assign(options.headers, {
-				jwt: this.token
+				Authorization: `jwt ${this.token}`
 			});
 		}
 

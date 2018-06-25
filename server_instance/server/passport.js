@@ -19,7 +19,7 @@ function initialize(app, database) {
 					if (error) {
 						return done(error);
 					}
-					connection.query("select * from users where email = '" + payload.email + "'", function(err, rows) {
+					connection.query("select * from `USER` where `id` = ?", [payload.userId], function(err, rows) {
 						if (err) return done(err);
 						if (rows) {
 							done(null, rows[0]);
