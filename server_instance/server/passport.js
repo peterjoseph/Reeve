@@ -19,14 +19,19 @@ function initialize(app, database) {
 					if (error) {
 						return done(error);
 					}
-					connection.query("select * from `USER` where `id` = ?", [payload.userId], function(err, rows) {
-						if (err) return done(err);
-						if (rows) {
-							done(null, rows[0]);
-						} else {
-							done(null, false);
+					connection.query(
+						"SELECT * FROM `user` u LEFT JOIN `client` c ON u.`clientId` = c.`id` WHERE u.`id` = ? AND u.`clientId` = ? AND c.`workspaceURL` = ?",
+						[payload.userId, payload.clientId, payload.workspaceURL],
+						function(error, rows) {
+							// Delete session if expired
+							if (error) return done(error);
+							if (rows) {
+								done(null, rows[0]);
+							} else {
+								done(null, false);
+							}
 						}
-					});
+					);
 				});
 			}
 		)
