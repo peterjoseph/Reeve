@@ -26,9 +26,11 @@ function initialize(app, database) {
 							"SELECT * FROM `user` u LEFT JOIN `client` c ON u.`clientId` = c.`id` WHERE u.`id` = ? AND u.`clientId` = ? AND c.`workspaceURL` = ?",
 							[payload.userId, payload.clientId, payload.workspaceURL],
 							function(error, rows) {
-								if (error) return done(null, error);
-								if (rows) {
-									done(null, rows[0]);
+								if (error) {
+									return done(null, error);
+								} else if (rows) {
+									const user = { userId: payload.userId, clientId: payload.clientId, workspaceURL: payload.workspaceURL };
+									done(null, user);
 								} else {
 									done(null, false);
 								}

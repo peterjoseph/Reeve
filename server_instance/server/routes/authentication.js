@@ -274,14 +274,22 @@ module.exports = function(router) {
 	// Validate authentication if security token is present
 	function authenticateWithToken(req, res, next) {
 		passport.perform().authenticate("jwt", function(error, user, info) {
-			req.logIn(user, function(err) {
+			if (error) {
+				return next(error);
+			}
+			req.logIn(user, function(error) {
 				if (error) {
 					return next(error);
 				}
-				// Build our response object
-				const response = { status: 200, message: t("label.success") };
-				// Return the response object
-				return res.status(200).send(response);
+				if (user) {
+					// Build our response object
+					const response = { status: 200, message: t("label.success") };
+					// Return the response object
+					return res.status(200).send(response);
+				} else {
+					const errorMsg = { status: 403, message: t("validation.tokenInvalidOrExpired"), reason: { token: [t("validation.tokenInvalidOrExpired")] } };
+					return next(errorMsg);
+				}
 			});
 		})(req, res, next);
 	}
