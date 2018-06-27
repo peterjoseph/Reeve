@@ -221,9 +221,9 @@ function mapStateToProps(state) {
 	return {
 		workspaceURLStatus: state.getIn([AUTHENTICATION, "workspaceURL", "status"]),
 		logInStatus: state.getIn([AUTHENTICATION, "userLogin", "status"]),
-		clientStyle: state.getIn([AUTHENTICATION, "workspaceURL", "result"]),
-		userToken: state.getIn([AUTHENTICATION, "userLogin", "status", "result", "token"]),
-		userKeepSignedIn: state.getIn([AUTHENTICATION, "userLogin", "status", "result", "keepSignedIn"])
+		clientStyle: state.getIn([AUTHENTICATION, "workspaceURL", "payload"]),
+		userToken: state.getIn([AUTHENTICATION, "userLogin", "status", "payload", "token"]),
+		userKeepSignedIn: state.getIn([AUTHENTICATION, "userLogin", "status", "payload", "keepSignedIn"])
 	};
 }
 

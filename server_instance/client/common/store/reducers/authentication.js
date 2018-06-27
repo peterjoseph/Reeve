@@ -29,7 +29,7 @@ export default function authentication(state = DEFAULT_STATE, action) {
 				"userLogin",
 				fromJS({
 					status: REDUX_STATE.FULFILLED,
-					result: action.payload
+					payload: action.payload
 				})
 			);
 		case LOGIN_REJECTED:
@@ -37,7 +37,7 @@ export default function authentication(state = DEFAULT_STATE, action) {
 				"userLogin",
 				fromJS({
 					status: REDUX_STATE.REJECTED,
-					result: {},
+					payload: {},
 					error: action.payload
 				})
 			);
@@ -54,7 +54,7 @@ export default function authentication(state = DEFAULT_STATE, action) {
 				"workspaceURL",
 				fromJS({
 					status: REDUX_STATE.FULFILLED,
-					result: action.payload
+					payload: action.payload
 				})
 			);
 		case VALIDATE_WORKSPACE_URL_REJECTED:
@@ -62,7 +62,7 @@ export default function authentication(state = DEFAULT_STATE, action) {
 				"workspaceURL",
 				fromJS({
 					status: REDUX_STATE.REJECTED,
-					result: {},
+					payload: {},
 					error: action.payload
 				})
 			);

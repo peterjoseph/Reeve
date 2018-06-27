@@ -13,7 +13,7 @@ import Router from "./Router";
 import Loading from "./common/components/Loading";
 
 import { AUTHENTICATION, LOGIN_REJECTED, loginUser } from "./common/store/reducers/authentication";
-import { getToken, clearToken } from "~/shared/utilities/securityToken";
+import { getToken, saveToken, clearToken } from "~/shared/utilities/securityToken";
 
 class App extends Component {
 	constructor(props) {
@@ -38,8 +38,9 @@ class App extends Component {
 		// Store subdomain in state if valid
 		if (nextProps.logInStatus === REDUX_STATE.FULFILLED) {
 			// Store token in browser
-			// Change locale
-			// Change client styling
+			if (nextProps.logInData.get("token") != null) {
+				saveToken(nextProps.logInData.get("token"), nextProps.logInData.get("keepSignedIn"));
+			}
 		}
 		return null;
 	}
@@ -94,12 +95,14 @@ class App extends Component {
 
 App.propTypes = {
 	logInStatus: PropTypes.string,
+	logInData: PropTypes.object,
 	loginUser: PropTypes.func
 };
 
 function mapStateToProps(state, props) {
 	return {
-		logInStatus: state.getIn([AUTHENTICATION, "userLogin", "status"])
+		logInStatus: state.getIn([AUTHENTICATION, "userLogin", "status"]),
+		logInData: state.getIn([AUTHENTICATION, "userLogin", "payload"])
 	};
 }
 
