@@ -14,25 +14,28 @@ function initialize(app, database) {
 				secretOrKey: config.authentication.jwtSecret
 			},
 			function(payload, done) {
-				database.perform().getConnection(function(error, connection) {
-					// Return error if database connection error
-					if (error) {
-						return done(error);
-					}
-					connection.query(
-						"SELECT * FROM `user` u LEFT JOIN `client` c ON u.`clientId` = c.`id` WHERE u.`id` = ? AND u.`clientId` = ? AND c.`workspaceURL` = ?",
-						[payload.userId, payload.clientId, payload.workspaceURL],
-						function(error, rows) {
-							// Delete session if expired
-							if (error) return done(error);
-							if (rows) {
-								done(null, rows[0]);
-							} else {
-								done(null, false);
-							}
+				if (payload == null) {
+					return done(null, false);
+				} else {
+					database.perform().getConnection(function(error, connection) {
+						// Return error if database connection error
+						if (error) {
+							return done(null, error);
 						}
-					);
-				});
+						connection.query(
+							"SELECT * FROM `user` u LEFT JOIN `client` c ON u.`clientId` = c.`id` WHERE u.`id` = ? AND u.`clientId` = ? AND c.`workspaceURL` = ?",
+							[payload.userId, payload.clientId, payload.workspaceURL],
+							function(error, rows) {
+								if (error) return done(null, error);
+								if (rows) {
+									done(null, rows[0]);
+								} else {
+									done(null, false);
+								}
+							}
+						);
+					});
+				}
 			}
 		)
 	);
