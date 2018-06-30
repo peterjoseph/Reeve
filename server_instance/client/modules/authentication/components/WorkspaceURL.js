@@ -20,7 +20,7 @@ class WorkspaceURL extends Component {
 						<a href="#">{t("components.authentication.whatIsWorkspaceURL")}</a>
 					</span>
 				</div>
-				<button type="button" className={"btn btn-primary btn-lg btn-block mt-4 p-3"} onClick={changeSubdomain} disabled={redirectPending}>
+				<button type="submit" className={"btn btn-primary btn-lg btn-block mt-4 p-3"} onClick={changeSubdomain} disabled={redirectPending}>
 					{t("action.continue")}
 				</button>
 				<div className="mt-4">

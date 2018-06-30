@@ -53,7 +53,7 @@ class SignInForm extends Component {
 					</div>
 					<div className="col text-right">{t("components.authentication.forgotPassword")}</div>
 				</div>
-				<button type="button" className={`btn btn-primary btn-lg btn-block mt-4 p-3 ${style.button}`} onClick={login} disabled={loginPending || workspaceURLPending}>
+				<button type="submit" className={`btn btn-primary btn-lg btn-block mt-4 p-3 ${style.button}`} onClick={login} disabled={loginPending || workspaceURLPending}>
 					{t("action.login")}
 				</button>
 				<div className="mt-4">
