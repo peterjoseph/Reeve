@@ -35,7 +35,9 @@ class Register extends Component {
 		});
 	}
 
-	register() {
+	register(evt) {
+		evt.preventDefault(); // Prevent page refresh
+
 		this.setState({
 			loading: true,
 			errors: {}

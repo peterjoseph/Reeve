@@ -103,7 +103,9 @@ class SignIn extends Component {
 		return style;
 	}
 
-	login() {
+	login(evt) {
+		evt.preventDefault(); // Prevent page refresh
+
 		this.setState({ loginPending: true, errors: {} });
 		const user = {
 			workspaceURL: this.state.workspaceURL,
@@ -124,7 +126,9 @@ class SignIn extends Component {
 		}
 	}
 
-	changeSubdomain() {
+	changeSubdomain(evt) {
+		evt.preventDefault(); // Prevent page refresh
+
 		this.setState({ redirectPending: true, errors: {} });
 		// Fetch subdomain from state
 		const subdomain = {
