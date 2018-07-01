@@ -21,7 +21,6 @@
 		"express"
 	],
 	"author": "Peter Joseph",
-	"license": "MIT",
 	"bugs": {
 		"url": "https://github.com/peterjoseph/reeve/issues"
 	},
