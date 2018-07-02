@@ -2,9 +2,8 @@ import React, { Component } from "react";
 import PropTypes from "prop-types";
 import { Route } from "react-router";
 import { Redirect } from "react-router-dom";
-
-import AsyncComponent from "./AsyncComponent";
 import { arrayContains, arrayHasAny } from "~/shared/utilities/filters";
+import AsyncComponent from "./AsyncComponent";
 const MissingPath = AsyncComponent(() => import("./MissingPath"));
 
 class RedirectComponent extends Component {
@@ -32,17 +31,17 @@ class RedirectComponent extends Component {
 		}
 
 		// Show Error 404 if user has incorrect role
-		if (role && (!user.get("userRoles") || !arrayHasAny(role, user.get("userRoles").toJS()) || [])) {
+		if (role && (!user.get("userRoles") || !arrayHasAny(role, user.get("userRoles").toJS() || []))) {
 			return <Route {...this.props} render={() => <MissingPath />} />;
 		}
 
 		// Show Error 404 if user has incorrect feature
-		if (feature && (!user.get("clientFeatures") || !arrayContains(feature, user.get("clientFeatures").toJS()) || [])) {
+		if (feature && (!user.get("clientFeatures") || !arrayContains(feature, user.get("clientFeatures").toJS() || []))) {
 			return <Route {...this.props} render={() => <MissingPath />} />;
 		}
 
 		// Show Error 404 if user has incorrect subscription
-		if (subscription && (!user.get("clientFeatures") || !arrayContains(subscription, user.get("subscriptionId").toJS()) || [])) {
+		if (subscription && (!user.get("clientFeatures") || !arrayContains(subscription, user.get("subscriptionId").toJS() || []))) {
 			return <Route {...this.props} render={() => <MissingPath />} />;
 		}
 
