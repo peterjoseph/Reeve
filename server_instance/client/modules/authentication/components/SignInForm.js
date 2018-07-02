@@ -23,7 +23,6 @@ class SignInForm extends Component {
 					onChange={changeField}
 					disabled={loginPending || workspaceURLPending}
 					error={errors}
-					autoFocus={true}
 				/>
 				<InputField
 					label={t("label.password")}
