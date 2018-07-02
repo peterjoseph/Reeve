@@ -3,7 +3,6 @@ import PropTypes from "prop-types";
 import { BrowserRouter, Switch } from "react-router-dom";
 import { ROLE_TYPE } from "~/shared/constants";
 
-import User from "./common/components/User";
 import RedirectComponent from "./common/components/RedirectComponent";
 import AsyncComponent from "./common/components/AsyncComponent";
 
@@ -25,8 +24,4 @@ class Router extends Component {
 	}
 }
 
-Router.propTypes = {
-	user: PropTypes.object
-};
-
-export default User(Router);
+export default Router;

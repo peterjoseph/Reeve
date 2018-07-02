@@ -1,10 +1,17 @@
-import React from "react";
+import React, { Component } from "react";
+import PropTypes from "prop-types";
 import { Route } from "react-router";
 
-class RedirectComponent extends React.Component {
+import User from "./User";
+
+class RedirectComponent extends Component {
 	render() {
 		return <Route {...this.props} />;
 	}
 }
 
-export default RedirectComponent;
+RedirectComponent.propTypes = {
+	user: PropTypes.object
+};
+
+export default User(RedirectComponent);

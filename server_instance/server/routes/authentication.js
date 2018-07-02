@@ -433,22 +433,60 @@ module.exports = function(router) {
 					return next(error);
 				}
 				// Create an empty user object
-				let user = {};
+				let dataConstructor = {};
 				async.series(
 					[
 						function(chain) {
-							// Fetch user properties
-							connection.query("SELECT * FROM `user` WHERE `id` = ? AND `clientId` = ?", [req.user.userId, req.user.clientId], function(error, results, fields) {
+							// Fetch user
+							connection.query(
+								"SELECT u.`id`, u.`firstName`, u.`lastName`, u.`emailAddress`, c.`name`, c.`workspaceURL`, c.`subscriptionId`, c.`subscriptionStartDate`, c.`subscriptionEndDate`, c.`billingCycle` FROM `user` u LEFT JOIN `client` c ON u.`clientId` = c.`id` WHERE u.`id` = ? AND u.`clientId` = ? AND c.`workspaceURL` = ? AND u.`active` = ?",
+								[req.user.userId, req.user.clientId, req.user.workspaceURL, true],
+								function(error, results, fields) {
+									// Return error if query fails
+									if (error) {
+										chain(error, null);
+									} else {
+										if (results != null && results.length > 0) {
+											dataConstructor = {
+												userId: results[0].id,
+												firstName: results[0].firstName,
+												lastName: results[0].lastName,
+												emailAddress: results[0].emailAddress,
+												clientName: results[0].name,
+												workspaceURL: results[0].workspaceURL,
+												subscriptionId: results[0].subscriptionId,
+												subscriptionStartDate: results[0].subscriptionStartDate,
+												subscriptionEndDate: results[0].subscriptionEndDate,
+												billingCycle: results[0].billingCycle
+											};
+										}
+										chain(null, results);
+									}
+								}
+							);
+						},
+						function(chain) {
+							// Fetch list of features for subscription
+							connection.query("SELECT `featureId` FROM `subscriptionFeatures` WHERE `subscriptionId` = ?", [dataConstructor.subscriptionId], function(error, results, fields) {
 								// Return error if query fails
 								if (error) {
 									chain(error, null);
 								} else {
-									if (results != null && results.length > 0) {
-										user = {
-											firstName: results[0].firstName,
-											lastName: results[0].lastName
-										};
-									}
+									// Store client features
+									dataConstructor.clientFeatures = results.map(result => result.featureId);
+									chain(null, results);
+								}
+							});
+						},
+						function(chain) {
+							// Fetch list of roles for the loaded user
+							connection.query("SELECT `roleId` FROM `userRoles` WHERE `userId` = ? AND `active` = ?", [dataConstructor.userId, true], function(error, results, fields) {
+								// Return error if query fails
+								if (error) {
+									chain(error, null);
+								} else {
+									// Store client features
+									dataConstructor.userRoles = results.map(result => result.roleId);
 									chain(null, results);
 								}
 							});
@@ -470,7 +508,7 @@ module.exports = function(router) {
 								} else {
 									connection.release();
 									// Build our response object
-									const response = { status: 200, message: t("label.success"), user: user };
+									const response = { status: 200, message: t("label.success"), user: dataConstructor };
 									// Return the response object
 									res.status(200).send(response);
 								}
