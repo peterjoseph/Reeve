@@ -3,7 +3,6 @@ import { connect } from "react-redux";
 import { bindActionCreators } from "redux";
 import PropTypes from "prop-types";
 import bowser from "bowser";
-import { Helmet } from "react-helmet";
 import { notify } from "react-notify-toast";
 import fetch from "~/shared/utilities/fetch";
 import { t } from "~/shared/translations/i18n";
@@ -12,7 +11,7 @@ import { SERVER_DETAILS, REDUX_STATE } from "~/shared/constants";
 import Router from "./Router";
 import Loading from "./common/components/Loading";
 
-import { AUTHENTICATION, LOGIN_REJECTED, loginUser } from "./common/store/reducers/authentication";
+import { AUTHENTICATION, LOGIN_REJECTED, loginUser, loadUser } from "./common/store/reducers/authentication";
 import { getToken, saveToken, clearToken } from "~/shared/utilities/securityToken";
 
 class App extends Component {
@@ -72,43 +71,46 @@ class App extends Component {
 			if (result.type === LOGIN_REJECTED) {
 				clearToken(); // Clear security token if login rejected
 				fetch.clearSecurityToken(); // Clear token in fetch header
+				this.setState({
+					loading: false
+				});
+			} else {
+				this.props.loadUser().then(() => {
+					this.setState({
+						loading: false
+					});
+				});
 			}
-			this.setState({
-				loading: false
-			});
 		});
 	}
 
 	render() {
-		const { loading } = this.state;
-
-		return (
-			<Fragment>
-				<Helmet>
-					<title>{t("headers.login.title")}</title>
-				</Helmet>
-				{loading ? <Loading /> : <Router />}
-			</Fragment>
-		);
+		return <Fragment>{this.state.loading ? <Loading /> : <Router {...this.props} />}</Fragment>;
 	}
 }
 
 App.propTypes = {
+	loginUser: PropTypes.func,
+	loadUser: PropTypes.func,
 	logInStatus: PropTypes.string,
+	userStatus: PropTypes.string,
 	logInData: PropTypes.object,
-	loginUser: PropTypes.func
+	userData: PropTypes.object
 };
 
 function mapStateToProps(state, props) {
 	return {
 		logInStatus: state.getIn([AUTHENTICATION, "userLogin", "status"]),
-		logInData: state.getIn([AUTHENTICATION, "userLogin", "payload"])
+		logInData: state.getIn([AUTHENTICATION, "userLogin", "payload"]),
+		userStatus: state.getIn([AUTHENTICATION, "user", "status"]),
+		userData: state.getIn([AUTHENTICATION, "user", "payload"])
 	};
 }
 
 function mapDispatchToProps(dispatch) {
 	return {
-		loginUser: bindActionCreators(loginUser, dispatch)
+		loginUser: bindActionCreators(loginUser, dispatch),
+		loadUser: bindActionCreators(loadUser, dispatch)
 	};
 }
 

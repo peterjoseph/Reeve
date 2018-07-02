@@ -31,6 +31,13 @@ export function userLogin(user) {
 	});
 }
 
+// Load user properties
+export function userLoad() {
+	return fetch.perform("/internal/load_user/", {
+		method: "GET"
+	});
+}
+
 // Workspace URL Validation
 export function workspaceURLValidation(workspaceURL) {
 	return fetch.perform("/internal/validate_workspace_url/", {

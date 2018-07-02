@@ -1,5 +1,6 @@
 import React, { Component, Fragment } from "react";
 import PropTypes from "prop-types";
+import { withRouter } from "react-router-dom";
 import { connect } from "react-redux";
 import { bindActionCreators } from "redux";
 import validate from "validate.JS";
@@ -7,11 +8,11 @@ import { Helmet } from "react-helmet";
 import { css } from "emotion";
 
 import { t } from "~/shared/translations/i18n";
-import { saveToken } from "~/shared/utilities/securityToken";
+import { saveToken, clearToken } from "~/shared/utilities/securityToken";
 import { REDUX_STATE, SERVER_DETAILS } from "~/shared/constants";
 import { extractSubdomain } from "~/shared/utilities/subdomain";
 
-import { AUTHENTICATION, validateWorkspaceURL, loginUser } from "../../common/store/reducers/authentication.js";
+import { AUTHENTICATION, LOGIN_REJECTED, validateWorkspaceURL, loginUser, loadUser } from "../../common/store/reducers/authentication.js";
 import { login, workspaceURL } from "~/shared/validation/authentication";
 
 import WorkspaceURL from "./components/WorkspaceURL";
@@ -122,7 +123,21 @@ class SignIn extends Component {
 				errors: valid
 			});
 		} else {
-			this.props.loginUser(user);
+			this.props.loginUser(user).then(result => {
+				if (result.type === LOGIN_REJECTED) {
+					clearToken(); // Clear security token if login rejected
+					fetch.clearSecurityToken(); // Clear token in fetch header
+					this.setState({
+						loading: false
+					});
+				} else {
+					this.props.loadUser().then(() => {
+						this.setState({
+							loading: false
+						});
+					});
+				}
+			});
 		}
 	}
 
@@ -216,6 +231,7 @@ SignIn.propTypes = {
 	logInStatus: PropTypes.string,
 	clientStyle: PropTypes.object,
 	loginUser: PropTypes.func,
+	loadUser: PropTypes.func,
 	validateWorkspaceURL: PropTypes.func,
 	userToken: PropTypes.string,
 	userKeepSignedIn: PropTypes.bool
@@ -234,8 +250,9 @@ function mapStateToProps(state) {
 function mapDispatchToProps(dispatch) {
 	return {
 		loginUser: bindActionCreators(loginUser, dispatch),
+		loadUser: bindActionCreators(loadUser, dispatch),
 		validateWorkspaceURL: bindActionCreators(validateWorkspaceURL, dispatch)
 	};
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(SignIn);
+export default withRouter(connect(mapStateToProps, mapDispatchToProps)(SignIn));

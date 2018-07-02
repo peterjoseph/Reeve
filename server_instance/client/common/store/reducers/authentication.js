@@ -1,6 +1,6 @@
 import { fromJS } from "immutable";
 import { REDUX_STATE } from "~/shared/constants";
-import { clientRegistration, userLogin, workspaceURLValidation } from "~/client/api/authentication.js";
+import { clientRegistration, userLogin, userLoad, workspaceURLValidation } from "~/client/api/authentication.js";
 
 import "./root";
 
@@ -13,6 +13,10 @@ export const VALIDATE_WORKSPACE_URL_REJECTED = AUTHENTICATION + "/VALIDATE_WORKS
 export const LOGIN_PENDING = AUTHENTICATION + "/LOGIN_PENDING";
 export const LOGIN_FULFILLED = AUTHENTICATION + "/LOGIN_FULFILLED";
 export const LOGIN_REJECTED = AUTHENTICATION + "/LOGIN_REJECTED";
+
+export const LOAD_USER_PENDING = AUTHENTICATION + "/LOAD_USER_PENDING";
+export const LOAD_USER_FULFILLED = AUTHENTICATION + "/LOAD_USER_FULFILLED";
+export const LOAD_USER_REJECTED = AUTHENTICATION + "/LOAD_USER_REJECTED";
 
 export const REGISTER_PENDING = AUTHENTICATION + "/REGISTER_PENDING";
 export const REGISTER_FULFILLED = AUTHENTICATION + "/REGISTER_FULFILLED";
@@ -35,6 +39,25 @@ export default function authentication(state = DEFAULT_STATE, action) {
 		case LOGIN_REJECTED:
 			return state.set(
 				"userLogin",
+				fromJS({
+					status: REDUX_STATE.REJECTED,
+					payload: {},
+					error: action.payload
+				})
+			);
+		case LOAD_USER_PENDING:
+			return state.setIn(["user", "status"], REDUX_STATE.PENDING);
+		case LOAD_USER_FULFILLED:
+			return state.set(
+				"user",
+				fromJS({
+					status: REDUX_STATE.FULFILLED,
+					payload: action.payload
+				})
+			);
+		case LOAD_USER_REJECTED:
+			return state.set(
+				"user",
 				fromJS({
 					status: REDUX_STATE.REJECTED,
 					payload: {},
@@ -109,6 +132,28 @@ export function loginUser(body) {
 			error =>
 				dispatch({
 					type: LOGIN_REJECTED,
+					payload: error
+				})
+		);
+	};
+}
+
+export function loadUser() {
+	return dispatch => {
+		dispatch({
+			type: LOAD_USER_PENDING
+		});
+
+		return userLoad().then(
+			result => {
+				return dispatch({
+					type: LOAD_USER_FULFILLED,
+					payload: result.user
+				});
+			},
+			error =>
+				dispatch({
+					type: LOAD_USER_REJECTED,
 					payload: error
 				})
 		);

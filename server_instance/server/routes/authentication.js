@@ -418,4 +418,67 @@ module.exports = function(router) {
 			});
 		});
 	}
+
+	// Load user properties
+	router.get("/internal/load_user/", passport.perform().authenticate("jwt"), function(req, res, next) {
+		perform().getConnection(function(error, connection) {
+			// Return error if database connection error
+			if (error) {
+				return next(error);
+			}
+			connection.beginTransaction(function(error) {
+				// Return error if begin transaction error
+				if (error) {
+					connection.release();
+					return next(error);
+				}
+				// Create an empty user object
+				let user = {};
+				async.series(
+					[
+						function(chain) {
+							// Fetch user properties
+							connection.query("SELECT * FROM `user` WHERE `id` = ? AND `clientId` = ?", [req.user.userId, req.user.clientId], function(error, results, fields) {
+								// Return error if query fails
+								if (error) {
+									chain(error, null);
+								} else {
+									if (results != null && results.length > 0) {
+										user = {
+											firstName: results[0].firstName,
+											lastName: results[0].lastName
+										};
+									}
+									chain(null, results);
+								}
+							});
+						}
+					],
+					function(error, data) {
+						if (error) {
+							// Rollback transaction if query is unsuccessful
+							connection.rollback(function() {
+								return next(error);
+							});
+						} else {
+							// Attempt to commit transaction
+							connection.commit(function(error) {
+								if (error) {
+									connection.rollback(function() {
+										return next(error);
+									});
+								} else {
+									connection.release();
+									// Build our response object
+									const response = { status: 200, message: t("label.success"), user: user };
+									// Return the response object
+									res.status(200).send(response);
+								}
+							});
+						}
+					}
+				);
+			});
+		});
+	});
 };

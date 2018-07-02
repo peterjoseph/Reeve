@@ -14,12 +14,7 @@
 		"type": "git",
 		"url": "git+https://github.com/peterjoseph/reeve.git"
 	},
-	"keywords": [
-		"node.js",
-		"server",
-		"node",
-		"express"
-	],
+	"keywords": ["node.js", "server", "node", "express", "mySQL", "Redis"],
 	"author": "Peter Joseph",
 	"bugs": {
 		"url": "https://github.com/peterjoseph/reeve/issues"
