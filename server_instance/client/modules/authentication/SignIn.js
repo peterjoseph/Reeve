@@ -12,7 +12,7 @@ import { saveToken, clearToken } from "~/shared/utilities/securityToken";
 import { REDUX_STATE, SERVER_DETAILS } from "~/shared/constants";
 import { extractSubdomain } from "~/shared/utilities/subdomain";
 
-import { AUTHENTICATION, LOGIN_REJECTED, validateWorkspaceURL, loginUser, loadUser } from "../../common/store/reducers/authentication.js";
+import { AUTHENTICATION, LOGIN_REJECTED, validateWorkspaceURL, loginUser, loadUser, LOAD_USER_REJECTED } from "../../common/store/reducers/authentication.js";
 import { login, workspaceURL } from "~/shared/validation/authentication";
 
 import WorkspaceURL from "./components/WorkspaceURL";
@@ -131,10 +131,12 @@ class SignIn extends Component {
 						loading: false
 					});
 				} else {
-					this.props.loadUser().then(() => {
-						this.setState({
-							loading: false
-						});
+					this.props.loadUser().then(result => {
+						if (result.type === LOAD_USER_REJECTED) {
+							this.setState({
+								loading: false
+							});
+						}
 					});
 				}
 			});

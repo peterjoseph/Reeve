@@ -8,7 +8,7 @@ import { register, login } from "~/shared/validation/authentication";
 import { t } from "~/shared/translations/i18n";
 import { perform } from "../database";
 import { generateDate } from "~/shared/utilities/date";
-import { hasFeature } from "~/shared/utilities/features";
+import { arrayContains } from "~/shared/utilities/filters";
 import { SUBSCRIPTION_TYPE, ROLE_TYPE, FEATURES } from "~/shared/constants";
 
 module.exports = function(router) {
@@ -148,6 +148,10 @@ module.exports = function(router) {
 	router.get("/internal/validate_workspace_url/", function(req, res, next) {
 		// Get workspaceURL name from header
 		const workspaceURL = req.headers["workspaceurl"] ? req.headers["workspaceurl"] : "";
+		if (workspaceURL === null || workspaceURL === "") {
+			const errorMsg = { status: 403, message: t("validation.clientInvalidProperties"), reason: { workspaceURL: [t("validation.emptyWorkspaceURL")] } };
+			return next(errorMsg);
+		}
 		// Check database for existing WorkspaceURL
 		perform().getConnection(function(error, connection) {
 			// Return error if database connection error
@@ -196,7 +200,7 @@ module.exports = function(router) {
 								} else {
 									// Store client features and whether client styling is enabled
 									dataConstructor.clientFeatures = results.map(result => result.featureId);
-									dataConstructor.clientStyling = hasFeature(FEATURES.STYLING, dataConstructor.clientFeatures);
+									dataConstructor.clientStyling = arrayContains(FEATURES.STYLING, dataConstructor.clientFeatures);
 									chain(null, results);
 								}
 							});

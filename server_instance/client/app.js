@@ -39,6 +39,7 @@ class App extends Component {
 			// Store token in browser
 			if (nextProps.logInData.get("token") != null) {
 				saveToken(nextProps.logInData.get("token"), nextProps.logInData.get("keepSignedIn"));
+				fetch.setSecurityToken(nextProps.logInData.get("token"));
 			}
 		}
 		return null;
