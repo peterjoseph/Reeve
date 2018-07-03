@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import PropTypes from "prop-types";
 import { BrowserRouter, Switch } from "react-router-dom";
-import { ROLE_TYPE, FEATURES } from "~/shared/constants";
+import { ROLE_TYPE } from "~/shared/constants";
 
 import User from "./common/components/User";
 import RedirectComponent from "./common/components/RedirectComponent";
@@ -16,9 +16,10 @@ class Router extends Component {
 		return (
 			<BrowserRouter>
 				<Switch>
-					<RedirectComponent exact path="/" role={[ROLE_TYPE.OWNER, ROLE_TYPE.ADMINISTRATOR]} user={user} render={props => <div>User Logged In</div>} />
-					<RedirectComponent exact path="/login" role={[ROLE_TYPE.UNREGISTERED]} user={user} render={props => <Authentication />} />
+					<RedirectComponent exact path="/" role={[ROLE_TYPE.OWNER]} user={user} render={props => <div>User Logged In</div>} />
+					<RedirectComponent exact path="/signin" role={[ROLE_TYPE.UNREGISTERED]} user={user} render={props => <Authentication />} />
 					<RedirectComponent exact path="/register" role={[ROLE_TYPE.UNREGISTERED]} user={user} render={props => <Authentication />} />
+					<RedirectComponent exact path="/forgot" role={[ROLE_TYPE.UNREGISTERED]} user={user} render={props => <Authentication />} />
 					<RedirectComponent component={MissingPath} />
 				</Switch>
 			</BrowserRouter>

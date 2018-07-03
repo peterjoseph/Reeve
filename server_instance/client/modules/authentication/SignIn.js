@@ -160,7 +160,7 @@ class SignIn extends Component {
 				errors: valid
 			});
 		} else {
-			window.location.replace(`${SERVER_DETAILS.PROTOCOL}://${subdomain.workspaceURL}.${SERVER_DETAILS.DOMAIN}`);
+			window.location.replace(`${SERVER_DETAILS.PROTOCOL}://${subdomain.workspaceURL}.${SERVER_DETAILS.DOMAIN}/signin`);
 		}
 	}
 

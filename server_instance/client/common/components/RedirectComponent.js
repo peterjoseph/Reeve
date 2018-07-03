@@ -4,6 +4,7 @@ import { Route } from "react-router";
 import { Redirect } from "react-router-dom";
 import { arrayContains, arrayHasAny } from "~/shared/utilities/filters";
 import AsyncComponent from "./AsyncComponent";
+
 const MissingPath = AsyncComponent(() => import("./MissingPath"));
 
 class RedirectComponent extends Component {
@@ -15,18 +16,23 @@ class RedirectComponent extends Component {
 			return <Route {...this.props} />;
 		}
 
+		// Show forgot password if user is not logged in
+		if (path == "/forgot" && (!user || user.get("userId") === null)) {
+			return <Route {...this.props} />;
+		}
+
 		// Show login page if user is not logged in
-		if (path == "/login" && (!user || user.get("userId") === null)) {
+		if (path == "/signin" && (!user || user.get("userId") === null)) {
 			return <Route {...this.props} />;
 		}
 
 		// Redirect if user is not logged in and tries to access restricted page
-		if (path !== "/login" && (!user || user.get("userId") === null)) {
-			return <Redirect to="/login" />;
+		if (path !== "/signin" && (!user || user.get("userId") === null)) {
+			return <Redirect to="/signin" />;
 		}
 
 		// Redirect if user is loaded
-		if ((path === "/login" || path === "/register") && user.get("userId")) {
+		if ((path === "/signin" || path === "/register" || path === "/forgot") && user.get("userId")) {
 			return <Redirect to="/" />;
 		}
 

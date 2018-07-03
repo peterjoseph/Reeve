@@ -1,7 +1,10 @@
 import React, { Component } from "react";
+import { Route } from "react-router";
+import { Switch } from "react-router-dom";
 
 import SignIn from "./SignIn";
 import Register from "./Register";
+import Forgot from "./Forgot";
 
 class Authentication extends Component {
 	render() {
@@ -9,7 +12,11 @@ class Authentication extends Component {
 			<div id="authentication">
 				<div className="container-fluid nopadding">
 					<div className="row justify-content-center nopadding">
-						<SignIn />
+						<Switch>
+							<Route path="/signin" render={() => <SignIn />} />
+							<Route path="/register" render={() => <Register />} />
+							<Route path="/forgot" render={() => <Forgot />} />
+						</Switch>
 					</div>
 				</div>
 			</div>

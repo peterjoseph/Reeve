@@ -1,4 +1,5 @@
 import React, { Component } from "react";
+import { Link } from "react-router-dom";
 import PropTypes from "prop-types";
 import { t } from "~/shared/translations/i18n";
 
@@ -24,7 +25,7 @@ class WorkspaceURL extends Component {
 					{t("action.continue")}
 				</button>
 				<div className="mt-4">
-					<span>{t("components.authentication.noAccount")}</span> <a href="#">{t("action.register")}</a>
+					<span>{t("components.authentication.noAccount")}</span> <Link to={{ pathname: "/register" }}>{t("action.register")}</Link>
 				</div>
 			</div>
 		);

@@ -1,4 +1,5 @@
 import React, { Component } from "react";
+import { Link } from "react-router-dom";
 import PropTypes from "prop-types";
 import { t } from "~/shared/translations/i18n";
 
@@ -50,13 +51,15 @@ class SignInForm extends Component {
 							{t("components.authentication.keepSignedIn")}
 						</label>
 					</div>
-					<div className="col text-right">{t("components.authentication.forgotPassword")}</div>
+					<div className="col text-right">
+						<Link to={{ pathname: "/forgot" }}>{t("components.authentication.forgotPassword")}</Link>
+					</div>
 				</div>
 				<button type="submit" className={`btn btn-primary btn-lg btn-block mt-4 p-3 ${style.button}`} onClick={login} disabled={loginPending || workspaceURLPending}>
-					{t("action.login")}
+					{t("action.signIn")}
 				</button>
 				<div className="mt-4">
-					<span>{t("components.authentication.noAccount")}</span> <a href="#">{t("action.register")}</a>
+					<span>{t("components.authentication.noAccount")}</span> <Link to={{ pathname: "/register" }}>{t("action.register")}</Link>
 				</div>
 			</div>
 		);
