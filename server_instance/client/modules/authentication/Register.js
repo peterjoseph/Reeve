@@ -3,6 +3,7 @@ import PropTypes from "prop-types";
 import { connect } from "react-redux";
 import { bindActionCreators } from "redux";
 import { Link } from "react-router-dom";
+import { Helmet } from "react-helmet";
 import validate from "validate.JS";
 import { t } from "~/shared/translations/i18n";
 import { extractSubdomain } from "~/shared/utilities/subdomain";
@@ -82,6 +83,10 @@ class Register extends Component {
 		const { firstName, lastName, emailAddress, password, workspaceURL, visible, loading, errors } = this.state;
 		return (
 			<Fragment>
+				<Helmet>
+					<title>{t("headers.register.title")}</title>
+					<meta name="description" content={t("headers.register.description")} />
+				</Helmet>
 				<div className="form-container col-xs-12 col-md-6 col-lg-5 d-flex flex-column hidden-md-down">
 					{visible && (
 						<div id="register">

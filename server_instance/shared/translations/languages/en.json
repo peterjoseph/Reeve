@@ -37,6 +37,10 @@
 		"login": {
 			"title": "Sign In to your Account | $t(site.name)",
 			"description": "Enter your username and password to sign into your account."
+		},
+		"register": {
+			"title": "Register for an Account | $t(site.name)",
+			"description": "Complete your registration details to create a client account."
 		}
 	},
 	"error": {
