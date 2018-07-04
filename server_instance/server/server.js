@@ -44,7 +44,7 @@ if (config.papertrail.enabled && config.build.environment === "production") {
 }
 
 // Fetch Favicon
-app.use(favicon(path.join(__dirname, "favicon.ico")));
+app.use(favicon(path.join(__dirname, "../favicon.ico")));
 
 // Set up view engine
 app.set("view engine", "html");
