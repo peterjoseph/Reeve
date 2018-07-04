@@ -90,6 +90,16 @@ const register = {
 			minimum: 4,
 			maximum: 255
 		}
+	},
+	privacyConsent: {
+		presence: {
+			allowEmpty: false,
+			isBoolean: true
+		},
+		exclusion: {
+			within: [false],
+			message: t("validation.missingConsent")
+		}
 	}
 };
 

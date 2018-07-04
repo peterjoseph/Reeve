@@ -4,6 +4,7 @@ import PropTypes from "prop-types";
 import { t } from "~/shared/translations/i18n";
 
 import InputField from "../../../common/components/inputs/InputField";
+import Checkbox from "../../../common/components/inputs/Checkbox";
 
 class SignInForm extends Component {
 	render() {
@@ -36,20 +37,16 @@ class SignInForm extends Component {
 					disabled={loginPending || workspaceURLPending}
 					error={errors}
 				/>
-				<div className="form-row pl-4 pr-1">
+				<div className="form-row pl-1 pr-1">
 					<div className="col">
-						<input
+						<Checkbox
 							id="signedInCheck"
 							name="keepSignedIn"
-							className="form-check-input"
-							type="checkbox"
 							value={keepSignedIn}
 							onClick={handleChecked}
 							disabled={loginPending || workspaceURLPending}
+							label={t("components.authentication.keepSignedIn")}
 						/>
-						<label className="form-check-label" htmlFor="signedInCheck">
-							{t("components.authentication.keepSignedIn")}
-						</label>
 					</div>
 					<div className="col text-right">
 						<Link to={{ pathname: "/forgot" }}>{t("components.authentication.forgotPassword")}</Link>

@@ -18,7 +18,9 @@
 		"password": "Password",
 		"workspaceURL": "Workspace URL",
 		"welcome": "Welcome",
-		"success": "Success"
+		"success": "Success",
+		"termsAndConditions": "Terms and Conditions",
+		"privacyPolicy": "Privacy Policy"
 	},
 	"components": {
 		"authentication": {
@@ -27,7 +29,10 @@
 			"forgotPassword": "Forgot Password?",
 			"getStarted": "To get started, enter the Workspace URL associated with your account.",
 			"whatIsWorkspaceURL": "What is my Workspace URL?",
-			"noAccount": "Don't yet have an account?"
+			"noAccount": "Don't yet have an account?",
+			"existingAccount": "Already have an account?",
+			"policyAgreement": "By signing up, you agree to the following",
+			"privacyConsent": "I consent to the collection and storage of my information to handle the processing and operation of my account."
 		}
 	},
 	"headers": {
@@ -57,6 +62,7 @@
 		"userDoesNotExist": "A user with this email address does not exist",
 		"validWorkspaceURL": "cannot contain the following name",
 		"emptyWorkspaceURL": "WorkspaceURL does not exist",
-		"tokenInvalidOrExpired": "Token invalid or expired"
+		"tokenInvalidOrExpired": "Token invalid or expired",
+		"missingConsent": "must be accepted to continue"
 	}
 }

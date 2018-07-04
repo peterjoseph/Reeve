@@ -5,7 +5,7 @@ import { bindActionCreators } from "redux";
 import { Link } from "react-router-dom";
 import { Helmet } from "react-helmet";
 import validate from "validate.JS";
-import { t } from "~/shared/translations/i18n";
+import { t, l } from "~/shared/translations/i18n";
 import { extractSubdomain } from "~/shared/utilities/subdomain";
 import { SERVER_DETAILS } from "~/shared/constants";
 
@@ -13,6 +13,7 @@ import { registerClient } from "../../common/store/reducers/authentication.js";
 import { register } from "~/shared/validation/authentication";
 
 import InputField from "../../common/components/inputs/InputField";
+import Checkbox from "../../common/components/inputs/Checkbox";
 import WorkspaceURLField from "../../common/components/inputs/WorkspaceURLField";
 
 class Register extends Component {
@@ -25,6 +26,7 @@ class Register extends Component {
 			lastName: "",
 			emailAddress: "",
 			password: "",
+			privacyConsent: false,
 			loading: false,
 			visible: false,
 			errors: {}
@@ -32,6 +34,7 @@ class Register extends Component {
 
 		this.register = this.register.bind(this);
 		this.changeField = this.changeField.bind(this);
+		this.handleChecked = this.handleChecked.bind(this);
 	}
 
 	componentDidMount() {
@@ -52,6 +55,10 @@ class Register extends Component {
 		});
 	}
 
+	handleChecked(evt) {
+		this.setState({ [evt.target.name]: !this.state.privacyConsent });
+	}
+
 	register(evt) {
 		evt.preventDefault(); // Prevent page refresh
 
@@ -64,7 +71,8 @@ class Register extends Component {
 			firstName: this.state.firstName,
 			lastName: this.state.lastName,
 			emailAddress: this.state.emailAddress,
-			password: this.state.password
+			password: this.state.password,
+			privacyConsent: this.state.privacyConsent
 		};
 
 		// Validate input parameters
@@ -80,7 +88,7 @@ class Register extends Component {
 	}
 
 	render() {
-		const { firstName, lastName, emailAddress, password, workspaceURL, visible, loading, errors } = this.state;
+		const { firstName, lastName, emailAddress, password, workspaceURL, privacyConsent, visible, loading, errors } = this.state;
 		return (
 			<Fragment>
 				<Helmet>
@@ -151,16 +159,44 @@ class Register extends Component {
 										error={errors}
 									/>
 									<WorkspaceURLField label={t("label.workspaceURL")} value={workspaceURL} onChange={this.changeField} disabled={loading} error={errors} />
+									<div>
+										<div>
+											<span>
+												<small>
+													{t("components.authentication.policyAgreement")}:
+													<ol>
+														<li>
+															<a href={l("termsAndConditions")} target="_blank" rel="noopener noreferrer">
+																{t("label.termsAndConditions")}
+															</a>
+														</li>
+														<li>
+															<a href={l("privacyPolicy")} target="_blank" rel="noopener noreferrer">
+																{t("label.privacyPolicy")}
+															</a>
+														</li>
+													</ol>
+												</small>
+											</span>
+										</div>
+										<div>
+											<Checkbox
+												id="privacyConsent"
+												name="privacyConsent"
+												value={privacyConsent}
+												onClick={this.handleChecked}
+												smallText
+												disabled={loading}
+												label={t("components.authentication.privacyConsent")}
+												error={errors}
+											/>
+										</div>
+									</div>
 									<button type="submit" className="btn btn-primary btn-lg btn-block mt-4 p-3" onClick={this.register} disabled={loading}>
 										{t("action.signUp")}
 									</button>
-									<div className="text-center">
-										<span>
-											<small>By signing up, you agree to our Terms & Conditions and Privacy policy </small>{" "}
-										</span>
-									</div>
 									<div className="mt-4">
-										Already have an account ? <Link to={{ pathname: "/signin" }}>{t("action.signIn")}</Link>
+										{t("components.authentication.existingAccount")} <Link to={{ pathname: "/signin" }}>{t("action.signIn")}</Link>
 									</div>
 								</form>
 							</div>

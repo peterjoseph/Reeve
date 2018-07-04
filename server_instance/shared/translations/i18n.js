@@ -2,12 +2,13 @@ import i18next from "i18next";
 
 const languages = {
 	en: {
-		translation: require("./languages/en.json")
+		translation: require("./languages/en.json"),
+		links: require("./links/en.json")
 	}
 };
 
 i18next.init({
-	ns: ["translation"],
+	ns: ["translation", "links"],
 	interpolation: {
 		escapeValue: false
 	},
@@ -23,4 +24,8 @@ export default i18next;
 
 export function t(...args) {
 	return i18next.t(...args);
+}
+
+export function l(link) {
+	return i18next.t(`links:${link}`);
 }

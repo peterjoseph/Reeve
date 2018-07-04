@@ -20,7 +20,8 @@ module.exports = function(router) {
 			firstName: req.body.firstName,
 			lastName: req.body.lastName,
 			emailAddress: req.body.emailAddress,
-			password: req.body.password
+			password: req.body.password,
+			privacyConsent: req.body.privacyConsent
 		};
 		// Validate properties in received object
 		const valid = validate(received, register);
