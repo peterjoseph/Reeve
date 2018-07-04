@@ -23,15 +23,15 @@ subdomain.init({
 });
 
 // Recursively retrieve endpoints from routes folder
-fs.readdirSync(path.join(__dirname, "/routes")).forEach(function(file) {
+fs.readdirSync(path.join(__dirname, "../../server/controller")).forEach(function(file) {
 	if (file.toLowerCase().indexOf(".js")) {
-		require("./" + path.join("routes", file))(router);
+		require("../" + path.join("controller", file))(router);
 	}
 });
 
 // Load index file for all other calls
 router.get("*", function(req, res) {
-	res.sendFile(path.join(__dirname, "../client/index.html"));
+	res.sendFile(path.join(__dirname, "../../client/index.html"));
 });
 
 module.exports = router;

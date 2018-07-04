@@ -9,11 +9,11 @@ let cookieParser = require("cookie-parser");
 let bodyParser = require("body-parser");
 let favicon = require("serve-favicon");
 let loadWebpack = require("./server.dev.js");
-let routes = require("./router"); // Server Routes
+let routes = require("./services/router"); // Server Routes
 let app = express();
 
-let passport = require("./passport");
-let database = require("./database");
+let passport = require("./services/passport");
+let database = require("./services/database");
 let config = require("../config");
 
 // Set up Sentry Error Reporting

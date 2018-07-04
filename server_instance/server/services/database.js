@@ -1,5 +1,5 @@
 let mysql = require("mysql");
-let config = require("../config");
+let config = require("../../config");
 
 let connection = null;
 

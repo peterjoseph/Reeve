@@ -1,7 +1,7 @@
 let passport = require("passport");
 let JwtStrategy = require("passport-jwt").Strategy;
 let ExtractJwt = require("passport-jwt").ExtractJwt;
-let config = require("../config");
+let config = require("../../config");
 
 function initialize(app, database) {
 	app.use(passport.initialize());
