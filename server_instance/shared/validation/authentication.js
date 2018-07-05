@@ -1,4 +1,4 @@
-import { t } from "~/shared/translations/i18n";
+import { t } from "shared/translations/i18n";
 
 const restrictedDomains = ["domain", "account", "accounts", "admin", "registration", "signup", "configuration", "web", "mobile", "app", "software", "com", "net", "org"];
 

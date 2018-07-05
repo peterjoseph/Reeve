@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import { Link } from "react-router-dom";
 import PropTypes from "prop-types";
-import { t } from "~/shared/translations/i18n";
+import { t } from "shared/translations/i18n";
 
 import InputField from "../../../common/components/inputs/InputField";
 import Checkbox from "../../../common/components/inputs/Checkbox";

@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import PropTypes from "prop-types";
 import ReactModal from "react-modal";
-import { t } from "~/shared/translations/i18n";
+import { t } from "shared/translations/i18n";
 
 class Alert extends Component {
 	render() {

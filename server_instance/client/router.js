@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import PropTypes from "prop-types";
 import { BrowserRouter, Switch } from "react-router-dom";
-import { ROLE_TYPE } from "~/shared/constants";
+import { ROLE_TYPE } from "shared/constants";
 
 import User from "./common/components/User";
 import RedirectComponent from "./common/components/RedirectComponent";

@@ -31,7 +31,7 @@ fs.readdirSync(path.join(__dirname, "../../server/controller")).forEach(function
 
 // Load index file for all other calls
 router.get("*", function(req, res) {
-	res.sendFile(path.join(__dirname, "../../client/index.html"));
+	res.sendFile(path.join(__dirname, "../../client/distribution/index.html"));
 });
 
 module.exports = router;

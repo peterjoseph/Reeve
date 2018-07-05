@@ -1,6 +1,6 @@
 import React, { Fragment } from "react";
 import ReactDOM from "react-dom";
-import i18next from "~/shared/translations/i18n";
+import i18next from "shared/translations/i18n";
 import ReactTooltip from "react-tooltip";
 import Notifications from "react-notify-toast";
 

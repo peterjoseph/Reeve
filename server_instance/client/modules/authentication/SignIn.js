@@ -7,13 +7,13 @@ import validate from "validate.JS";
 import { Helmet } from "react-helmet";
 import { css } from "emotion";
 
-import { t } from "~/shared/translations/i18n";
-import { saveToken, clearToken } from "~/shared/utilities/securityToken";
-import { REDUX_STATE, SERVER_DETAILS } from "~/shared/constants";
-import { extractSubdomain } from "~/shared/utilities/subdomain";
+import { t } from "shared/translations/i18n";
+import { saveToken, clearToken } from "shared/utilities/securityToken";
+import { REDUX_STATE, SERVER_DETAILS } from "shared/constants";
+import { extractSubdomain } from "shared/utilities/subdomain";
 
 import { AUTHENTICATION, LOGIN_REJECTED, validateWorkspaceURL, loginUser, loadUser, LOAD_USER_REJECTED } from "../../common/store/reducers/authentication.js";
-import { login, workspaceURL } from "~/shared/validation/authentication";
+import { login, workspaceURL } from "shared/validation/authentication";
 
 import WorkspaceURL from "./components/WorkspaceURL";
 import SignInForm from "./components/SignInForm";

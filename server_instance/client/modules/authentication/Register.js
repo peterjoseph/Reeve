@@ -5,12 +5,12 @@ import { bindActionCreators } from "redux";
 import { Link } from "react-router-dom";
 import { Helmet } from "react-helmet";
 import validate from "validate.JS";
-import { t, l } from "~/shared/translations/i18n";
-import { extractSubdomain } from "~/shared/utilities/subdomain";
-import { SERVER_DETAILS } from "~/shared/constants";
+import { t, l } from "shared/translations/i18n";
+import { extractSubdomain } from "shared/utilities/subdomain";
+import { SERVER_DETAILS } from "shared/constants";
 
 import { registerClient } from "../../common/store/reducers/authentication.js";
-import { register } from "~/shared/validation/authentication";
+import { register } from "shared/validation/authentication";
 
 import InputField from "../../common/components/inputs/InputField";
 import Checkbox from "../../common/components/inputs/Checkbox";

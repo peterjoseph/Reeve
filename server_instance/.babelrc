@@ -1,4 +1,16 @@
 {
 	"presets": ["es2015", "stage-0"],
-	"plugins": [["babel-plugin-root-import"], ["emotion"]]
+	"plugins": [
+		["emotion"],
+		[
+			"module-resolver",
+			{
+				"alias": {
+					"shared": "./shared",
+					"client": "./client",
+					"server": "./server"
+				}
+			}
+		]
+	]
 }

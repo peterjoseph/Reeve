@@ -9,7 +9,7 @@ let https = require("https");
 let cookieParser = require("cookie-parser");
 let bodyParser = require("body-parser");
 let favicon = require("serve-favicon");
-let loadWebpack = require("./server.dev.js");
+let loadWebpack = require("./server.dev");
 let routes = require("./services/router"); // Server Routes
 let app = express();
 
@@ -49,7 +49,7 @@ app.use(favicon(path.join(__dirname, "../favicon.ico")));
 
 // Set up view engine
 app.set("view engine", "html");
-app.engine("html", function(path, options, callbacks) {
+app.engine("html", function(path, options, callback) {
 	fs.readFile(path, "utf-8", callback);
 });
 
@@ -65,7 +65,7 @@ if (config.build.environment === "development") {
 	loadWebpack(app);
 } else {
 	// Load packaged files in production
-	app.use(express.static(path.join(__dirname, "../client")));
+	app.use(express.static(path.join(__dirname, "../client/distribution")));
 }
 
 // Connection to Redis user session store
@@ -115,7 +115,9 @@ app.use(function errorHandler(err, req, res, next) {
 	// Report to Kinesis
 	const status = err.status != null ? err.status : 500;
 	let response = {
-		status: status
+		status: status,
+		message: null,
+		reason: null
 	};
 	if (err.message != null) {
 		response.message = err.message;

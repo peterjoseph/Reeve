@@ -1,5 +1,5 @@
 import React from "react";
-import { t } from "~/shared/translations/i18n";
+import { t } from "shared/translations/i18n";
 
 class MissingPath extends React.Component {
 	render() {

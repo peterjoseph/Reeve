@@ -1,6 +1,6 @@
 import { fromJS } from "immutable";
-import { REDUX_STATE } from "~/shared/constants";
-import { clientRegistration, userLogin, userLoad, workspaceURLValidation } from "~/client/api/authentication.js";
+import { REDUX_STATE } from "shared/constants";
+import { clientRegistration, userLogin, userLoad, workspaceURLValidation } from "client/api/authentication.js";
 
 import "./root";
 

@@ -51,7 +51,7 @@ module.exports = {
 	mode: config.build.environment,
 	entry: loadEntryFile(),
 	output: {
-		path: path.join(__dirname, "client"),
+		path: path.join(__dirname, "client", "distribution"),
 		filename: "bundle.js"
 	},
 	module: {

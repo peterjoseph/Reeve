@@ -4,15 +4,15 @@ import { bindActionCreators } from "redux";
 import PropTypes from "prop-types";
 import bowser from "bowser";
 import { notify } from "react-notify-toast";
-import fetch from "~/shared/utilities/fetch";
-import { t } from "~/shared/translations/i18n";
-import { SERVER_DETAILS, REDUX_STATE } from "~/shared/constants";
+import fetch from "shared/utilities/fetch";
+import { t } from "shared/translations/i18n";
+import { SERVER_DETAILS, REDUX_STATE } from "shared/constants";
 
 import Router from "./Router";
 import Loading from "./common/components/Loading";
 
 import { AUTHENTICATION, LOGIN_REJECTED, loginUser, loadUser } from "./common/store/reducers/authentication";
-import { getToken, saveToken, clearToken } from "~/shared/utilities/securityToken";
+import { getToken, saveToken, clearToken } from "shared/utilities/securityToken";
 
 class App extends Component {
 	constructor(props) {

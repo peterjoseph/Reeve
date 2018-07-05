@@ -1,4 +1,4 @@
-import fetch from "~/shared/utilities/fetch";
+import fetch from "shared/utilities/fetch";
 
 // Account Registration
 export function clientRegistration(client) {

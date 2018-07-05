@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import { Link } from "react-router-dom";
 import PropTypes from "prop-types";
-import { t } from "~/shared/translations/i18n";
+import { t } from "shared/translations/i18n";
 
 import WorkspaceURLField from "../../../common/components/inputs/WorkspaceURLField";
 

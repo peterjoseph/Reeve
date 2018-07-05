@@ -1,7 +1,7 @@
 import React from "react";
 import PropTypes from "prop-types";
-import { t } from "~/shared/translations/i18n";
-import { SERVER_DETAILS } from "~/shared/constants";
+import { t } from "shared/translations/i18n";
+import { SERVER_DETAILS } from "shared/constants";
 
 class InputField extends React.Component {
 	render() {
