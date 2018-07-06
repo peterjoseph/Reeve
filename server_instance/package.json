@@ -80,7 +80,6 @@
 	},
 	"devDependencies": {
 		"ava": "^0.25.0",
-		"awesome-typescript-loader": "^5.2.0",
 		"babel-core": "^6.26.3",
 		"babel-loader": "^7.1.4",
 		"babel-plugin-module-resolver": "^3.1.1",
@@ -110,8 +109,6 @@
 		"react-hot-loader": "^4.1.2",
 		"sass-loader": "^7.0.1",
 		"style-loader": "^0.21.0",
-		"ts-node": "^7.0.0",
-		"typescript": "^2.9.2",
 		"uglifyjs-webpack-plugin": "^1.2.5",
 		"url-loader": "^1.0.1",
 		"webpack": "^4.6.0",
