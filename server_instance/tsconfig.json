@@ -1,0 +1,10 @@
+{
+	"compilerOptions": {
+		"outDir": "./distribution",
+		"allowJs": true,
+		"baseUrl": "./server",
+		"target": "es5"
+	},
+	"include": ["./server/**/*"],
+	"exclude": ["node_modules"]
+}

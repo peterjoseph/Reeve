@@ -65,7 +65,7 @@ if (config.build.environment === "development") {
 	loadWebpack(app);
 } else {
 	// Load packaged files in production
-	app.use(express.static(path.join(__dirname, "../client/distribution")));
+	app.use(express.static(path.join(__dirname, "../distribution/client")));
 }
 
 // Connection to Redis user session store

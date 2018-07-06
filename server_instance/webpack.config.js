@@ -51,11 +51,15 @@ module.exports = {
 	mode: config.build.environment,
 	entry: loadEntryFile(),
 	output: {
-		path: path.join(__dirname, "client", "distribution"),
+		path: path.join(__dirname, "distribution", "client"),
 		filename: "bundle.js"
+	},
+	resolve: {
+		extensions: [".tsx", ".ts", ".js"]
 	},
 	module: {
 		rules: [
+			{ test: /\.tsx?$/, loader: "awesome-typescript-loader" },
 			{
 				test: /.jsx?$/,
 				loader: "babel-loader",

@@ -2,7 +2,7 @@ module.exports = {
 	apps: [
 		{
 			name: "node.js-server (worker)",
-			script: "server/server.js",
+			script: "distribution/server/server.js",
 			env: {
 				COMMON_VARIABLE: "true"
 			},
