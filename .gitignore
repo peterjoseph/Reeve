@@ -58,4 +58,4 @@ typings/
 .env
 
 # bundle file
-server_instance/client/bundle.js
+server_instance/distribution/
