@@ -1,5 +1,0 @@
-{
-	"watch": ["client", "server", "shared"],
-	"ignore": ["server/**/*.spec.ts"],
-	"exec": "ts-node ./server/server.ts"
-}

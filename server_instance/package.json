@@ -4,28 +4,30 @@
 	"description": "Web application scaffolding for production environments",
 	"main": "index.js",
 	"scripts": {
-		"start": "node distribution/server/server.js",
+		"start": "node server/server.js",
 		"start:PM2": "pm2 start ecosystem.config.js",
-		"development": "nodemon",
+		"development": "nodemon ./server/server",
 		"test": "ava tests",
-		"build": "tsc && webpack -p"
+		"build": "webpack -p"
 	},
 	"repository": {
 		"type": "git",
 		"url": "git+https://github.com/peterjoseph/reeve.git"
 	},
-	"keywords": ["node.js", "server", "node", "express", "mySQL", "Redis"],
+	"keywords": [
+		"node.js",
+		"server",
+		"node",
+		"express",
+		"mySQL",
+		"Redis"
+	],
 	"author": "Peter Joseph",
 	"bugs": {
 		"url": "https://github.com/peterjoseph/reeve/issues"
 	},
 	"homepage": "https://github.com/peterjoseph/reeve#readme",
 	"dependencies": {
-		"@babel/preset-typescript": "^7.0.0-beta.51",
-		"@types/express": "^4.16.0",
-		"@types/express-session": "^1.15.10",
-		"@types/node": "^10.5.1",
-		"@types/winston": "^2.3.9",
 		"async": "^2.6.0",
 		"babel-plugin-emotion": "^9.1.2",
 		"bcrypt": "^2.0.1",
