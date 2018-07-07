@@ -1,4 +1,4 @@
-let mysql = require("mysql");
+let mysql = require("mysql2");
 let config = require("../../config");
 
 let connection = null;

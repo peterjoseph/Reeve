@@ -1,4 +1,5 @@
 require("babel-register")({ presets: ["env"] }); // Transpile server code to support ES6
+
 let express = require("express"); // Express Server
 let session = require("express-session");
 let helmet = require("helmet");
