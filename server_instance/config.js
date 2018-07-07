@@ -21,7 +21,11 @@ let config = {
 		host: process.env.DB_HOST,
 		username: process.env.DB_USER,
 		password: process.env.DB_PASS,
-		schema: process.env.DB_SCHEMA
+		schema: process.env.DB_SCHEMA,
+		max: parseInt(process.env.DB_POOL_MAX),
+		min: parseInt(process.env.DB_POOL_MIN),
+		acquire: parseInt(process.env.DB_POOL_ACQUIRE),
+		idle: parseInt(process.env.DB_POOL_IDLE)
 	},
 	redis: {
 		host: process.env.R_HOST,

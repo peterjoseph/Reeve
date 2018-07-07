@@ -6,7 +6,7 @@ import passport from "../services/passport";
 import config from "../../config";
 import { register, login } from "shared/validation/authentication";
 import { t } from "shared/translations/i18n";
-import { perform } from "../services/database";
+import { perform } from "../services/sequelize";
 import { generateDate } from "shared/utilities/date";
 import { arrayContains } from "shared/utilities/filters";
 import { SUBSCRIPTION_TYPE, ROLE_TYPE, FEATURES } from "shared/constants";

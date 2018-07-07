@@ -15,7 +15,7 @@ let routes = require("./services/router"); // Server Routes
 let app = express();
 
 let passport = require("./services/passport");
-let database = require("./services/database");
+let database = require("./services/sequelize");
 let config = require("../config");
 
 // Set up Sentry Error Reporting

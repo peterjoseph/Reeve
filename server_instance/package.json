@@ -70,6 +70,7 @@
 		"redux": "^4.0.0",
 		"redux-immutable": "^4.0.0",
 		"redux-thunk": "^2.2.0",
+		"sequelize": "^4.38.0",
 		"serve-favicon": "^2.5.0",
 		"subdomain-router-middleware": "^1.0.0",
 		"underscore": "^1.9.0",
