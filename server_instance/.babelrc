@@ -1,16 +1,24 @@
 {
 	"presets": ["es2015", "stage-0"],
 	"plugins": [
-		["emotion"],
 		[
 			"module-resolver",
 			{
 				"alias": {
 					"shared": "./shared",
 					"client": "./client",
-					"server": "./server"
+					"api": "./client/api",
+					"common": "./client/common",
+					"modules": "./client/modules",
+					"server": "./server",
+					"services": "./server/services",
+					"controller": "./server/controller",
+					"models": "./server/models",
+					"orchestrator": "./server/orchestrator"
 				}
 			}
-		]
+		],
+		["transform-runtime"],
+		["emotion"]
 	]
 }

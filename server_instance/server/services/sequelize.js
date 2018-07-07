@@ -1,10 +1,14 @@
-const Sequelize = require("sequelize");
-let config = require("../../config");
+import Sequelize from "sequelize";
+import fs from "fs";
+import path from "path";
+import config from "../../config";
 
-let sequelize = null;
+let connection = null;
+let sqModels = {};
 
-function connect(done) {
-	sequelize = new Sequelize(config.database.schema, config.database.username, config.database.password, {
+export function connect(done) {
+	// Connect to database through Sequelize
+	connection = new Sequelize(config.database.schema, config.database.username, config.database.password, {
 		host: config.database.host,
 		dialect: "mysql",
 		operatorsAliases: false,
@@ -15,14 +19,30 @@ function connect(done) {
 			idle: config.database.idle
 		}
 	});
+
+	// Import models to sequelize from the models directory
+	fs.readdirSync(path.join(__dirname, "../models")).forEach(function(file) {
+		if (file.toLowerCase().indexOf(".js")) {
+			var model = connection.import(path.join(__dirname, "../models", file));
+			sqModels[model.name] = model;
+		}
+	});
+
+	// Store models in object for retrieval
+	Object.keys(sqModels).forEach(modelName => {
+		if (sqModels[modelName].associate) {
+			sqModels[modelName].associate(sqModels);
+		}
+	});
+
+	// Notify once complete
 	done();
 }
 
-function perform() {
-	return sequelize;
+export function database() {
+	return connection;
 }
 
-module.exports = {
-	connect: connect,
-	perform: perform
-};
+export function models() {
+	return sqModels;
+}

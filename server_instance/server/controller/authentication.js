@@ -10,8 +10,149 @@ import { perform } from "../services/sequelize";
 import { generateDate } from "shared/utilities/date";
 import { arrayContains } from "shared/utilities/filters";
 import { SUBSCRIPTION_TYPE, ROLE_TYPE, FEATURES } from "shared/constants";
+import { validateWorkspaceURL } from "../orchestrator/authentication";
 
 module.exports = function(router) {
+	// Validate Workspace URL
+	router.get("/internal/validate_workspace_url/", function(req, res, next) {
+		// Get workspaceURL name from header
+		const workspaceURL = req.headers["workspaceurl"] ? req.headers["workspaceurl"] : "";
+		if (workspaceURL === null || workspaceURL === "") {
+			const errorMsg = {
+				status: 403,
+				message: t("validation.clientInvalidProperties"),
+				reason: { workspaceURL: [t("validation.emptyWorkspaceURL")] }
+			};
+			return next(errorMsg);
+		}
+
+		validateWorkspaceURL(workspaceURL).then(
+			result => {
+				return null;
+			},
+			error => {
+				return null;
+			}
+		);
+
+		/*
+
+		// Check database for existing WorkspaceURL
+		perform().getConnection(function(error, connection) {
+			// Return error if database connection error
+			if (error) {
+				return next(error);
+			}
+			connection.beginTransaction(function(error) {
+				// Return error if begin transaction error
+				if (error) {
+					connection.release();
+					return next(error);
+				}
+				// Create an object to temporarily store data we retrieve from our database
+				let dataConstructor = {
+					clientId: null,
+					clientSubscriptionId: null,
+					clientFeatures: null,
+					clientStyling: false,
+					clientStyles: null
+				};
+				async.series(
+					[
+						function(chain) {
+							// Check if workspaceURL is already in use
+							connection.query("SELECT `id`, `subscriptionId` FROM `client` WHERE `workspaceURL` = ? AND `active` = true", [workspaceURL], function(error, results, fields) {
+								// Return error if query fails
+								if (error) {
+									chain(error, null);
+								} else if (results != null && results.length > 0) {
+									dataConstructor.clientId = results[0].id;
+									dataConstructor.clientSubscriptionId = results[0].subscriptionId;
+									chain(null, results);
+								} else {
+									// Pass through error object if WorkspaceURL does not exist
+									const errorMsg = { status: 403, message: t("validation.clientInvalidProperties"), reason: { workspaceURL: [t("validation.emptyWorkspaceURL")] } };
+									chain(errorMsg, null);
+								}
+							});
+						},
+						function(chain) {
+							// Fetch list of features for subscription
+							connection.query("SELECT `featureId` FROM `subscriptionFeatures` WHERE `subscriptionId` = ?", [dataConstructor.clientSubscriptionId], function(error, results, fields) {
+								// Return error if query fails
+								if (error) {
+									chain(error, null);
+								} else {
+									// Store client features and whether client styling is enabled
+									dataConstructor.clientFeatures = results.map(result => result.featureId);
+									dataConstructor.clientStyling = arrayContains(FEATURES.STYLING, dataConstructor.clientFeatures);
+									chain(null, results);
+								}
+							});
+						},
+						function(chain) {
+							// Fetch client styling if properties exist and client has feature
+							if (dataConstructor.clientStyling === true) {
+								connection.query(
+									"SELECT `logoImage`, `backgroundImage`, `backgroundColor`, `primaryColor`, `secondaryColor` FROM `clientStyling` WHERE `clientId` = ?",
+									[dataConstructor.clientId],
+									function(error, results, fields) {
+										// Return error if query fails
+										if (error) {
+											chain(error, null);
+										} else {
+											if (results != null && results.length > 0) {
+												dataConstructor.clientStyles = {
+													logoImage: results[0].logoImage,
+													backgroundImage: results[0].backgroundImage,
+													backgroundColor: results[0].backgroundColor,
+													primaryColor: results[0].primaryColor,
+													secondaryColor: results[0].secondaryColor
+												};
+											}
+											chain(null, results);
+										}
+									}
+								);
+							} else {
+								chain(null, null);
+							}
+						}
+					],
+					function(error, data) {
+						if (error) {
+							// Rollback transaction if query is unsuccessful
+							connection.rollback(function() {
+								return next(error);
+							});
+						} else {
+							// Attempt to commit transaction
+							connection.commit(function(error) {
+								if (error) {
+									connection.rollback(function() {
+										return next(error);
+									});
+								} else {
+									connection.release();
+									// Build our response object
+									const response = { status: 200, message: t("label.success") };
+									// If we have client styling, return the data in our object
+									if (dataConstructor.clientStyling === true && dataConstructor.clientStyles) {
+										response.style = dataConstructor.clientStyles;
+									}
+									// Return the response object
+									res.status(200).send(response);
+								}
+							});
+						}
+					}
+				);
+			});
+		});
+
+		*/
+	});
+
 	// Register New Client Account
 	router.post("/internal/register", function(req, res, next) {
 		// Store received object properties
@@ -136,128 +277,6 @@ module.exports = function(router) {
 								} else {
 									connection.release();
 									res.status(200).send({ status: 200, message: t("label.success") });
-								}
-							});
-						}
-					}
-				);
-			});
-		});
-	});
-
-	// Validate Workspace URL
-	router.get("/internal/validate_workspace_url/", function(req, res, next) {
-		// Get workspaceURL name from header
-		const workspaceURL = req.headers["workspaceurl"] ? req.headers["workspaceurl"] : "";
-		if (workspaceURL === null || workspaceURL === "") {
-			const errorMsg = { status: 403, message: t("validation.clientInvalidProperties"), reason: { workspaceURL: [t("validation.emptyWorkspaceURL")] } };
-			return next(errorMsg);
-		}
-		// Check database for existing WorkspaceURL
-		perform().getConnection(function(error, connection) {
-			// Return error if database connection error
-			if (error) {
-				return next(error);
-			}
-			connection.beginTransaction(function(error) {
-				// Return error if begin transaction error
-				if (error) {
-					connection.release();
-					return next(error);
-				}
-				// Create an object to temporarily store data we retrieve from our database
-				let dataConstructor = {
-					clientId: null,
-					clientSubscriptionId: null,
-					clientFeatures: null,
-					clientStyling: false,
-					clientStyles: null
-				};
-				async.series(
-					[
-						function(chain) {
-							// Check if workspaceURL is already in use
-							connection.query("SELECT `id`, `subscriptionId` FROM `client` WHERE `workspaceURL` = ? AND `active` = true", [workspaceURL], function(error, results, fields) {
-								// Return error if query fails
-								if (error) {
-									chain(error, null);
-								} else if (results != null && results.length > 0) {
-									dataConstructor.clientId = results[0].id;
-									dataConstructor.clientSubscriptionId = results[0].subscriptionId;
-									chain(null, results);
-								} else {
-									// Pass through error object if WorkspaceURL does not exist
-									const errorMsg = { status: 403, message: t("validation.clientInvalidProperties"), reason: { workspaceURL: [t("validation.emptyWorkspaceURL")] } };
-									chain(errorMsg, null);
-								}
-							});
-						},
-						function(chain) {
-							// Fetch list of features for subscription
-							connection.query("SELECT `featureId` FROM `subscriptionFeatures` WHERE `subscriptionId` = ?", [dataConstructor.clientSubscriptionId], function(error, results, fields) {
-								// Return error if query fails
-								if (error) {
-									chain(error, null);
-								} else {
-									// Store client features and whether client styling is enabled
-									dataConstructor.clientFeatures = results.map(result => result.featureId);
-									dataConstructor.clientStyling = arrayContains(FEATURES.STYLING, dataConstructor.clientFeatures);
-									chain(null, results);
-								}
-							});
-						},
-						function(chain) {
-							// Fetch client styling if properties exist and client has feature
-							if (dataConstructor.clientStyling === true) {
-								connection.query(
-									"SELECT `logoImage`, `backgroundImage`, `backgroundColor`, `primaryColor`, `secondaryColor` FROM `clientStyling` WHERE `clientId` = ?",
-									[dataConstructor.clientId],
-									function(error, results, fields) {
-										// Return error if query fails
-										if (error) {
-											chain(error, null);
-										} else {
-											if (results != null && results.length > 0) {
-												dataConstructor.clientStyles = {
-													logoImage: results[0].logoImage,
-													backgroundImage: results[0].backgroundImage,
-													backgroundColor: results[0].backgroundColor,
-													primaryColor: results[0].primaryColor,
-													secondaryColor: results[0].secondaryColor
-												};
-											}
-											chain(null, results);
-										}
-									}
-								);
-							} else {
-								chain(null, null);
-							}
-						}
-					],
-					function(error, data) {
-						if (error) {
-							// Rollback transaction if query is unsuccessful
-							connection.rollback(function() {
-								return next(error);
-							});
-						} else {
-							// Attempt to commit transaction
-							connection.commit(function(error) {
-								if (error) {
-									connection.rollback(function() {
-										return next(error);
-									});
-								} else {
-									connection.release();
-									// Build our response object
-									const response = { status: 200, message: t("label.success") };
-									// If we have client styling, return the data in our object
-									if (dataConstructor.clientStyling === true && dataConstructor.clientStyles) {
-										response.style = dataConstructor.clientStyles;
-									}
-									// Return the response object
-									res.status(200).send(response);
 								}
 							});
 						}
