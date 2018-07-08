@@ -3,8 +3,7 @@ import { database, models } from "services/sequelize";
 // Validate Workspace URL
 export async function validateWorkspaceURL(workspaceURL) {
 	database().transaction(function(t) {
-		models()
-			.Client.findAll({}, { transaction: t })
+		models().client.findAll({}, { transaction: t })
 			.then(results => {
 				console.log(results);
 			})
