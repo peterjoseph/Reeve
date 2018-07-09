@@ -28,10 +28,11 @@ module.exports = function(router) {
 
 		validateWorkspaceURL(workspaceURL).then(
 			result => {
+				console.log(result);
 				return null;
 			},
 			error => {
-				return null;
+				return next(error);
 			}
 		);
 

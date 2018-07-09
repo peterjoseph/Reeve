@@ -23,6 +23,14 @@ module.exports = function(sequelize, DataTypes) {
 					model: "features",
 					key: "id"
 				}
+			},
+			createdAt: {
+				type: DataTypes.DATEONLY,
+				allowNull: false
+			},
+			updatedAt: {
+				type: DataTypes.DATEONLY,
+				allowNull: false
 			}
 		},
 		{
