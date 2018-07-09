@@ -17,7 +17,8 @@ export function connect(done) {
 			min: config.database.min,
 			acquire: config.database.acquire,
 			idle: config.database.idle
-		}
+		},
+		logging: false
 	});
 
 	// Import models to sequelize from the models directory
