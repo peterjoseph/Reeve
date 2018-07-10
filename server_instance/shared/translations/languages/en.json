@@ -37,6 +37,7 @@
 			"privacyConsent": "I consent to the collection and storage of my information to handle the processing and operation of my account.",
 			"forgotAccountDetails": {
 				"header": "Can't remember your Workspace URL, or Password?",
+				"headerPasswordOnly": "Can't remember your Password?",
 				"description": "Enter your email address and we will send you instructions on how to get back into your account."
 			}
 		}

@@ -5,7 +5,6 @@ import { connect } from "react-redux";
 import { bindActionCreators } from "redux";
 import validate from "validate.JS";
 import { Helmet } from "react-helmet";
-import { css } from "emotion";
 
 import { t } from "shared/translations/i18n";
 import { saveToken, clearToken } from "shared/utilities/securityToken";
@@ -15,6 +14,7 @@ import { extractSubdomain } from "shared/utilities/subdomain";
 import { AUTHENTICATION, LOGIN_REJECTED, validateWorkspaceURL, loginUser, loadUser, LOAD_USER_REJECTED } from "../../common/store/reducers/authentication.js";
 import { login, workspaceURL } from "shared/validation/authentication";
 
+import { clientStyling } from "./components/ClientStyling";
 import WorkspaceURL from "./components/WorkspaceURL";
 import SignInForm from "./components/SignInForm";
 import Loading from "../../common/components/Loading";
@@ -41,8 +41,10 @@ class SignIn extends Component {
 
 	componentDidMount() {
 		// Validate workspace url and retrieve client information
-		const subdomain = extractSubdomain(window.location.href);
-		this.props.validateWorkspaceURL(subdomain);
+		if (this.props.workspaceURLStatus !== REDUX_STATE.FULFILLED) {
+			const subdomain = extractSubdomain(window.location.href);
+			this.props.validateWorkspaceURL(subdomain);
+		}
 	}
 
 	static getDerivedStateFromProps(nextProps, prevState) {
@@ -65,43 +67,6 @@ class SignIn extends Component {
 
 	handleChecked(evt) {
 		this.setState({ [evt.target.name]: !this.state.keepSignedIn });
-	}
-
-	clientStyling() {
-		const style = { button: "", links: "", background: "" };
-		if (this.props.workspaceURLStatus == REDUX_STATE.FULFILLED && this.props.clientStyle != null && this.props.clientStyle.size > 0) {
-			style.button = css`
-				&,
-				&:hover,
-				&:active,
-				&:visited,
-				&:focus {
-					background-color: ${this.props.clientStyle.get("primaryColor")} !important;
-					border-color: ${this.props.clientStyle.get("primaryColor")} !important;
-				}
-				&:hover {
-					opacity: 0.9;
-				}
-			`;
-			style.links = css`
-				a,
-				a:active,
-				a.visited {
-					color: ${this.props.clientStyle.get("primaryColor")};
-				}
-				a:hover {
-					color: ${this.props.clientStyle.get("primaryColor")};
-				}
-			`;
-			style.background = css(
-				Object.assign(
-					{},
-					this.props.clientStyle.get("backgroundColor") != null && { backgroundColor: `${this.props.clientStyle.get("backgroundColor")} !important` },
-					this.props.clientStyle.get("backgroundImage") && { backgroundImage: `url('${this.props.clientStyle.get("backgroundImage")}') !important` }
-				)
-			);
-		}
-		return style;
 	}
 
 	login(evt) {
@@ -171,7 +136,7 @@ class SignIn extends Component {
 		const workspaceURLPending = workspaceURLStatus == null || workspaceURLStatus == REDUX_STATE.PENDING;
 
 		// Handle client specific page styling
-		const style = this.clientStyling();
+		const style = clientStyling(this.props.workspaceURLStatus, this.props.clientStyle);
 
 		// Store security token on sign in success
 		if (logInStatus == REDUX_STATE.FULFILLED && userToken != null) {
