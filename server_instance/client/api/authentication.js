@@ -48,3 +48,13 @@ export function workspaceURLValidation(workspaceURL) {
 		}
 	});
 }
+
+// Forgot Account Details
+export function forgotAccountDetails(user) {
+	return fetch.perform("/internal/forgot_account_details/", {
+		method: "POST",
+		body: JSON.stringify({
+			emailAddress: user.emailAddress
+		})
+	});
+}

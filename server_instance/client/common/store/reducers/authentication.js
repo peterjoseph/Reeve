@@ -1,6 +1,6 @@
 import { fromJS } from "immutable";
 import { REDUX_STATE } from "shared/constants";
-import { clientRegistration, userLogin, userLoad, workspaceURLValidation } from "client/api/authentication.js";
+import { clientRegistration, userLogin, userLoad, workspaceURLValidation, forgotAccountDetails } from "client/api/authentication.js";
 
 import "./root";
 
@@ -21,6 +21,10 @@ export const LOAD_USER_REJECTED = AUTHENTICATION + "/LOAD_USER_REJECTED";
 export const REGISTER_PENDING = AUTHENTICATION + "/REGISTER_PENDING";
 export const REGISTER_FULFILLED = AUTHENTICATION + "/REGISTER_FULFILLED";
 export const REGISTER_REJECTED = AUTHENTICATION + "/REGISTER_REJECTED";
+
+export const FORGOT_ACCOUNT_PENDING = AUTHENTICATION + "/FORGOT_ACCOUNT_PENDING";
+export const FORGOT_ACCOUNT_FULFILLED = AUTHENTICATION + "/FORGOT_ACCOUNT_FULFILLED";
+export const FORGOT_ACCOUNT_REJECTED = AUTHENTICATION + "/FORGOT_ACCOUNT_REJECTED";
 
 const DEFAULT_STATE = fromJS({});
 
@@ -89,6 +93,12 @@ export default function authentication(state = DEFAULT_STATE, action) {
 					error: action.payload
 				})
 			);
+		case FORGOT_ACCOUNT_PENDING:
+			return action;
+		case FORGOT_ACCOUNT_FULFILLED:
+			return action;
+		case FORGOT_ACCOUNT_REJECTED:
+			return action;
 		default:
 			return state;
 	}
@@ -176,6 +186,28 @@ export function registerClient(body) {
 			error =>
 				dispatch({
 					type: REGISTER_REJECTED,
+					payload: error
+				})
+		);
+	};
+}
+
+export function forgotAccount(body) {
+	return dispatch => {
+		dispatch({
+			type: FORGOT_ACCOUNT_PENDING
+		});
+
+		return forgotAccountDetails(body).then(
+			result => {
+				return dispatch({
+					type: FORGOT_ACCOUNT_FULFILLED,
+					payload: result
+				});
+			},
+			error =>
+				dispatch({
+					type: FORGOT_ACCOUNT_REJECTED,
 					payload: error
 				})
 		);

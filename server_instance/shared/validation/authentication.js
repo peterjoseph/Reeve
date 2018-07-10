@@ -124,8 +124,21 @@ const workspaceURL = {
 	}
 };
 
+const forgot = {
+	emailAddress: {
+		email: true,
+		presence: {
+			allowEmpty: false
+		},
+		length: {
+			maximum: 255
+		}
+	}
+};
+
 module.exports = {
 	login: login,
 	register: register,
-	workspaceURL: workspaceURL
+	workspaceURL: workspaceURL,
+	forgot: forgot
 };

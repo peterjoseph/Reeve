@@ -9,7 +9,8 @@
 		"register": "Register",
 		"continue": "Continue",
 		"close": "Close",
-		"save": "Save"
+		"save": "Save",
+		"sendEmail": "Send Email"
 	},
 	"label": {
 		"firstName": "First Name",
@@ -20,7 +21,8 @@
 		"welcome": "Welcome",
 		"success": "Success",
 		"termsAndConditions": "Terms and Conditions",
-		"privacyPolicy": "Privacy Policy"
+		"privacyPolicy": "Privacy Policy",
+		"accountDetails": "Account Details"
 	},
 	"components": {
 		"authentication": {
@@ -32,7 +34,11 @@
 			"noAccount": "Does your team not yet have an account?",
 			"existingAccount": "Already have an account?",
 			"policyAgreement": "By signing up, you agree to the following",
-			"privacyConsent": "I consent to the collection and storage of my information to handle the processing and operation of my account."
+			"privacyConsent": "I consent to the collection and storage of my information to handle the processing and operation of my account.",
+			"forgotAccountDetails": {
+				"header": "Can't remember your Workspace URL, or Password?",
+				"description": "Enter your email address and we will send you instructions on how to get back into your account."
+			}
 		}
 	},
 	"headers": {
@@ -46,6 +52,10 @@
 		"register": {
 			"title": "Register for an Account | $t(site.name)",
 			"description": "Complete your registration details to create a client account."
+		},
+		"forgot": {
+			"title": "Forgot Account Details | $t(site.name)",
+			"description": "Enter your email address to reset your account."
 		}
 	},
 	"error": {
