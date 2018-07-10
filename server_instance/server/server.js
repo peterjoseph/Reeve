@@ -64,10 +64,10 @@ app.use(cookieParser());
 // Handle reloading server in development mode
 if (config.build.environment === "development") {
 	loadWebpack(app);
-} else {
-	// Load packaged files in production
-	app.use(express.static(path.join(__dirname, "../distribution/client")));
 }
+
+// Load static files from client directory
+app.use(express.static(path.join(__dirname, "../distribution")));
 
 // Connection to Redis user session store
 app.use(

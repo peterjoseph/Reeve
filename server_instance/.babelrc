@@ -15,7 +15,8 @@
 					"controller": "./server/controller",
 					"models": "./server/models",
 					"utilities": "./server/utilities",
-					"orchestrator": "./server/orchestrator"
+					"orchestrator": "./server/orchestrator",
+					"distribution": "./distribution"
 				}
 			}
 		],

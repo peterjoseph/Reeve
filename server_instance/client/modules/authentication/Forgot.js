@@ -101,7 +101,7 @@ class Forgot extends Component {
 						<div className="p-3 p-sm-5 align-vertical justify-content-center">
 							<form className="w-100">
 								<div className="w-100 text-center mt-4 mb-4">
-									<span className="logo">{!workspaceURLPending && <img src={(clientStyle && clientStyle.get("logoImage")) || require("../../common/images/logo_small.png")} />}</span>
+									<span className="logo">{!workspaceURLPending && <img src={(clientStyle && clientStyle.get("logoImage")) || require("distribution/images/logo_small.png")} />}</span>
 								</div>
 								<div className="w-100 mt-3 mb-3">
 									<span className="h3"> {t("label.accountDetails")} </span>
@@ -113,7 +113,6 @@ class Forgot extends Component {
 												? t("components.authentication.forgotAccountDetails.headerPasswordOnly")
 												: t("components.authentication.forgotAccountDetails.header"))}
 									</span>
-									<br />
 									<br />
 									<span>{t("components.authentication.forgotAccountDetails.description")}</span>
 								</div>

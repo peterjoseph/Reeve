@@ -102,7 +102,7 @@ class Register extends Component {
 								<form className="w-100">
 									<div className="w-100 text-center mb-4">
 										<span>
-											<img src={require("../../common/images/logo_small.png")} />
+											<img src={require("distribution/images/logo_small.png")} />
 										</span>
 									</div>
 									<div className="w-100 mb-3">
