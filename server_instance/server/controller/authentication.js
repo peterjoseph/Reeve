@@ -8,7 +8,7 @@ import { register, login } from "shared/validation/authentication";
 import { t } from "shared/translations/i18n";
 import { perform } from "../services/sequelize";
 import { ServerResponseError } from "utilities/errors/serverResponseError";
-import { validateWorkspaceURL, registerNewClient } from "../orchestrator/authentication";
+import { validateWorkspaceURL, registerNewClient, authenticateWithToken, authenticateWithoutToken } from "../orchestrator/authentication";
 
 module.exports = function(router) {
 	// Validate Workspace URL
@@ -64,13 +64,42 @@ module.exports = function(router) {
 
 	// Login to user account
 	router.post("/internal/login", function(req, res, next) {
+		// Authenticate with token if authToken exists
 		if (req.body.authToken != null && req.body.authToken === true) {
-			authenticateWithToken(req, res, next);
-		} else {
-			authenticateWithoutToken(req, res, next);
+			authenticateWithToken(req).then(
+				result => {
+					return res.status(200).send(result);
+				},
+				error => {
+					return next(error);
+				}
+			);
 		}
+
+		// Authenticate with user properties sent in body
+		const received = {
+			workspaceURL: req.body.workspaceURL,
+			emailAddress: req.body.emailAddress,
+			password: req.body.password,
+			keepSignedIn: req.body.keepSignedIn
+		};
+		// Validate properties in received object
+		const valid = validate(received, login);
+		if (valid != null) {
+			const errorMsg = new ServerResponseError(403, t("validation.userInvalidProperties"), valid);
+			return next(errorMsg);
+		}
+		authenticateWithoutToken(received).then(
+			result => {
+				return res.status(200).send(result);
+			},
+			error => {
+				return next(error);
+			}
+		);
 	});
 
+	/* 
 	// Validate authentication if security token is present
 	function authenticateWithToken(req, res, next) {
 		passport.perform().authenticate("jwt", function(error, user, info) {
@@ -93,131 +122,8 @@ module.exports = function(router) {
 			});
 		})(req, res, next);
 	}
-
-	// Validate authentication if username and password is present
-	function authenticateWithoutToken(req, res, next) {
-		// Store received object properties
-		const received = {
-			workspaceURL: req.body.workspaceURL,
-			emailAddress: req.body.emailAddress,
-			password: req.body.password,
-			keepSignedIn: req.body.keepSignedIn
-		};
-		// Validate properties in received object
-		const valid = validate(received, login);
-		if (valid != null) {
-			const errorMsg = { status: 403, message: t("validation.userInvalidProperties"), reason: valid };
-			return next(errorMsg);
-		}
-		perform().getConnection(function(error, connection) {
-			// Return error if database connection error
-			if (error) {
-				return next(error);
-			}
-			connection.beginTransaction(function(error) {
-				// Return error if begin transaction error
-				if (error) {
-					connection.release();
-					return next(error);
-				}
-				// Create an object to temporarily store data we retrieve from our database
-				let dataConstructor = {
-					clientId: null,
-					userId: null,
-					password: null,
-					token: null
-				};
-				async.series(
-					[
-						function(chain) {
-							// Check if workspaceURL is already in use
-							connection.query("SELECT `id` FROM `client` WHERE `workspaceURL` = ? AND `active` = true", [received.workspaceURL], function(error, results, fields) {
-								// Return error if query fails
-								if (error) {
-									chain(error, null);
-								} else if (results != null && results.length > 0) {
-									dataConstructor.clientId = results[0].id;
-									chain(null, results);
-								} else {
-									// Pass through error object if WorkspaceURL does not exist
-									const errorMsg = { status: 403, message: t("validation.userInvalidProperties"), reason: { workspaceURL: [t("validation.emptyWorkspaceURL")] } };
-									chain(errorMsg, null);
-								}
-							});
-						},
-						function(chain) {
-							// Fetch user based on information provided
-							connection.query(
-								"SELECT `id`, `password` FROM `user` WHERE `clientId` = ? AND `emailAddress` = ? AND `active` = true",
-								[dataConstructor.clientId, received.emailAddress],
-								function(error, results, fields) {
-									// Return error if query fails
-									if (error) {
-										chain(error, null);
-									} else if (results != null && results.length > 0) {
-										dataConstructor.userId = results[0].id;
-										dataConstructor.password = results[0].password;
-										chain(null, results);
-									} else {
-										// Pass through error object if WorkspaceURL does not exist
-										const errorMsg = { status: 403, message: t("validation.userInvalidProperties"), reason: { emailAddress: [t("validation.userDoesNotExist")] } };
-										chain(errorMsg, null);
-									}
-								}
-							);
-						},
-						function(chain) {
-							// Validate the supplied user password
-							const valid = bcrypt.compareSync(received.password, dataConstructor.password);
-							if (valid === true) {
-								dataConstructor.password = null;
-								chain(null, valid);
-							} else {
-								// Pass through error object if password is incorrect
-								const errorMsg = { status: 403, message: t("validation.userInvalidProperties"), reason: { password: [t("validation.invalidPasswordSupplied")] } };
-								chain(errorMsg, null);
-							}
-						},
-						function(chain) {
-							// Create the JSON Web Token for the User
-							const token = jwt.sign(
-								{ userId: dataConstructor.userId, clientId: dataConstructor.clientId, workspaceURL: received.workspaceURL.trim() },
-								config.authentication.jwtSecret,
-								{
-									expiresIn: config.authentication.expiry
-								}
-							);
-							dataConstructor.token = token;
-							chain(null, true);
-						}
-					],
-					function(error, data) {
-						if (error) {
-							// Rollback transaction if query is unsuccessful
-							connection.rollback(function() {
-								return next(error);
-							});
-						} else {
-							// Attempt to commit transaction
-							connection.commit(function(error) {
-								if (error) {
-									connection.rollback(function() {
-										return next(error);
-									});
-								} else {
-									connection.release();
-									// Build our response object
-									const response = { status: 200, message: t("label.success"), token: dataConstructor.token, keepSignedIn: received.keepSignedIn };
-									// Return the response object
-									return res.status(200).send(response);
-								}
-							});
-						}
-					}
-				);
-			});
-		});
-	}
+	
+	*/
 
 	// Load user properties
 	router.get("/internal/load_user/", passport.perform().authenticate("jwt"), function(req, res, next) {

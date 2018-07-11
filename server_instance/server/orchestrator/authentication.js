@@ -1,5 +1,9 @@
+import jwt from "jsonwebtoken";
 import bcrypt from "bcrypt";
+
 import { database, models } from "services/sequelize";
+import passport from "services/passport";
+import config from "../../config";
 import { arrayContains } from "shared/utilities/filters";
 import { ServerResponseError } from "utilities/errors/serverResponseError";
 import { t } from "shared/translations/i18n";
@@ -10,7 +14,7 @@ export function validateWorkspaceURL(workspaceURL) {
 	return database().transaction(async function(transaction) {
 		try {
 			// Load a client using a workspaceURL
-			let client = await models().client.findOne({ where: { workspaceURL: workspaceURL, active: true } }, { transaction: transaction });
+			const client = await models().client.findOne({ where: { workspaceURL: workspaceURL, active: true } }, { transaction: transaction });
 
 			// Throw an error if the client was not returned for the WorkspaceURL
 			if (client === null || client.get("workspaceURL") === null || client.get("workspaceURL") !== workspaceURL) {
@@ -61,7 +65,7 @@ export function registerNewClient(received) {
 	return database().transaction(async function(transaction) {
 		try {
 			// Check if client already exists for workspaceURL
-			let client = await models().client.findOne({ where: { workspaceURL: received.workspaceURL, active: true } }, { transaction: transaction });
+			const client = await models().client.findOne({ where: { workspaceURL: received.workspaceURL, active: true } }, { transaction: transaction });
 
 			// Throw an error if a client already exists for a WorkspaceURL
 			if (client !== null) {
@@ -105,6 +109,73 @@ export function registerNewClient(received) {
 
 			// Create a response object
 			const response = { status: 200, message: t("label.success") };
+
+			// Return the response object
+			return response;
+		} catch (error) {
+			throw error;
+		}
+	});
+}
+
+// Authenticate User with security token
+export function authenticateWithToken(req) {
+	return passport.perform().authenticate("jwt", function(error, user) {
+		try {
+			if (error) {
+				throw error;
+			}
+			req.logIn(user, function(error) {
+				if (error) {
+					throw error;
+				}
+				if (user) {
+					// Create a response object
+					const response = { status: 200, message: t("label.success") };
+					// Return the response object
+					return response;
+				} else {
+					throw new ServerResponseError(403, t("validation.tokenInvalidOrExpired"), { token: [t("validation.tokenInvalidOrExpired")] });
+				}
+			});
+		} catch (error) {
+			throw error;
+		}
+	});
+}
+
+export function authenticateWithoutToken(received) {
+	return database().transaction(async function(transaction) {
+		try {
+			// Load a client using a workspaceURL
+			const client = await models().client.findOne({ where: { workspaceURL: received.workspaceURL, active: true } }, { transaction: transaction });
+
+			// Throw an error if the client was not returned for the WorkspaceURL
+			if (client === null || client.get("workspaceURL") === null || client.get("workspaceURL") !== received.workspaceURL) {
+				throw new ServerResponseError(403, t("validation.userInvalidProperties"), { workspaceURL: [t("validation.emptyWorkspaceURL")] });
+			}
+
+			// Load user based on provided values
+			const user = await models().user.findOne({ where: { clientId: client.get("id"), emailAddress: received.emailAddress, active: true } }, { transaction: transaction });
+
+			// Throw an error if the user does not exist
+			if (user === null) {
+				throw new ServerResponseError(403, t("validation.userInvalidProperties"), { emailAddress: [t("validation.userDoesNotExist")] });
+			}
+
+			// Validate the supplied user password
+			const valid = bcrypt.compareSync(received.password, user.get("password"));
+			if (valid === false) {
+				throw new ServerResponseError(403, t("validation.userInvalidProperties"), { password: [t("validation.invalidPasswordSupplied")] });
+			}
+
+			// Create the JSON Web Token for the User
+			const token = jwt.sign({ userId: user.get("id"), clientId: client.get("id"), workspaceURL: client.get("workspaceURL") }, config.authentication.jwtSecret, {
+				expiresIn: config.authentication.expiry
+			});
+
+			// Build our response object
+			const response = { status: 200, message: t("label.success"), token: token, keepSignedIn: received.keepSignedIn };
 
 			// Return the response object
 			return response;

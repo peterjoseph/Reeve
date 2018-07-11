@@ -5,6 +5,7 @@ import { connect } from "react-redux";
 import { bindActionCreators } from "redux";
 import validate from "validate.JS";
 import { Helmet } from "react-helmet";
+import fetch from "shared/utilities/fetch";
 
 import { t } from "shared/translations/i18n";
 import { saveToken, clearToken } from "shared/utilities/securityToken";
