@@ -119,29 +119,26 @@ export function registerNewClient(received) {
 }
 
 // Authenticate User with security token
-export function authenticateWithToken(req) {
+export function authenticateWithToken(req, res, next) {
 	return passport.perform().authenticate("jwt", function(error, user) {
-		try {
-			if (error) {
-				throw error;
-			}
-			req.logIn(user, function(error) {
-				if (error) {
-					throw error;
-				}
-				if (user) {
-					// Create a response object
-					const response = { status: 200, message: t("label.success") };
-					// Return the response object
-					return response;
-				} else {
-					throw new ServerResponseError(403, t("validation.tokenInvalidOrExpired"), { token: [t("validation.tokenInvalidOrExpired")] });
-				}
-			});
-		} catch (error) {
-			throw error;
+		if (error) {
+			return next(error);
 		}
-	});
+		req.logIn(user, function(error) {
+			if (error) {
+				return next(error);
+			}
+			if (user) {
+				// Create a response object
+				const response = { status: 200, message: t("label.success") };
+				// Return the response object
+				return res.status(200).send(response);
+			} else {
+				const errorMsg = new ServerResponseError(403, t("validation.tokenInvalidOrExpired"), { token: [t("validation.tokenInvalidOrExpired")] });
+				return next(errorMsg);
+			}
+		});
+	})(req, res, next);
 }
 
 export function authenticateWithoutToken(received) {
@@ -176,6 +173,73 @@ export function authenticateWithoutToken(received) {
 
 			// Build our response object
 			const response = { status: 200, message: t("label.success"), token: token, keepSignedIn: received.keepSignedIn };
+
+			// Return the response object
+			return response;
+		} catch (error) {
+			throw error;
+		}
+	});
+}
+
+// Load properties for a user
+export function loadUser(req) {
+	return database().transaction(async function(transaction) {
+		try {
+			// Load client for authenticated user
+			const client = await models().client.findOne({ where: { id: req.user.clientId, workspaceURL: req.user.workspaceURL, active: true } }, { transaction: transaction });
+
+			// Throw an error if the client does not exist
+			if (client === null) {
+				throw new ServerResponseError(403, t("validation.loadUserPropertiesFailed"), { client: [t("validation.loadClientFailed")] });
+			}
+
+			// Load user properties for authenticated user
+			const user = await models().user.findOne({ where: { id: req.user.userId, clientId: req.user.clientId, active: true } }, { transaction: transaction });
+
+			// Throw an error if the user does not exist
+			if (user === null) {
+				throw new ServerResponseError(403, t("validation.loadUserPropertiesFailed"), { user: [t("validation.loadUserRolesFailed")] });
+			}
+
+			// Load client features
+			let features = await models().subscriptionFeatures.findAll({ where: { subscriptionId: client.get("subscriptionId") } }, { transaction: transaction });
+
+			// Map feature id's to an array
+			if (features != null) {
+				features = features.map(result => result.get("featureId"));
+			} else {
+				throw new ServerResponseError(403, t("validation.loadUserPropertiesFailed"), { features: [t("validation.loadClientFeaturesFailed")] });
+			}
+
+			// Load user roles
+			let roles = await models().userRoles.findAll({ where: { userId: user.get("id") } }, { transaction: transaction });
+
+			// Map role id's to an array
+			if (roles != null) {
+				roles = roles.map(result => result.get("roleId"));
+			} else {
+				throw new ServerResponseError(403, t("validation.loadUserPropertiesFailed"), { roles: [t("validation.loadUserRolesFailed")] });
+			}
+
+			// Create user properties object to be returned back to the front-end
+			const userProperties = {
+				userId: user.get("id"),
+				firstName: user.get("firstName"),
+				lastName: user.get("lastName"),
+				emailAddress: user.get("emailAddress"),
+				clientName: client.get("name"),
+				workspaceURL: client.get("workspaceURL"),
+				subscriptionId: client.get("subscriptionId"),
+				subscriptionStartDate: client.get("subscriptionStartDate"),
+				subscriptionEndDate: client.get("subscriptionEndDate"),
+				billingCycle: client.get("billingCycle"),
+				clientFeatures: features,
+				userRoles: roles
+			};
+
+			// Build our response object
+			const response = { status: 200, message: t("label.success"), user: userProperties };
 
 			// Return the response object
 			return response;
