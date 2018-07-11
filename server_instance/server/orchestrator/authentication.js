@@ -183,11 +183,11 @@ export function authenticateWithoutToken(received) {
 }
 
 // Load properties for a user
-export function loadUser(req) {
+export function loadUser(received) {
 	return database().transaction(async function(transaction) {
 		try {
 			// Load client for authenticated user
-			const client = await models().client.findOne({ where: { id: req.user.clientId, workspaceURL: req.user.workspaceURL, active: true } }, { transaction: transaction });
+			const client = await models().client.findOne({ where: { id: received.clientId, workspaceURL: received.workspaceURL, active: true } }, { transaction: transaction });
 
 			// Throw an error if the client does not exist
 			if (client === null) {
@@ -195,7 +195,7 @@ export function loadUser(req) {
 			}
 
 			// Load user properties for authenticated user
-			const user = await models().user.findOne({ where: { id: req.user.userId, clientId: req.user.clientId, active: true } }, { transaction: transaction });
+			const user = await models().user.findOne({ where: { id: received.userId, clientId: received.clientId, active: true } }, { transaction: transaction });
 
 			// Throw an error if the user does not exist
 			if (user === null) {

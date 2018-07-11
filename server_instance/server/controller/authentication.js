@@ -39,6 +39,7 @@ module.exports = function(router) {
 			password: req.body.password,
 			privacyConsent: req.body.privacyConsent
 		};
+
 		// Validate properties in received object
 		const valid = validate(body, register);
 		if (valid != null) {
@@ -66,7 +67,7 @@ module.exports = function(router) {
 		}
 
 		// Authenticate with user properties sent in body
-		const received = {
+		const body = {
 			workspaceURL: req.body.workspaceURL,
 			emailAddress: req.body.emailAddress,
 			password: req.body.password,
@@ -74,14 +75,14 @@ module.exports = function(router) {
 		};
 
 		// Validate properties in received object
-		const valid = validate(received, login);
+		const valid = validate(body, login);
 		if (valid != null) {
 			const errorMsg = new ServerResponseError(403, t("validation.userInvalidProperties"), valid);
 			return next(errorMsg);
 		}
 
 		// Authenticate without token
-		authenticateWithoutToken(received).then(
+		authenticateWithoutToken(body).then(
 			result => {
 				return res.status(200).send(result);
 			},
@@ -93,7 +94,7 @@ module.exports = function(router) {
 
 	// Load user properties
 	router.get("/internal/load_user/", passport.perform().authenticate("jwt"), function(req, res, next) {
-		loadUser(req).then(
+		loadUser(req.user).then(
 			result => {
 				return res.status(200).send(result);
 			},
