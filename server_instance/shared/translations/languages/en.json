@@ -24,6 +24,13 @@
 		"privacyPolicy": "Privacy Policy",
 		"accountDetails": "Account Details"
 	},
+	"numbers": {
+		"1": "1",
+		"2": "2",
+		"3": "3",
+		"4": "4",
+		"5": "5"
+	},
 	"components": {
 		"authentication": {
 			"companyName": "companyname",
@@ -33,7 +40,7 @@
 			"whatIsWorkspaceURL": "What is my Workspace URL?",
 			"noAccount": "Does your team not yet have an account?",
 			"existingAccount": "Already have an account?",
-			"policyAgreement": "By signing up, you agree to the following",
+			"policyAgreement": "By registering an account, you agree to the following",
 			"privacyConsent": "I consent to the collection and storage of my information to handle the processing and operation of my account.",
 			"forgotAccountDetails": {
 				"header": "Can't remember your Workspace URL, or Password?",

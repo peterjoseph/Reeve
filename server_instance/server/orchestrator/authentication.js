@@ -1,8 +1,9 @@
+import bcrypt from "bcrypt";
 import { database, models } from "services/sequelize";
 import { arrayContains } from "shared/utilities/filters";
-import { FEATURES } from "shared/constants";
 import { ServerResponseError } from "utilities/errors/serverResponseError";
 import { t } from "shared/translations/i18n";
+import { FEATURES, SUBSCRIPTION_TYPE, ROLE_TYPE } from "shared/constants";
 
 // Validate Workspace URL and retrieve client styling (if feature exists)
 export function validateWorkspaceURL(workspaceURL) {
@@ -46,6 +47,64 @@ export function validateWorkspaceURL(workspaceURL) {
 			if (clientStyling !== null) {
 				response.style = clientStyling;
 			}
+
+			// Return the response object
+			return response;
+		} catch (error) {
+			throw error;
+		}
+	});
+}
+
+// Register new Client
+export function registerNewClient(received) {
+	return database().transaction(async function(transaction) {
+		try {
+			// Check if client already exists for workspaceURL
+			let client = await models().client.findOne({ where: { workspaceURL: received.workspaceURL, active: true } }, { transaction: transaction });
+
+			// Throw an error if a client already exists for a WorkspaceURL
+			if (client !== null) {
+				throw new ServerResponseError(403, t("validation.clientInvalidProperties"), { workspaceURL: [t("validation.validWorkspaceURL")] });
+			}
+
+			// Create new client and save to database
+			const clientInstance = await models().client.create(
+				{
+					name: received.workspaceURL,
+					workspaceURL: received.workspaceURL,
+					subscriptionId: SUBSCRIPTION_TYPE.TRIAL
+				},
+				{ transaction: transaction }
+			);
+
+			// Encrypt and salt user password
+			const password = bcrypt.hashSync(received.password, 10);
+
+			// Create new user and save to database
+			const userInstance = await models().user.create(
+				{
+					firstName: received.firstName,
+					lastName: received.lastName,
+					clientId: clientInstance.get("id"),
+					emailAddress: received.emailAddress,
+					password: password
+				},
+				{ transaction: transaction }
+			);
+
+			// Create new user Role object with Owner Type
+			await models().userRoles.create(
+				{
+					userId: userInstance.get("id"),
+					roleId: ROLE_TYPE.OWNER,
+					active: true
+				},
+				{ transaction: transaction }
+			);
+
+			// Create a response object
+			const response = { status: 200, message: t("label.success") };
 
 			// Return the response object
 			return response;

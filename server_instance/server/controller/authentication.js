@@ -7,10 +7,8 @@ import config from "../../config";
 import { register, login } from "shared/validation/authentication";
 import { t } from "shared/translations/i18n";
 import { perform } from "../services/sequelize";
-import { generateDate } from "shared/utilities/date";
-import { SUBSCRIPTION_TYPE, ROLE_TYPE } from "shared/constants";
 import { ServerResponseError } from "utilities/errors/serverResponseError";
-import { validateWorkspaceURL } from "../orchestrator/authentication";
+import { validateWorkspaceURL, registerNewClient } from "../orchestrator/authentication";
 
 module.exports = function(router) {
 	// Validate Workspace URL
@@ -38,7 +36,7 @@ module.exports = function(router) {
 	// Register New Client Account
 	router.post("/internal/register", function(req, res, next) {
 		// Store received object properties
-		const received = {
+		const body = {
 			workspaceURL: req.body.workspaceURL,
 			firstName: req.body.firstName,
 			lastName: req.body.lastName,
@@ -47,125 +45,21 @@ module.exports = function(router) {
 			privacyConsent: req.body.privacyConsent
 		};
 		// Validate properties in received object
-		const valid = validate(received, register);
+		const valid = validate(body, register);
 		if (valid != null) {
-			const errorMsg = { status: 403, message: t("validation.clientInvalidProperties"), reason: valid };
+			const errorMsg = new ServerResponseError(403, t("validation.clientInvalidProperties"), valid);
 			return next(errorMsg);
 		}
-		// Generate current date
-		const dateTime = generateDate();
-		// Perform database connection
-		perform().getConnection(function(error, connection) {
-			// Return error if database connection error
-			if (error) {
+
+		// Register new client and return response
+		registerNewClient(body).then(
+			result => {
+				return res.status(200).send(result);
+			},
+			error => {
 				return next(error);
 			}
-			connection.beginTransaction(function(error) {
-				// Return error if begin transaction error
-				if (error) {
-					connection.release();
-					return next(error);
-				}
-				// Create an object to temporarily store data we retrieve from our database
-				let dataConstructor = {
-					clientId: null,
-					userId: null
-				};
-				// Async update properties in database
-				async.series(
-					[
-						function(chain) {
-							// Check if workspaceURL is already in use
-							connection.query("SELECT workspaceURL FROM `client` WHERE `workspaceURL` = ? AND `active` = true", [req.body.workspaceURL], function(error, results, fields) {
-								// Return error if query fails
-								if (error) {
-									chain(error, null);
-								} else if (results != null && results.length > 0) {
-									// Pass through error object if WorkspaceURL already being used
-									const errorMsg = { status: 403, message: t("validation.clientInvalidProperties"), reason: { workspaceURL: [t("validation.validWorkspaceURL")] } };
-									chain(errorMsg, null);
-								} else {
-									chain(null, results);
-								}
-							});
-						},
-						function(chain) {
-							// Create clientObject and insert new row in the client table
-							const clientObject = {
-								name: received.workspaceURL,
-								workspaceURL: received.workspaceURL,
-								subscriptionId: SUBSCRIPTION_TYPE.TRIAL,
-								createdDate: dateTime,
-								modifiedDate: dateTime
-							};
-							connection.query("INSERT INTO client SET ?", clientObject, function(error, results, fields) {
-								if (error) {
-									chain(error, null);
-								} else {
-									// Set our clientId variable when the client has been inserted into table
-									dataConstructor.clientId = results.insertId;
-									chain(null, results);
-								}
-							});
-						},
-						function(chain) {
-							// Encrypt and salt user password
-							const password = bcrypt.hashSync(received.password, 10);
-							// Create new user in user table
-							const userObject = {
-								firstName: received.firstName,
-								lastName: received.lastName,
-								clientId: dataConstructor.clientId,
-								emailAddress: received.emailAddress,
-								password: password,
-								createdDate: dateTime,
-								modifiedDate: dateTime
-							};
-							connection.query("INSERT INTO user SET ?", userObject, function(error, results, fields) {
-								if (error) {
-									chain(error, null);
-								} else {
-									// Set our userId variable when the user has been inserted into table
-									dataConstructor.userId = results.insertId;
-									chain(null, results);
-								}
-							});
-						},
-						function(chain) {
-							// Assign owner role to user
-							const roleObject = { userId: dataConstructor.userId, roleId: ROLE_TYPE.OWNER, active: true, createdDate: dateTime, modifiedDate: dateTime };
-							connection.query("INSERT INTO userRoles SET ?", roleObject, function(error, results, fields) {
-								if (error) {
-									chain(error, null);
-								} else {
-									chain(null, results);
-								}
-							});
-						}
-					],
-					function(error, data) {
-						if (error) {
-							// Rollback transaction if query is unsuccessful
-							connection.rollback(function() {
-								return next(error);
-							});
-						} else {
-							// Attempt to commit transaction
-							connection.commit(function(error) {
-								if (error) {
-									connection.rollback(function() {
-										return next(error);
-									});
-								} else {
-									connection.release();
-									res.status(200).send({ status: 200, message: t("label.success") });
-								}
-							});
-						}
-					}
-				);
-			});
-		});
+		);
 	});
 
 	// Login to user account

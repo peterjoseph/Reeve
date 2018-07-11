@@ -164,21 +164,20 @@ class Register extends Component {
 											<span>
 												<small>
 													{t("components.authentication.policyAgreement")}:
-													<ol>
-														<li>
-															<a href={l("termsAndConditions")} target="_blank" rel="noopener noreferrer">
-																{t("label.termsAndConditions")}
-															</a>
-														</li>
-														<li>
-															<a href={l("privacyPolicy")} target="_blank" rel="noopener noreferrer">
-																{t("label.privacyPolicy")}
-															</a>
-														</li>
-													</ol>
+													<br />
+													{t("numbers.1")}){" "}
+													<a href={l("termsAndConditions")} target="_blank" rel="noopener noreferrer">
+														{t("label.termsAndConditions")}
+													</a>{" "}
+													{t("numbers.2")}){" "}
+													<a href={l("privacyPolicy")} target="_blank" rel="noopener noreferrer">
+														{t("label.privacyPolicy")}
+													</a>
+													<br />
 												</small>
 											</span>
 										</div>
+										<br />
 										<div>
 											<Checkbox
 												id="privacyConsent"
