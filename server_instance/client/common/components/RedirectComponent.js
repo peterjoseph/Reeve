@@ -22,7 +22,7 @@ class RedirectComponent extends Component {
 		}
 
 		// Show login page if user is not logged in
-		if (path == "/signin" && (!user || user.get("userId") === null)) {
+		if ((path == "/signin" || path == "/signin/help") && (!user || user.get("userId") === null)) {
 			return <Route {...this.props} />;
 		}
 

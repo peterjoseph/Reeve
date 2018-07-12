@@ -1,5 +1,6 @@
 import React, { Component, Fragment } from "react";
 import PropTypes from "prop-types";
+import { Route } from "react-router";
 import { withRouter } from "react-router-dom";
 import { connect } from "react-redux";
 import { bindActionCreators } from "redux";
@@ -15,10 +16,11 @@ import { extractSubdomain } from "shared/utilities/subdomain";
 import { AUTHENTICATION, LOGIN_REJECTED, validateWorkspaceURL, loginUser, loadUser, LOAD_USER_REJECTED } from "../../common/store/reducers/authentication.js";
 import { login, workspaceURL } from "shared/validation/authentication";
 
+import Alert from "common/components/Alert";
 import { clientStyling } from "./components/ClientStyling";
 import WorkspaceURL from "./components/WorkspaceURL";
 import SignInForm from "./components/SignInForm";
-import Loading from "../../common/components/Loading";
+import Loading from "common/components/Loading";
 
 class SignIn extends Component {
 	constructor(props) {
@@ -132,7 +134,7 @@ class SignIn extends Component {
 
 	render() {
 		const { workspaceURL, emailAddress, password, keepSignedIn, loginPending, redirectPending, errors } = this.state;
-		const { workspaceURLStatus, logInStatus, clientStyle, userToken, userKeepSignedIn } = this.props;
+		const { workspaceURLStatus, logInStatus, clientStyle, userToken, userKeepSignedIn, history } = this.props;
 
 		const workspaceURLPending = workspaceURLStatus == null || workspaceURLStatus == REDUX_STATE.PENDING;
 
@@ -189,12 +191,21 @@ class SignIn extends Component {
 					</div>
 				</div>
 				<div className={`background-container col-md-6 col-lg-7 ${style.background}`} />
+				<Route
+					path={"/signin/help"}
+					render={() => (
+						<Alert title={"What is my Workspace URL?"} closeModal={() => history.push("/signin")}>
+							<div>{"Modal Content"}</div>
+						</Alert>
+					)}
+				/>
 			</Fragment>
 		);
 	}
 }
 
 SignIn.propTypes = {
+	history: PropTypes.object,
 	workspaceURLStatus: PropTypes.string,
 	logInStatus: PropTypes.string,
 	clientStyle: PropTypes.object,

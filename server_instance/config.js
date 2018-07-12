@@ -7,7 +7,8 @@ let config = {
 		key: process.env.KEY,
 		certificate: process.env.CERTIFICATE,
 		server: process.env.SERVER,
-		port: process.env.PORT
+		port: process.env.PORT,
+		publicPath: process.env.PUBLICPATH
 	},
 	authentication: {
 		jwtSecret: process.env.JWT_SECRET,

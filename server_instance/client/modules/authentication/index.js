@@ -14,6 +14,7 @@ class Authentication extends Component {
 					<div className="row justify-content-center nopadding">
 						<Switch>
 							<Route path="/signin" render={() => <SignIn />} />
+							<Route path="/signin/help" render={() => <SignIn />} />
 							<Route path="/register" render={() => <Register />} />
 							<Route path="/forgot" render={() => <Forgot />} />
 						</Switch>

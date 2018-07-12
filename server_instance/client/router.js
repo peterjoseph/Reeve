@@ -8,7 +8,7 @@ import RedirectComponent from "./common/components/RedirectComponent";
 import AsyncComponent from "./common/components/AsyncComponent";
 
 const Authentication = AsyncComponent(() => import("./modules/authentication"));
-const MissingPath = AsyncComponent(() => import("./common/components/MissingPath"));
+const MissingPath = AsyncComponent(() => import("common/components/MissingPath"));
 
 class Router extends Component {
 	render() {
@@ -18,6 +18,7 @@ class Router extends Component {
 				<Switch>
 					<RedirectComponent exact path="/" role={[ROLE_TYPE.OWNER]} user={user} render={props => <div>User Logged In</div>} />
 					<RedirectComponent exact path="/signin" role={[ROLE_TYPE.UNREGISTERED]} user={user} render={props => <Authentication />} />
+					<RedirectComponent exact path="/signin/help" role={[ROLE_TYPE.UNREGISTERED]} user={user} render={props => <Authentication />} />
 					<RedirectComponent exact path="/register" role={[ROLE_TYPE.UNREGISTERED]} user={user} render={props => <Authentication />} />
 					<RedirectComponent exact path="/forgot" role={[ROLE_TYPE.UNREGISTERED]} user={user} render={props => <Authentication />} />
 					<RedirectComponent component={MissingPath} />

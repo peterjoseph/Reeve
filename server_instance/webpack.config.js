@@ -52,7 +52,10 @@ module.exports = {
 	entry: loadEntryFile(),
 	output: {
 		path: path.join(__dirname, "distribution"),
-		filename: "bundle.js"
+		filename: "bundle.js",
+		publicPath: config.build.publicPath,
+		hotUpdateChunkFilename: "hot/[id].[hash].hot-update.js",
+		hotUpdateMainFilename: "hot/[hash].hot-update.json"
 	},
 	module: {
 		rules: [
