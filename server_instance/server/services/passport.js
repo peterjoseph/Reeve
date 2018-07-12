@@ -31,6 +31,7 @@ function initialize(app) {
 							} else {
 								done(null, false);
 							}
+							return null;
 						})
 						.catch(error => {
 							done(null, error);
