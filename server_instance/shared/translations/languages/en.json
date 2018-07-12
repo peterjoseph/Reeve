@@ -49,10 +49,8 @@
 			},
 			"workspaceModal": {
 				"title": "What is my workspace name?",
-				"p1": "Team or organization, every group has a private workspace.",
-				"p2": "A workspace consists of group members, who collaborate together on projects.",
-				"p3": "You can find your workspace name on the introductory email you received when you created a new account, or were invited to an existing workspace.",
-				"p4": "If you can't remember your workspace name, we can help you get back into your account. What would you like to do?",
+				"body":
+					"Team or organization, every group has a private workspace.<br />A workspace consists of group members, who collaborate together on projects.<br /><br />You can find your workspace name on the introductory email you received when you created a new account, or were invited to an existing workspace.<br /><br />If you can't remember your workspace name, we can help you get back into your account. What would you like to do?",
 				"forgotWorkspace": "Help me get back into my account",
 				"newWorkspace": "I want to create a new workspace for my team"
 			}

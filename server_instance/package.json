@@ -6,7 +6,7 @@
 	"scripts": {
 		"start": "node server/server.js",
 		"start:PM2": "pm2 start ecosystem.config.js",
-		"development": "nodemon --ignore './client/' ./server/server",
+		"development": "nodemon --ignore './client/' --ignore './shared/' ./server/server",
 		"test": "ava tests",
 		"build": "webpack -p"
 	},
@@ -14,7 +14,14 @@
 		"type": "git",
 		"url": "git+https://github.com/peterjoseph/reeve.git"
 	},
-	"keywords": ["node.js", "server", "node", "express", "mySQL", "Redis"],
+	"keywords": [
+		"node.js",
+		"server",
+		"node",
+		"express",
+		"mySQL",
+		"Redis"
+	],
 	"author": "Peter Joseph",
 	"bugs": {
 		"url": "https://github.com/peterjoseph/reeve/issues"
@@ -37,6 +44,7 @@
 		"express-session": "^1.15.6",
 		"helmet": "^3.12.1",
 		"i18next": "^11.2.3",
+		"i18next-markdown-jsx-plugin": "^1.0.13",
 		"immutable": "^3.8.2",
 		"jquery": "^3.3.1",
 		"jsonwebtoken": "^8.0.1",

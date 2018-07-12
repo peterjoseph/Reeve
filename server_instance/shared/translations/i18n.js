@@ -1,4 +1,5 @@
 import i18next from "i18next";
+import markdownJsx from "i18next-markdown-jsx-plugin";
 
 const languages = {
 	en: {
@@ -7,7 +8,7 @@ const languages = {
 	}
 };
 
-i18next.init({
+i18next.use(markdownJsx).init({
 	ns: ["translation", "links"],
 	interpolation: {
 		escapeValue: false

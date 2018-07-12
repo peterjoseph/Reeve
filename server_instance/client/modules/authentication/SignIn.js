@@ -197,20 +197,15 @@ class SignIn extends Component {
 						<Alert title={t("components.authentication.workspaceModal.title")} closeModal={() => history.push("/signin")}>
 							<Fragment>
 								<div>
-									<p>{t("components.authentication.workspaceModal.p1")}</p>
-									<p>{t("components.authentication.workspaceModal.p2")}</p>
-									<p>{t("components.authentication.workspaceModal.p3")}</p>
-									<p>{t("components.authentication.workspaceModal.p4")}</p>
-									<p>
-										<ul>
-											<li>
-												<Link to={{ pathname: "/forgot" }}>{t("components.authentication.workspaceModal.forgotWorkspace")}</Link>
-											</li>
-											<li>
-												<Link to={{ pathname: "/register" }}>{t("components.authentication.workspaceModal.newWorkspace")}</Link>
-											</li>
-										</ul>
-									</p>
+									<p>{t("components.authentication.workspaceModal.body", { postProcess: "markdown-jsx" })}</p>
+									<ul>
+										<li>
+											<Link to={{ pathname: "/forgot" }}>{t("components.authentication.workspaceModal.forgotWorkspace")}</Link>
+										</li>
+										<li>
+											<Link to={{ pathname: "/register" }}>{t("components.authentication.workspaceModal.newWorkspace")}</Link>
+										</li>
+									</ul>
 								</div>
 							</Fragment>
 						</Alert>
