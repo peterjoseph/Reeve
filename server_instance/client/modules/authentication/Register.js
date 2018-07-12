@@ -158,7 +158,7 @@ class Register extends Component {
 										disabled={loading}
 										error={errors}
 									/>
-									<WorkspaceURLField label={t("label.workspaceURL")} value={workspaceURL} onChange={this.changeField} disabled={loading} error={errors} />
+									<WorkspaceURLField label={t("label.workspaceName")} value={workspaceURL} onChange={this.changeField} disabled={loading} error={errors} />
 									<div>
 										<div>
 											<span>

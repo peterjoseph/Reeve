@@ -17,7 +17,7 @@
 		"lastName": "Last Name",
 		"emailAddress": "Email Address",
 		"password": "Password",
-		"workspaceURL": "Workspace URL",
+		"workspaceName": "Workspace Name",
 		"welcome": "Welcome",
 		"success": "Success",
 		"termsAndConditions": "Terms and Conditions",
@@ -33,19 +33,28 @@
 	},
 	"components": {
 		"authentication": {
-			"companyName": "companyname",
+			"workspaceName": "workspacename",
 			"keepSignedIn": "Keep me signed in",
 			"forgotPassword": "Forgot Password?",
-			"getStarted": "To get started, enter the Workspace URL associated with your account.",
-			"whatIsWorkspaceURL": "What is my Workspace URL?",
+			"getStarted": "To get started, enter the workspace name associated with your account.",
+			"whatIsWorkspaceName": "What is my workspace name?",
 			"noAccount": "Does your team not yet have an account?",
 			"existingAccount": "Already have an account?",
 			"policyAgreement": "By registering an account, you agree to the following",
 			"privacyConsent": "I consent to the collection and storage of my information to handle the processing and operation of my account.",
 			"forgotAccountDetails": {
-				"header": "Can't remember your Workspace URL, or Password?",
-				"headerPasswordOnly": "Can't remember your Password?",
+				"header": "Can't remember your workspace name, or password?",
+				"headerPasswordOnly": "Can't remember your password?",
 				"description": "Enter your email address and we will send you instructions on how to get back into your account."
+			},
+			"workspaceModal": {
+				"title": "What is my workspace name?",
+				"p1": "Team or organization, every group has a private workspace.",
+				"p2": "A workspace consists of group members, who collaborate together on projects.",
+				"p3": "You can find your workspace name on the introductory email you received when you created a new account, or were invited to an existing workspace.",
+				"p4": "If you can't remember your workspace name, we can help you get back into your account. What would you like to do?",
+				"forgotWorkspace": "Help me get back into my account",
+				"newWorkspace": "I want to create a new workspace for my team"
 			}
 		}
 	},
@@ -83,7 +92,7 @@
 		"loadClientFeaturesFailed": "Load client features failed",
 		"loadUserRolesFailed": "Load user roles failed",
 		"validWorkspaceURL": "cannot contain the following name",
-		"emptyWorkspaceURL": "WorkspaceURL does not exist",
+		"emptyWorkspaceURL": "Workspace name does not exist",
 		"tokenInvalidOrExpired": "Token invalid or expired",
 		"missingConsent": "must be accepted to continue"
 	}

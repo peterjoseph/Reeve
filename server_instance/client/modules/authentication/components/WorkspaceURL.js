@@ -18,7 +18,7 @@ class WorkspaceURL extends Component {
 				<WorkspaceURLField value={workspaceURL} onChange={changeField} disabled={redirectPending} error={errors} />
 				<div>
 					<span>
-						<Link to={{ pathname: "/signin/help" }}>{t("components.authentication.whatIsWorkspaceURL")}</Link>
+						<Link to={{ pathname: "/signin/help" }}>{t("components.authentication.whatIsWorkspaceName")}</Link>
 					</span>
 				</div>
 				<button type="submit" className={"btn btn-primary btn-lg btn-block mt-4 p-3"} onClick={changeSubdomain} disabled={redirectPending}>

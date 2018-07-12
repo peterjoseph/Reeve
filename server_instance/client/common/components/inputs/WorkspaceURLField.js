@@ -17,7 +17,7 @@ class InputField extends React.Component {
 						id="domain-input"
 						className={"form-control text-right"}
 						type="text"
-						placeholder={t("components.authentication.companyName")}
+						placeholder={t("components.authentication.workspaceName")}
 						onChange={onChange}
 						disabled={disabled}
 					/>

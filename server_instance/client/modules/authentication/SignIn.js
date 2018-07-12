@@ -1,7 +1,7 @@
 import React, { Component, Fragment } from "react";
 import PropTypes from "prop-types";
 import { Route } from "react-router";
-import { withRouter } from "react-router-dom";
+import { Link, withRouter } from "react-router-dom";
 import { connect } from "react-redux";
 import { bindActionCreators } from "redux";
 import validate from "validate.JS";
@@ -194,8 +194,25 @@ class SignIn extends Component {
 				<Route
 					path={"/signin/help"}
 					render={() => (
-						<Alert title={"What is my Workspace URL?"} closeModal={() => history.push("/signin")}>
-							<div>{"Modal Content"}</div>
+						<Alert title={t("components.authentication.workspaceModal.title")} closeModal={() => history.push("/signin")}>
+							<Fragment>
+								<div>
+									<p>{t("components.authentication.workspaceModal.p1")}</p>
+									<p>{t("components.authentication.workspaceModal.p2")}</p>
+									<p>{t("components.authentication.workspaceModal.p3")}</p>
+									<p>{t("components.authentication.workspaceModal.p4")}</p>
+									<p>
+										<ul>
+											<li>
+												<Link to={{ pathname: "/forgot" }}>{t("components.authentication.workspaceModal.forgotWorkspace")}</Link>
+											</li>
+											<li>
+												<Link to={{ pathname: "/register" }}>{t("components.authentication.workspaceModal.newWorkspace")}</Link>
+											</li>
+										</ul>
+									</p>
+								</div>
+							</Fragment>
 						</Alert>
 					)}
 				/>
