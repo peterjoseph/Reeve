@@ -1,28 +1,11 @@
-import { models } from "services/sequelize";
+import { database, models } from "services/sequelize";
 
 let passport = require("passport");
 let JwtStrategy = require("passport-jwt").Strategy;
 let ExtractJwt = require("passport-jwt").ExtractJwt;
 let config = require("../../config");
 
-async function loadUser(payload) {
-	try {
-		const client = await models().client.findOne({ where: { id: payload.clientId, workspaceURL: payload.workspaceURL, active: true } });
-		const user = await models().user.findOne({ where: { id: payload.userId, clientId: payload.clientId, active: true } });
-
-		let userObject = null;
-
-		if (client === null || user === null) {
-			return userObject;
-		} else {
-			return { userId: user.get("id"), clientId: client.get("id"), workspaceURL: client.get("workspaceURL") };
-		}
-	} catch (err) {
-		throw err;
-	}
-}
-
-function initialize(app, database) {
+function initialize(app) {
 	app.use(passport.initialize());
 	app.use(passport.session());
 
@@ -36,16 +19,21 @@ function initialize(app, database) {
 				if (payload == null) {
 					return done(null, false);
 				} else {
-					loadUser(payload)
+					database()
+						.query("SELECT * FROM `user` u LEFT JOIN `client` c ON u.`clientId` = c.`id` WHERE u.`id` = ? AND u.`clientId` = ? AND c.`workspaceURL` = ? AND u.`active` = ?", {
+							replacements: [payload.userId, payload.clientId, payload.workspaceURL, true],
+							type: database().QueryTypes.SELECT
+						})
 						.then(result => {
 							if (result != null) {
-								done(null, result);
+								const user = { userId: payload.userId, clientId: payload.clientId, workspaceURL: payload.workspaceURL };
+								done(null, user);
 							} else {
 								done(null, false);
 							}
 						})
 						.catch(error => {
-							return done(null, error);
+							done(null, error);
 						});
 				}
 			}

@@ -93,7 +93,7 @@ app.use(function(req, res, next) {
 });
 
 // Initialise user authentication with passport
-passport.initialize(app, database);
+passport.initialize(app);
 
 // Set Routes
 app.use(function(err, req, res, next) {
