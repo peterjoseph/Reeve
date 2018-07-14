@@ -69,11 +69,11 @@ export default function authentication(state = DEFAULT_STATE, action) {
 				})
 			);
 		case REGISTER_PENDING:
-			return action;
+			return state.setIn(["clientRegistration", "status"], REDUX_STATE.PENDING);
 		case REGISTER_FULFILLED:
-			return action;
+			return state.setIn(["clientRegistration", "status"], REDUX_STATE.FULFILLED);
 		case REGISTER_REJECTED:
-			return action;
+			return state.setIn(["clientRegistration", "status"], REDUX_STATE.REJECTED);
 		case VALIDATE_WORKSPACE_URL_PENDING:
 			return state.setIn(["workspaceURL", "status"], REDUX_STATE.PENDING);
 		case VALIDATE_WORKSPACE_URL_FULFILLED:

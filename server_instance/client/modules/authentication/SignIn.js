@@ -13,7 +13,7 @@ import { saveToken, clearToken } from "shared/utilities/securityToken";
 import { REDUX_STATE, SERVER_DETAILS } from "shared/constants";
 import { extractSubdomain } from "shared/utilities/subdomain";
 
-import { AUTHENTICATION, LOGIN_REJECTED, validateWorkspaceURL, loginUser, loadUser, LOAD_USER_REJECTED } from "../../common/store/reducers/authentication.js";
+import { AUTHENTICATION, LOGIN_REJECTED, validateWorkspaceURL, loginUser, loadUser, LOAD_USER_REJECTED } from "common/store/reducers/authentication.js";
 import { login, workspaceURL } from "shared/validation/authentication";
 
 import Alert from "common/components/Alert";

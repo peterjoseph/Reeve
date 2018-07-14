@@ -9,12 +9,13 @@ import { t, l } from "shared/translations/i18n";
 import { extractSubdomain } from "shared/utilities/subdomain";
 import { SERVER_DETAILS } from "shared/constants";
 
-import { registerClient } from "../../common/store/reducers/authentication.js";
+import { registerClient, REGISTER_REJECTED } from "common/store/reducers/authentication.js";
 import { register } from "shared/validation/authentication";
 
-import InputField from "../../common/components/inputs/InputField";
-import Checkbox from "../../common/components/inputs/Checkbox";
-import WorkspaceURLField from "../../common/components/inputs/WorkspaceURLField";
+import ServerError from "common/components/ServerError";
+import InputField from "common/components/inputs/InputField";
+import Checkbox from "common/components/inputs/Checkbox";
+import WorkspaceURLField from "common/components/inputs/WorkspaceURLField";
 
 class Register extends Component {
 	constructor(props) {
@@ -29,7 +30,8 @@ class Register extends Component {
 			privacyConsent: false,
 			loading: false,
 			visible: false,
-			validationErrors: {}
+			validationErrors: {},
+			serverError: {}
 		};
 
 		this.register = this.register.bind(this);
@@ -64,7 +66,8 @@ class Register extends Component {
 
 		this.setState({
 			loading: true,
-			validationErrors: {}
+			validationErrors: {},
+			serverError: {}
 		});
 		const client = {
 			workspaceURL: this.state.workspaceURL,
@@ -83,12 +86,21 @@ class Register extends Component {
 				validationErrors: valid
 			});
 		} else {
-			this.props.registerClient(client);
+			this.props.registerClient(client).then(result => {
+				if (result.type === REGISTER_REJECTED) {
+					this.setState({
+						loading: false,
+						serverError: result.payload.reason
+					});
+				} else {
+					window.location.replace(`${SERVER_DETAILS.PROTOCOL}://${client.workspaceURL}.${SERVER_DETAILS.DOMAIN}/signin`);
+				}
+			});
 		}
 	}
 
 	render() {
-		const { firstName, lastName, emailAddress, password, workspaceURL, privacyConsent, visible, loading, validationErrors } = this.state;
+		const { firstName, lastName, emailAddress, password, workspaceURL, privacyConsent, visible, loading, serverError, validationErrors } = this.state;
 		return (
 			<Fragment>
 				<Helmet>
@@ -108,6 +120,7 @@ class Register extends Component {
 									<div className="w-100 mb-3">
 										<span className="h3"> {t("action.register")} </span>{" "}
 									</div>
+									<ServerError errors={serverError} />
 									<div className="form-row">
 										<div className="col">
 											<InputField
