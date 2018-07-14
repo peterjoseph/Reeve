@@ -33,7 +33,8 @@ class SignIn extends Component {
 			keepSignedIn: false,
 			loginPending: false,
 			redirectPending: false,
-			errors: {}
+			validationErrors: {},
+			serverError: {}
 		};
 
 		this.login = this.login.bind(this);
@@ -75,7 +76,7 @@ class SignIn extends Component {
 	login(evt) {
 		evt.preventDefault(); // Prevent page refresh
 
-		this.setState({ loginPending: true, errors: {} });
+		this.setState({ loginPending: true, validationErrors: {}, serverError: {} });
 		const user = {
 			workspaceURL: this.state.workspaceURL,
 			emailAddress: this.state.emailAddress,
@@ -88,7 +89,7 @@ class SignIn extends Component {
 		if (valid != null) {
 			this.setState({
 				loginPending: false,
-				errors: valid
+				validationErrors: valid
 			});
 		} else {
 			this.props.loginUser(user).then(result => {
@@ -96,13 +97,15 @@ class SignIn extends Component {
 					clearToken(); // Clear security token if login rejected
 					fetch.clearSecurityToken(); // Clear token in fetch header
 					this.setState({
-						loading: false
+						loginPending: false,
+						serverError: result.payload.reason
 					});
 				} else {
 					this.props.loadUser().then(result => {
 						if (result.type === LOAD_USER_REJECTED) {
 							this.setState({
-								loading: false
+								loginPending: false,
+								serverError: result.payload.reason
 							});
 						}
 					});
@@ -114,7 +117,7 @@ class SignIn extends Component {
 	changeSubdomain(evt) {
 		evt.preventDefault(); // Prevent page refresh
 
-		this.setState({ redirectPending: true, errors: {} });
+		this.setState({ redirectPending: true, validationErrors: {}, serverError: {} });
 		// Fetch subdomain from state
 		const subdomain = {
 			workspaceURL: this.state.workspaceURL
@@ -125,7 +128,7 @@ class SignIn extends Component {
 		if (valid != null) {
 			this.setState({
 				redirectPending: false,
-				errors: valid
+				validationErrors: valid
 			});
 		} else {
 			window.location.replace(`${SERVER_DETAILS.PROTOCOL}://${subdomain.workspaceURL}.${SERVER_DETAILS.DOMAIN}/signin`);
@@ -133,7 +136,7 @@ class SignIn extends Component {
 	}
 
 	render() {
-		const { workspaceURL, emailAddress, password, keepSignedIn, loginPending, redirectPending, errors } = this.state;
+		const { workspaceURL, emailAddress, password, keepSignedIn, loginPending, redirectPending, validationErrors, serverError } = this.state;
 		const { workspaceURLStatus, logInStatus, clientStyle, userToken, userKeepSignedIn, history } = this.props;
 
 		const workspaceURLPending = workspaceURLStatus == null || workspaceURLStatus == REDUX_STATE.PENDING;
@@ -169,7 +172,7 @@ class SignIn extends Component {
 											changeSubdomain={this.changeSubdomain}
 											changeField={this.changeField}
 											redirectPending={redirectPending}
-											errors={errors}
+											validationErrors={validationErrors}
 										/>
 									)}
 									{workspaceURLStatus != REDUX_STATE.REJECTED && (
@@ -182,7 +185,8 @@ class SignIn extends Component {
 											handleChecked={this.handleChecked}
 											changeField={this.changeField}
 											style={style}
-											errors={errors}
+											serverError={serverError}
+											validationErrors={validationErrors}
 										/>
 									)}
 								</form>

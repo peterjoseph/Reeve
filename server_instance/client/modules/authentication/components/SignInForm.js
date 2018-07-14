@@ -3,18 +3,20 @@ import { Link } from "react-router-dom";
 import PropTypes from "prop-types";
 import { t } from "shared/translations/i18n";
 
-import InputField from "../../../common/components/inputs/InputField";
-import Checkbox from "../../../common/components/inputs/Checkbox";
+import ServerError from "common/components/ServerError";
+import InputField from "common/components/inputs/InputField";
+import Checkbox from "common/components/inputs/Checkbox";
 
 class SignInForm extends Component {
 	render() {
-		const { emailAddress, password, loginPending, workspaceURLPending, keepSignedIn, login, changeField, handleChecked, style, errors } = this.props;
+		const { emailAddress, password, loginPending, workspaceURLPending, keepSignedIn, login, changeField, handleChecked, style, serverError, validationErrors } = this.props;
 
 		return (
 			<div>
 				<div className="w-100 mb-3">
 					<span className="h3">{t("action.signIn")}</span>
 				</div>
+				{serverError && <ServerError errors={serverError} />}
 				<InputField
 					label={t("label.emailAddress")}
 					name="emailAddress"
@@ -24,7 +26,7 @@ class SignInForm extends Component {
 					ariaLabel={"emailAddress"}
 					onChange={changeField}
 					disabled={loginPending || workspaceURLPending}
-					error={errors}
+					error={validationErrors}
 				/>
 				<InputField
 					label={t("label.password")}
@@ -35,7 +37,7 @@ class SignInForm extends Component {
 					ariaLabel={"Password"}
 					onChange={changeField}
 					disabled={loginPending || workspaceURLPending}
-					error={errors}
+					error={validationErrors}
 				/>
 				<div className="form-row pl-1 pr-1">
 					<div className="col">
@@ -73,7 +75,8 @@ SignInForm.propTypes = {
 	handleChecked: PropTypes.func,
 	changeField: PropTypes.func,
 	style: PropTypes.object,
-	errors: PropTypes.object
+	validationErrors: PropTypes.object,
+	serverError: PropTypes.object
 };
 
 export default SignInForm;

@@ -23,7 +23,7 @@ class Forgot extends Component {
 			emailAddress: "",
 			loading: false,
 			visible: false,
-			errors: {}
+			validationErrors: {}
 		};
 
 		this.forgot = this.forgot.bind(this);
@@ -63,7 +63,7 @@ class Forgot extends Component {
 
 		this.setState({
 			loading: true,
-			errors: {}
+			validationErrors: {}
 		});
 		const user = {
 			emailAddress: this.state.emailAddress
@@ -74,7 +74,7 @@ class Forgot extends Component {
 		if (valid != null) {
 			this.setState({
 				loading: false,
-				errors: valid
+				validationErrors: valid
 			});
 		} else {
 			this.props.forgotAccount(user);
@@ -82,7 +82,7 @@ class Forgot extends Component {
 	}
 
 	render() {
-		const { emailAddress, loading, errors } = this.state;
+		const { emailAddress, loading, validationErrors } = this.state;
 		const { workspaceURLStatus, clientStyle } = this.props;
 
 		const workspaceURLPending = workspaceURLStatus == null || workspaceURLStatus == REDUX_STATE.PENDING;
@@ -125,7 +125,7 @@ class Forgot extends Component {
 									ariaLabel={"emailAddress"}
 									onChange={this.changeField}
 									disabled={loading}
-									error={errors}
+									error={validationErrors}
 								/>
 								<button type="submit" className={`btn btn-primary btn-lg btn-block mt-4 p-3 ${style.button}`} onClick={this.forgot} disabled={loading}>
 									{t("action.sendEmail")}

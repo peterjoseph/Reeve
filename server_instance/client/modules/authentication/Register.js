@@ -29,7 +29,7 @@ class Register extends Component {
 			privacyConsent: false,
 			loading: false,
 			visible: false,
-			errors: {}
+			validationErrors: {}
 		};
 
 		this.register = this.register.bind(this);
@@ -64,7 +64,7 @@ class Register extends Component {
 
 		this.setState({
 			loading: true,
-			errors: {}
+			validationErrors: {}
 		});
 		const client = {
 			workspaceURL: this.state.workspaceURL,
@@ -80,7 +80,7 @@ class Register extends Component {
 		if (valid != null) {
 			this.setState({
 				loading: false,
-				errors: valid
+				validationErrors: valid
 			});
 		} else {
 			this.props.registerClient(client);
@@ -88,7 +88,7 @@ class Register extends Component {
 	}
 
 	render() {
-		const { firstName, lastName, emailAddress, password, workspaceURL, privacyConsent, visible, loading, errors } = this.state;
+		const { firstName, lastName, emailAddress, password, workspaceURL, privacyConsent, visible, loading, validationErrors } = this.state;
 		return (
 			<Fragment>
 				<Helmet>
@@ -119,7 +119,7 @@ class Register extends Component {
 												ariaLabel={"firstName"}
 												onChange={this.changeField}
 												disabled={loading}
-												error={errors}
+												error={validationErrors}
 											/>
 										</div>
 										<div className="col">
@@ -132,7 +132,7 @@ class Register extends Component {
 												ariaLabel={"lastName"}
 												onChange={this.changeField}
 												disabled={loading}
-												error={errors}
+												error={validationErrors}
 											/>
 										</div>
 									</div>
@@ -145,7 +145,7 @@ class Register extends Component {
 										ariaLabel={"emailAddress"}
 										onChange={this.changeField}
 										disabled={loading}
-										error={errors}
+										error={validationErrors}
 									/>
 									<InputField
 										label={t("label.password")}
@@ -156,9 +156,9 @@ class Register extends Component {
 										ariaLabel={"Password"}
 										onChange={this.changeField}
 										disabled={loading}
-										error={errors}
+										error={validationErrors}
 									/>
-									<WorkspaceURLField label={t("label.workspaceName")} value={workspaceURL} onChange={this.changeField} disabled={loading} error={errors} />
+									<WorkspaceURLField label={t("label.workspaceName")} value={workspaceURL} onChange={this.changeField} disabled={loading} error={validationErrors} />
 									<div>
 										<div>
 											<span>
@@ -187,7 +187,7 @@ class Register extends Component {
 												smallText
 												disabled={loading}
 												label={t("components.authentication.privacyConsent")}
-												error={errors}
+												error={validationErrors}
 											/>
 										</div>
 									</div>

@@ -7,7 +7,7 @@ import WorkspaceURLField from "common/components/inputs/WorkspaceURLField";
 
 class WorkspaceURL extends Component {
 	render() {
-		const { workspaceURL, changeField, changeSubdomain, redirectPending, errors } = this.props;
+		const { workspaceURL, changeField, changeSubdomain, redirectPending, validationErrors } = this.props;
 
 		return (
 			<div className="w-100 mb-3">
@@ -15,7 +15,7 @@ class WorkspaceURL extends Component {
 				<div className="mt-4 mb-4">
 					<span>{t("components.authentication.getStarted")}</span>
 				</div>
-				<WorkspaceURLField value={workspaceURL} onChange={changeField} disabled={redirectPending} error={errors} />
+				<WorkspaceURLField value={workspaceURL} onChange={changeField} disabled={redirectPending} error={validationErrors} />
 				<div>
 					<span>
 						<Link to={{ pathname: "/signin/help" }}>{t("components.authentication.whatIsWorkspaceName")}</Link>
@@ -37,7 +37,7 @@ WorkspaceURL.propTypes = {
 	changeSubdomain: PropTypes.func,
 	changeField: PropTypes.func,
 	redirectPending: PropTypes.bool,
-	errors: PropTypes.object
+	validationErrors: PropTypes.object
 };
 
 export default withRouter(WorkspaceURL);
