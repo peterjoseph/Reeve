@@ -13,7 +13,7 @@ import { saveToken, clearToken } from "shared/utilities/securityToken";
 import { REDUX_STATE, SERVER_DETAILS } from "shared/constants";
 import { extractSubdomain } from "shared/utilities/subdomain";
 
-import { AUTHENTICATION, LOGIN_REJECTED, validateWorkspaceURL, loginUser, loadUser, LOAD_USER_REJECTED } from "common/store/reducers/authentication.js";
+import { AUTHENTICATION, LOGIN_REJECTED, validateWorkspaceURL, VALIDATE_WORKSPACE_URL_REJECTED, loginUser, loadUser, LOAD_USER_REJECTED } from "common/store/reducers/authentication.js";
 import { login, workspaceURL } from "shared/validation/authentication";
 
 import Alert from "common/components/Alert";
@@ -47,7 +47,13 @@ class SignIn extends Component {
 		// Validate workspace url and retrieve client information
 		if (this.props.workspaceURLStatus !== REDUX_STATE.FULFILLED) {
 			const subdomain = extractSubdomain(window.location.href);
-			this.props.validateWorkspaceURL(subdomain);
+			this.props.validateWorkspaceURL(subdomain).then(result => {
+				if (result.type === VALIDATE_WORKSPACE_URL_REJECTED) {
+					this.setState({
+						serverError: result.payload
+					});
+				}
+			});
 		}
 	}
 
@@ -98,14 +104,14 @@ class SignIn extends Component {
 					fetch.clearSecurityToken(); // Clear token in fetch header
 					this.setState({
 						loginPending: false,
-						serverError: result.payload.reason
+						serverError: result.payload
 					});
 				} else {
 					this.props.loadUser().then(result => {
 						if (result.type === LOAD_USER_REJECTED) {
 							this.setState({
 								loginPending: false,
-								serverError: result.payload.reason
+								serverError: result.payload
 							});
 						}
 					});
@@ -172,6 +178,7 @@ class SignIn extends Component {
 											changeSubdomain={this.changeSubdomain}
 											changeField={this.changeField}
 											redirectPending={redirectPending}
+											serverError={serverError}
 											validationErrors={validationErrors}
 										/>
 									)}

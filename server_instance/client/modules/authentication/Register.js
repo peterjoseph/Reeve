@@ -90,7 +90,7 @@ class Register extends Component {
 				if (result.type === REGISTER_REJECTED) {
 					this.setState({
 						loading: false,
-						serverError: result.payload.reason
+						serverError: result.payload
 					});
 				} else {
 					window.location.replace(`${SERVER_DETAILS.PROTOCOL}://${client.workspaceURL}.${SERVER_DETAILS.DOMAIN}/signin`);
@@ -120,7 +120,7 @@ class Register extends Component {
 									<div className="w-100 mb-3">
 										<span className="h3"> {t("action.register")} </span>{" "}
 									</div>
-									<ServerError errors={serverError} />
+									<ServerError error={serverError} />
 									<div className="form-row">
 										<div className="col">
 											<InputField

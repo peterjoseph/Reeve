@@ -1,21 +1,36 @@
-import React from "react";
+import React, { Component } from "react";
 import PropTypes from "prop-types";
+import { withRouter } from "react-router-dom";
 
-class ServerError extends React.Component {
+import Alert from "common/components/Alert";
+import { t } from "shared/translations/i18n";
+
+class ServerError extends Component {
 	render() {
-		const { errors } = this.props;
+		const { history, error, showMessage, showAlert } = this.props;
 
-		if (typeof errors === "string" || errors instanceof String) {
-			return <div className="alert alert-danger">{errors}</div>;
+		if (showAlert && error && error.status === 500) {
+			return (
+				<Alert title={`${t("label.error")}: ${t("error.somethingWentWrong")}`} closeModal={() => history.push("/")}>
+					{error.message}
+				</Alert>
+			);
 		}
 
-		if (typeof errors === "object" || errors instanceof Object) {
-			let serverErrors = [];
-			for (const key of Object.keys(errors)) {
-				serverErrors.push(<div key={key}>{errors[key]}</div>);
+		if (showMessage && error && error.reason) {
+			const reason = error.reason;
+			if (typeof reason === "string" || reason instanceof String) {
+				return <div className="alert alert-danger">{reason}</div>;
 			}
-			if (serverErrors.length > 0) {
-				return <div className="alert alert-danger">{serverErrors}</div>;
+
+			if (typeof reason === "object" || reason instanceof Object) {
+				let reasons = [];
+				for (const key of Object.keys(reason)) {
+					reasons.push(<div key={key}>{reason[key]}</div>);
+				}
+				if (reasons.length > 0) {
+					return <div className="alert alert-danger">{reasons}</div>;
+				}
 			}
 		}
 
@@ -23,8 +38,17 @@ class ServerError extends React.Component {
 	}
 }
 
-ServerError.propTypes = {
-	errors: PropTypes.oneOfType([PropTypes.string, PropTypes.object])
+ServerError.defaultProps = {
+	showMessage: true,
+	showAlert: true,
+	error: {}
 };
 
-export default ServerError;
+ServerError.propTypes = {
+	history: PropTypes.object,
+	showMessage: PropTypes.bool,
+	showAlert: PropTypes.bool,
+	error: PropTypes.object
+};
+
+export default withRouter(ServerError);

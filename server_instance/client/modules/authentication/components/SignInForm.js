@@ -16,7 +16,7 @@ class SignInForm extends Component {
 				<div className="w-100 mb-3">
 					<span className="h3">{t("action.signIn")}</span>
 				</div>
-				<ServerError errors={serverError} />
+				<ServerError error={serverError} />
 				<InputField
 					label={t("label.emailAddress")}
 					name="emailAddress"
