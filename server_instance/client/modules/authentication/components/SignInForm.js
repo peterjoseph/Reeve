@@ -3,6 +3,7 @@ import { Link } from "react-router-dom";
 import PropTypes from "prop-types";
 import { t } from "shared/translations/i18n";
 
+import ServerSuccess from "common/components/ServerSuccess";
 import ServerError from "common/components/ServerError";
 import InputField from "common/components/inputs/InputField";
 import Checkbox from "common/components/inputs/Checkbox";
@@ -16,6 +17,7 @@ class SignInForm extends Component {
 				<div className="w-100 mb-3">
 					<span className="h3">{t("action.signIn")}</span>
 				</div>
+				{!loginPending && !serverError && !validationErrors && <ServerSuccess path={{ registration: "success" }} message={t("success.clientRegistration")} />}
 				<ServerError error={serverError} />
 				<InputField
 					label={t("label.emailAddress")}

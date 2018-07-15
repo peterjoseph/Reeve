@@ -23,7 +23,7 @@ class Forgot extends Component {
 			emailAddress: "",
 			loading: false,
 			visible: false,
-			validationErrors: {}
+			validationErrors: null
 		};
 
 		this.forgot = this.forgot.bind(this);
@@ -63,7 +63,7 @@ class Forgot extends Component {
 
 		this.setState({
 			loading: true,
-			validationErrors: {}
+			validationErrors: null
 		});
 		const user = {
 			emailAddress: this.state.emailAddress

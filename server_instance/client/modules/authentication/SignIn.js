@@ -33,8 +33,8 @@ class SignIn extends Component {
 			keepSignedIn: false,
 			loginPending: false,
 			redirectPending: false,
-			validationErrors: {},
-			serverError: {}
+			validationErrors: null,
+			serverError: null
 		};
 
 		this.login = this.login.bind(this);
@@ -82,7 +82,7 @@ class SignIn extends Component {
 	login(evt) {
 		evt.preventDefault(); // Prevent page refresh
 
-		this.setState({ loginPending: true, validationErrors: {}, serverError: {} });
+		this.setState({ loginPending: true, validationErrors: null, serverError: null });
 		const user = {
 			workspaceURL: this.state.workspaceURL,
 			emailAddress: this.state.emailAddress,
@@ -123,7 +123,7 @@ class SignIn extends Component {
 	changeSubdomain(evt) {
 		evt.preventDefault(); // Prevent page refresh
 
-		this.setState({ redirectPending: true, validationErrors: {}, serverError: {} });
+		this.setState({ redirectPending: true, validationErrors: null, serverError: null });
 		// Fetch subdomain from state
 		const subdomain = {
 			workspaceURL: this.state.workspaceURL

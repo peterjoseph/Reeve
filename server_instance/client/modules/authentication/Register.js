@@ -30,8 +30,8 @@ class Register extends Component {
 			privacyConsent: false,
 			loading: false,
 			visible: false,
-			validationErrors: {},
-			serverError: {}
+			validationErrors: null,
+			serverError: null
 		};
 
 		this.register = this.register.bind(this);
@@ -66,8 +66,8 @@ class Register extends Component {
 
 		this.setState({
 			loading: true,
-			validationErrors: {},
-			serverError: {}
+			validationErrors: null,
+			serverError: null
 		});
 		const client = {
 			workspaceURL: this.state.workspaceURL,
@@ -93,7 +93,7 @@ class Register extends Component {
 						serverError: result.payload
 					});
 				} else {
-					window.location.replace(`${SERVER_DETAILS.PROTOCOL}://${client.workspaceURL}.${SERVER_DETAILS.DOMAIN}/signin`);
+					window.location.replace(`${SERVER_DETAILS.PROTOCOL}://${client.workspaceURL}.${SERVER_DETAILS.DOMAIN}/signin?registration=success`);
 				}
 			});
 		}

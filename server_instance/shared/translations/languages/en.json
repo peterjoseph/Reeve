@@ -74,6 +74,9 @@
 			"description": "Enter your email address to reset your account."
 		}
 	},
+	"success": {
+		"clientRegistration": "Success! Your account has been created."
+	},
 	"error": {
 		"code": {
 			"404": "Page could not be found."
