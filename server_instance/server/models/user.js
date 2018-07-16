@@ -40,6 +40,11 @@ module.exports = function(sequelize, DataTypes) {
 				type: DataTypes.DATE,
 				allowNull: true
 			},
+			language: {
+				type: DataTypes.INTEGER(11).UNSIGNED,
+				allowNull: false,
+				defaultValue: "1"
+			},
 			active: {
 				type: DataTypes.INTEGER(1),
 				allowNull: false,
