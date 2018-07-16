@@ -28,6 +28,16 @@ let config = {
 		acquire: parseInt(process.env.DB_POOL_ACQUIRE),
 		idle: parseInt(process.env.DB_POOL_IDLE)
 	},
+	email: {
+		senderAddress: process.env.EMAIL_SENDER_ADDRESS,
+		host: process.env.EMAIL_HOST,
+		port: process.env.EMAIL_PORT,
+		secure: String(process.env.EMAIL_SECURE) === "true",
+		auth: {
+			username: process.env.EMAIL_AUTH_USERNAME,
+			password: process.env.EMAIL_AUTH_PASSWORD
+		}
+	},
 	redis: {
 		host: process.env.R_HOST,
 		port: process.env.R_PORT,

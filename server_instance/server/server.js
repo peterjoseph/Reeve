@@ -16,6 +16,7 @@ let app = express();
 
 let passport = require("./services/passport");
 let database = require("./services/sequelize");
+let nodemailer = require("./services/nodemailer");
 let config = require("../config");
 
 // Set up Sentry Error Reporting
@@ -108,6 +109,9 @@ app.use(function noCache(req, res, next) {
 	res.header("Expires", 0);
 	next();
 });
+
+// Initialise Email Service
+nodemailer.initialize();
 
 // Handle server errors
 app.use(function errorHandler(err, req, res, next) {
