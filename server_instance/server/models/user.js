@@ -6,17 +6,20 @@ module.exports = function(sequelize, DataTypes) {
 				type: DataTypes.INTEGER(11).UNSIGNED,
 				allowNull: false,
 				primaryKey: true,
-				autoIncrement: true
+				autoIncrement: true,
+				field: "id"
 			},
 			firstName: {
 				type: DataTypes.STRING(255),
 				allowNull: false,
-				defaultValue: ""
+				defaultValue: "",
+				field: "firstName"
 			},
 			lastName: {
 				type: DataTypes.STRING(255),
 				allowNull: false,
-				defaultValue: ""
+				defaultValue: "",
+				field: "lastName"
 			},
 			clientId: {
 				type: DataTypes.INTEGER(11).UNSIGNED,
@@ -24,39 +27,51 @@ module.exports = function(sequelize, DataTypes) {
 				references: {
 					model: "client",
 					key: "id"
-				}
+				},
+				field: "clientId"
 			},
 			emailAddress: {
 				type: DataTypes.STRING(255),
 				allowNull: false,
-				defaultValue: ""
+				defaultValue: "",
+				field: "emailAddress"
 			},
 			password: {
 				type: DataTypes.STRING(255),
 				allowNull: false,
-				defaultValue: ""
+				defaultValue: "",
+				field: "password"
 			},
 			lastLoginDate: {
 				type: DataTypes.DATE,
-				allowNull: true
+				allowNull: true,
+				field: "lastLoginDate"
 			},
 			language: {
 				type: DataTypes.INTEGER(11).UNSIGNED,
 				allowNull: false,
-				defaultValue: "1"
+				defaultValue: "1",
+				references: {
+					model: "languages",
+					key: "id"
+				},
+				field: "language"
 			},
 			active: {
 				type: DataTypes.INTEGER(1),
 				allowNull: false,
-				defaultValue: "1"
+				defaultValue: "1",
+				field: "active"
 			},
 			createdAt: {
-				type: DataTypes.DATEONLY,
-				allowNull: false
+				type: DataTypes.DATE,
+				allowNull: true,
+				field: "createdAt"
 			},
 			updatedAt: {
-				type: DataTypes.DATEONLY,
-				allowNull: false
+				type: DataTypes.DATE,
+				allowNull: true,
+				field: "updatedAt"
 			}
 		},
 		{

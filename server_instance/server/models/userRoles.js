@@ -6,7 +6,8 @@ module.exports = function(sequelize, DataTypes) {
 				type: DataTypes.INTEGER(21).UNSIGNED,
 				allowNull: false,
 				primaryKey: true,
-				autoIncrement: true
+				autoIncrement: true,
+				field: "id"
 			},
 			userId: {
 				type: DataTypes.INTEGER(11).UNSIGNED,
@@ -14,7 +15,8 @@ module.exports = function(sequelize, DataTypes) {
 				references: {
 					model: "user",
 					key: "id"
-				}
+				},
+				field: "userId"
 			},
 			roleId: {
 				type: DataTypes.INTEGER(11).UNSIGNED,
@@ -22,20 +24,24 @@ module.exports = function(sequelize, DataTypes) {
 				references: {
 					model: "roles",
 					key: "id"
-				}
+				},
+				field: "roleId"
 			},
 			active: {
 				type: DataTypes.INTEGER(1),
 				allowNull: false,
-				defaultValue: "1"
+				defaultValue: "1",
+				field: "active"
 			},
 			createdAt: {
-				type: DataTypes.DATEONLY,
-				allowNull: false
+				type: DataTypes.DATE,
+				allowNull: true,
+				field: "createdAt"
 			},
 			updatedAt: {
-				type: DataTypes.DATEONLY,
-				allowNull: false
+				type: DataTypes.DATE,
+				allowNull: true,
+				field: "updatedAt"
 			}
 		},
 		{

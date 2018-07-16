@@ -6,25 +6,30 @@ module.exports = function(sequelize, DataTypes) {
 				type: DataTypes.INTEGER(11).UNSIGNED,
 				allowNull: false,
 				primaryKey: true,
-				autoIncrement: true
+				autoIncrement: true,
+				field: "id"
 			},
 			name: {
 				type: DataTypes.STRING(255),
 				allowNull: false,
-				defaultValue: ""
+				defaultValue: "",
+				field: "name"
 			},
 			description: {
 				type: DataTypes.STRING(255),
 				allowNull: false,
-				defaultValue: ""
+				defaultValue: "",
+				field: "description"
 			},
 			createdAt: {
-				type: DataTypes.DATEONLY,
-				allowNull: true
+				type: DataTypes.DATE,
+				allowNull: true,
+				field: "createdAt"
 			},
 			updatedAt: {
-				type: DataTypes.DATEONLY,
-				allowNull: true
+				type: DataTypes.DATE,
+				allowNull: true,
+				field: "updatedAt"
 			}
 		},
 		{

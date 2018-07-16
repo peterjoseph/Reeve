@@ -6,7 +6,8 @@ module.exports = function(sequelize, DataTypes) {
 				type: DataTypes.INTEGER(11).UNSIGNED,
 				allowNull: false,
 				primaryKey: true,
-				autoIncrement: true
+				autoIncrement: true,
+				field: "id"
 			},
 			subscriptionId: {
 				type: DataTypes.INTEGER(3).UNSIGNED,
@@ -14,7 +15,8 @@ module.exports = function(sequelize, DataTypes) {
 				references: {
 					model: "subscriptions",
 					key: "id"
-				}
+				},
+				field: "subscriptionId"
 			},
 			featureId: {
 				type: DataTypes.INTEGER(11).UNSIGNED,
@@ -22,15 +24,18 @@ module.exports = function(sequelize, DataTypes) {
 				references: {
 					model: "features",
 					key: "id"
-				}
+				},
+				field: "featureId"
 			},
 			createdAt: {
-				type: DataTypes.DATEONLY,
-				allowNull: false
+				type: DataTypes.DATE,
+				allowNull: true,
+				field: "createdAt"
 			},
 			updatedAt: {
-				type: DataTypes.DATEONLY,
-				allowNull: false
+				type: DataTypes.DATE,
+				allowNull: true,
+				field: "updatedAt"
 			}
 		},
 		{
