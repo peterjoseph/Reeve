@@ -15,7 +15,7 @@ module.exports = function(sequelize, DataTypes) {
 				defaultValue: "",
 				field: "name"
 			},
-			workspaceUrl: {
+			workspaceURL: {
 				type: DataTypes.STRING(255),
 				allowNull: false,
 				defaultValue: "",
