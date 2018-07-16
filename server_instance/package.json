@@ -50,6 +50,7 @@
 		"jquery": "^3.3.1",
 		"jsonwebtoken": "^8.0.1",
 		"mysql2": "^1.5.3",
+		"nodemailer": "^4.6.7",
 		"normalizr": "^3.2.4",
 		"npm": "^6.0.0",
 		"passport": "^0.4.0",
