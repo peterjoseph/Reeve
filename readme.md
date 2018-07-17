@@ -21,7 +21,7 @@ npm install && npm start
 
 ## Server Architecture
 
-![](https://i.imgur.com/OV8enIn.png)
+![](https://i.imgur.com/HnWxrB2.png)
 \*Subject to change as new services are implemented
 
 ## Development Progress
