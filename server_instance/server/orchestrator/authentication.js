@@ -109,7 +109,7 @@ export function registerNewClient(received) {
 			);
 
 			// Send welcome email to user
-			await sendEmail(EMAIL_TYPE.CLIENT_WELCOME, userInstance.get("language"), userInstance.get("emailAddress"), null, clientInstance.get("id"), userInstance.get("id"), transaction);
+			sendEmail(EMAIL_TYPE.CLIENT_WELCOME, userInstance.get("language"), userInstance.get("emailAddress"), null, clientInstance.get("id"), userInstance.get("id"));
 
 			// Create a response object
 			const response = { status: 200, message: t("label.success") };
