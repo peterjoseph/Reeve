@@ -25,7 +25,7 @@ module.exports = Object.freeze({
 		TRIAL: 1
 	},
 	EMAIL_TYPE: {
-		CLIENT_WELCOME_EMAIL: 1
+		CLIENT_WELCOME: 1
 	},
 	LANGUAGE: {
 		ENGLISH: 1

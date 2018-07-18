@@ -3,11 +3,12 @@ import bcrypt from "bcrypt";
 
 import { database, models } from "services/sequelize";
 import passport from "services/passport";
+import { sendEmail } from "services/nodemailer";
 import config from "../../config";
 import { arrayContains } from "shared/utilities/filters";
 import { ServerResponseError } from "utilities/errors/serverResponseError";
 import { t } from "shared/translations/i18n";
-import { FEATURES, SUBSCRIPTION_TYPE, ROLE_TYPE } from "shared/constants";
+import { FEATURES, SUBSCRIPTION_TYPE, ROLE_TYPE, EMAIL_TYPE, LANGUAGE } from "shared/constants";
 
 // Validate Workspace URL and retrieve client styling (if feature exists)
 export function validateWorkspaceURL(workspaceURL) {
@@ -106,6 +107,9 @@ export function registerNewClient(received) {
 				},
 				{ transaction: transaction }
 			);
+
+			// Send welcome email to user
+			await sendEmail(EMAIL_TYPE.CLIENT_WELCOME, userInstance.get("language"), userInstance.get("emailAddress"), null, clientInstance.get("id"), userInstance.get("id"), transaction);
 
 			// Create a response object
 			const response = { status: 200, message: t("label.success") };
