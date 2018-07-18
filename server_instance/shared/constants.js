@@ -24,6 +24,12 @@ module.exports = Object.freeze({
 	SUBSCRIPTION_TYPE: {
 		TRIAL: 1
 	},
+	EMAIL_TYPE: {
+		CLIENT_WELCOME_EMAIL: 1
+	},
+	LANGUAGE: {
+		ENGLISH: 1
+	},
 	REDUX_STATE: {
 		PENDING: "PENDING",
 		FULFILLED: "FULFILLED",

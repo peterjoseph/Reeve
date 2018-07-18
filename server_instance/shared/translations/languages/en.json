@@ -97,6 +97,7 @@
 		"validWorkspaceURL": "cannot contain the following name",
 		"emptyWorkspaceURL": "Workspace name does not exist",
 		"tokenInvalidOrExpired": "Token invalid or expired.",
-		"missingConsent": "must be accepted to continue"
+		"missingConsent": "must be accepted to continue",
+		"emailTemplateNotFound": "Error loading email template"
 	}
 }
