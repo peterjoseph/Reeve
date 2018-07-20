@@ -1,5 +1,6 @@
 import jwt from "jsonwebtoken";
 import bcrypt from "bcrypt";
+import uniqid from "uniqid";
 
 import { database, models } from "services/sequelize";
 import passport from "services/passport";
@@ -62,8 +63,23 @@ export function validateWorkspaceURL(workspaceURL) {
 }
 
 // Generate user activation link
-export function generateUserEmailValidationCode(userId, clientId, transaction) {
-	return "324572340857245087";
+export async function generateUserEmailValidationCode(userId, clientId, transaction) {
+	// Create unique validation code for userId
+	const code = uniqid();
+
+	// Store validation code in table
+	await models().emailVerificationCode.create(
+		{
+			verificationCode: code,
+			activated: false,
+			userId: userId,
+			clientId: clientId,
+			gracePeriod: 2
+		},
+		{ transaction: transaction }
+	);
+
+	return code;
 }
 
 // Register new Client
