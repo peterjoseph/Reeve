@@ -59,6 +59,7 @@
 		"passport-local": "^1.0.0",
 		"passport-local-mongoose": "^5.0.0",
 		"query-string": "^6.1.0",
+		"rate-limit-redis": "^1.5.0",
 		"raven": "^2.6.0",
 		"react": "^16.3.2",
 		"react-dom": "^16.2.0",

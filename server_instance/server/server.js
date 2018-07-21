@@ -3,13 +3,14 @@ require("babel-register")({ presets: ["env"] }); // Transpile server code to sup
 let express = require("express"); // Express Server
 let session = require("express-session");
 let helmet = require("helmet");
-let RedisStore = require("connect-redis")(session);
+let SessionRedisStore = require("connect-redis")(session);
 let path = require("path");
 let fs = require("fs");
 let https = require("https");
 let cookieParser = require("cookie-parser");
 let bodyParser = require("body-parser");
 let RateLimit = require("express-rate-limit");
+let RateLimitRedisStore = require("rate-limit-redis");
 let favicon = require("serve-favicon");
 let loadWebpack = require("./server.dev");
 let routes = require("./services/router"); // Server Routes
@@ -62,6 +63,10 @@ app.use(helmet());
 // Add rate limiting to endpoints to prevent excessive use
 app.enable("trust proxy");
 var apiLimiter = new RateLimit({
+	store: new RateLimitRedisStore({
+		host: config.redis.host,
+		port: config.redis.port
+	}),
 	windowMs: 15 * 60 * 1000,
 	max: 100,
 	delayMs: 0
@@ -84,7 +89,7 @@ app.use(express.static(path.join(__dirname, "../distribution")));
 // Connection to Redis user session store
 app.use(
 	session({
-		store: new RedisStore({
+		store: new SessionRedisStore({
 			host: config.redis.host,
 			port: config.redis.port
 		}),
