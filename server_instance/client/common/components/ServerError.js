@@ -9,7 +9,7 @@ class ServerError extends Component {
 	render() {
 		const { history, error, showMessage, showAlert } = this.props;
 
-		if (showAlert && error && error.status === 500) {
+		if (showAlert && error && (error.status === 500 || error.status === 429)) {
 			return (
 				<Alert title={`${t("label.error")}: ${t("error.somethingWentWrong")}`} closeModal={() => history.push("/")}>
 					{error.message}

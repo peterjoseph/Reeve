@@ -62,7 +62,7 @@ export function validateWorkspaceURL(workspaceURL) {
 	});
 }
 
-// Generate user activation link
+// Generate user email validation code
 export async function generateUserEmailValidationCode(userId, clientId, transaction) {
 	// Create unique validation code for userId
 	const code = uniqid();

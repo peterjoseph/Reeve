@@ -9,6 +9,7 @@ let fs = require("fs");
 let https = require("https");
 let cookieParser = require("cookie-parser");
 let bodyParser = require("body-parser");
+let RateLimit = require("express-rate-limit");
 let favicon = require("serve-favicon");
 let loadWebpack = require("./server.dev");
 let routes = require("./services/router"); // Server Routes
@@ -58,6 +59,16 @@ app.engine("html", function(path, options, callback) {
 // Enable Helmet for improved endpoint security
 app.use(helmet());
 
+// Add rate limiting to endpoints to prevent excessive use
+app.enable("trust proxy");
+var apiLimiter = new RateLimit({
+	windowMs: 15 * 60 * 1000,
+	max: 100,
+	delayMs: 0
+});
+app.use(apiLimiter);
+
+// Handle HTTP Post body data
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cookieParser());
