@@ -264,6 +264,7 @@ export function loadUser(received) {
 				firstName: user.get("firstName"),
 				lastName: user.get("lastName"),
 				emailAddress: user.get("emailAddress"),
+				emailVerified: Boolean(Number(user.get("emailVerified"))),
 				clientName: client.get("name"),
 				workspaceURL: client.get("workspaceURL"),
 				subscriptionId: client.get("subscriptionId"),
