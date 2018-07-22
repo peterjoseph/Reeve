@@ -53,4 +53,4 @@ npm install && npm start
 - [ ] Stripe Payment & Subscription Gateway
 - [x] Sentry error logging
 - [x] Papertrail logging
-- [ ] API Rate Limiting
+- [x] API Rate Limiting

@@ -36,6 +36,12 @@ module.exports = function(sequelize, DataTypes) {
 				defaultValue: "",
 				field: "emailAddress"
 			},
+			emailVerified: {
+				type: DataTypes.INTEGER(1),
+				allowNull: false,
+				defaultValue: "0",
+				field: "emailVerified"
+			},
 			password: {
 				type: DataTypes.STRING(255),
 				allowNull: false,
