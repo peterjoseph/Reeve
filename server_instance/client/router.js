@@ -7,7 +7,7 @@ import User from "common/components/User";
 import RedirectComponent from "common/components/RedirectComponent";
 import AsyncComponent from "common/components/AsyncComponent";
 
-const Header = AsyncComponent(() => import("common/components/Header"));
+const Header = AsyncComponent(() => import("./modules/header"));
 const Dashboard = AsyncComponent(() => import("./modules/dashboard"));
 const Authentication = AsyncComponent(() => import("./modules/authentication"));
 const MissingPath = AsyncComponent(() => import("common/components/MissingPath"));
