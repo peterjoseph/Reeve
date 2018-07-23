@@ -1,7 +1,8 @@
-import React, { Component } from "react";
+import React, { Fragment, Component } from "react";
 import PropTypes from "prop-types";
 
 import User from "common/components/User";
+import VerifyEmail from "./components/VerifyEmail";
 
 class Header extends Component {
 	render() {
@@ -12,7 +13,16 @@ class Header extends Component {
 			return null;
 		}
 
-		return <div>Header</div>;
+		return (
+			<Fragment>
+				<VerifyEmail user={user} />
+				<div className="navbar navbar-inverse nav navbar-dark bg-dark">
+					<div className="navbar-inner">
+						<div className="container" />
+					</div>
+				</div>
+			</Fragment>
+		);
 	}
 }
 
