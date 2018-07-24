@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import PropTypes from "prop-types";
 import { notify } from "react-notify-toast";
+import { t } from "shared/translations/i18n";
 
 class VerifyEmail extends Component {
 	constructor(props) {
@@ -17,19 +18,17 @@ class VerifyEmail extends Component {
 	showNotification() {
 		notify.show(
 			<span>
+				<div>{t("components.authentication.verifyEmailNotification.welcomeEmailSent", { firstName: this.props.user.get("firstName"), email: this.props.user.get("emailAddress") })}</div>
 				<div>
-					Hi {this.props.user.get("firstName")}, a welcome email was sent to {this.props.user.get("emailAddress")}.
-				</div>
-				<div>
-					Please click the link in the email to verify your email address.
+					{t("components.authentication.verifyEmailNotification.clickLink")}
 					<span>
 						<button
 							type="button"
-							className={`btn btn-warning btn-sm ml-2 ${this.state.emailSent && "disabled"}`}
+							className={`btn ${this.state.emailSent ? "btn-default" : "btn-warning"} btn-sm p-1 ml-2 ${this.state.emailSent && "disabled"}`}
 							onClick={this.resendVerifyEmail}
 							aria-disabled={this.state.emailSent ? "true" : "false"}
 						>
-							{this.state.emailSent ? "Email Sent" : "Resend Email"}
+							{this.state.emailSent ? t("action.emailSent") : t("action.resendEmail")}
 						</button>
 					</span>
 				</div>

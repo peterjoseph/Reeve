@@ -10,7 +10,9 @@
 		"continue": "Continue",
 		"close": "Close",
 		"save": "Save",
-		"sendEmail": "Send Email"
+		"sendEmail": "Send Email",
+		"resendEmail": "Resend Email",
+		"emailSent": "Email Sent"
 	},
 	"label": {
 		"firstName": "First Name",
@@ -54,6 +56,10 @@
 					"Team or organization, every group has a private workspace.<br />A workspace consists of group members, who collaborate together on projects.<br /><br />You can find your workspace name on the introductory email you received when you created a new account, or were invited to an existing workspace.<br /><br />If you can't remember your workspace name, we can help you get back into your account. What would you like to do?",
 				"forgotWorkspace": "Help me get back into my account",
 				"newWorkspace": "I want to create a new workspace for my team"
+			},
+			"verifyEmailNotification": {
+				"welcomeEmailSent": "Hi {{ firstName }}, a welcome email was sent to {{ email }}.",
+				"clickLink": "Please click the link in the email to verify your email address."
 			}
 		}
 	},
