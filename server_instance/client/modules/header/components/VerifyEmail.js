@@ -3,6 +3,8 @@ import PropTypes from "prop-types";
 import { notify } from "react-notify-toast";
 import { t } from "shared/translations/i18n";
 
+import { resendVerifyEmail } from "client/api/authentication.js";
+
 class VerifyEmail extends Component {
 	constructor(props) {
 		super(props);
@@ -41,11 +43,19 @@ class VerifyEmail extends Component {
 	resendVerifyEmail(evt) {
 		evt.preventDefault(); // Prevent page refresh
 
+		// Hide existing notification as we need to re-render
 		notify.hide();
 
-		this.setState({ emailSent: true });
-
-		this.showNotification();
+		// Call API to send verify email
+		resendVerifyEmail({ userId: this.props.user.get("userId") })
+			.then(() => {
+				this.setState({ emailSent: true });
+				this.showNotification();
+			})
+			.catch(() => {
+				this.setState({ emailSent: false });
+				this.showNotification();
+			});
 	}
 
 	render() {

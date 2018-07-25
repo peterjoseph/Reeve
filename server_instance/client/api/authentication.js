@@ -58,3 +58,13 @@ export function forgotAccountDetails(user) {
 		})
 	});
 }
+
+// Resend verify email address notification
+export function resendVerifyEmail(user) {
+	return fetch.perform("/internal/resend_verify_email/", {
+		method: "POST",
+		body: JSON.stringify({
+			userId: user.id
+		})
+	});
+}
