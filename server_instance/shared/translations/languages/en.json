@@ -95,6 +95,7 @@
 		"clientInvalidProperties": "Client object contains invalid properties.",
 		"validCharactersAZ09": "can only contain characters from a-z and 0-9, and no spaces",
 		"invalidPasswordSupplied": "Incorrect password supplied. Please enter a valid password.",
+		"invalidUserId": "Incorrect userId supplied",
 		"userDoesNotExist": "A user with this email address does not exist.",
 		"loadUserPropertiesFailed": "User properties could not be successfully loaded.",
 		"loadClientFailed": "Load client failed.",

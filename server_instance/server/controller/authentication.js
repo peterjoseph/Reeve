@@ -3,7 +3,7 @@ import passport from "../services/passport";
 import { register, login } from "shared/validation/authentication";
 import { t } from "shared/translations/i18n";
 import { ServerResponseError } from "utilities/errors/serverResponseError";
-import { validateWorkspaceURL, registerNewClient, authenticateWithToken, authenticateWithoutToken, loadUser } from "../orchestrator/authentication";
+import { validateWorkspaceURL, registerNewClient, authenticateWithToken, authenticateWithoutToken, loadUser, resendVerifyEmail } from "../orchestrator/authentication";
 
 module.exports = function(router) {
 	// Validate Workspace URL
@@ -95,6 +95,22 @@ module.exports = function(router) {
 	// Load user properties
 	router.get("/internal/load_user/", passport.perform().authenticate("jwt"), function(req, res, next) {
 		loadUser(req.user).then(
+			result => {
+				return res.status(200).send(result);
+			},
+			error => {
+				return next(error);
+			}
+		);
+	});
+
+	// Resend verify email address email
+	router.post("/internal/resend_verify_email/", passport.perform().authenticate("jwt"), function(req, res, next) {
+		if (req.body.userId === null || !Number.isInteger(req.body.userId)) {
+			const errorMsg = new ServerResponseError(403, t("validation.invalidUserId"), null);
+			return next(errorMsg);
+		}
+		resendVerifyEmail(req.body.userId).then(
 			result => {
 				return res.status(200).send(result);
 			},

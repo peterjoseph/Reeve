@@ -285,3 +285,15 @@ export function loadUser(received) {
 		}
 	});
 }
+
+// Resend verification email for validating email addresses
+export function resendVerifyEmail(userId) {
+	return database().transaction(async function(transaction) {
+		try {
+			// Create a response object
+			return { status: 200, message: t("label.success") };
+		} catch (error) {
+			throw error;
+		}
+	});
+}
