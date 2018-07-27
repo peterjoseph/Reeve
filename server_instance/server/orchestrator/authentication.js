@@ -290,6 +290,15 @@ export function loadUser(received) {
 export function resendVerifyEmail(userId) {
 	return database().transaction(async function(transaction) {
 		try {
+			// Check email table for last email
+			// If last email greater than 5 minutes, send a new email
+			// Fetch last authentication code for userId
+
+			// If last email less than 5 minutes, don't generate new validation code, succeed regardless of email sent
+			// If last email less than 5 minutes, generate new validation code
+
+			// succeed regardless of email sending
+
 			// Create a response object
 			return { status: 200, message: t("label.success") };
 		} catch (error) {
