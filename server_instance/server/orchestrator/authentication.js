@@ -290,6 +290,10 @@ export function loadUser(received) {
 export function resendVerifyEmail(userId) {
 	return database().transaction(async function(transaction) {
 		try {
+			if (userId === null || !Number.isInteger(userId)) {
+				throw new ServerResponseError(403, t("validation.invalidUserId"), null);
+			}
+
 			// Check email table for last email
 			// If last email greater than 5 minutes, send a new email
 			// Fetch last authentication code for userId
