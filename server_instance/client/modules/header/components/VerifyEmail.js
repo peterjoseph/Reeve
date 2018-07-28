@@ -47,7 +47,7 @@ class VerifyEmail extends Component {
 		notify.hide();
 
 		// Call API to send verify email
-		resendVerifyEmail({ userId: this.props.user.get("userId") })
+		resendVerifyEmail()
 			.then(() => {
 				this.setState({ emailSent: true });
 				this.showNotification();

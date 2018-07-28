@@ -287,21 +287,52 @@ export function loadUser(received) {
 }
 
 // Resend verification email for validating email addresses
-export function resendVerifyEmail(userId) {
+export function resendVerifyEmail(userId, clientId) {
 	return database().transaction(async function(transaction) {
 		try {
 			if (userId === null || !Number.isInteger(userId)) {
 				throw new ServerResponseError(403, t("validation.invalidUserId"), null);
 			}
 
-			// Check email table for last email
-			// If last email greater than 5 minutes, send a new email
-			// Fetch last authentication code for userId
+			// Load user and check if email has already been verified
+			const user = await models().user.findOne({ where: { id: userId, clientId: clientId, active: true } }, { transaction: transaction });
+			if (!user && user.get("emailVerified") === true) {
+				throw new ServerResponseError(403, t("validation.invalidUserId"), null); // Email already verified response
+			}
 
-			// If last email less than 5 minutes, don't generate new validation code, succeed regardless of email sent
-			// If last email less than 5 minutes, generate new validation code
+			// Check email table for last email sent
+			let lastEmail = await models().sentEmails.findAll(
+				{
+					where: {
+						userId: userId,
+						emailType: EMAIL_TYPE.CLIENT_WELCOME,
+						createdAt: {
+							$between: [] // Email sent in last 5 minutes
+						}
+					}
+				},
+				{ transaction: transaction }
+			);
 
-			// succeed regardless of email sending
+			// If no verify email message was sent in the last 5 minutes, send a new email
+			if (lastEmail === null) {
+				// Create unique validation code for userId
+				const code = uniqid();
+
+				// Store validation code in table
+				await models().emailVerificationCode.create(
+					{
+						verificationCode: code,
+						activated: false,
+						userId: userId,
+						clientId: clientId,
+						gracePeriod: 2
+					},
+					{ transaction: transaction }
+				);
+
+				// Send new email with code
+			}
 
 			// Create a response object
 			return { status: 200, message: t("label.success") };
