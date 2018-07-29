@@ -14,6 +14,8 @@ let RateLimitRedisStore = require("rate-limit-redis");
 let favicon = require("serve-favicon");
 let loadWebpack = require("./server.dev");
 let routes = require("./services/router"); // Server Routes
+let winston = require("winston");
+let expressWinston = require("express-winston");
 let app = express();
 
 let passport = require("./services/passport");
@@ -31,7 +33,6 @@ if (config.sentry.enabled && config.build.environment === "production") {
 
 // Set up Papertrail Logging
 if (config.papertrail.enabled && config.build.environment === "production") {
-	let winston = require("winston");
 	let WinstonPapertrail = require("winston-papertrail").Papertrail;
 	const transport = new WinstonPapertrail({
 		host: config.papertrail.host,
@@ -42,6 +43,20 @@ if (config.papertrail.enabled && config.build.environment === "production") {
 			return "[" + level + "] " + message;
 		}
 	});
+
+	// Connect express to Papertrail Logging
+	app.use(
+		expressWinston.logger({
+			transports: [transport],
+			meta: true,
+			msg: "{{req.method}} {{req.url}}",
+			expressFormat: true,
+			colorize: false,
+			ignoreRoute: function(req, res) {
+				return false;
+			}
+		})
+	);
 
 	let logger = new winston.Logger({
 		transports: [transport]
