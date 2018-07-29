@@ -60,7 +60,7 @@ export function forgotAccountDetails(user) {
 }
 
 // Resend verify email address notification
-export function resendVerifyEmail(user) {
+export function resendVerifyEmail() {
 	return fetch.perform("/internal/resend_verify_email/", {
 		method: "POST"
 	});
