@@ -296,7 +296,7 @@ export function resendVerifyEmail(userId, clientId) {
 
 			// Load user and check if email has already been verified
 			const user = await models().user.findOne({ where: { id: userId, clientId: clientId, active: true } }, { transaction: transaction });
-			if (!user && user.get("emailVerified") === true) {
+			if (!user || user.get("emailVerified") === true) {
 				throw new ServerResponseError(403, t("validation.invalidUserId"), null); // Email already verified response
 			}
 

@@ -106,12 +106,12 @@ module.exports = function(router) {
 
 	// Resend verify email address email
 	router.post("/internal/resend_verify_email/", passport.perform().authenticate("jwt"), function(req, res, next) {
-		if (req.user.id === null || !Number.isInteger(req.user.id)) {
+		if (req.user.userId === null || !Number.isInteger(req.user.userId)) {
 			const errorMsg = new ServerResponseError(403, t("validation.invalidUserId"), null);
 			return next(errorMsg);
 		}
 
-		resendVerifyEmail(req.user.id).then(
+		resendVerifyEmail(req.user.userId, req.user.clientId).then(
 			result => {
 				return res.status(200).send(result);
 			},

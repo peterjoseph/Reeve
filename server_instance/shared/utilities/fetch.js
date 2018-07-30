@@ -1,7 +1,9 @@
+import { SERVER_DETAILS } from "shared/constants";
+
 // Async function for handling front-end get, post and patch calls
 export default {
 	async execute(path, options) {
-		const route = `${path}`;
+		const route = `${SERVER_DETAILS.PROTOCOL}://${SERVER_DETAILS.DOMAIN}${path}`;
 		// Set default headers
 		options.headers = Object.assign(
 			{
