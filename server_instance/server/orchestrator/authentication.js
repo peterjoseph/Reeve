@@ -1,6 +1,7 @@
 import jwt from "jsonwebtoken";
 import bcrypt from "bcrypt";
 import uniqid from "uniqid";
+import moment from "moment";
 
 import { database, models } from "services/sequelize";
 import passport from "services/passport";
@@ -300,14 +301,29 @@ export function resendVerifyEmail(userId, clientId) {
 				throw new ServerResponseError(403, t("validation.invalidUserId"), null); // Email already verified response
 			}
 
+			// Load client object
+			const client = await models().user.findOne({ where: { id: clientId, active: true } }, { transaction: transaction });
+
 			// Check email table for last email sent
-			let lastEmail = await models().sentEmails.findAll(
+			const currentTime = new Date();
+			const Op = database().Op;
+			const lastEmail = await models().sentEmails.findAll(
 				{
 					where: {
+						clientId: clientId,
 						userId: userId,
 						emailType: EMAIL_TYPE.CLIENT_WELCOME,
 						createdAt: {
-							$between: [] // Email sent in last 5 minutes
+							[Op.between]: [
+								// Find all emails of type sent in last 5 minutes
+								moment(currentTime)
+									.utc()
+									.subtract(5, "minutes")
+									.format("YYYY-MM-DD HH:mm:ss"),
+								moment(currentTime)
+									.utc()
+									.format("YYYY-MM-DD HH:mm:ss")
+							]
 						}
 					}
 				},
@@ -315,14 +331,14 @@ export function resendVerifyEmail(userId, clientId) {
 			);
 
 			// If no verify email message was sent in the last 5 minutes, send a new email
-			if (lastEmail === null) {
+			if (lastEmail === null || lastEmail.length === 0) {
 				// Create unique validation code for userId
-				const code = uniqid();
+				const validationCode = uniqid();
 
 				// Store validation code in table
 				await models().emailVerificationCode.create(
 					{
-						verificationCode: code,
+						verificationCode: validationCode,
 						activated: false,
 						userId: userId,
 						clientId: clientId,
@@ -331,7 +347,14 @@ export function resendVerifyEmail(userId, clientId) {
 					{ transaction: transaction }
 				);
 
-				// Send new email with code
+				// Build email params object
+				const emailParams = {
+					firstName: user.get("firstName"),
+					validationLink: `${SERVER_DETAILS.PROTOCOL}://${client.get("workspaceURL")}.${SERVER_DETAILS.DOMAIN}/verify?code=${validationCode}`
+				};
+
+				// Send welcome email to user
+				sendEmail(EMAIL_TYPE.RESEND_VERIFY_EMAIL, user.get("language"), user.get("emailAddress"), emailParams, clientId, user.get("id"));
 			}
 
 			// Create a response object
