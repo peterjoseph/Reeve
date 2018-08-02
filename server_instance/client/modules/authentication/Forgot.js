@@ -98,6 +98,7 @@ class Forgot extends Component {
 		const { workspaceURLStatus, forgotAccountStatus, clientStyle } = this.props;
 
 		const workspaceURLPending = workspaceURLStatus == null || workspaceURLStatus == REDUX_STATE.PENDING;
+		const successMessage = forgotAccountStatus == REDUX_STATE.FULFILLED && !serverError && !validationErrors;
 
 		// Handle client specific page styling
 		const style = clientStyling(workspaceURLStatus, clientStyle);
@@ -115,9 +116,7 @@ class Forgot extends Component {
 								<div className="w-100 text-center mt-4 mb-4">
 									<span className="logo">{!workspaceURLPending && <img src={(clientStyle && clientStyle.get("logoImage")) || require("distribution/images/logo_small.png")} />}</span>
 								</div>
-								{forgotAccountStatus == REDUX_STATE.FULFILLED &&
-									!serverError &&
-									!validationErrors && <ServerSuccess path={{ email: "success" }} message={t("success.forgotPasswordEmail")} />}
+								{successMessage && <ServerSuccess path={{ email: "success" }} message={t("success.forgotPasswordEmail")} />}
 								<ServerError error={serverError} />
 								<div className="w-100 mt-3 mb-3">
 									<span className="h3"> {t("label.accountDetails")} </span>

@@ -13,7 +13,7 @@ export function clientStyling(workspaceURLStatus, clientStyle) {
 				background-color: ${clientStyle.get("primaryColor")} !important;
 				border-color: ${clientStyle.get("primaryColor")} !important;
 			}
-			&:hover {
+			&:hover:not([disabled]) {
 				opacity: 0.9;
 			}
 		`;
