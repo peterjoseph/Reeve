@@ -87,6 +87,9 @@ class Forgot extends Component {
 						serverError: result.payload
 					});
 				} else {
+					this.setState({
+						loading: false
+					});
 					this.props.history.push("/forgot?email=success");
 				}
 			});

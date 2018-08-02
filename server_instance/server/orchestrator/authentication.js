@@ -369,6 +369,13 @@ export function resendVerifyEmail(userId, clientId) {
 export function forgotAccountEmail(received) {
 	return database().transaction(async function(transaction) {
 		try {
+			// Check if email sent in the last 5 minutes
+			// Compile a list of all active user accounts associated with the email address
+			// Return success if no active accounts
+			// If no email sent in last 5 minutes
+			// If active accounts, generate a reset password link in resetPassword table
+			// Prepare a new email for forgot account details with workspace url link, reset password link
+
 			// Create a response object
 			return { status: 200, message: t("label.success") };
 		} catch (error) {
