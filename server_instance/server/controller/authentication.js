@@ -120,4 +120,25 @@ module.exports = function(router) {
 			}
 		);
 	});
+
+	// Forgot account details password request
+	router.post("/internal/forgot_account_details/", function(req, res, next) {
+		/*
+		if (req.user.userId === null || !Number.isInteger(req.user.userId)) {
+			const errorMsg = new ServerResponseError(403, t("validation.invalidUserId"), null);
+			return next(errorMsg);
+		}
+
+		forgotAccountEmail(req.user.userId, req.user.clientId).then(
+			result => {
+				return res.status(200).send(result);
+			},
+			error => {
+				return next(error);
+			}
+		);
+		*/
+
+		return res.status(200).send({ status: 200, message: t("label.success") });
+	});
 };

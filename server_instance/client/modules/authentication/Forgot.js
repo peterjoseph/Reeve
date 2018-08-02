@@ -95,7 +95,7 @@ class Forgot extends Component {
 
 	render() {
 		const { emailAddress, loading, validationErrors, serverError } = this.state;
-		const { workspaceURLStatus, clientStyle } = this.props;
+		const { workspaceURLStatus, forgotAccountStatus, clientStyle } = this.props;
 
 		const workspaceURLPending = workspaceURLStatus == null || workspaceURLStatus == REDUX_STATE.PENDING;
 
@@ -115,11 +115,13 @@ class Forgot extends Component {
 								<div className="w-100 text-center mt-4 mb-4">
 									<span className="logo">{!workspaceURLPending && <img src={(clientStyle && clientStyle.get("logoImage")) || require("distribution/images/logo_small.png")} />}</span>
 								</div>
+								{forgotAccountStatus == REDUX_STATE.FULFILLED &&
+									!serverError &&
+									!validationErrors && <ServerSuccess path={{ email: "success" }} message={t("success.forgotPasswordEmail")} />}
+								<ServerError error={serverError} />
 								<div className="w-100 mt-3 mb-3">
 									<span className="h3"> {t("label.accountDetails")} </span>
 								</div>
-								{!loading && !serverError && !validationErrors && <ServerSuccess path={{ email: "success" }} message={t("success.forgotPasswordEmail")} />}
-								<ServerError error={serverError} />
 								<div className="mt-4 mb-4">
 									<span>
 										{!workspaceURLPending &&
@@ -162,12 +164,14 @@ Forgot.propTypes = {
 	forgotAccount: PropTypes.func,
 	validateWorkspaceURL: PropTypes.func,
 	workspaceURLStatus: PropTypes.string,
+	forgotAccountStatus: PropTypes.string,
 	clientStyle: PropTypes.object
 };
 
 function mapStateToProps(state) {
 	return {
 		workspaceURLStatus: state.getIn([AUTHENTICATION, "workspaceURL", "status"]),
+		forgotAccountStatus: state.getIn([AUTHENTICATION, "forgotAccount", "status"]),
 		clientStyle: state.getIn([AUTHENTICATION, "workspaceURL", "payload"])
 	};
 }
