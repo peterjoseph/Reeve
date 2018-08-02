@@ -1,9 +1,9 @@
 import validate from "validate.JS";
 import passport from "../services/passport";
-import { register, login } from "shared/validation/authentication";
+import { register, login, forgot } from "shared/validation/authentication";
 import { t } from "shared/translations/i18n";
 import { ServerResponseError } from "utilities/errors/serverResponseError";
-import { validateWorkspaceURL, registerNewClient, authenticateWithToken, authenticateWithoutToken, loadUser, resendVerifyEmail } from "../orchestrator/authentication";
+import { validateWorkspaceURL, registerNewClient, authenticateWithToken, authenticateWithoutToken, loadUser, resendVerifyEmail, forgotAccountEmail } from "../orchestrator/authentication";
 
 module.exports = function(router) {
 	// Validate Workspace URL
@@ -123,13 +123,19 @@ module.exports = function(router) {
 
 	// Forgot account details password request
 	router.post("/internal/forgot_account_details/", function(req, res, next) {
-		/*
-		if (req.user.userId === null || !Number.isInteger(req.user.userId)) {
-			const errorMsg = new ServerResponseError(403, t("validation.invalidUserId"), null);
+		// Authenticate with user properties sent in body
+		const body = {
+			emailAddress: req.body.emailAddress
+		};
+
+		// Validate properties in received object
+		const valid = validate(body, forgot);
+		if (valid != null) {
+			const errorMsg = new ServerResponseError(403, t("validation.userInvalidProperties"), valid);
 			return next(errorMsg);
 		}
 
-		forgotAccountEmail(req.user.userId, req.user.clientId).then(
+		forgotAccountEmail(body).then(
 			result => {
 				return res.status(200).send(result);
 			},
@@ -137,8 +143,5 @@ module.exports = function(router) {
 				return next(error);
 			}
 		);
-		*/
-
-		return res.status(200).send({ status: 200, message: t("label.success") });
 	});
 };

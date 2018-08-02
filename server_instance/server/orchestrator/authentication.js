@@ -364,3 +364,15 @@ export function resendVerifyEmail(userId, clientId) {
 		}
 	});
 }
+
+// Send email with account details if user forgot their account or workspace url
+export function forgotAccountEmail(received) {
+	return database().transaction(async function(transaction) {
+		try {
+			// Create a response object
+			return { status: 200, message: t("label.success") };
+		} catch (error) {
+			throw error;
+		}
+	});
+}

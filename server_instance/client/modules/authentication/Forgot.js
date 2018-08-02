@@ -68,19 +68,19 @@ class Forgot extends Component {
 			loading: true,
 			validationErrors: null
 		});
-		const user = {
+		const body = {
 			emailAddress: this.state.emailAddress
 		};
 
 		// Validate input parameters
-		const valid = validate(user, forgot);
+		const valid = validate(body, forgot);
 		if (valid != null) {
 			this.setState({
 				loading: false,
 				validationErrors: valid
 			});
 		} else {
-			this.props.forgotAccount(user).then(result => {
+			this.props.forgotAccount(body).then(result => {
 				if (result.type === FORGOT_ACCOUNT_REJECTED) {
 					this.setState({
 						loading: false,
