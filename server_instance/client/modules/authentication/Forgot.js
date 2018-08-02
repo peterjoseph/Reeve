@@ -2,7 +2,7 @@ import React, { Component, Fragment } from "react";
 import PropTypes from "prop-types";
 import { connect } from "react-redux";
 import { bindActionCreators } from "redux";
-import { Link } from "react-router-dom";
+import { Link, withRouter } from "react-router-dom";
 import { Helmet } from "react-helmet";
 import validate from "validate.JS";
 import { t } from "shared/translations/i18n";
@@ -10,10 +10,12 @@ import { REDUX_STATE } from "shared/constants";
 import { extractSubdomain } from "shared/utilities/subdomain";
 
 import { clientStyling } from "./components/ClientStyling";
-import { AUTHENTICATION, validateWorkspaceURL, forgotAccount } from "../../common/store/reducers/authentication.js";
+import { AUTHENTICATION, FORGOT_ACCOUNT_REJECTED, validateWorkspaceURL, forgotAccount } from "../../common/store/reducers/authentication.js";
 import { forgot } from "shared/validation/authentication";
 
-import InputField from "../../common/components/inputs/InputField";
+import ServerSuccess from "common/components/ServerSuccess";
+import ServerError from "common/components/ServerError";
+import InputField from "common/components/inputs/InputField";
 
 class Forgot extends Component {
 	constructor(props) {
@@ -23,7 +25,8 @@ class Forgot extends Component {
 			emailAddress: "",
 			loading: false,
 			visible: false,
-			validationErrors: null
+			validationErrors: null,
+			serverError: null
 		};
 
 		this.forgot = this.forgot.bind(this);
@@ -77,12 +80,21 @@ class Forgot extends Component {
 				validationErrors: valid
 			});
 		} else {
-			this.props.forgotAccount(user);
+			this.props.forgotAccount(user).then(result => {
+				if (result.type === FORGOT_ACCOUNT_REJECTED) {
+					this.setState({
+						loading: false,
+						serverError: result.payload
+					});
+				} else {
+					this.props.history.push("/forgot?email=success");
+				}
+			});
 		}
 	}
 
 	render() {
-		const { emailAddress, loading, validationErrors } = this.state;
+		const { emailAddress, loading, validationErrors, serverError } = this.state;
 		const { workspaceURLStatus, clientStyle } = this.props;
 
 		const workspaceURLPending = workspaceURLStatus == null || workspaceURLStatus == REDUX_STATE.PENDING;
@@ -106,6 +118,8 @@ class Forgot extends Component {
 								<div className="w-100 mt-3 mb-3">
 									<span className="h3"> {t("label.accountDetails")} </span>
 								</div>
+								{!loading && !serverError && !validationErrors && <ServerSuccess path={{ email: "success" }} message={t("success.forgotPasswordEmail")} />}
+								<ServerError error={serverError} />
 								<div className="mt-4 mb-4">
 									<span>
 										{!workspaceURLPending &&
@@ -144,6 +158,7 @@ class Forgot extends Component {
 }
 
 Forgot.propTypes = {
+	history: PropTypes.object,
 	forgotAccount: PropTypes.func,
 	validateWorkspaceURL: PropTypes.func,
 	workspaceURLStatus: PropTypes.string,
@@ -164,4 +179,4 @@ function mapDispatchToProps(dispatch) {
 	};
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(Forgot);
+export default withRouter(connect(mapStateToProps, mapDispatchToProps)(Forgot));

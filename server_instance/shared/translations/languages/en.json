@@ -81,7 +81,8 @@
 		}
 	},
 	"success": {
-		"clientRegistration": "Success! Your account has been created."
+		"clientRegistration": "Success! Your account has been created.",
+		"forgotPasswordEmail": "Success! If we have this email on file, you will receive a message with instructions on how to login or reset the password to your account."
 	},
 	"error": {
 		"code": {

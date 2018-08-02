@@ -94,11 +94,11 @@ export default function authentication(state = DEFAULT_STATE, action) {
 				})
 			);
 		case FORGOT_ACCOUNT_PENDING:
-			return action;
+			return state.setIn(["forgotAccount", "status"], REDUX_STATE.PENDING);
 		case FORGOT_ACCOUNT_FULFILLED:
-			return action;
+			return state.setIn(["forgotAccount", "status"], REDUX_STATE.FULFILLED);
 		case FORGOT_ACCOUNT_REJECTED:
-			return action;
+			return state.setIn(["forgotAccount", "status"], REDUX_STATE.REJECTED);
 		default:
 			return state;
 	}
