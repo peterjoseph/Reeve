@@ -26,7 +26,8 @@ module.exports = Object.freeze({
 	},
 	EMAIL_TYPE: {
 		CLIENT_WELCOME: 1,
-		RESEND_VERIFY_EMAIL: 2
+		RESEND_VERIFY_EMAIL: 2,
+		FORGOT_ACCOUNT_DETAILS: 3
 	},
 	LANGUAGE: {
 		ENGLISH: 1

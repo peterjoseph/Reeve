@@ -236,7 +236,7 @@ export function loadUser(received) {
 
 			// Throw an error if the user does not exist
 			if (user === null) {
-				throw new ServerResponseError(403, t("validation.loadUserPropertiesFailed"), { user: [t("validation.loadUserRolesFailed")] });
+				throw new ServerResponseError(403, t("validation.loadUserPropertiesFailed"), { user: [t("validation.loadUserPropertiesFailed")] });
 			}
 
 			// Load client features
@@ -370,11 +370,44 @@ export function forgotAccountEmail(received) {
 	return database().transaction(async function(transaction) {
 		try {
 			// Check if email sent in the last 5 minutes
-			// Compile a list of all active user accounts associated with the email address
-			// Return success if no active accounts
-			// If no email sent in last 5 minutes
-			// If active accounts, generate a reset password link in resetPassword table
-			// Prepare a new email for forgot account details with workspace url link, reset password link
+			const currentTime = new Date();
+			const lastEmail = await models().sentEmails.findAll(
+				{
+					where: {
+						to: received.emailAddress,
+						emailType: EMAIL_TYPE.FORGOT_ACCOUNT_DETAILS,
+						createdAt: {
+							[database().Op.between]: [
+								// Find all emails of type sent in last 5 minutes
+								moment(currentTime)
+									.utc()
+									.subtract(5, "minutes")
+									.format("YYYY-MM-DD HH:mm:ss"),
+								moment(currentTime)
+									.utc()
+									.format("YYYY-MM-DD HH:mm:ss")
+							]
+						}
+					}
+				},
+				{ transaction: transaction }
+			);
+
+			// Continue if no emails of type FORGOT_ACCOUNT_DETAILS sent in the last 5 minutes
+			if (lastEmail === null || lastEmail.length === 0) {
+
+				// Load list of all active user accounts associated with the email address
+				const users = await models().user.findAll({ where: { emailAddress: received.emailAddress, active: true } }, { transaction: transaction });
+
+				// Return success if no users associated with the email, or no accounts active
+				if (users === null) {
+					return { status: 200, message: t("label.success") };
+				}
+
+
+				// If active accounts, generate password link for each account
+				// Prepare a new email for forgot account details with workspace url link, reset password link
+			}
 
 			// Create a response object
 			return { status: 200, message: t("label.success") };
