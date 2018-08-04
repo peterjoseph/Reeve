@@ -302,7 +302,7 @@ export function resendVerifyEmail(userId, clientId) {
 			}
 
 			// Load client object
-			const client = await models().user.findOne({ where: { id: clientId, active: true } }, { transaction: transaction });
+			const client = await models().client.findOne({ where: { id: clientId, active: true } }, { transaction: transaction });
 
 			// Check email table for last email sent
 			const currentTime = new Date();
@@ -395,7 +395,6 @@ export function forgotAccountEmail(received) {
 
 			// Continue if no emails of type FORGOT_ACCOUNT_DETAILS sent in the last 5 minutes
 			if (lastEmail === null || lastEmail.length === 0) {
-
 				// Load list of all active user accounts associated with the email address
 				const users = await models().user.findAll({ where: { emailAddress: received.emailAddress, active: true } }, { transaction: transaction });
 
@@ -404,9 +403,53 @@ export function forgotAccountEmail(received) {
 					return { status: 200, message: t("label.success") };
 				}
 
+				// Create account array to be used in the email template
+				let accounts = [];
 
-				// If active accounts, generate password link for each account
-				// Prepare a new email for forgot account details with workspace url link, reset password link
+				// Iterate over user list and add to array
+				for (const user of users) {
+					// Load client object
+					const client = await models().client.findOne({ where: { id: user.get("clientId"), active: true } }, { transaction: transaction });
+
+					// Check if client is active for the user
+					if (client == null) {
+						return;
+					}
+
+					// Generate password reset code for each account
+					const resetCode = uniqid();
+
+					// Store validation code in table
+					await models().passwordReset.create(
+						{
+							resetCode: resetCode,
+							activated: false,
+							userId: user.get("id"),
+							clientId: user.get("clientId"),
+							gracePeriod: 2
+						},
+						{ transaction: transaction }
+					);
+
+					const account = {
+						firstName: user.get("firstName"),
+						lastName: user.get("lastName"),
+						clientName: client.get("name"),
+						workspaceLink: `${SERVER_DETAILS.PROTOCOL}://${client.get("workspaceURL")}.${SERVER_DETAILS.DOMAIN}/`,
+						resetPasswordLink: `${SERVER_DETAILS.PROTOCOL}://${client.get("workspaceURL")}.${SERVER_DETAILS.DOMAIN}/reset?code=${resetCode}`
+					};
+
+					// Add account object to accounts array
+					accounts.push(account);
+				}
+
+				// Create emailParams object
+				const emailParams = {
+					accounts: accounts
+				};
+
+				// Send forgot account details
+				sendEmail(EMAIL_TYPE.FORGOT_ACCOUNT_DETAILS, users[0].get("language"), received.emailAddress, emailParams, null, null);
 			}
 
 			// Create a response object

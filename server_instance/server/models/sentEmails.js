@@ -11,7 +11,7 @@ module.exports = function(sequelize, DataTypes) {
 			},
 			clientId: {
 				type: DataTypes.INTEGER(11).UNSIGNED,
-				allowNull: false,
+				allowNull: true,
 				references: {
 					model: "client",
 					key: "id"
@@ -20,7 +20,7 @@ module.exports = function(sequelize, DataTypes) {
 			},
 			userId: {
 				type: DataTypes.INTEGER(11).UNSIGNED,
-				allowNull: false,
+				allowNull: true,
 				references: {
 					model: "user",
 					key: "id"
