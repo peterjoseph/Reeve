@@ -1,9 +1,18 @@
 import validate from "validate.JS";
 import passport from "../services/passport";
-import { register, login, forgot } from "shared/validation/authentication";
+import { register, login, forgot, workspaceURL } from "shared/validation/authentication";
 import { t } from "shared/translations/i18n";
 import { ServerResponseError } from "utilities/errors/serverResponseError";
-import { validateWorkspaceURL, registerNewClient, authenticateWithToken, authenticateWithoutToken, loadUser, resendVerifyEmail, forgotAccountEmail } from "../orchestrator/authentication";
+import {
+	validateWorkspaceURL,
+	registerNewClient,
+	authenticateWithToken,
+	authenticateWithoutToken,
+	loadUser,
+	resendVerifyEmail,
+	forgotAccountEmail,
+	forgotAccountPasswordEmail
+} from "../orchestrator/authentication";
 
 module.exports = function(router) {
 	// Validate Workspace URL
@@ -128,20 +137,45 @@ module.exports = function(router) {
 			emailAddress: req.body.emailAddress
 		};
 
-		// Validate properties in received object
+		// Append workspaceURL to body object if it exists
+		if (req.body.workspaceURL != null) {
+			Object.assign(body, { workspaceURL: req.body.workspaceURL });
+		}
+
+		// Validate email address
 		const valid = validate(body, forgot);
 		if (valid != null) {
 			const errorMsg = new ServerResponseError(403, t("validation.userInvalidProperties"), valid);
 			return next(errorMsg);
 		}
 
-		forgotAccountEmail(body).then(
-			result => {
-				return res.status(200).send(result);
-			},
-			error => {
-				return next(error);
+		// If workspace name is invalid, remove it from the body object
+		if (body.workspaceURL !== null) {
+			const validWorkspaceURL = validate(body, workspaceURL);
+			if (validWorkspaceURL != null) {
+				delete body.workspaceURL;
 			}
-		);
+		}
+
+		// Orchestrate workspace or password email depending on whether workspaceURL is provided
+		if (body.workspaceURL !== null) {
+			forgotAccountPasswordEmail(body).then(
+				result => {
+					return res.status(200).send(result);
+				},
+				error => {
+					return next(error);
+				}
+			);
+		} else {
+			forgotAccountEmail(body).then(
+				result => {
+					return res.status(200).send(result);
+				},
+				error => {
+					return next(error);
+				}
+			);
+		}
 	});
 };

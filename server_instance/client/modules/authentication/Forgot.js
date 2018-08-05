@@ -68,9 +68,16 @@ class Forgot extends Component {
 			loading: true,
 			validationErrors: null
 		});
+
 		const body = {
 			emailAddress: this.state.emailAddress
 		};
+
+		// Append workspace name if valid
+		if (this.props.workspaceURLStatus === REDUX_STATE.FULFILLED) {
+			const subdomain = extractSubdomain(window.location.href);
+			Object.assign(body, { workspaceURL: subdomain });
+		}
 
 		// Validate input parameters
 		const valid = validate(body, forgot);

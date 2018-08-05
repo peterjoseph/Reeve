@@ -28,7 +28,7 @@ export function validateWorkspaceURL(workspaceURL) {
 			let features = await models().subscriptionFeatures.findAll({ where: { subscriptionId: client.get("subscriptionId") } }, { transaction: transaction });
 
 			// Map feature id's to an array
-			if (features != null) {
+			if (features != null && features.length > 0) {
 				features = features.map(result => result.get("featureId"));
 			}
 
@@ -243,21 +243,19 @@ export function loadUser(received) {
 			let features = await models().subscriptionFeatures.findAll({ where: { subscriptionId: client.get("subscriptionId") } }, { transaction: transaction });
 
 			// Map feature id's to an array
-			if (features != null) {
-				features = features.map(result => result.get("featureId"));
-			} else {
+			if (features === null || features.length === 0) {
 				throw new ServerResponseError(403, t("validation.loadUserPropertiesFailed"), { features: [t("validation.loadClientFeaturesFailed")] });
 			}
+			features = features.map(result => result.get("featureId"));
 
 			// Load user roles
 			let roles = await models().userRoles.findAll({ where: { userId: user.get("id") } }, { transaction: transaction });
 
 			// Map role id's to an array
-			if (roles != null) {
-				roles = roles.map(result => result.get("roleId"));
-			} else {
+			if (roles === null || roles.length === 0) {
 				throw new ServerResponseError(403, t("validation.loadUserPropertiesFailed"), { roles: [t("validation.loadUserRolesFailed")] });
 			}
+			roles = roles.map(result => result.get("roleId"));
 
 			// Create user properties object to be returned back to the front-end
 			const userProperties = {
@@ -365,6 +363,87 @@ export function resendVerifyEmail(userId, clientId) {
 	});
 }
 
+// Send email with password reset if user forgot their password but workspace name is provided
+export function forgotAccountPasswordEmail(received) {
+	return database().transaction(async function(transaction) {
+		try {
+			// Load client object associated with the workspace name
+			const client = await models().client.findOne({ where: { workspaceURL: received.workspaceURL, active: true } }, { transaction: transaction });
+
+			// Load generic forgot account details page
+			if (client === null) {
+				return forgotAccountEmail(received);
+			}
+
+			// Check if email sent in the last 5 minutes
+			const currentTime = new Date();
+			const lastEmail = await models().sentEmails.findAll(
+				{
+					where: {
+						to: received.emailAddress,
+						emailType: EMAIL_TYPE.FORGOT_PASSWORD,
+						createdAt: {
+							[database().Op.between]: [
+								// Find all emails of type sent in last 5 minutes
+								moment(currentTime)
+									.utc()
+									.subtract(5, "minutes")
+									.format("YYYY-MM-DD HH:mm:ss"),
+								moment(currentTime)
+									.utc()
+									.format("YYYY-MM-DD HH:mm:ss")
+							]
+						}
+					}
+				},
+				{ transaction: transaction }
+			);
+
+			// Continue if no emails of type FORGOT_PASSWORD sent in the last 5 minutes
+			if (lastEmail === null || lastEmail.length === 0) {
+				// Load user account associated with the email address and workspace url
+				const user = await models().user.findOne({ where: { emailAddress: received.emailAddress, clientId: client.get("id"), active: true } }, { transaction: transaction });
+
+				// Return success if no users associated with the email, or no accounts active
+				if (user === null) {
+					return { status: 200, message: t("label.success") };
+				}
+
+				// Generate password reset code for each account
+				const resetCode = uniqid();
+
+				// Store validation code in table
+				await models().passwordReset.create(
+					{
+						resetCode: resetCode,
+						activated: false,
+						userId: user.get("id"),
+						clientId: user.get("clientId"),
+						gracePeriod: 2
+					},
+					{ transaction: transaction }
+				);
+
+				// Create emailParams object
+				const emailParams = {
+					firstName: user.get("firstName"),
+					lastName: user.get("lastName"),
+					clientName: client.get("name"),
+					resetPasswordLink: `${SERVER_DETAILS.PROTOCOL}://${client.get("workspaceURL")}.${SERVER_DETAILS.DOMAIN}/reset?code=${resetCode}`
+				};
+
+				// Send forgot account details
+				sendEmail(EMAIL_TYPE.FORGOT_PASSWORD, user.get("language"), received.emailAddress, emailParams, user.get("clientId"), user.get("id"));
+			}
+
+			// Create a response object
+			return { status: 200, message: t("label.success") };
+		} catch (error) {
+			throw error;
+		}
+	});
+}
+
 // Send email with account details if user forgot their account or workspace url
 export function forgotAccountEmail(received) {
 	return database().transaction(async function(transaction) {
@@ -399,7 +478,7 @@ export function forgotAccountEmail(received) {
 				const users = await models().user.findAll({ where: { emailAddress: received.emailAddress, active: true } }, { transaction: transaction });
 
 				// Return success if no users associated with the email, or no accounts active
-				if (users === null) {
+				if (users === null || users.length === 0) {
 					return { status: 200, message: t("label.success") };
 				}
 

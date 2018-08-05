@@ -53,9 +53,7 @@ export function workspaceURLValidation(workspaceURL) {
 export function forgotAccountDetails(user) {
 	return fetch.perform("/internal/forgot_account_details/", {
 		method: "POST",
-		body: JSON.stringify({
-			emailAddress: user.emailAddress
-		})
+		body: JSON.stringify(user)
 	});
 }
 
