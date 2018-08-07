@@ -5,13 +5,14 @@ import { bindActionCreators } from "redux";
 import { Link, withRouter } from "react-router-dom";
 import { Helmet } from "react-helmet";
 import validate from "validate.JS";
+import queryString from "query-string";
 import { t } from "shared/translations/i18n";
-import { REDUX_STATE } from "shared/constants";
+import { REDUX_STATE, SERVER_DETAILS } from "shared/constants";
 import { extractSubdomain } from "shared/utilities/subdomain";
 import { resetPassword } from "shared/validation/authentication";
 
 import { clientStyling } from "./components/ClientStyling";
-import { AUTHENTICATION, validateWorkspaceURL } from "../../common/store/reducers/authentication.js";
+import { AUTHENTICATION, VALIDATE_WORKSPACE_URL_REJECTED, VALIDATE_RESET_PASSWORD_CODE_REJECTED, validateWorkspaceURL, validateResetPasswordCode } from "common/store/reducers/authentication.js";
 
 import ServerSuccess from "common/components/ServerSuccess";
 import ServerError from "common/components/ServerError";
@@ -25,6 +26,7 @@ class ResetPassword extends Component {
 			password: "",
 			verifyPassword: "",
 			verificationCode: "",
+			workspaceURL: "",
 			loading: false,
 			visible: false,
 			validationErrors: null,
@@ -39,12 +41,26 @@ class ResetPassword extends Component {
 		// Validate workspace url and retrieve client information
 		if (this.props.workspaceURLStatus !== REDUX_STATE.FULFILLED) {
 			const subdomain = extractSubdomain(window.location.href);
-			this.props.validateWorkspaceURL(subdomain);
+			this.props.validateWorkspaceURL(subdomain).then(result => {
+				if (result.type === VALIDATE_WORKSPACE_URL_REJECTED) {
+					window.location.replace(`${SERVER_DETAILS.PROTOCOL}://${SERVER_DETAILS.DOMAIN}/`);
+				}
+			});
+		}
+
+		// Verify reset password code exists in url and is valid
+		const query = queryString.parse(this.props.history.location.hash);
+		if (query.code !== null) {
+			this.props.validateResetPasswordCode(query.code).then(result => {
+				if (result.type === VALIDATE_RESET_PASSWORD_CODE_REJECTED) {
+					this.props.history.replace("/");
+				}
+			});
 		}
 	}
 
 	static getDerivedStateFromProps(nextProps, prevState) {
-		if (nextProps.workspaceURLStatus === prevState.workspaceURLStatus) {
+		if (nextProps.workspaceURLStatus === prevState.workspaceURLStatus && nextProps.validateResetPasswordCode === prevState.validateResetPasswordCode) {
 			return null;
 		}
 		// Store subdomain in state if valid
@@ -52,6 +68,13 @@ class ResetPassword extends Component {
 			const subdomain = extractSubdomain(window.location.href);
 			return {
 				workspaceURL: subdomain
+			};
+		}
+		// Store reset password code in state if valid
+		if (nextProps.validateResetPasswordCode === REDUX_STATE.FULFILLED) {
+			const query = queryString.parse(this.props.history.location.hash);
+			return {
+				verificationCode: query.code
 			};
 		}
 		return null;
@@ -75,7 +98,8 @@ class ResetPassword extends Component {
 		const password = {
 			password: this.state.password,
 			verifyPassword: this.state.verifyPassword,
-			verificationCode: this.state.verificationCode
+			verificationCode: this.state.verificationCode,
+			workspaceURL: this.state.workspaceURL
 		};
 
 		// Validate input parameters
@@ -160,6 +184,7 @@ class ResetPassword extends Component {
 ResetPassword.propTypes = {
 	history: PropTypes.object,
 	validateWorkspaceURL: PropTypes.func,
+	validateResetPasswordCode: PropTypes.func,
 	workspaceURLStatus: PropTypes.string,
 	resetPasswordStatus: PropTypes.string,
 	clientStyle: PropTypes.object
@@ -168,6 +193,7 @@ ResetPassword.propTypes = {
 function mapStateToProps(state) {
 	return {
 		workspaceURLStatus: state.getIn([AUTHENTICATION, "workspaceURL", "status"]),
+		validateResetPasswordCodeStatus: state.getIn([AUTHENTICATION, "resetPasswordCode", "status"]),
 		resetPasswordStatus: state.getIn([AUTHENTICATION, "resetPassword", "status"]),
 		clientStyle: state.getIn([AUTHENTICATION, "workspaceURL", "payload"])
 	};
@@ -175,7 +201,8 @@ function mapStateToProps(state) {
 
 function mapDispatchToProps(dispatch) {
 	return {
-		validateWorkspaceURL: bindActionCreators(validateWorkspaceURL, dispatch)
+		validateWorkspaceURL: bindActionCreators(validateWorkspaceURL, dispatch),
+		validateResetPasswordCode: bindActionCreators(validateResetPasswordCode, dispatch)
 	};
 }
 

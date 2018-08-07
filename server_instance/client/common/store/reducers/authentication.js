@@ -1,6 +1,6 @@
 import { fromJS } from "immutable";
 import { REDUX_STATE } from "shared/constants";
-import { clientRegistration, userLogin, userLoad, workspaceURLValidation, forgotAccountDetails } from "client/api/authentication.js";
+import { clientRegistration, userLogin, userLoad, workspaceURLValidation, forgotAccountDetails, resetPasswordCodeValidation } from "client/api/authentication.js";
 
 import "./root";
 
@@ -25,6 +25,10 @@ export const REGISTER_REJECTED = AUTHENTICATION + "/REGISTER_REJECTED";
 export const FORGOT_ACCOUNT_PENDING = AUTHENTICATION + "/FORGOT_ACCOUNT_PENDING";
 export const FORGOT_ACCOUNT_FULFILLED = AUTHENTICATION + "/FORGOT_ACCOUNT_FULFILLED";
 export const FORGOT_ACCOUNT_REJECTED = AUTHENTICATION + "/FORGOT_ACCOUNT_REJECTED";
+
+export const VALIDATE_RESET_PASSWORD_CODE_PENDING = AUTHENTICATION + "/VALIDATE_RESET_PASSWORD_CODE_PENDING";
+export const VALIDATE_RESET_PASSWORD_CODE_FULFILLED = AUTHENTICATION + "/VALIDATE_RESET_PASSWORD_CODE_FULFILLED";
+export const VALIDATE_RESET_PASSWORD_CODE_REJECTED = AUTHENTICATION + "/VALIDATE_RESET_PASSWORD_CODE_REJECTED";
 
 const DEFAULT_STATE = fromJS({});
 
@@ -99,6 +103,25 @@ export default function authentication(state = DEFAULT_STATE, action) {
 			return state.setIn(["forgotAccount", "status"], REDUX_STATE.FULFILLED);
 		case FORGOT_ACCOUNT_REJECTED:
 			return state.setIn(["forgotAccount", "status"], REDUX_STATE.REJECTED);
+		case VALIDATE_RESET_PASSWORD_CODE_PENDING:
+			return state.setIn(["resetPasswordCode", "status"], REDUX_STATE.PENDING);
+		case VALIDATE_RESET_PASSWORD_CODE_FULFILLED:
+			return state.set(
+				"resetPasswordCode",
+				fromJS({
+					status: REDUX_STATE.FULFILLED,
+					payload: action.payload
+				})
+			);
+		case VALIDATE_RESET_PASSWORD_CODE_REJECTED:
+			return state.set(
+				"resetPasswordCode",
+				fromJS({
+					status: REDUX_STATE.REJECTED,
+					payload: {},
+					error: action.payload
+				})
+			);
 		default:
 			return state;
 	}
@@ -208,6 +231,28 @@ export function forgotAccount(body) {
 			error =>
 				dispatch({
 					type: FORGOT_ACCOUNT_REJECTED,
+					payload: error
+				})
+		);
+	};
+}
+
+export function validateResetPasswordCode(body) {
+	return dispatch => {
+		dispatch({
+			type: VALIDATE_RESET_PASSWORD_CODE_PENDING
+		});
+
+		return resetPasswordCodeValidation(body).then(
+			result => {
+				return dispatch({
+					type: VALIDATE_RESET_PASSWORD_CODE_FULFILLED,
+					payload: result.style
+				});
+			},
+			error =>
+				dispatch({
+					type: VALIDATE_RESET_PASSWORD_CODE_REJECTED,
 					payload: error
 				})
 		);

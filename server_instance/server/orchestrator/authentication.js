@@ -429,7 +429,7 @@ export function forgotAccountPasswordEmail(received) {
 					firstName: user.get("firstName"),
 					lastName: user.get("lastName"),
 					clientName: client.get("name"),
-					resetPasswordLink: `${SERVER_DETAILS.PROTOCOL}://${client.get("workspaceURL")}.${SERVER_DETAILS.DOMAIN}/reset?code=${resetCode}`
+					resetPasswordLink: `${SERVER_DETAILS.PROTOCOL}://${client.get("workspaceURL")}.${SERVER_DETAILS.DOMAIN}/reset#code=${resetCode}`
 				};
 
 				// Send forgot account details
@@ -515,7 +515,7 @@ export function forgotAccountEmail(received) {
 						lastName: user.get("lastName"),
 						clientName: client.get("name"),
 						workspaceLink: `${SERVER_DETAILS.PROTOCOL}://${client.get("workspaceURL")}.${SERVER_DETAILS.DOMAIN}/`,
-						resetPasswordLink: `${SERVER_DETAILS.PROTOCOL}://${client.get("workspaceURL")}.${SERVER_DETAILS.DOMAIN}/reset?code=${resetCode}`
+						resetPasswordLink: `${SERVER_DETAILS.PROTOCOL}://${client.get("workspaceURL")}.${SERVER_DETAILS.DOMAIN}/reset#code=${resetCode}`
 					};
 
 					// Add account object to accounts array

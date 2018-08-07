@@ -168,6 +168,24 @@ const resetPassword = {
 		length: {
 			maximum: 255
 		}
+	},
+	workspaceURL: {
+		presence: {
+			allowEmpty: false
+		},
+		format: {
+			pattern: "[a-z0-9]+",
+			flags: "i",
+			message: t("validation.validCharactersAZ09")
+		},
+		exclusion: {
+			within: restrictedDomains,
+			message: t("validation.validWorkspaceURL")
+		},
+		length: {
+			minimum: 4,
+			maximum: 255
+		}
 	}
 };
 

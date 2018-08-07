@@ -63,3 +63,13 @@ export function resendVerifyEmail() {
 		method: "POST"
 	});
 }
+
+// Workspace URL Validation
+export function validateResetPasswordCode(code) {
+	return fetch.perform("/internal/validate_reset_password_code/", {
+		method: "GET",
+		headers: {
+			code: code
+		}
+	});
+}
