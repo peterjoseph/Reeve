@@ -26,13 +26,18 @@ class RedirectComponent extends Component {
 			return <Route {...this.props} />;
 		}
 
+		// Show reset password page if user is not logged in
+		if (path == "/reset" && (!user || user.get("userId") === null)) {
+			return <Route {...this.props} />;
+		}
+
 		// Redirect if user is not logged in and tries to access restricted page
 		if (path !== "/signin" && (!user || user.get("userId") === null)) {
 			return <Redirect to="/signin" />;
 		}
 
 		// Redirect if user is loaded
-		if ((path === "/signin" || path === "/register" || path === "/forgot") && user.get("userId")) {
+		if ((path === "/signin" || path === "/register" || path === "/forgot" || path === "/reset") && user.get("userId")) {
 			return <Redirect to="/" />;
 		}
 

@@ -36,7 +36,7 @@ class SignInForm extends Component {
 					id={"password-input"}
 					value={password}
 					type={"password"}
-					ariaLabel={"Password"}
+					ariaLabel={t("label.password")}
 					onChange={changeField}
 					disabled={loginPending || workspaceURLPending}
 					error={validationErrors}

@@ -19,12 +19,14 @@
 		"lastName": "Last Name",
 		"emailAddress": "Email Address",
 		"password": "Password",
+		"verifyPassword": "Verify Password",
 		"workspaceName": "Workspace Name",
 		"welcome": "Welcome",
 		"success": "Success",
 		"termsAndConditions": "Terms and Conditions",
 		"privacyPolicy": "Privacy Policy",
 		"accountDetails": "Account Details",
+		"resetPassword": "Reset Password",
 		"error": "Error"
 	},
 	"numbers": {
@@ -43,12 +45,16 @@
 			"whatIsWorkspaceName": "What is my workspace name?",
 			"noAccount": "Does your team not yet have an account?",
 			"existingAccount": "Already have an account?",
+			"noReset": "Don't need to reset your password?",
 			"policyAgreement": "By registering an account, you agree to the following",
 			"privacyConsent": "I consent to the collection and storage of my information to handle the processing and operation of my account.",
 			"forgotAccountDetails": {
 				"header": "Can't remember your workspace name, or password?",
 				"headerPasswordOnly": "Can't remember your password?",
 				"description": "Enter your email address and we will send you instructions on how to get back into your account."
+			},
+			"resetPassword": {
+				"description": "Enter a new password below to reset the password to your account."
 			},
 			"workspaceModal": {
 				"title": "What is my workspace name?",
@@ -78,11 +84,16 @@
 		"forgot": {
 			"title": "Forgot Account Details | $t(site.name)",
 			"description": "Enter your email address to reset your account."
+		},
+		"reset": {
+			"title": "Reset Account Password | $t(site.name)",
+			"description": "Reset the password to your account."
 		}
 	},
 	"success": {
 		"clientRegistration": "Success! Your account has been created.",
-		"forgotPasswordEmail": "Success! If an account is associated with this email address, you will receive a message with instructions on how to login or reset the password to your account."
+		"forgotPasswordEmail": "Success! If an account is associated with this email address, you will receive a message with instructions on how to login or reset the password to your account.",
+		"resetPassword": "Success! The password to your account has now been reset."
 	},
 	"error": {
 		"code": {

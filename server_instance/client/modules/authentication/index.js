@@ -5,6 +5,7 @@ import { Switch } from "react-router-dom";
 import SignIn from "./SignIn";
 import Register from "./Register";
 import Forgot from "./Forgot";
+import ResetPassword from "./ResetPassword";
 
 class Authentication extends Component {
 	render() {
@@ -17,6 +18,7 @@ class Authentication extends Component {
 							<Route path="/signin/help" render={() => <SignIn />} />
 							<Route path="/register" render={() => <Register />} />
 							<Route path="/forgot" render={() => <Forgot />} />
+							<Route path="/reset" render={() => <ResetPassword />} />
 						</Switch>
 					</div>
 				</div>
