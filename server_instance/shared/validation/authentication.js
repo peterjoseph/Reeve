@@ -136,9 +136,45 @@ const forgot = {
 	}
 };
 
+const resetPassword = {
+	password: {
+		presence: {
+			allowEmpty: false
+		},
+		length: {
+			minimum: 6,
+			maximum: 66
+		}
+	},
+	verifyPassword: {
+		presence: {
+			allowEmpty: false
+		},
+		length: {
+			minimum: 6,
+			maximum: 66
+		},
+		equality: {
+			attribute: "password",
+			comparator: function(v1, v2) {
+				return JSON.stringify(v1) === JSON.stringify(v2);
+			}
+		}
+	},
+	verificationCode: {
+		presence: {
+			allowEmpty: false
+		},
+		length: {
+			maximum: 255
+		}
+	}
+};
+
 module.exports = {
 	login: login,
 	register: register,
 	workspaceURL: workspaceURL,
-	forgot: forgot
+	forgot: forgot,
+	resetPassword: resetPassword
 };

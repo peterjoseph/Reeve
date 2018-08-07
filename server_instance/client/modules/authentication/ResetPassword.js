@@ -4,9 +4,11 @@ import { connect } from "react-redux";
 import { bindActionCreators } from "redux";
 import { Link, withRouter } from "react-router-dom";
 import { Helmet } from "react-helmet";
+import validate from "validate.JS";
 import { t } from "shared/translations/i18n";
 import { REDUX_STATE } from "shared/constants";
 import { extractSubdomain } from "shared/utilities/subdomain";
+import { resetPassword } from "shared/validation/authentication";
 
 import { clientStyling } from "./components/ClientStyling";
 import { AUTHENTICATION, validateWorkspaceURL } from "../../common/store/reducers/authentication.js";
@@ -22,6 +24,7 @@ class ResetPassword extends Component {
 		this.state = {
 			password: "",
 			verifyPassword: "",
+			verificationCode: "",
 			loading: false,
 			visible: false,
 			validationErrors: null,
@@ -68,6 +71,21 @@ class ResetPassword extends Component {
 			validationErrors: null,
 			serverError: null
 		});
+
+		const password = {
+			password: this.state.password,
+			verifyPassword: this.state.verifyPassword,
+			verificationCode: this.state.verificationCode
+		};
+
+		// Validate input parameters
+		const valid = validate(password, resetPassword);
+		if (valid != null) {
+			this.setState({
+				loading: false,
+				validationErrors: valid
+			});
+		}
 	}
 
 	render() {
