@@ -538,3 +538,18 @@ export function forgotAccountEmail(received) {
 		}
 	});
 }
+
+// Validate the reset code used to reset passwords
+export function validateResetPasswordCode(resetCode) {
+	return database().transaction(async function(transaction) {
+		try {
+			// Create a response object
+			const response = { status: 200, message: t("label.success") };
+
+			// Return the response object
+			return response;
+		} catch (error) {
+			throw error;
+		}
+	});
+}

@@ -11,7 +11,8 @@ import {
 	loadUser,
 	resendVerifyEmail,
 	forgotAccountEmail,
-	forgotAccountPasswordEmail
+	forgotAccountPasswordEmail,
+	validateResetPasswordCode
 } from "../orchestrator/authentication";
 
 module.exports = function(router) {
@@ -177,5 +178,27 @@ module.exports = function(router) {
 				}
 			);
 		}
+	});
+
+	// Confirm a supplied reset password code is valid
+	router.get("/internal/validate_reset_password_code/", function(req, res, next) {
+		// Get reset password code from header
+		const resetCode = req.headers["code"] ? req.headers["code"] : "";
+
+		// Validate header item exists
+		if (resetCode === null || resetCode === "") {
+			const error = new ServerResponseError(403, t("validation.resetPasswordInvalidProperties"), { code: [t("validation.emptyResetCode")] });
+			return next(error);
+		}
+
+		// Validate reset password code and return response
+		validateResetPasswordCode(resetCode).then(
+			result => {
+				return res.status(200).send(result);
+			},
+			error => {
+				return next(error);
+			}
+		);
 	});
 };
