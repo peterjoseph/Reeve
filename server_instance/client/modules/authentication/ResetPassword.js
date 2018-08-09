@@ -28,6 +28,7 @@ class ResetPassword extends Component {
 			verificationCode: "",
 			workspaceURL: "",
 			loading: false,
+			disabled: false,
 			visible: false,
 			validationErrors: null,
 			serverError: null
@@ -53,7 +54,10 @@ class ResetPassword extends Component {
 		if (query.code !== null) {
 			this.props.validateResetPasswordCode(query.code).then(result => {
 				if (result.type === VALIDATE_RESET_PASSWORD_CODE_REJECTED) {
-					this.props.history.replace("/");
+					this.setState({
+						serverError: result.payload,
+						disabled: true
+					});
 				}
 			});
 		}
@@ -113,7 +117,7 @@ class ResetPassword extends Component {
 	}
 
 	render() {
-		const { password, verifyPassword, loading, validationErrors, serverError } = this.state;
+		const { password, verifyPassword, loading, disabled, validationErrors, serverError } = this.state;
 		const { workspaceURLStatus, resetPasswordStatus, clientStyle } = this.props;
 
 		const workspaceURLPending = workspaceURLStatus == null || workspaceURLStatus == REDUX_STATE.PENDING;
@@ -151,7 +155,7 @@ class ResetPassword extends Component {
 									type={t("label.password")}
 									ariaLabel={t("label.password")}
 									onChange={this.changeField}
-									disabled={loading}
+									disabled={loading || disabled}
 									error={validationErrors}
 								/>
 								<InputField
@@ -162,10 +166,10 @@ class ResetPassword extends Component {
 									type={"password"}
 									ariaLabel={t("label.verifyPassword")}
 									onChange={this.changeField}
-									disabled={loading}
+									disabled={loading || disabled}
 									error={validationErrors}
 								/>
-								<button type="submit" className={`btn btn-primary btn-lg btn-block mt-4 p-3 ${style.button}`} onClick={this.reset} disabled={loading}>
+								<button type="submit" className={`btn btn-primary btn-lg btn-block mt-4 p-3 ${style.button}`} onClick={this.reset} disabled={loading || disabled}>
 									{t("label.resetPassword")}
 								</button>
 								<div className="mt-4">

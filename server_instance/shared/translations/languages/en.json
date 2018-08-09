@@ -115,10 +115,10 @@
 		"loadClientFeaturesFailed": "Load client features failed.",
 		"loadUserRolesFailed": "Load user roles failed.",
 		"validWorkspaceURL": "cannot contain the following name",
-		"emptyWorkspaceURL": "Workspace name does not exist",
-		"emptyResetCode": "Password reset code does not exist or is invalid",
+		"emptyWorkspaceURL": "Workspace name does not exist.",
+		"emptyResetCode": "Password reset code does not exist or is invalid.",
 		"tokenInvalidOrExpired": "Token invalid or expired.",
 		"missingConsent": "must be accepted to continue",
-		"emailTemplateNotFound": "Error loading email template"
+		"emailTemplateNotFound": "Error loading email template."
 	}
 }

@@ -55,7 +55,7 @@
 		"mysql2": "^1.5.3",
 		"nodemailer": "^4.6.7",
 		"normalizr": "^3.2.4",
-		"npm": "^6.0.0",
+		"npm": "^6.3.0",
 		"passport": "^0.4.0",
 		"passport-jwt": "^4.0.0",
 		"passport-local": "^1.0.0",
