@@ -1,6 +1,6 @@
 import validate from "validate.JS";
 import passport from "../services/passport";
-import { register, login, forgot, workspaceURL } from "shared/validation/authentication";
+import { register, login, forgot, workspaceURL, verifyResetPassword } from "shared/validation/authentication";
 import { t } from "shared/translations/i18n";
 import { ServerResponseError } from "utilities/errors/serverResponseError";
 import { variableExists } from "shared/utilities/filters";
@@ -183,8 +183,9 @@ module.exports = function(router) {
 
 	// Confirm a supplied reset password code is valid
 	router.get("/internal/validate_reset_password_code/", function(req, res, next) {
-		// Get reset password code from header
+		// Get reset password code and workspaceURL from header
 		const resetCode = req.headers["code"] ? req.headers["code"] : "";
+		const workspaceURL = req.headers["workspaceurl"] ? req.headers["workspaceurl"] : "";
 
 		// Validate header item exists
 		if (!variableExists(resetCode)) {
@@ -192,8 +193,21 @@ module.exports = function(router) {
 			return next(error);
 		}
 
+		// Build header object
+		const header = {
+			workspaceURL: workspaceURL,
+			code: resetCode
+		};
+
+		// Validate header item exists
+		const valid = validate(header, verifyResetPassword);
+		if (valid != null) {
+			const error = new ServerResponseError(403, t("validation.resetPasswordInvalidProperties"), valid);
+			return next(error);
+		}
+
 		// Validate reset password code and return response
-		validateResetPasswordCode(resetCode).then(
+		validateResetPasswordCode(header).then(
 			result => {
 				return res.status(200).send(result);
 			},

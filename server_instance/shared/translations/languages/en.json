@@ -117,6 +117,9 @@
 		"validWorkspaceURL": "cannot contain the following name",
 		"emptyWorkspaceURL": "Workspace name does not exist.",
 		"emptyResetCode": "Password reset code does not exist or is invalid.",
+		"sendNewReset": "Please send a new password reset email and use the provided code.",
+		"resetCodeAlreadyUsed": "This password reset code has already been used. $t(validation.sendNewReset)",
+		"resetCodeExpired": "This password reset code has expired. It could be used within a {{ gracePeriod }} hour period. $t(validation.sendNewReset)",
 		"tokenInvalidOrExpired": "Token invalid or expired.",
 		"missingConsent": "must be accepted to continue",
 		"emailTemplateNotFound": "Error loading email template."

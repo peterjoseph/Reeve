@@ -65,11 +65,12 @@ export function resendVerifyEmail() {
 }
 
 // Workspace URL Validation
-export function resetPasswordCodeValidation(code) {
+export function resetPasswordCodeValidation(reset) {
 	return fetch.perform("/internal/validate_reset_password_code/", {
 		method: "GET",
 		headers: {
-			code: code
+			code: reset.code,
+			workspaceURL: reset.workspaceURL
 		}
 	});
 }

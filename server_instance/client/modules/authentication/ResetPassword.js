@@ -40,8 +40,8 @@ class ResetPassword extends Component {
 
 	componentDidMount() {
 		// Validate workspace url and retrieve client information
+		const subdomain = extractSubdomain(window.location.href);
 		if (this.props.workspaceURLStatus !== REDUX_STATE.FULFILLED) {
-			const subdomain = extractSubdomain(window.location.href);
 			this.props.validateWorkspaceURL(subdomain).then(result => {
 				if (result.type === VALIDATE_WORKSPACE_URL_REJECTED) {
 					window.location.replace(`${SERVER_DETAILS.PROTOCOL}://${SERVER_DETAILS.DOMAIN}/`);
@@ -52,7 +52,7 @@ class ResetPassword extends Component {
 		// Verify reset password code exists in url and is valid
 		const query = queryString.parse(this.props.history.location.hash);
 		if (query.code !== null) {
-			this.props.validateResetPasswordCode(query.code).then(result => {
+			this.props.validateResetPasswordCode({ code: query.code, workspaceURL: subdomain }).then(result => {
 				if (result.type === VALIDATE_RESET_PASSWORD_CODE_REJECTED) {
 					this.setState({
 						serverError: result.payload,

@@ -540,10 +540,52 @@ export function forgotAccountEmail(received) {
 }
 
 // Validate the reset code used to reset passwords
-export function validateResetPasswordCode(resetCode) {
+export function validateResetPasswordCode(received) {
 	return database().transaction(async function(transaction) {
 		try {
-			// Create a response object
+			// Load client from workspace url
+			const client = await models().client.findOne({ where: { workspaceURL: received.workspaceURL, active: true } }, { transaction: transaction });
+
+			// Throw an error if the client does not exist
+			if (client === null) {
+				throw new ServerResponseError(403, t("validation.resetPasswordInvalidProperties"), { client: [t("validation.loadClientFailed")] });
+			}
+
+			// Check if reset code exists and is valid
+			const reset = await models().passwordReset.findOne(
+				{
+					where: {
+						resetCode: received.code,
+						clientId: client.get("id")
+					}
+				},
+				{ transaction: transaction }
+			);
+
+			// Throw error if code could not be found
+			if (reset === null) {
+				throw new ServerResponseError(403, t("validation.resetPasswordInvalidProperties"), { code: [t("validation.emptyResetCode")] });
+			}
+
+			// Confirm different states of the reset code
+			if (Boolean(Number(reset.get("activated"))) === true) {
+				throw new ServerResponseError(403, t("validation.resetPasswordInvalidProperties"), { code: [t("validation.resetCodeAlreadyUsed")] });
+			}
+
+			// Throw error if code has expired based on gracePeriod
+			const currentTime = moment(new Date())
+				.utc()
+				.format("YYYY-MM-DD HH:mm:ss");
+			const timeWindow = moment(currentTime)
+				.utc()
+				.subtract(reset.get("gracePeriod"), "hour")
+				.format("YYYY-MM-DD HH:mm:ss");
+
+			if (!moment(reset.get("createdAt")).isBetween(timeWindow, currentTime)) {
+				throw new ServerResponseError(403, t("validation.resetPasswordInvalidProperties"), { code: [t("validation.resetCodeExpired", { gracePeriod: reset.get("gracePeriod") })] });
+			}
+
+			// Create a response object0
 			const response = { status: 200, message: t("label.success") };
 
 			// Return the response object
