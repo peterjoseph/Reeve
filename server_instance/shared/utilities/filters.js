@@ -20,3 +20,11 @@ export function arrayHasAny(arr1, arr2) {
 		return arr2.indexOf(arr1Element) !== -1;
 	});
 }
+
+// Check if variable exists and is not null or undefined
+export function variableExists(value) {
+	if (value === null || value === "" || value === undefined || typeof value === "undefined" || value === "undefined") {
+		return false;
+	}
+	return true;
+}

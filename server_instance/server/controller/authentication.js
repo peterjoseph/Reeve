@@ -3,6 +3,7 @@ import passport from "../services/passport";
 import { register, login, forgot, workspaceURL } from "shared/validation/authentication";
 import { t } from "shared/translations/i18n";
 import { ServerResponseError } from "utilities/errors/serverResponseError";
+import { variableExists } from "shared/utilities/filters";
 import {
 	validateWorkspaceURL,
 	registerNewClient,
@@ -22,7 +23,7 @@ module.exports = function(router) {
 		const workspaceURL = req.headers["workspaceurl"] ? req.headers["workspaceurl"] : "";
 
 		// Validate header item exists
-		if (workspaceURL === null || workspaceURL === "") {
+		if (!variableExists(workspaceURL)) {
 			const error = new ServerResponseError(403, t("validation.clientInvalidProperties"), { workspaceURL: [t("validation.emptyWorkspaceURL")] });
 			return next(error);
 		}
@@ -71,7 +72,7 @@ module.exports = function(router) {
 	// Login to user account
 	router.post("/internal/login", function(req, res, next) {
 		// Authenticate with token if authToken exists
-		if (req.body.authToken != null && req.body.authToken === true) {
+		if (variableExists(req.body.authToken) && req.body.authToken === true) {
 			authenticateWithToken(req, res, next);
 			return;
 		}
@@ -116,7 +117,7 @@ module.exports = function(router) {
 
 	// Resend verify email address email
 	router.post("/internal/resend_verify_email/", passport.perform().authenticate("jwt"), function(req, res, next) {
-		if (req.user.userId === null || !Number.isInteger(req.user.userId)) {
+		if (!variableExists(req.user.userId) || !Number.isInteger(req.user.userId)) {
 			const errorMsg = new ServerResponseError(403, t("validation.invalidUserId"), null);
 			return next(errorMsg);
 		}
@@ -139,7 +140,7 @@ module.exports = function(router) {
 		};
 
 		// Append workspaceURL to body object if it exists
-		if (req.body.workspaceURL != null) {
+		if (variableExists(req.body.workspaceURL)) {
 			Object.assign(body, { workspaceURL: req.body.workspaceURL });
 		}
 
@@ -151,7 +152,7 @@ module.exports = function(router) {
 		}
 
 		// If workspace name is invalid, remove it from the body object
-		if (body.workspaceURL !== null) {
+		if (variableExists(body.workspaceURL)) {
 			const validWorkspaceURL = validate(body, workspaceURL);
 			if (validWorkspaceURL != null) {
 				delete body.workspaceURL;
@@ -159,7 +160,7 @@ module.exports = function(router) {
 		}
 
 		// Orchestrate workspace or password email depending on whether workspaceURL is provided
-		if (body.workspaceURL !== null) {
+		if (variableExists(body.workspaceURL)) {
 			forgotAccountPasswordEmail(body).then(
 				result => {
 					return res.status(200).send(result);
@@ -186,7 +187,7 @@ module.exports = function(router) {
 		const resetCode = req.headers["code"] ? req.headers["code"] : "";
 
 		// Validate header item exists
-		if (resetCode === null || resetCode === "") {
+		if (!variableExists(resetCode)) {
 			const error = new ServerResponseError(403, t("validation.resetPasswordInvalidProperties"), { code: [t("validation.emptyResetCode")] });
 			return next(error);
 		}
