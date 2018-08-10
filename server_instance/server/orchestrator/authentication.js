@@ -573,23 +573,18 @@ export function validateResetPasswordCode(received) {
 			}
 
 			// Throw error if code has expired based on gracePeriod
-			const currentTime = moment(new Date())
-				.utc()
-				.format("YYYY-MM-DD HH:mm:ss");
+			const currentTime = new Date();
+
 			const timeWindow = moment(currentTime)
 				.utc()
-				.subtract(reset.get("gracePeriod"), "hour")
-				.format("YYYY-MM-DD HH:mm:ss");
+				.subtract(reset.get("gracePeriod"), "hour");
 
 			if (!moment(reset.get("createdAt")).isBetween(timeWindow, currentTime)) {
 				throw new ServerResponseError(403, t("validation.resetPasswordInvalidProperties"), { code: [t("validation.resetCodeExpired", { gracePeriod: reset.get("gracePeriod") })] });
 			}
 
-			// Create a response object0
-			const response = { status: 200, message: t("label.success") };
-
 			// Return the response object
-			return response;
+			return { status: 200, message: t("label.success") };
 		} catch (error) {
 			throw error;
 		}
