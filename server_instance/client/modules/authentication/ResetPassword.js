@@ -12,7 +12,15 @@ import { extractSubdomain } from "shared/utilities/subdomain";
 import { resetPassword } from "shared/validation/authentication";
 
 import { clientStyling } from "./components/ClientStyling";
-import { AUTHENTICATION, VALIDATE_WORKSPACE_URL_REJECTED, VALIDATE_RESET_PASSWORD_CODE_REJECTED, validateWorkspaceURL, validateResetPasswordCode } from "common/store/reducers/authentication.js";
+import {
+	AUTHENTICATION,
+	VALIDATE_WORKSPACE_URL_REJECTED,
+	VALIDATE_RESET_PASSWORD_CODE_REJECTED,
+	RESET_PASSWORD_REJECTED,
+	validateWorkspaceURL,
+	validateResetPasswordCode,
+	resetUserPassword
+} from "common/store/reducers/authentication.js";
 
 import ServerSuccess from "common/components/ServerSuccess";
 import ServerError from "common/components/ServerError";
@@ -25,7 +33,7 @@ class ResetPassword extends Component {
 		this.state = {
 			password: "",
 			verifyPassword: "",
-			verificationCode: "",
+			code: "",
 			workspaceURL: "",
 			loading: false,
 			disabled: false,
@@ -64,24 +72,22 @@ class ResetPassword extends Component {
 	}
 
 	static getDerivedStateFromProps(nextProps, prevState) {
-		if (nextProps.workspaceURLStatus === prevState.workspaceURLStatus && nextProps.validateResetPasswordCode === prevState.validateResetPasswordCode) {
+		if (nextProps.workspaceURLStatus === prevState.workspaceURLStatus && nextProps.validateResetPasswordCodeStatus === prevState.validateResetPasswordCodeStatus) {
 			return null;
 		}
+		const state = {};
 		// Store subdomain in state if valid
 		if (nextProps.workspaceURLStatus === REDUX_STATE.FULFILLED) {
 			const subdomain = extractSubdomain(window.location.href);
-			return {
-				workspaceURL: subdomain
-			};
+			state.workspaceURL = subdomain;
 		}
 		// Store reset password code in state if valid
-		if (nextProps.validateResetPasswordCode === REDUX_STATE.FULFILLED) {
-			const query = queryString.parse(this.props.history.location.hash);
-			return {
-				verificationCode: query.code
-			};
+		if (nextProps.validateResetPasswordCodeStatus === REDUX_STATE.FULFILLED) {
+			const query = queryString.parse(nextProps.history.location.hash);
+			state.code = query.code;
 		}
-		return null;
+
+		return state;
 	}
 
 	changeField(evt) {
@@ -102,7 +108,7 @@ class ResetPassword extends Component {
 		const password = {
 			password: this.state.password,
 			verifyPassword: this.state.verifyPassword,
-			verificationCode: this.state.verificationCode,
+			code: this.state.code,
 			workspaceURL: this.state.workspaceURL
 		};
 
@@ -112,6 +118,15 @@ class ResetPassword extends Component {
 			this.setState({
 				loading: false,
 				validationErrors: valid
+			});
+		} else {
+			this.props.resetUserPassword(password).then(result => {
+				if (result.type === RESET_PASSWORD_REJECTED) {
+					this.setState({
+						loading: false,
+						serverError: result.payload
+					});
+				}
 			});
 		}
 	}
@@ -189,6 +204,7 @@ ResetPassword.propTypes = {
 	history: PropTypes.object,
 	validateWorkspaceURL: PropTypes.func,
 	validateResetPasswordCode: PropTypes.func,
+	resetUserPassword: PropTypes.func,
 	workspaceURLStatus: PropTypes.string,
 	resetPasswordStatus: PropTypes.string,
 	clientStyle: PropTypes.object
@@ -206,7 +222,8 @@ function mapStateToProps(state) {
 function mapDispatchToProps(dispatch) {
 	return {
 		validateWorkspaceURL: bindActionCreators(validateWorkspaceURL, dispatch),
-		validateResetPasswordCode: bindActionCreators(validateResetPasswordCode, dispatch)
+		validateResetPasswordCode: bindActionCreators(validateResetPasswordCode, dispatch),
+		resetUserPassword: bindActionCreators(resetUserPassword, dispatch)
 	};
 }
 

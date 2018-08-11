@@ -1,6 +1,6 @@
 import { fromJS } from "immutable";
 import { REDUX_STATE } from "shared/constants";
-import { clientRegistration, userLogin, userLoad, workspaceURLValidation, forgotAccountDetails, resetPasswordCodeValidation } from "client/api/authentication.js";
+import { clientRegistration, userLogin, userLoad, workspaceURLValidation, forgotAccountDetails, resetPasswordCodeValidation, resetPassword } from "client/api/authentication.js";
 
 import "./root";
 
@@ -29,6 +29,10 @@ export const FORGOT_ACCOUNT_REJECTED = AUTHENTICATION + "/FORGOT_ACCOUNT_REJECTE
 export const VALIDATE_RESET_PASSWORD_CODE_PENDING = AUTHENTICATION + "/VALIDATE_RESET_PASSWORD_CODE_PENDING";
 export const VALIDATE_RESET_PASSWORD_CODE_FULFILLED = AUTHENTICATION + "/VALIDATE_RESET_PASSWORD_CODE_FULFILLED";
 export const VALIDATE_RESET_PASSWORD_CODE_REJECTED = AUTHENTICATION + "/VALIDATE_RESET_PASSWORD_CODE_REJECTED";
+
+export const RESET_PASSWORD_PENDING = AUTHENTICATION + "/RESET_PASSWORD_PENDING";
+export const RESET_PASSWORD_FULFILLED = AUTHENTICATION + "/RESET_PASSWORD_FULFILLED";
+export const RESET_PASSWORD_REJECTED = AUTHENTICATION + "/RESET_PASSWORD_REJECTED";
 
 const DEFAULT_STATE = fromJS({});
 
@@ -116,6 +120,25 @@ export default function authentication(state = DEFAULT_STATE, action) {
 		case VALIDATE_RESET_PASSWORD_CODE_REJECTED:
 			return state.set(
 				"resetPasswordCode",
+				fromJS({
+					status: REDUX_STATE.REJECTED,
+					payload: {},
+					error: action.payload
+				})
+			);
+		case RESET_PASSWORD_PENDING:
+			return state.setIn(["resetPassword", "status"], REDUX_STATE.PENDING);
+		case RESET_PASSWORD_FULFILLED:
+			return state.set(
+				"resetPassword",
+				fromJS({
+					status: REDUX_STATE.FULFILLED,
+					payload: action.payload
+				})
+			);
+		case RESET_PASSWORD_REJECTED:
+			return state.set(
+				"resetPassword",
 				fromJS({
 					status: REDUX_STATE.REJECTED,
 					payload: {},
@@ -253,6 +276,28 @@ export function validateResetPasswordCode(body) {
 			error =>
 				dispatch({
 					type: VALIDATE_RESET_PASSWORD_CODE_REJECTED,
+					payload: error
+				})
+		);
+	};
+}
+
+export function resetUserPassword(body) {
+	return dispatch => {
+		dispatch({
+			type: RESET_PASSWORD_PENDING
+		});
+
+		return resetPassword(body).then(
+			result => {
+				return dispatch({
+					type: RESET_PASSWORD_FULFILLED,
+					payload: result
+				});
+			},
+			error =>
+				dispatch({
+					type: RESET_PASSWORD_REJECTED,
 					payload: error
 				})
 		);

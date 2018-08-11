@@ -64,7 +64,7 @@ export function resendVerifyEmail() {
 	});
 }
 
-// Workspace URL Validation
+// Reset Password Code Validation
 export function resetPasswordCodeValidation(reset) {
 	return fetch.perform("/internal/validate_reset_password_code/", {
 		method: "GET",
@@ -72,5 +72,18 @@ export function resetPasswordCodeValidation(reset) {
 			code: reset.code,
 			workspaceURL: reset.workspaceURL
 		}
+	});
+}
+
+// Reset User Password
+export function resetPassword(reset) {
+	return fetch.perform("/internal/reset_password/", {
+		method: "POST",
+		body: JSON.stringify({
+			password: reset.password,
+			verifyPassword: reset.verifyPassword,
+			code: reset.code,
+			workspaceURL: reset.workspaceURL
+		})
 	});
 }

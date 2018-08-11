@@ -190,7 +190,7 @@ const resetPassword = {
 			}
 		}
 	},
-	verificationCode: {
+	code: {
 		presence: {
 			allowEmpty: false
 		},
