@@ -1,6 +1,6 @@
 import validate from "validate.JS";
 import passport from "../services/passport";
-import { register, login, forgot, workspaceURL, verifyResetPassword } from "shared/validation/authentication";
+import { register, login, forgot, workspaceURL, verifyResetPassword, resetPassword } from "shared/validation/authentication";
 import { t } from "shared/translations/i18n";
 import { ServerResponseError } from "utilities/errors/serverResponseError";
 import { variableExists } from "shared/utilities/filters";
@@ -13,7 +13,8 @@ import {
 	resendVerifyEmail,
 	forgotAccountEmail,
 	forgotAccountPasswordEmail,
-	validateResetPasswordCode
+	validateResetPasswordCode,
+	resetUserPassword
 } from "../orchestrator/authentication";
 
 module.exports = function(router) {
@@ -208,6 +209,21 @@ module.exports = function(router) {
 
 		// Validate reset password code and return response
 		validateResetPasswordCode(header).then(
+			result => {
+				return res.status(200).send(result);
+			},
+			error => {
+				return next(error);
+			}
+		);
+	});
+
+	// Reset user password
+	router.post("/internal/reset_password/", function(req, res, next) {
+		const password = null;
+
+		// Validate reset password code and return response
+		resetUserPassword(password).then(
 			result => {
 				return res.status(200).send(result);
 			},

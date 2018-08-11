@@ -590,3 +590,15 @@ export function validateResetPasswordCode(received) {
 		}
 	});
 }
+
+// Reset user password
+export function resetUserPassword(received) {
+	return database().transaction(async function(transaction) {
+		try {
+			// Return the response object
+			return { status: 200, message: t("label.success") };
+		} catch (error) {
+			throw error;
+		}
+	});
+}
