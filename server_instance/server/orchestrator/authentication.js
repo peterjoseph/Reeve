@@ -656,6 +656,15 @@ export function resetUserPassword(received) {
 				activated: true
 			});
 
+			// Create emailParams object
+			const emailParams = {
+				firstName: user.get("firstName"),
+				workspaceName: client.get("workspaceURL")
+			};
+
+			// Send password reset email
+			sendEmail(EMAIL_TYPE.RESET_PASSWORD_SUCCESS, user.get("language"), user.get("emailAddress"), emailParams, user.get("clientId"), user.get("id"));
+
 			// Return the response object
 			return { status: 200, message: t("label.success") };
 		} catch (error) {
