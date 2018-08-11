@@ -126,6 +126,8 @@ class ResetPassword extends Component {
 						loading: false,
 						serverError: result.payload
 					});
+				} else {
+					this.props.history.push("/signin?reset=success");
 				}
 			});
 		}

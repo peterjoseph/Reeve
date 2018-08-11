@@ -3,6 +3,7 @@ import { Link } from "react-router-dom";
 import PropTypes from "prop-types";
 import { t } from "shared/translations/i18n";
 
+import SuccessNotification from "common/components/SuccessNotification";
 import ServerSuccess from "common/components/ServerSuccess";
 import ServerError from "common/components/ServerError";
 import InputField from "common/components/inputs/InputField";
@@ -17,6 +18,7 @@ class SignInForm extends Component {
 				<div className="w-100 mb-3">
 					<span className="h3">{t("action.signIn")}</span>
 				</div>
+				<SuccessNotification path={{ reset: "success" }} message={t("success.resetPassword")} />
 				{!loginPending && !serverError && !validationErrors && <ServerSuccess path={{ registration: "success" }} message={t("success.clientRegistration")} />}
 				<ServerError error={serverError} />
 				<InputField
@@ -68,6 +70,7 @@ class SignInForm extends Component {
 }
 
 SignInForm.propTypes = {
+	history: PropTypes.object,
 	emailAddress: PropTypes.string,
 	password: PropTypes.string,
 	loginPending: PropTypes.bool,
