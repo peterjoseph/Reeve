@@ -5,5 +5,9 @@ body {
 
 .toast-notification {
 	width: 100% !important;
-	max-width: 800px;
+
+	span {
+		width: 100% !important;
+		border-radius: 0 !important;
+	}
 }

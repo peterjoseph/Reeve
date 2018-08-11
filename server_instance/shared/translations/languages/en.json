@@ -93,7 +93,7 @@
 	"success": {
 		"clientRegistration": "Success! Your account has been created.",
 		"forgotPasswordEmail": "Success! If an account is associated with this email address, you will receive a message with instructions on how to login or reset the password to your account.",
-		"resetPassword": "Success! The password to your account has now been reset."
+		"resetPassword": "Success! The password to your account has been reset."
 	},
 	"error": {
 		"code": {
