@@ -13,13 +13,15 @@ class SignInForm extends Component {
 	render() {
 		const { emailAddress, password, loginPending, workspaceURLPending, keepSignedIn, login, changeField, handleChecked, style, serverError, validationErrors } = this.props;
 
+		const showSuccessMsg = !loginPending && !serverError && !validationErrors;
+
 		return (
 			<div>
 				<div className="w-100 mb-3">
 					<span className="h3">{t("action.signIn")}</span>
 				</div>
-				<SuccessNotification path={{ reset: "success" }} message={t("success.resetPassword")} />
-				{!loginPending && !serverError && !validationErrors && <ServerSuccess path={{ registration: "success" }} message={t("success.clientRegistration")} />}
+				{showSuccessMsg && <SuccessNotification path={{ reset: "success" }} message={t("success.resetPassword")} />}
+				{showSuccessMsg && <ServerSuccess path={{ registration: "success" }} message={t("success.clientRegistration")} />}
 				<ServerError error={serverError} />
 				<InputField
 					label={t("label.emailAddress")}

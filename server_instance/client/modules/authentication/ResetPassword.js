@@ -127,7 +127,7 @@ class ResetPassword extends Component {
 						serverError: result.payload
 					});
 				} else {
-					this.props.history.push("/signin?reset=success");
+					this.props.history.replace("/signin?reset=success");
 				}
 			});
 		}

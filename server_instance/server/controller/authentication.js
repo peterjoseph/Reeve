@@ -220,10 +220,23 @@ module.exports = function(router) {
 
 	// Reset user password
 	router.post("/internal/reset_password/", function(req, res, next) {
-		const password = null;
+		// Store received object properties
+		const body = {
+			password: req.body.password,
+			verifyPassword: req.body.verifyPassword,
+			code: req.body.code,
+			workspaceURL: req.body.workspaceURL
+		};
+
+		// Validate properties in received object
+		const valid = validate(body, resetPassword);
+		if (valid != null) {
+			const errorMsg = new ServerResponseError(403, t("validation.resetPasswordInvalidProperties"), valid);
+			return next(errorMsg);
+		}
 
 		// Validate reset password code and return response
-		resetUserPassword(password).then(
+		resetUserPassword(body).then(
 			result => {
 				return res.status(200).send(result);
 			},

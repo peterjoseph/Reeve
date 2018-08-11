@@ -505,7 +505,7 @@ export function forgotAccountEmail(received) {
 							activated: false,
 							userId: user.get("id"),
 							clientId: user.get("clientId"),
-							gracePeriod: 2
+							gracePeriod: 1
 						},
 						{ transaction: transaction }
 					);
@@ -595,6 +595,67 @@ export function validateResetPasswordCode(received) {
 export function resetUserPassword(received) {
 	return database().transaction(async function(transaction) {
 		try {
+			// Load client from workspace url
+			const client = await models().client.findOne({ where: { workspaceURL: received.workspaceURL, active: true } }, { transaction: transaction });
+
+			// Throw an error if the client does not exist
+			if (client === null) {
+				throw new ServerResponseError(403, t("validation.resetPasswordInvalidProperties"), { client: [t("validation.loadClientFailed")] });
+			}
+
+			// Check if reset code exists and is valid
+			const reset = await models().passwordReset.findOne(
+				{
+					where: {
+						resetCode: received.code,
+						clientId: client.get("id")
+					}
+				},
+				{ transaction: transaction }
+			);
+
+			// Throw error if code could not be found
+			if (reset === null) {
+				throw new ServerResponseError(403, t("validation.resetPasswordInvalidProperties"), { code: [t("validation.emptyResetCode")] });
+			}
+
+			// Confirm different states of the reset code
+			if (Boolean(Number(reset.get("activated"))) === true) {
+				throw new ServerResponseError(403, t("validation.resetPasswordInvalidProperties"), { code: [t("validation.resetCodeAlreadyUsed")] });
+			}
+
+			// Throw error if code has expired based on gracePeriod
+			const currentTime = new Date();
+
+			const timeWindow = moment(currentTime)
+				.utc()
+				.subtract(reset.get("gracePeriod"), "hour");
+
+			if (!moment(reset.get("createdAt")).isBetween(timeWindow, currentTime)) {
+				throw new ServerResponseError(403, t("validation.resetPasswordInvalidProperties"), { code: [t("validation.resetCodeExpired", { gracePeriod: reset.get("gracePeriod") })] });
+			}
+
+			// Load user based on provided values
+			const user = await models().user.findOne({ where: { id: reset.get("userId"), clientId: reset.get("clientId"), active: true } }, { transaction: transaction });
+
+			// Throw an error if the user does not exist
+			if (user === null) {
+				throw new ServerResponseError(403, t("validation.loadUserFailed"), null);
+			}
+
+			// Encrypt user password
+			const password = bcrypt.hashSync(received.password, 10);
+
+			// store new password in user object
+			user.updateAttributes({
+				password: password
+			});
+
+			// Update password reset code set activated to true
+			reset.updateAttributes({
+				activated: true
+			});
+
 			// Return the response object
 			return { status: 200, message: t("label.success") };
 		} catch (error) {
