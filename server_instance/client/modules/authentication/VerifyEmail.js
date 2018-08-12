@@ -1,48 +1,41 @@
 import { Component } from "react";
 import PropTypes from "prop-types";
+import queryString from "query-string";
 import { connect } from "react-redux";
 import { bindActionCreators } from "redux";
 import { withRouter } from "react-router-dom";
-import { REDUX_STATE } from "shared/constants";
 import { extractSubdomain } from "shared/utilities/subdomain";
 
-import { AUTHENTICATION, VERIFY_EMAIL_REJECTED, validateWorkspaceURL, verifyUserEmail } from "../../common/store/reducers/authentication.js";
+import { VALIDATE_WORKSPACE_URL_REJECTED, VERIFY_EMAIL_REJECTED, validateWorkspaceURL, verifyUserEmail } from "../../common/store/reducers/authentication.js";
 
 class VerifyEmail extends Component {
 	constructor(props) {
 		super(props);
-
-		this.state = {
-			serverError: null
-		};
-
-		this.verify = this.verify.bind(this);
 	}
 
 	componentDidMount() {
-		// Validate workspace url and retrieve client information
-		if (this.props.workspaceURLStatus !== REDUX_STATE.FULFILLED) {
-			const subdomain = extractSubdomain(window.location.href);
-			this.props.validateWorkspaceURL(subdomain);
-		}
-	}
+		const subdomain = extractSubdomain(window.location.href);
+		this.props.validateWorkspaceURL(subdomain).then(result => {
+			if (result.type === VALIDATE_WORKSPACE_URL_REJECTED) {
+				this.props.history.replace("/");
+			}
 
-	static getDerivedStateFromProps(nextProps, prevState) {
-		if (nextProps.workspaceURLStatus === prevState.workspaceURLStatus) {
-			return null;
-		}
-		// Store subdomain in state if valid
-		if (nextProps.workspaceURLStatus === REDUX_STATE.FULFILLED) {
-			const subdomain = extractSubdomain(window.location.href);
-			return {
-				workspaceURL: subdomain
-			};
-		}
-		return null;
-	}
+			// Verify Code
+			const query = queryString.parse(this.props.history.location.hash);
+			const code = query.code;
 
-	verify(evt) {
-		evt.preventDefault(); // Prevent page refresh
+			// Verify User Email
+			this.props
+				.verifyUserEmail({
+					code: code,
+					workspaceURL: subdomain
+				})
+				.then(result => {
+					if (result.type === VERIFY_EMAIL_REJECTED) {
+						this.props.history.replace("/");
+					}
+				});
+		});
 	}
 
 	render() {
@@ -53,17 +46,8 @@ class VerifyEmail extends Component {
 VerifyEmail.propTypes = {
 	history: PropTypes.object,
 	validateWorkspaceURL: PropTypes.func,
-	verifyUserEmail: PropTypes.func,
-	workspaceURLStatus: PropTypes.string,
-	verifyEmailStatus: PropTypes.string
+	verifyUserEmail: PropTypes.func
 };
-
-function mapStateToProps(state) {
-	return {
-		workspaceURLStatus: state.getIn([AUTHENTICATION, "workspaceURL", "status"]),
-		verifyEmailStatus: state.getIn([AUTHENTICATION, "verifyEmail", "status"])
-	};
-}
 
 function mapDispatchToProps(dispatch) {
 	return {
@@ -72,4 +56,4 @@ function mapDispatchToProps(dispatch) {
 	};
 }
 
-export default withRouter(connect(mapStateToProps, mapDispatchToProps)(VerifyEmail));
+export default withRouter(connect(null, mapDispatchToProps)(VerifyEmail));
