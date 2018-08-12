@@ -1,6 +1,6 @@
 import validate from "validate.JS";
 import passport from "../services/passport";
-import { register, login, forgot, workspaceURL, verifyResetPassword, resetPassword } from "shared/validation/authentication";
+import { register, login, forgot, workspaceURL, verifyResetPassword, resetPassword, verifyEmail } from "shared/validation/authentication";
 import { t } from "shared/translations/i18n";
 import { ServerResponseError } from "utilities/errors/serverResponseError";
 import { variableExists } from "shared/utilities/filters";
@@ -14,7 +14,8 @@ import {
 	forgotAccountEmail,
 	forgotAccountPasswordEmail,
 	validateResetPasswordCode,
-	resetUserPassword
+	resetUserPassword,
+	verifyUserEmail
 } from "../orchestrator/authentication";
 
 module.exports = function(router) {
@@ -237,6 +238,33 @@ module.exports = function(router) {
 
 		// Validate reset password code and return response
 		resetUserPassword(body).then(
+			result => {
+				return res.status(200).send(result);
+			},
+			error => {
+				return next(error);
+			}
+		);
+	});
+
+	// Verify User Email
+	router.post("/internal/verify_email/", function(req, res, next) {
+		// Store received object properties
+		const body = {
+			code: req.body.code,
+			userId: req.body.userId,
+			workspaceURL: req.body.workspaceURL
+		};
+
+		// Validate properties in received object
+		const valid = validate(body, verifyEmail);
+		if (valid != null) {
+			const errorMsg = new ServerResponseError(403, t("validation.verifyEmailInvalidProperties"), valid);
+			return next(errorMsg);
+		}
+
+		// Validate reset password code and return response
+		verifyUserEmail(body).then(
 			result => {
 				return res.status(200).send(result);
 			},

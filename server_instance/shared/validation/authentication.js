@@ -218,11 +218,46 @@ const resetPassword = {
 	}
 };
 
+const verifyEmail = {
+	userId: {
+		presence: {
+			allowEmpty: true
+		}
+	},
+	code: {
+		presence: {
+			allowEmpty: false
+		},
+		length: {
+			maximum: 255
+		}
+	},
+	workspaceURL: {
+		presence: {
+			allowEmpty: false
+		},
+		format: {
+			pattern: "[a-z0-9]+",
+			flags: "i",
+			message: t("validation.validCharactersAZ09")
+		},
+		exclusion: {
+			within: restrictedDomains,
+			message: t("validation.validWorkspaceURL")
+		},
+		length: {
+			minimum: 4,
+			maximum: 255
+		}
+	}
+};
+
 module.exports = {
 	login: login,
 	register: register,
 	workspaceURL: workspaceURL,
 	forgot: forgot,
 	verifyResetPassword: verifyResetPassword,
-	resetPassword: resetPassword
+	resetPassword: resetPassword,
+	verifyEmail: verifyEmail
 };

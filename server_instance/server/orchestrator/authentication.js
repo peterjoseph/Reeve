@@ -672,3 +672,81 @@ export function resetUserPassword(received) {
 		}
 	});
 }
+
+// Verify User Email
+export function verifyUserEmail(received) {
+	return database().transaction(async function(transaction) {
+		try {
+			// Load client from workspace url
+			const client = await models().client.findOne({ where: { workspaceURL: received.workspaceURL, active: true } }, { transaction: transaction });
+
+			// Throw an error if the client does not exist
+			if (client === null) {
+				throw new ServerResponseError(403, t("validation.verifyEmailInvalidProperties"), { client: [t("validation.loadClientFailed")] });
+			}
+
+			// Determine values to use in fetching the email verification code
+			const where = {
+				verificationCode: received.code
+			};
+			if (received.userId !== null) {
+				where.userId = received.userId;
+			}
+
+			// Check if email verification code is valid
+			const emailVerificationCode = await models().emailVerificationCode.findOne({ where: where }, { transaction: transaction });
+
+			// Throw error if code could not be found
+			if (emailVerificationCode === null) {
+				throw new ServerResponseError(403, t("validation.verifyEmailInvalidProperties"), { code: [t("validation.emptyVerifyCode")] });
+			}
+
+			// Confirm different states of the verify email code
+			if (Boolean(Number(emailVerificationCode.get("activated"))) === true) {
+				throw new ServerResponseError(403, t("validation.verifyEmailInvalidProperties"), { code: [t("validation.verifyCodeAlreadyUsed")] });
+			}
+
+			// Throw error if code has expired based on gracePeriod
+			const currentTime = new Date();
+			const timeWindow = moment(currentTime)
+				.utc()
+				.subtract(emailVerificationCode.get("gracePeriod"), "hour");
+			if (!moment(emailVerificationCode.get("createdAt")).isBetween(timeWindow, currentTime)) {
+				throw new ServerResponseError(403, t("validation.verifyEmailInvalidProperties"), {
+					code: [t("validation.verifyCodeExpired", { gracePeriod: emailVerificationCode.get("gracePeriod") })]
+				});
+			}
+
+			// Load user based on provided values
+			const user = await models().user.findOne(
+				{ where: { id: emailVerificationCode.get("userId"), clientId: emailVerificationCode.get("clientId"), active: true } },
+				{ transaction: transaction }
+			);
+
+			// Throw an error if the user does not exist
+			if (user === null) {
+				throw new ServerResponseError(403, t("validation.loadUserFailed"), null);
+			}
+
+			// Throw an error if the email has already been verified
+			if (Boolean(Number(user.get("emailVerified"))) === true) {
+				throw new ServerResponseError(403, t("validation.emailAlreadyVerified"), null);
+			}
+
+			// Change email verified column to true
+			user.updateAttributes({
+				emailVerified: true
+			});
+
+			// Update verify email code set activated to true
+			emailVerificationCode.updateAttributes({
+				activated: true
+			});
+
+			// Return the response object
+			return { status: 200, message: t("label.success") };
+		} catch (error) {
+			throw error;
+		}
+	});
+}
