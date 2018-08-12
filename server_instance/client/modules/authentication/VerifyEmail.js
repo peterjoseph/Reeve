@@ -10,6 +10,14 @@ import { VALIDATE_WORKSPACE_URL_REJECTED, VERIFY_EMAIL_REJECTED, validateWorkspa
 
 class VerifyEmail extends Component {
 	componentDidMount() {
+		this.verifyEmail();
+	}
+
+	render() {
+		return null;
+	}
+
+	verifyEmail() {
 		const subdomain = extractSubdomain(window.location.href);
 		this.props.validateWorkspaceURL(subdomain).then(result => {
 			if (result.type === VALIDATE_WORKSPACE_URL_REJECTED) {
@@ -40,10 +48,6 @@ class VerifyEmail extends Component {
 				}
 			});
 		});
-	}
-
-	render() {
-		return null;
 	}
 }
 
