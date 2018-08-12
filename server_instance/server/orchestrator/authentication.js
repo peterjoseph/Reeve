@@ -138,7 +138,7 @@ export function registerNewClient(received) {
 				firstName: userInstance.get("firstName"),
 				workspaceName: clientInstance.get("workspaceName"),
 				workspaceURL: `${SERVER_DETAILS.PROTOCOL}://${clientInstance.get("workspaceURL")}.${SERVER_DETAILS.DOMAIN}`,
-				validationLink: `${SERVER_DETAILS.PROTOCOL}://${clientInstance.get("workspaceURL")}.${SERVER_DETAILS.DOMAIN}/verify?code=${validationCode}`
+				validationLink: `${SERVER_DETAILS.PROTOCOL}://${clientInstance.get("workspaceURL")}.${SERVER_DETAILS.DOMAIN}/verify#code=${validationCode}`
 			};
 
 			// Send welcome email to user
@@ -348,7 +348,7 @@ export function resendVerifyEmail(userId, clientId) {
 				// Build email params object
 				const emailParams = {
 					firstName: user.get("firstName"),
-					validationLink: `${SERVER_DETAILS.PROTOCOL}://${client.get("workspaceURL")}.${SERVER_DETAILS.DOMAIN}/verify?code=${validationCode}`
+					validationLink: `${SERVER_DETAILS.PROTOCOL}://${client.get("workspaceURL")}.${SERVER_DETAILS.DOMAIN}/verify#code=${validationCode}`
 				};
 
 				// Send welcome email to user

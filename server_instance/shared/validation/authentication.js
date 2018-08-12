@@ -219,11 +219,6 @@ const resetPassword = {
 };
 
 const verifyEmail = {
-	userId: {
-		presence: {
-			allowEmpty: true
-		}
-	},
 	code: {
 		presence: {
 			allowEmpty: false

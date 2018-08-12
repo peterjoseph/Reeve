@@ -93,20 +93,22 @@
 	"success": {
 		"clientRegistration": "Success! Your account has been created.",
 		"forgotPasswordEmail": "Success! If an account is associated with this email address, you will receive a message with instructions on how to login or reset the password to your account.",
-		"resetPassword": "Success! The password to your account has been reset."
+		"resetPassword": "Success! The password to your account has been reset.",
+		"verifyEmail": "Success! Your email address has been verified."
 	},
 	"error": {
 		"code": {
 			"404": "Page could not be found."
 		},
 		"somethingWentWrong": "Something went wrong!",
-		"outdatedBrowser": "Hey! You are using an out-of-date web browser version. This might cause compatibility issues with our service. Please consider upgrading your browser."
+		"outdatedBrowser": "Hey! You are using an out-of-date web browser version. This might cause compatibility issues with our service. Please consider upgrading your browser.",
+		"verifyEmail": "Error: Your email address could not be successfully verified. Please refresh the page and try again."
 	},
 	"validation": {
 		"userInvalidProperties": "User object contains invalid properties.",
 		"clientInvalidProperties": "Client object contains invalid properties.",
-		"resetPasswordInvalidProperties": "Reset password code contains invalid properties",
-		"verifyEmailInvalidProperties": "Verify email object contains invalid properties",
+		"resetPasswordInvalidProperties": "Reset password code contains invalid properties.",
+		"verifyEmailInvalidProperties": "Verify email object contains invalid properties.",
 		"validCharactersAZ09": "can only contain characters from a-z and 0-9, and no spaces",
 		"invalidPasswordSupplied": "Incorrect password supplied. Please enter a valid password.",
 		"invalidUserId": "Incorrect userId supplied",

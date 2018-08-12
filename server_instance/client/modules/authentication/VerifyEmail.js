@@ -4,6 +4,9 @@ import queryString from "query-string";
 import { connect } from "react-redux";
 import { bindActionCreators } from "redux";
 import { withRouter } from "react-router-dom";
+import { notify } from "react-notify-toast";
+
+import { t } from "shared/translations/i18n";
 import { extractSubdomain } from "shared/utilities/subdomain";
 import User from "common/components/User";
 import { VALIDATE_WORKSPACE_URL_REJECTED, VERIFY_EMAIL_REJECTED, validateWorkspaceURL, verifyUserEmail } from "common/store/reducers/authentication.js";
@@ -42,10 +45,19 @@ class VerifyEmail extends Component {
 
 			// Verify User Email
 			this.props.verifyUserEmail(body).then(result => {
+				// Hide existing notification as we need to re-render
+				notify.hide();
+
+				// Display error notification if the email cannot be verified
 				if (result.type === VERIFY_EMAIL_REJECTED) {
+					notify.show(`${t("error.verifyEmail")} (${result.payload.message})`, "error", -1);
 					this.props.history.replace("/");
 					return;
 				}
+
+				// Display success notification
+				notify.show(t("success.verifyEmail"), "success");
+				this.props.history.replace("/");
 			});
 		});
 	}
