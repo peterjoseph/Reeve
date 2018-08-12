@@ -1,6 +1,6 @@
 import { fromJS } from "immutable";
 import { REDUX_STATE } from "shared/constants";
-import { clientRegistration, userLogin, userLoad, workspaceURLValidation, forgotAccountDetails, resetPasswordCodeValidation, resetPassword } from "client/api/authentication.js";
+import { clientRegistration, userLogin, userLoad, workspaceURLValidation, forgotAccountDetails, resetPasswordCodeValidation, resetPassword, verifyEmail } from "client/api/authentication.js";
 
 import "./root";
 
@@ -33,6 +33,10 @@ export const VALIDATE_RESET_PASSWORD_CODE_REJECTED = AUTHENTICATION + "/VALIDATE
 export const RESET_PASSWORD_PENDING = AUTHENTICATION + "/RESET_PASSWORD_PENDING";
 export const RESET_PASSWORD_FULFILLED = AUTHENTICATION + "/RESET_PASSWORD_FULFILLED";
 export const RESET_PASSWORD_REJECTED = AUTHENTICATION + "/RESET_PASSWORD_REJECTED";
+
+export const VERIFY_EMAIL_PENDING = AUTHENTICATION + "/VERIFY_EMAIL_PENDING";
+export const VERIFY_EMAIL_FULFILLED = AUTHENTICATION + "/VERIFY_EMAIL_FULFILLED";
+export const VERIFY_EMAIL_REJECTED = AUTHENTICATION + "/VERIFY_EMAIL_REJECTED";
 
 const DEFAULT_STATE = fromJS({});
 
@@ -145,6 +149,12 @@ export default function authentication(state = DEFAULT_STATE, action) {
 					error: action.payload
 				})
 			);
+		case VERIFY_EMAIL_PENDING:
+			return state.setIn(["verifyEmail", "status"], REDUX_STATE.PENDING);
+		case VERIFY_EMAIL_FULFILLED:
+			return state.setIn(["verifyEmail", "status"], REDUX_STATE.FULFILLED);
+		case VERIFY_EMAIL_REJECTED:
+			return state.setIn(["verifyEmail", "status"], REDUX_STATE.REJECTED);
 		default:
 			return state;
 	}
@@ -298,6 +308,28 @@ export function resetUserPassword(body) {
 			error =>
 				dispatch({
 					type: RESET_PASSWORD_REJECTED,
+					payload: error
+				})
+		);
+	};
+}
+
+export function verifyUserEmail(body) {
+	return dispatch => {
+		dispatch({
+			type: VERIFY_EMAIL_PENDING
+		});
+
+		return verifyEmail(body).then(
+			result => {
+				return dispatch({
+					type: VERIFY_EMAIL_FULFILLED,
+					payload: result
+				});
+			},
+			error =>
+				dispatch({
+					type: VERIFY_EMAIL_REJECTED,
 					payload: error
 				})
 		);

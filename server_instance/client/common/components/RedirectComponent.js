@@ -11,28 +11,20 @@ class RedirectComponent extends Component {
 	render() {
 		const { path, user, role, feature, subscription } = this.props;
 
-		// Show register page if user is not logged in
-		if (path == "/register" && (!user || user.get("userId") === null)) {
+		const isNotLoggedIn = !user || user.get("userId") === null;
+
+		// Show certain routes if user is not logged in
+		if ((path == "/register" || path == "/forgot" || path == "/signin" || path == "/signin/help" || path == "/reset") && isNotLoggedIn) {
 			return <Route {...this.props} />;
 		}
 
-		// Show forgot password if user is not logged in
-		if (path == "/forgot" && (!user || user.get("userId") === null)) {
-			return <Route {...this.props} />;
-		}
-
-		// Show login page if user is not logged in
-		if ((path == "/signin" || path == "/signin/help") && (!user || user.get("userId") === null)) {
-			return <Route {...this.props} />;
-		}
-
-		// Show reset password page if user is not logged in
-		if (path == "/reset" && (!user || user.get("userId") === null)) {
+		// Show verify email page regardless of if user is logged in
+		if (path == "/verify") {
 			return <Route {...this.props} />;
 		}
 
 		// Redirect if user is not logged in and tries to access restricted page
-		if (path !== "/signin" && (!user || user.get("userId") === null)) {
+		if (path !== "/signin" && isNotLoggedIn) {
 			return <Redirect to="/signin" />;
 		}
 

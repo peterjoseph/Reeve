@@ -87,3 +87,15 @@ export function resetPassword(reset) {
 		})
 	});
 }
+
+// Verify User Email
+export function verifyEmail(user) {
+	return fetch.perform("/internal/verify_email/", {
+		method: "POST",
+		body: JSON.stringify({
+			emailAddress: user.emailAddress,
+			code: user.code,
+			workspaceURL: user.workspaceURL
+		})
+	});
+}
