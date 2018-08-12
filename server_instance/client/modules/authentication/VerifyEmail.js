@@ -5,36 +5,40 @@ import { connect } from "react-redux";
 import { bindActionCreators } from "redux";
 import { withRouter } from "react-router-dom";
 import { extractSubdomain } from "shared/utilities/subdomain";
-
-import { VALIDATE_WORKSPACE_URL_REJECTED, VERIFY_EMAIL_REJECTED, validateWorkspaceURL, verifyUserEmail } from "../../common/store/reducers/authentication.js";
+import User from "common/components/User";
+import { VALIDATE_WORKSPACE_URL_REJECTED, VERIFY_EMAIL_REJECTED, validateWorkspaceURL, verifyUserEmail } from "common/store/reducers/authentication.js";
 
 class VerifyEmail extends Component {
-	constructor(props) {
-		super(props);
-	}
-
 	componentDidMount() {
 		const subdomain = extractSubdomain(window.location.href);
 		this.props.validateWorkspaceURL(subdomain).then(result => {
 			if (result.type === VALIDATE_WORKSPACE_URL_REJECTED) {
 				this.props.history.replace("/");
+				return;
 			}
 
 			// Verify Code
 			const query = queryString.parse(this.props.history.location.hash);
 			const code = query.code;
 
+			// Create body component to send to back-end
+			const body = {
+				code: code,
+				workspaceURL: subdomain
+			};
+
+			// Check if user exists and isLoggedIn
+			if (this.props.user && this.props.user.get("userId")) {
+				body.userId = this.props.user.get("userId");
+			}
+
 			// Verify User Email
-			this.props
-				.verifyUserEmail({
-					code: code,
-					workspaceURL: subdomain
-				})
-				.then(result => {
-					if (result.type === VERIFY_EMAIL_REJECTED) {
-						this.props.history.replace("/");
-					}
-				});
+			this.props.verifyUserEmail(body).then(result => {
+				if (result.type === VERIFY_EMAIL_REJECTED) {
+					this.props.history.replace("/");
+					return;
+				}
+			});
 		});
 	}
 
@@ -45,6 +49,7 @@ class VerifyEmail extends Component {
 
 VerifyEmail.propTypes = {
 	history: PropTypes.object,
+	user: PropTypes.object,
 	validateWorkspaceURL: PropTypes.func,
 	verifyUserEmail: PropTypes.func
 };
@@ -56,4 +61,4 @@ function mapDispatchToProps(dispatch) {
 	};
 }
 
-export default withRouter(connect(null, mapDispatchToProps)(VerifyEmail));
+export default withRouter(User(connect(null, mapDispatchToProps)(VerifyEmail)));

@@ -94,6 +94,7 @@ export function verifyEmail(user) {
 		method: "POST",
 		body: JSON.stringify({
 			code: user.code,
+			userId: user.userId,
 			workspaceURL: user.workspaceURL
 		})
 	});
