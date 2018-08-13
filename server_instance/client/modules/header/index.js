@@ -16,9 +16,9 @@ class Header extends Component {
 		return (
 			<Fragment>
 				<VerifyEmail user={user} />
-				<nav className="navbar navbar-expand-lg navbar-light bg-light px-2 py-1">
-					<a className="navbar-brand" href="#">
-						<img src={require("distribution/images/icon_32.png")} width="32" height="32" />
+				<nav className="navbar navbar-expand-lg bg-primary navbar-dark px-2 py-1">
+					<a className="navbar-brand pl-2 mr-4" href="#">
+						<img src={require("distribution/images/icon_32_white.png")} width="32" height="32" />
 						<span className="ml-2 text-capitalize">{`${user.get("clientName")}`}</span>
 					</a>
 					<div className="navbar-nav-scroll">
