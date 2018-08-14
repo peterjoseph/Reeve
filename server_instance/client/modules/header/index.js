@@ -4,6 +4,11 @@ import PropTypes from "prop-types";
 import User from "common/components/User";
 import VerifyEmail from "./components/VerifyEmail";
 
+import NavLogo from "./components/NavLogo";
+import NavLink from "./components/NavLink";
+import NavDropdownMenu from "./components/NavDropdownMenu";
+import NavDropdownLink from "./components/NavDropdownLink";
+
 class Header extends Component {
 	render() {
 		const { user } = this.props;
@@ -17,65 +22,20 @@ class Header extends Component {
 			<Fragment>
 				<VerifyEmail user={user} />
 				<nav className="navbar navbar-expand-lg bg-primary navbar-dark px-2 py-1">
-					<a className="navbar-brand pl-2 mr-4" href="#">
-						<img src={require("distribution/images/icon_32_white.png")} width="32" height="32" />
-						<span className="ml-2 text-capitalize">{`${user.get("clientName")}`}</span>
-					</a>
+					<NavLogo />
 					<div className="navbar-nav-scroll">
 						<ul className="navbar-nav bd-navbar-nav flex-row">
-							<li className="nav-item active">
-								<a className="nav-link" href="#">
-									Home <span className="sr-only">(current)</span>
-								</a>
-							</li>
-							<li className="nav-item">
-								<a className="nav-link" href="#">
-									Features
-								</a>
-							</li>
-							<li className="nav-item">
-								<a className="nav-link" href="#">
-									Pricing
-								</a>
-							</li>
-							<li className="nav-item dropdown">
-								<a className="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-									Dropdown link
-								</a>
-								<div className="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
-									<a className="dropdown-item" href="#">
-										Action
-									</a>
-									<a className="dropdown-item" href="#">
-										Another action
-									</a>
-									<a className="dropdown-item" href="#">
-										Something else here
-									</a>
-								</div>
-							</li>
+							<NavLink />
+							<NavLink />
+							<NavLink />
 						</ul>
 					</div>
 					<ul className="navbar-nav flex-row ml-md-auto d-none d-md-flex">
-						<li className="nav-item dropdown">
-							<a className="nav-link" href="#" id="navbarDropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-								<span className="mr-2 text-capitalize">{`${user.get("firstName")} ${user.get("lastName")}`}</span>
-								<div className="rounded-circle d-inline-block" style={{ width: "36px", height: "36px" }}>
-									<img src="https://placehold.it/36" className="rounded-circle" />
-								</div>
-							</a>
-							<div className="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdownMenuLink">
-								<a className="dropdown-item" href="#">
-									Action
-								</a>
-								<a className="dropdown-item" href="#">
-									Another action
-								</a>
-								<a className="dropdown-item" href="#">
-									Something else here
-								</a>
-							</div>
-						</li>
+						<NavDropdownMenu>
+							<NavDropdownLink />
+							<NavDropdownLink />
+							<NavDropdownLink />
+						</NavDropdownMenu>
 					</ul>
 				</nav>
 			</Fragment>
