@@ -5,8 +5,8 @@ import User from "common/components/User";
 import VerifyEmail from "./components/VerifyEmail";
 
 import NavLogo from "./components/NavLogo";
-import NavLink from "./components/NavLink";
-import NavDropdownMenu from "./components/NavDropdownMenu";
+import NavMenuLink from "./components/NavMenuLink";
+import NavProfileMenu from "./components/NavProfileMenu";
 import NavDropdownLink from "./components/NavDropdownLink";
 
 class Header extends Component {
@@ -25,17 +25,17 @@ class Header extends Component {
 					<NavLogo />
 					<div className="navbar-nav-scroll">
 						<ul className="navbar-nav bd-navbar-nav flex-row">
-							<NavLink />
-							<NavLink />
-							<NavLink />
+							<NavMenuLink title={"Home"} route={"/"} />
+							<NavMenuLink title={"Activity"} route={"/activity"} />
+							<NavMenuLink title={"Contacts"} route={"/contacts"} />
 						</ul>
 					</div>
 					<ul className="navbar-nav flex-row ml-md-auto d-none d-md-flex">
-						<NavDropdownMenu>
+						<NavProfileMenu>
 							<NavDropdownLink />
 							<NavDropdownLink />
 							<NavDropdownLink />
-						</NavDropdownMenu>
+						</NavProfileMenu>
 					</ul>
 				</nav>
 			</Fragment>

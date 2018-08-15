@@ -1,9 +1,9 @@
-import React, { Fragment, Component } from "react";
+import React, { Component } from "react";
 import PropTypes from "prop-types";
 
 import User from "common/components/User";
 
-class NavDropdownMenu extends Component {
+class NavProfileMenu extends Component {
 	render() {
 		const { user, children } = this.props;
 
@@ -23,9 +23,9 @@ class NavDropdownMenu extends Component {
 	}
 }
 
-NavDropdownMenu.propTypes = {
+NavProfileMenu.propTypes = {
 	user: PropTypes.object,
-	children: PropTypes.object
+	children: PropTypes.array
 };
 
-export default User(NavDropdownMenu);
+export default User(NavProfileMenu);
