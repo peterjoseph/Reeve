@@ -25,7 +25,7 @@ class Header extends Component {
 					<NavLogo />
 					<div className="navbar-nav-scroll">
 						<ul className="navbar-nav bd-navbar-nav flex-row">
-							<NavMenuLink title={"Home"} route={"/"} />
+							<NavMenuLink title={"Dashboard"} route={"/"} />
 							<NavMenuLink title={"Activity"} route={"/activity"} />
 							<NavMenuLink title={"Contacts"} route={"/contacts"} />
 						</ul>

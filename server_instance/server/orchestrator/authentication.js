@@ -262,6 +262,7 @@ export function loadUser(received) {
 				userId: user.get("id"),
 				firstName: user.get("firstName"),
 				lastName: user.get("lastName"),
+				profilePhoto: user.get("profilePhoto"),
 				emailAddress: user.get("emailAddress"),
 				emailVerified: Boolean(Number(user.get("emailVerified"))),
 				clientName: client.get("name"),

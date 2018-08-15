@@ -21,6 +21,11 @@ module.exports = function(sequelize, DataTypes) {
 				defaultValue: "",
 				field: "lastName"
 			},
+			profilePhoto: {
+				type: DataTypes.STRING(255),
+				allowNull: true,
+				field: "profilePhoto"
+			},
 			clientId: {
 				type: DataTypes.INTEGER(11).UNSIGNED,
 				allowNull: false,
