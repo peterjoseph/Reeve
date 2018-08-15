@@ -4,6 +4,7 @@
 	},
 	"action": {
 		"login": "Login",
+		"logout": "Logout",
 		"signUp": "Sign Up",
 		"signIn": "Sign In",
 		"register": "Register",
@@ -27,7 +28,13 @@
 		"privacyPolicy": "Privacy Policy",
 		"accountDetails": "Account Details",
 		"resetPassword": "Reset Password",
-		"error": "Error"
+		"error": "Error",
+		"dashboard": "Dashboard",
+		"activity": "Activity",
+		"contacts": "Contacts",
+		"profile": "Profile",
+		"settings": "Settings",
+		"billing": "Billing"
 	},
 	"numbers": {
 		"1": "1",

@@ -1,5 +1,6 @@
 import React, { Fragment, Component } from "react";
 import PropTypes from "prop-types";
+import { t } from "shared/translations/i18n";
 
 import User from "common/components/User";
 import VerifyEmail from "./components/VerifyEmail";
@@ -25,16 +26,17 @@ class Header extends Component {
 					<NavLogo />
 					<div className="navbar-nav-scroll">
 						<ul className="navbar-nav bd-navbar-nav flex-row">
-							<NavMenuLink title={"Dashboard"} route={"/"} />
-							<NavMenuLink title={"Activity"} route={"/activity"} />
-							<NavMenuLink title={"Contacts"} route={"/contacts"} />
+							<NavMenuLink title={t("label.dashboard")} route={"/"} />
+							<NavMenuLink title={t("label.activity")} route={"/activity"} />
+							<NavMenuLink title={t("label.contacts")} route={"/contacts"} />
 						</ul>
 					</div>
 					<ul className="navbar-nav flex-row ml-md-auto d-none d-md-flex">
 						<NavProfileMenu>
-							<NavDropdownLink />
-							<NavDropdownLink />
-							<NavDropdownLink />
+							<NavDropdownLink title={t("label.profile")} route={"/profile"} />
+							<NavDropdownLink title={t("label.settings")} route={"/settings"} />
+							<NavDropdownLink title={t("label.billing")} route={"/billing"} />
+							<NavDropdownLink title={t("action.logout")} route={"/logout"} />
 						</NavProfileMenu>
 					</ul>
 				</nav>
