@@ -109,7 +109,8 @@
 		},
 		"somethingWentWrong": "Something went wrong!",
 		"outdatedBrowser": "Hey! You are using an out-of-date web browser version. This might cause compatibility issues with our service. Please consider upgrading your browser.",
-		"verifyEmail": "Error: Your email address could not be successfully verified. Please refresh the page and try again."
+		"verifyEmail": "Error: Your email address could not be successfully verified. Please refresh the page and try again.",
+		"logout": "Error: We were unable to logout of your account. Please refresh the page and try again."
 	},
 	"validation": {
 		"userInvalidProperties": "User object contains invalid properties.",

@@ -32,6 +32,13 @@ export function userLogin(user) {
 	});
 }
 
+// User Logout
+export function userLogout() {
+	return fetch.perform("/internal/logout_user/", {
+		method: "POST"
+	});
+}
+
 // Load user properties
 export function userLoad() {
 	return fetch.perform("/internal/load_user/", {

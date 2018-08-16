@@ -1,6 +1,16 @@
 import { fromJS } from "immutable";
 import { REDUX_STATE } from "shared/constants";
-import { clientRegistration, userLogin, userLoad, workspaceURLValidation, forgotAccountDetails, resetPasswordCodeValidation, resetPassword, verifyEmail } from "client/api/authentication.js";
+import {
+	clientRegistration,
+	userLogin,
+	userLogout,
+	userLoad,
+	workspaceURLValidation,
+	forgotAccountDetails,
+	resetPasswordCodeValidation,
+	resetPassword,
+	verifyEmail
+} from "client/api/authentication.js";
 
 import "./root";
 
@@ -13,6 +23,10 @@ export const VALIDATE_WORKSPACE_URL_REJECTED = AUTHENTICATION + "/VALIDATE_WORKS
 export const LOGIN_PENDING = AUTHENTICATION + "/LOGIN_PENDING";
 export const LOGIN_FULFILLED = AUTHENTICATION + "/LOGIN_FULFILLED";
 export const LOGIN_REJECTED = AUTHENTICATION + "/LOGIN_REJECTED";
+
+export const LOGOUT_PENDING = AUTHENTICATION + "/LOGOUT_PENDING";
+export const LOGOUT_FULFILLED = AUTHENTICATION + "/LOGOUT_FULFILLED";
+export const LOGOUT_REJECTED = AUTHENTICATION + "/LOGOUT_REJECTED";
 
 export const LOAD_USER_PENDING = AUTHENTICATION + "/LOAD_USER_PENDING";
 export const LOAD_USER_FULFILLED = AUTHENTICATION + "/LOAD_USER_FULFILLED";
@@ -61,6 +75,12 @@ export default function authentication(state = DEFAULT_STATE, action) {
 					error: action.payload
 				})
 			);
+		case LOGOUT_PENDING:
+			return state.setIn(["userLogout", "status"], REDUX_STATE.PENDING);
+		case LOGOUT_FULFILLED:
+			return state.setIn(["userLogout", "status"], REDUX_STATE.FULFILLED);
+		case LOGOUT_REJECTED:
+			return state.setIn(["userLogout", "status"], REDUX_STATE.REJECTED);
 		case LOAD_USER_PENDING:
 			return state.setIn(["user", "status"], REDUX_STATE.PENDING);
 		case LOAD_USER_FULFILLED:
@@ -198,6 +218,28 @@ export function loginUser(body) {
 			error =>
 				dispatch({
 					type: LOGIN_REJECTED,
+					payload: error
+				})
+		);
+	};
+}
+
+export function logoutUser() {
+	return dispatch => {
+		dispatch({
+			type: LOGOUT_PENDING
+		});
+
+		return userLogout().then(
+			result => {
+				return dispatch({
+					type: LOGOUT_FULFILLED,
+					payload: result
+				});
+			},
+			error =>
+				dispatch({
+					type: LOGOUT_REJECTED,
 					payload: error
 				})
 		);

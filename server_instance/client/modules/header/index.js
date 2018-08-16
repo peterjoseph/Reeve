@@ -1,6 +1,13 @@
 import React, { Fragment, Component } from "react";
 import PropTypes from "prop-types";
+import { connect } from "react-redux";
+import { bindActionCreators } from "redux";
+import { notify } from "react-notify-toast";
+
 import { t } from "shared/translations/i18n";
+import fetch from "shared/utilities/fetch";
+import { clearToken } from "shared/utilities/securityToken";
+import { AUTHENTICATION, LOGOUT_REJECTED, logoutUser } from "common/store/reducers/authentication";
 
 import User from "common/components/User";
 import VerifyEmail from "./components/VerifyEmail";
@@ -11,14 +18,28 @@ import NavProfileMenu from "./components/NavProfileMenu";
 import NavDropdownLink from "./components/NavDropdownLink";
 
 class Header extends Component {
-	constructor() {
-		super();
+	constructor(props) {
+		super(props);
 
 		this.logout = this.logout.bind(this);
 	}
 
 	logout(evt) {
 		evt.preventDefault();
+
+		// Remove user session from store
+		this.props.logoutUser().then(result => {
+			if (result.type === LOGOUT_REJECTED) {
+				// Display error notification
+				notify.show(t("error.logout"), "error");
+			} else {
+				clearToken(); // Clear security token in browser
+				fetch.clearSecurityToken(); // Clear token in fetch header
+
+				// Refresh Browser Window
+				window.location.reload();
+			}
+		});
 	}
 
 	render() {
@@ -46,6 +67,7 @@ class Header extends Component {
 							<NavDropdownLink title={t("label.profile")} route={"/profile"} />
 							<NavDropdownLink title={t("label.billing")} route={"/billing"} />
 							<NavDropdownLink title={t("label.settings")} route={"/settings"} />
+							<div className="dropdown-divider" />
 							<button className={"btn btn-link dropdown-item"} onClick={this.logout}>
 								{t("action.logout")}
 							</button>
@@ -58,7 +80,21 @@ class Header extends Component {
 }
 
 Header.propTypes = {
-	user: PropTypes.object
+	user: PropTypes.object,
+	logoutUser: PropTypes.func,
+	logoutStatus: PropTypes.string
 };
 
-export default User(Header);
+function mapStateToProps(state, props) {
+	return {
+		logoutStatus: state.getIn([AUTHENTICATION, "userLogout", "status"])
+	};
+}
+
+function mapDispatchToProps(dispatch) {
+	return {
+		logoutUser: bindActionCreators(logoutUser, dispatch)
+	};
+}
+
+export default User(connect(mapStateToProps, mapDispatchToProps)(Header));
