@@ -34,7 +34,7 @@ export function userLogin(user) {
 
 // User Logout
 export function userLogout() {
-	return fetch.perform("/internal/logout_user/", {
+	return fetch.perform("/internal/logout/", {
 		method: "POST"
 	});
 }

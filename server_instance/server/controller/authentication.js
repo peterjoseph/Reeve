@@ -105,6 +105,14 @@ module.exports = function(router) {
 		);
 	});
 
+	// Logout of user account
+	router.post("/internal/logout/", passport.perform().authenticate("jwt"), function(req, res) {
+		// Destroy the session
+		req.session.destroy();
+
+		return res.status(200).send({ status: 200, message: t("label.success") });
+	});
+
 	// Load user properties
 	router.get("/internal/load_user/", passport.perform().authenticate("jwt"), function(req, res, next) {
 		loadUser(req.user).then(

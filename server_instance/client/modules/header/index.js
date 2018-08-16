@@ -37,7 +37,8 @@ class Header extends Component {
 				fetch.clearSecurityToken(); // Clear token in fetch header
 
 				// Refresh Browser Window
-				window.location.reload();
+				window.location.hash = "";
+				window.location.reload(true);
 			}
 		});
 	}
