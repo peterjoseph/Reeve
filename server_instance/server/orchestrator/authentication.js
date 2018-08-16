@@ -258,7 +258,7 @@ export function loadUser(received) {
 			roles = roles.map(result => result.get("roleId"));
 
 			// Create user properties object to be returned back to the front-end
-			const userProperties = {
+			let userProperties = {
 				userId: user.get("id"),
 				firstName: user.get("firstName"),
 				lastName: user.get("lastName"),
@@ -274,6 +274,21 @@ export function loadUser(received) {
 				clientFeatures: features,
 				userRoles: roles
 			};
+
+			// Append styling if client has styling feature enabled
+			if (arrayContains(FEATURES.STYLING, features)) {
+				let styling = await models().clientStyling.findOne({ where: { clientId: client.get("id") } }, { transaction: transaction });
+				if (styling != null) {
+					userProperties = {
+						...userProperties,
+						logoImage: styling.get("logoImage"),
+						backgroundImage: styling.get("backgroundImage"),
+						backgroundColor: styling.get("backgroundColor"),
+						primaryColor: styling.get("primaryColor"),
+						secondaryColor: styling.get("secondaryColor")
+					};
+				}
+			}
 
 			// Build our response object
 			const response = { status: 200, message: t("label.success"), user: userProperties };
