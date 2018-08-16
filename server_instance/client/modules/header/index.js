@@ -11,6 +11,16 @@ import NavProfileMenu from "./components/NavProfileMenu";
 import NavDropdownLink from "./components/NavDropdownLink";
 
 class Header extends Component {
+	constructor() {
+		super();
+
+		this.logout = this.logout.bind(this);
+	}
+
+	logout(evt) {
+		evt.preventDefault();
+	}
+
 	render() {
 		const { user } = this.props;
 
@@ -31,12 +41,14 @@ class Header extends Component {
 							<NavMenuLink title={t("label.contacts")} route={"/contacts"} />
 						</ul>
 					</div>
-					<ul className="navbar-nav flex-row ml-md-auto d-none d-md-flex">
+					<ul className="navbar-nav bd-navbar-nav flex-row ml-md-auto d-none d-md-flex">
 						<NavProfileMenu>
 							<NavDropdownLink title={t("label.profile")} route={"/profile"} />
-							<NavDropdownLink title={t("label.settings")} route={"/settings"} />
 							<NavDropdownLink title={t("label.billing")} route={"/billing"} />
-							<NavDropdownLink title={t("action.logout")} route={"/logout"} />
+							<NavDropdownLink title={t("label.settings")} route={"/settings"} />
+							<button className={"btn btn-link dropdown-item"} onClick={this.logout}>
+								{t("action.logout")}
+							</button>
 						</NavProfileMenu>
 					</ul>
 				</nav>
