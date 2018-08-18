@@ -35,7 +35,7 @@ class NavProfileMenu extends Component {
 		const { menuVisible } = this.state;
 
 		return (
-			<li className="nav-item dropdown">
+			<li className="nav-item d-none d-lg-block dropdown">
 				<Link to="/" className={`nav-link ${menuVisible ? "active" : ""}`} aria-haspopup="true" aria-expanded={menuVisible ? "true" : "false"} onClick={this.showMenu}>
 					<span className="mr-2 text-capitalize dropdown-toggle">{`${user.get("firstName")} ${user.get("lastName")}`}</span>
 					<div className="header-profile-icon rounded-circle d-inline-block">

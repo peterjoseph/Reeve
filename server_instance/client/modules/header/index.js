@@ -56,14 +56,12 @@ class Header extends Component {
 				<VerifyEmail user={user} />
 				<nav className="navbar navbar-expand-lg bg-primary navbar-dark px-2 py-1">
 					<NavLogo />
-					<div className="navbar-nav-scroll">
+					<div className="navbar-nav-scroll d-none d-lg-block">
 						<ul className="navbar-nav bd-navbar-nav flex-row">
 							<NavMenuLink title={t("label.dashboard")} route={"/"} />
-							<NavMenuLink title={t("label.activity")} route={"/activity"} />
-							<NavMenuLink title={t("label.contacts")} route={"/contacts"} />
 						</ul>
 					</div>
-					<ul className="navbar-nav bd-navbar-nav flex-row ml-md-auto d-none d-md-flex">
+					<ul className="navbar-nav bd-navbar-nav flex-row ml-auto d-none d-flex">
 						<NavProfileMenu>
 							<NavDropdownLink title={t("label.profile")} route={"/profile"} />
 							<NavDropdownLink title={t("label.billing")} route={"/billing"} />
@@ -74,6 +72,9 @@ class Header extends Component {
 							</button>
 						</NavProfileMenu>
 					</ul>
+					<button className="navbar-toggler ml-2" type="button" aria-expanded="false">
+						<span className="navbar-toggler-icon" />
+					</button>
 				</nav>
 			</Fragment>
 		);
