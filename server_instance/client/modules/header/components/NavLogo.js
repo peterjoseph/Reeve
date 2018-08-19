@@ -12,7 +12,7 @@ class Header extends Component {
 		const clientLogo = user.get("logoImage") != null && user.get("logoImage") != "";
 
 		return (
-			<Link to={"/"} className="navbar-brand pl-2 mr-4" href="#">
+			<Link to={"/"} className="navbar-brand mr-4" href="#">
 				{clientLogo ? <img src={user.get("logoImage")} height="32" /> : <span className="ml-2 text-capitalize">{`${user.get("clientName")}`}</span>}
 			</Link>
 		);

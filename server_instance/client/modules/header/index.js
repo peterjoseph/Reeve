@@ -21,7 +21,27 @@ class Header extends Component {
 	constructor(props) {
 		super(props);
 
+		this.state = {
+			menuVisible: false
+		};
+
+		this.showMenu = this.showMenu.bind(this);
+		this.closeMenu = this.closeMenu.bind(this);
 		this.logout = this.logout.bind(this);
+	}
+
+	showMenu(evt) {
+		evt.preventDefault();
+
+		this.setState({ menuVisible: true }, () => {
+			document.addEventListener("click", this.closeMenu);
+		});
+	}
+
+	closeMenu() {
+		this.setState({ menuVisible: false }, () => {
+			document.removeEventListener("click", this.closeMenu);
+		});
 	}
 
 	logout(evt) {
@@ -45,6 +65,7 @@ class Header extends Component {
 
 	render() {
 		const { user } = this.props;
+		const { menuVisible } = this.state;
 
 		// Hide header if user is not logged in
 		if (!user || !user.get("userId")) {
@@ -54,14 +75,9 @@ class Header extends Component {
 		return (
 			<Fragment>
 				<VerifyEmail user={user} />
-				<nav className="navbar navbar-expand-lg bg-primary navbar-dark px-2 py-1">
+				<nav className="navbar navbar-expand-md bg-primary navbar-dark px-2 py-1">
 					<NavLogo />
-					<div className="navbar-nav-scroll d-none d-lg-block">
-						<ul className="navbar-nav bd-navbar-nav flex-row">
-							<NavMenuLink title={t("label.dashboard")} route={"/"} />
-						</ul>
-					</div>
-					<ul className="navbar-nav bd-navbar-nav flex-row ml-auto d-none d-flex">
+					<ul className="navbar-nav bd-navbar-nav flex-row ml-auto d-flex order-md-1">
 						<NavProfileMenu>
 							<NavDropdownLink title={t("label.profile")} route={"/profile"} />
 							<NavDropdownLink title={t("label.billing")} route={"/billing"} />
@@ -72,9 +88,16 @@ class Header extends Component {
 							</button>
 						</NavProfileMenu>
 					</ul>
-					<button className="navbar-toggler ml-2" type="button" aria-expanded="false">
+					<button className="navbar-toggler border-0 ml-2" type="button" aria-expanded="false" onClick={this.showMenu}>
 						<span className="navbar-toggler-icon" />
 					</button>
+					<div className={`collapse navbar-collapse ${menuVisible ? "show" : ""}`}>
+						<div className="navbar-nav-scroll">
+							<ul className="navbar-nav bd-navbar-nav flex-row">
+								<NavMenuLink title={t("label.dashboard")} route={"/"} />
+							</ul>
+						</div>
+					</div>
 				</nav>
 			</Fragment>
 		);
