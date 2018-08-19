@@ -166,6 +166,26 @@ export function authenticateWithToken(req, res, next) {
 				return next(error);
 			}
 			if (user) {
+				// Store lastLoginDate in database
+				database().transaction(async function(transaction) {
+					try {
+						const currentTime = moment(new Date()).format("YYYY-MM-DD HH:mm:ss");
+
+						// Load user from database
+						const userObject = await models().user.findOne({ where: { id: user.userId, clientId: user.clientId, active: true } }, { transaction: transaction });
+
+						// Throw an error if user could not be loaded from database
+						if (userObject === null) {
+							throw new ServerResponseError(403, t("validation.tokenInvalidOrExpired"), { token: [t("validation.tokenInvalidOrExpired")] });
+						}
+						userObject.updateAttributes({
+							lastLoginDate: currentTime
+						});
+					} catch (error) {
+						throw error;
+					}
+				});
+
 				// Create a response object
 				const response = { status: 200, message: t("label.success") };
 				// Return the response object
@@ -206,6 +226,12 @@ export function authenticateWithoutToken(received) {
 			// Create the JSON Web Token for the User
 			const token = jwt.sign({ userId: user.get("id"), clientId: client.get("id"), workspaceURL: client.get("workspaceURL") }, config.authentication.jwtSecret, {
 				expiresIn: config.authentication.expiry
+			});
+
+			// Update lastLoginDate in database
+			const currentTime = moment(new Date()).format("YYYY-MM-DD HH:mm:ss");
+			user.updateAttributes({
+				lastLoginDate: currentTime
 			});
 
 			// Build our response object
@@ -331,12 +357,9 @@ export function resendVerifyEmail(userId, clientId) {
 							[Op.between]: [
 								// Find all emails of type sent in last 5 minutes
 								moment(currentTime)
-									.utc()
 									.subtract(5, "minutes")
 									.format("YYYY-MM-DD HH:mm:ss"),
-								moment(currentTime)
-									.utc()
-									.format("YYYY-MM-DD HH:mm:ss")
+								moment(currentTime).format("YYYY-MM-DD HH:mm:ss")
 							]
 						}
 					}
@@ -402,12 +425,9 @@ export function forgotAccountPasswordEmail(received) {
 							[database().Op.between]: [
 								// Find all emails of type sent in last 5 minutes
 								moment(currentTime)
-									.utc()
 									.subtract(5, "minutes")
 									.format("YYYY-MM-DD HH:mm:ss"),
-								moment(currentTime)
-									.utc()
-									.format("YYYY-MM-DD HH:mm:ss")
+								moment(currentTime).format("YYYY-MM-DD HH:mm:ss")
 							]
 						}
 					}
@@ -475,12 +495,9 @@ export function forgotAccountEmail(received) {
 							[database().Op.between]: [
 								// Find all emails of type sent in last 5 minutes
 								moment(currentTime)
-									.utc()
 									.subtract(5, "minutes")
 									.format("YYYY-MM-DD HH:mm:ss"),
-								moment(currentTime)
-									.utc()
-									.format("YYYY-MM-DD HH:mm:ss")
+								moment(currentTime).format("YYYY-MM-DD HH:mm:ss")
 							]
 						}
 					}
@@ -591,9 +608,7 @@ export function validateResetPasswordCode(received) {
 			// Throw error if code has expired based on gracePeriod
 			const currentTime = new Date();
 
-			const timeWindow = moment(currentTime)
-				.utc()
-				.subtract(reset.get("gracePeriod"), "hour");
+			const timeWindow = moment(currentTime).subtract(reset.get("gracePeriod"), "hour");
 
 			if (!moment(reset.get("createdAt")).isBetween(timeWindow, currentTime)) {
 				throw new ServerResponseError(403, t("validation.resetPasswordInvalidProperties"), { code: [t("validation.resetCodeExpired", { gracePeriod: reset.get("gracePeriod") })] });
@@ -643,9 +658,7 @@ export function resetUserPassword(received) {
 			// Throw error if code has expired based on gracePeriod
 			const currentTime = new Date();
 
-			const timeWindow = moment(currentTime)
-				.utc()
-				.subtract(reset.get("gracePeriod"), "hour");
+			const timeWindow = moment(currentTime).subtract(reset.get("gracePeriod"), "hour");
 
 			if (!moment(reset.get("createdAt")).isBetween(timeWindow, currentTime)) {
 				throw new ServerResponseError(403, t("validation.resetPasswordInvalidProperties"), { code: [t("validation.resetCodeExpired", { gracePeriod: reset.get("gracePeriod") })] });
@@ -724,9 +737,7 @@ export function verifyUserEmail(received) {
 
 			// Throw error if code has expired based on gracePeriod
 			const currentTime = new Date();
-			const timeWindow = moment(currentTime)
-				.utc()
-				.subtract(emailVerificationCode.get("gracePeriod"), "hour");
+			const timeWindow = moment(currentTime).subtract(emailVerificationCode.get("gracePeriod"), "hour");
 			if (!moment(emailVerificationCode.get("createdAt")).isBetween(timeWindow, currentTime)) {
 				throw new ServerResponseError(403, t("validation.verifyEmailInvalidProperties"), {
 					code: [t("validation.verifyCodeExpired", { gracePeriod: emailVerificationCode.get("gracePeriod") })]
