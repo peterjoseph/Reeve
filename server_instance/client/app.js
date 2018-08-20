@@ -9,7 +9,8 @@ import { t } from "shared/translations/i18n";
 import { SERVER_DETAILS, REDUX_STATE } from "shared/constants";
 
 import Router from "./Router";
-import Loading from "./common/components/Loading";
+import GlobalStyling from "common/components/GlobalStyling";
+import Loading from "common/components/Loading";
 
 import { AUTHENTICATION, LOGIN_REJECTED, loginUser, loadUser } from "./common/store/reducers/authentication";
 import { getToken, saveToken, clearToken } from "shared/utilities/securityToken";
@@ -86,7 +87,17 @@ class App extends Component {
 	}
 
 	render() {
-		return <Fragment>{this.state.loading ? <Loading /> : <Router {...this.props} />}</Fragment>;
+		return (
+			<Fragment>
+				{this.state.loading ? (
+					<Loading />
+				) : (
+					<GlobalStyling>
+						<Router {...this.props} />
+					</GlobalStyling>
+				)}
+			</Fragment>
+		);
 	}
 }
 
