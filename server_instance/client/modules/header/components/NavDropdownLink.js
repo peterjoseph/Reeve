@@ -20,7 +20,7 @@ class NavDropdownLink extends Component {
 		}
 
 		// Hide if user has incorrect subscription
-		if (subscription && (!user.get("clientFeatures") || !arrayContains(subscription, user.get("subscriptionId").toJS() || []))) {
+		if (subscription && (!user.get("subscriptionId") || !arrayHasAny(subscription, user.get("subscriptionId") || []))) {
 			return null;
 		}
 

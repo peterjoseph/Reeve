@@ -14,15 +14,18 @@ module.exports = Object.freeze({
 		}
 	},
 	FEATURES: {
-		STYLING: 1
+		STYLING: 1,
+		BILLING: 2
 	},
 	ROLE_TYPE: {
 		UNREGISTERED: 0,
 		OWNER: 1,
-		ADMINISTRATOR: 2
+		ADMINISTRATOR: 2,
+		FINANCE: 3
 	},
 	SUBSCRIPTION_TYPE: {
-		TRIAL: 1
+		TRIAL: 1,
+		BASIC: 2
 	},
 	EMAIL_TYPE: {
 		CLIENT_WELCOME: 1,

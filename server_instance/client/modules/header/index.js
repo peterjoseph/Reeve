@@ -4,7 +4,7 @@ import { connect } from "react-redux";
 import { bindActionCreators } from "redux";
 import { notify } from "react-notify-toast";
 
-import { ROLE_TYPE } from "shared/constants";
+import { ROLE_TYPE, FEATURES, SUBSCRIPTION_TYPE } from "shared/constants";
 import { t } from "shared/translations/i18n";
 import fetch from "shared/utilities/fetch";
 import { clearToken } from "shared/utilities/securityToken";
@@ -81,7 +81,13 @@ class Header extends Component {
 					<ul className="navbar-nav bd-navbar-nav flex-row ml-auto d-flex order-md-1">
 						<NavProfileMenu>
 							<NavDropdownLink title={t("label.profile")} route={"/profile"} />
-							<NavDropdownLink title={t("label.billing")} route={"/billing"} role={[ROLE_TYPE.OWNER]} />
+							<NavDropdownLink
+								title={t("label.billing")}
+								route={"/billing"}
+								role={[ROLE_TYPE.OWNER, ROLE_TYPE.FINANCE]}
+								feature={[FEATURES.BILLING]}
+								subscription={[SUBSCRIPTION_TYPE.TRIAL, SUBSCRIPTION_TYPE.BASIC]}
+							/>
 							<NavDropdownLink title={t("label.settings")} route={"/settings"} />
 							<div className="dropdown-divider" />
 							<button className={"btn btn-link dropdown-item"} onClick={this.logout}>

@@ -44,8 +44,8 @@ class RedirectComponent extends Component {
 		}
 
 		// Show Error 404 if user has incorrect subscription
-		if (subscription && (!user.get("clientFeatures") || !arrayContains(subscription, user.get("subscriptionId").toJS() || []))) {
-			return <Route {...this.props} render={() => <MissingPath />} />;
+		if (subscription && (!user.get("subscriptionId") || !arrayHasAny(subscription, user.get("subscriptionId") || []))) {
+			return null;
 		}
 
 		return <Route {...this.props} />;

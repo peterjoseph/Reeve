@@ -1,7 +1,7 @@
 import React, { Fragment, Component } from "react";
 import PropTypes from "prop-types";
 import { BrowserRouter, Switch } from "react-router-dom";
-import { ROLE_TYPE } from "shared/constants";
+import { ROLE_TYPE, FEATURES, SUBSCRIPTION_TYPE } from "shared/constants";
 
 import User from "common/components/User";
 import RedirectComponent from "common/components/RedirectComponent";
@@ -29,7 +29,14 @@ class Router extends Component {
 						<RedirectComponent exact path="/forgot" role={[ROLE_TYPE.UNREGISTERED]} user={user} render={() => <Authentication />} />
 						<RedirectComponent exact path="/reset" role={[ROLE_TYPE.UNREGISTERED]} user={user} render={() => <Authentication />} />
 						<RedirectComponent exact path="/verify" role={[ROLE_TYPE.UNREGISTERED, ROLE_TYPE.OWNER]} user={user} render={() => <Authentication />} />
-						<RedirectComponent path="/billing" role={[ROLE_TYPE.OWNER]} user={user} render={() => <Billing />} />
+						<RedirectComponent
+							path="/billing"
+							role={[ROLE_TYPE.OWNER, ROLE_TYPE.FINANCE]}
+							feature={[FEATURES.BILLING]}
+							subscription={[SUBSCRIPTION_TYPE.TRIAL, SUBSCRIPTION_TYPE.BASIC]}
+							user={user}
+							render={() => <Billing />}
+						/>
 						<RedirectComponent component={MissingPath} />
 					</Switch>
 				</Fragment>
