@@ -144,6 +144,11 @@ app.use(function noCache(req, res, next) {
 // Initialise Email Service
 nodemailer.initialize();
 
+// Initialise Stripe payment service
+if (config.stripe.enabled) {
+	require("./services/stripe");
+}
+
 // Handle server errors
 app.use(function errorHandler(err, req, res, next) {
 	// Report to Sentry

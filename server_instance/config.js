@@ -38,6 +38,10 @@ let config = {
 			password: process.env.EMAIL_AUTH_PASSWORD
 		}
 	},
+	stripe: {
+		enabled: process.env.STRIPE_ENABLED,
+		secretKey: process.env.STRIPE_SECRET_KEY
+	},
 	redis: {
 		host: process.env.R_HOST,
 		port: process.env.R_PORT,

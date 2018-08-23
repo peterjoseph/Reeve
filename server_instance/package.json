@@ -82,6 +82,7 @@
 		"sequelize": "^4.38.0",
 		"serialize-error": "^2.1.0",
 		"serve-favicon": "^2.5.0",
+		"stripe": "^6.7.0",
 		"subdomain-router-middleware": "^1.0.0",
 		"underscore": "^1.9.0",
 		"uniqid": "^5.0.3",
