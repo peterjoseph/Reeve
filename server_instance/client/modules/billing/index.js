@@ -8,9 +8,11 @@ import { withRouter } from "react-router-dom";
 
 import User from "common/components/User";
 
+import SubscriptionList from "./components/SubscriptionList";
+
 class Billing extends Component {
 	render() {
-		return <div>Billing</div>;
+		return <SubscriptionList />;
 	}
 }
 
