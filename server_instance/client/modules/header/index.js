@@ -17,6 +17,7 @@ import NavLogo from "./components/NavLogo";
 import NavMenuLink from "./components/NavMenuLink";
 import NavProfileMenu from "./components/NavProfileMenu";
 import NavDropdownLink from "./components/NavDropdownLink";
+import ActiveTrial from "./components/ActiveTrial";
 
 class Header extends Component {
 	constructor(props) {
@@ -79,6 +80,7 @@ class Header extends Component {
 				<nav className="navbar navbar-expand-md bg-primary navbar-dark px-2 py-1">
 					<NavLogo />
 					<ul className="navbar-nav bd-navbar-nav flex-row ml-auto d-flex order-md-1">
+						<ActiveTrial />
 						<NavProfileMenu>
 							<NavDropdownLink title={t("label.profile")} route={"/profile"} />
 							<NavDropdownLink
