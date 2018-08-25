@@ -76,6 +76,7 @@
 			}
 		},
 		"billing": {
+			"trialExpired": "Your trial has expired",
 			"trialDaysLeft": "{{ count }} day left on trial",
 			"trialDaysLeft_plural": "{{ count }} days left on trial"
 		}

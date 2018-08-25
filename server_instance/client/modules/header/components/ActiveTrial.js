@@ -19,14 +19,14 @@ class ActiveTrial extends Component {
 		}
 
 		// Calculate days left in trial
-		const startDate = moment(user.get("subscriptionStartDate"));
+		const currentDate = moment(new Date());
 		const endDate = moment(user.get("subscriptionEndDate"));
-		const trialDaysLeft = startDate.diff(endDate, "days");
+		const trialDaysLeft = endDate.diff(currentDate, "days");
 
 		return (
 			<li className="nav-item mx-2 d-none d-md-inline-block">
 				<Link to={{ pathname: "/billing" }} className={"nav-link m-1"}>
-					<span className="badge badge-danger p-2">{t("components.billing.trialDaysLeft", { count: trialDaysLeft })}</span>
+					<span className="badge badge-danger p-2">{trialDaysLeft > 0 ? t("components.billing.trialDaysLeft", { count: trialDaysLeft }) : t("components.billing.trialExpired")}</span>
 				</Link>
 			</li>
 		);
