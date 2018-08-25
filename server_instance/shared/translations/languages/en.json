@@ -74,6 +74,10 @@
 				"welcomeEmailSent": "Hi {{ firstName }}, a welcome email was sent to {{ email }}.",
 				"clickLink": "Please click the link in the email to verify your email address."
 			}
+		},
+		"billing": {
+			"trialDaysLeft": "{{ count }} day left on trial",
+			"trialDaysLeft_plural": "{{ count }} days left on trial"
 		}
 	},
 	"headers": {
