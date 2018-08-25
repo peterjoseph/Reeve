@@ -27,6 +27,10 @@ module.exports = Object.freeze({
 		TRIAL: 1,
 		BASIC: 2
 	},
+	BILLING_CYCLE: {
+		TRIAL: 14,
+		BASIC: 28
+	},
 	EMAIL_TYPE: {
 		CLIENT_WELCOME: 1,
 		RESEND_VERIFY_EMAIL: 2,

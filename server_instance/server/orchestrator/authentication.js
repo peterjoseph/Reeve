@@ -10,7 +10,7 @@ import config from "../../config";
 import { arrayContains } from "shared/utilities/filters";
 import { ServerResponseError } from "utilities/errors/serverResponseError";
 import { t } from "shared/translations/i18n";
-import { FEATURES, SUBSCRIPTION_TYPE, ROLE_TYPE, EMAIL_TYPE, SERVER_DETAILS } from "shared/constants";
+import { FEATURES, SUBSCRIPTION_TYPE, ROLE_TYPE, EMAIL_TYPE, BILLING_CYCLE, SERVER_DETAILS } from "shared/constants";
 
 // Validate Workspace URL and retrieve client styling (if feature exists)
 export function validateWorkspaceURL(workspaceURL) {
@@ -95,12 +95,18 @@ export function registerNewClient(received) {
 				throw new ServerResponseError(403, t("validation.clientInvalidProperties"), { workspaceURL: [t("validation.validWorkspaceURL")] });
 			}
 
+			// Calculate trial start and end times
+			const startDate = moment(new Date()).format("YYYY-MM-DD HH:mm:ss");
+			const endDate = moment(startDate, "YYYY-MM-DD HH:mm:ss").add(BILLING_CYCLE.TRIAL, "days");
+
 			// Create new client and save to database
 			const clientInstance = await models().client.create(
 				{
 					name: received.workspaceURL,
 					workspaceURL: received.workspaceURL,
-					subscriptionId: SUBSCRIPTION_TYPE.TRIAL
+					subscriptionId: SUBSCRIPTION_TYPE.TRIAL,
+					subscriptionStartDate: startDate,
+					subscriptionEndDate: endDate
 				},
 				{ transaction: transaction }
 			);
@@ -302,7 +308,7 @@ export function loadUser(received) {
 				billingCycle: client.get("billingCycle"),
 				clientFeatures: features,
 				userRoles: roles,
-				loginTime: time,
+				loginTime: time
 			};
 
 			// Append styling if client has styling feature enabled
