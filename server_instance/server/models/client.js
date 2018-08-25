@@ -28,12 +28,12 @@ module.exports = function(sequelize, DataTypes) {
 				field: "subscriptionId"
 			},
 			subscriptionStartDate: {
-				type: DataTypes.DATEONLY,
+				type: DataTypes.DATE,
 				allowNull: true,
 				field: "subscriptionStartDate"
 			},
 			subscriptionEndDate: {
-				type: DataTypes.DATEONLY,
+				type: DataTypes.DATE,
 				allowNull: true,
 				field: "subscriptionEndDate"
 			},

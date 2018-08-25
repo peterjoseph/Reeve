@@ -19,7 +19,7 @@ class ActiveTrial extends Component {
 		}
 
 		// Calculate days left in trial
-		const currentDate = moment(new Date());
+		const currentDate = moment(user.get("loginTime"));
 		const endDate = moment(user.get("subscriptionEndDate"));
 		const trialDaysLeft = endDate.diff(currentDate, "days");
 

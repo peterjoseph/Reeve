@@ -283,6 +283,9 @@ export function loadUser(received) {
 			}
 			roles = roles.map(result => result.get("roleId"));
 
+			// Create server login time
+			const time = moment(new Date()).format("YYYY-MM-DD HH:mm:ss");
+
 			// Create user properties object to be returned back to the front-end
 			let userProperties = {
 				userId: user.get("id"),
@@ -298,7 +301,8 @@ export function loadUser(received) {
 				subscriptionEndDate: client.get("subscriptionEndDate"),
 				billingCycle: client.get("billingCycle"),
 				clientFeatures: features,
-				userRoles: roles
+				userRoles: roles,
+				loginTime: time,
 			};
 
 			// Append styling if client has styling feature enabled
