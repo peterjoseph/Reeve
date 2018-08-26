@@ -290,10 +290,21 @@ export function loadUser(received) {
 			roles = roles.map(result => result.get("roleId"));
 
 			// Create server login time
-			const time = moment(new Date()).format("YYYY-MM-DD HH:mm:ss");
+			const time = moment(new Date());
+
+			// Determine if client subscription is active
+			let subscriptionActive = true;
+			if (arrayContains(FEATURES.BILLING, features)) {
+				const endDate = moment(client.get("subscriptionEndDate"));
+				const minutesLeft = endDate.diff(time, "minutes");
+				if (minutesLeft <= 0) {
+					subscriptionActive = false;
+				}
+			}
 
 			// Create user properties object to be returned back to the front-end
 			let userProperties = {
+				loginTime: time,
 				userId: user.get("id"),
 				firstName: user.get("firstName"),
 				lastName: user.get("lastName"),
@@ -305,10 +316,10 @@ export function loadUser(received) {
 				subscriptionId: client.get("subscriptionId"),
 				subscriptionStartDate: client.get("subscriptionStartDate"),
 				subscriptionEndDate: client.get("subscriptionEndDate"),
+				subscriptionActive: subscriptionActive,
 				billingCycle: client.get("billingCycle"),
 				clientFeatures: features,
-				userRoles: roles,
-				loginTime: time
+				userRoles: roles
 			};
 
 			// Append styling if client has styling feature enabled
