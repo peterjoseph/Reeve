@@ -34,7 +34,8 @@
 		"contacts": "Contacts",
 		"profile": "Profile",
 		"settings": "Settings",
-		"billing": "Billing"
+		"billing": "Billing",
+		"oops": "Oops!"
 	},
 	"numbers": {
 		"1": "1",
@@ -78,7 +79,8 @@
 		"billing": {
 			"trialExpired": "Your trial has expired",
 			"trialDaysLeft": "{{ count }} day left on trial",
-			"trialDaysLeft_plural": "{{ count }} days left on trial"
+			"trialDaysLeft_plural": "{{ count }} days left on trial",
+			"subscriptionExpired": "Your subscription has expired. The page you are looking for might have been disabled. Please contact your administrator."
 		}
 	},
 	"headers": {
@@ -100,6 +102,10 @@
 		"reset": {
 			"title": "Reset Account Password | $t(site.name)",
 			"description": "Reset the password to your account."
+		},
+		"404": {
+			"title": "404 Page Not Found | $t(site.name)",
+			"description": "404 Page could not be found."
 		}
 	},
 	"success": {

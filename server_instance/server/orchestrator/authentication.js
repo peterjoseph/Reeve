@@ -294,7 +294,7 @@ export function loadUser(received) {
 
 			// Determine if client subscription is active
 			let subscriptionActive = true;
-			if (arrayContains(FEATURES.BILLING, features)) {
+			if (arrayContains(FEATURES.BILLING, features) && client.get("subscriptionEndDate") !== null) {
 				const endDate = moment(client.get("subscriptionEndDate"));
 				const minutesLeft = endDate.diff(time, "minutes");
 				if (minutesLeft <= 0) {
