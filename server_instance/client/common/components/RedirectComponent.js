@@ -2,6 +2,7 @@ import React, { Component } from "react";
 import PropTypes from "prop-types";
 import { Route } from "react-router";
 import { Redirect } from "react-router-dom";
+import moment from "moment";
 import { arrayContains, arrayHasAny } from "shared/utilities/filters";
 import AsyncComponent from "./AsyncComponent";
 
@@ -31,6 +32,11 @@ class RedirectComponent extends Component {
 		// Redirect if user is loaded
 		if ((path === "/signin" || path === "/register" || path === "/forgot" || path === "/reset") && user.get("userId")) {
 			return <Redirect to="/" />;
+		}
+
+		// Redirect to billing pages if user is loaded but trial has ended
+		if (path !== "/billing" && !user.get("subscriptionActive")) {
+			return <Redirect to="/billing" />;
 		}
 
 		// Show Error 404 if user has incorrect role

@@ -82,16 +82,20 @@ class Header extends Component {
 					<ul className="navbar-nav bd-navbar-nav flex-row ml-auto d-flex order-md-1">
 						<ActiveTrial />
 						<NavProfileMenu>
-							<NavDropdownLink title={t("label.profile")} route={"/profile"} />
-							<NavDropdownLink
-								title={t("label.billing")}
-								route={"/billing"}
-								role={[ROLE_TYPE.OWNER, ROLE_TYPE.FINANCE]}
-								feature={[FEATURES.BILLING]}
-								subscription={[SUBSCRIPTION_TYPE.TRIAL, SUBSCRIPTION_TYPE.BASIC]}
-							/>
-							<NavDropdownLink title={t("label.settings")} route={"/settings"} />
-							<div className="dropdown-divider" />
+							{user.get("subscriptionActive") && (
+								<Fragment>
+									<NavDropdownLink title={t("label.profile")} route={"/profile"} />
+									<NavDropdownLink
+										title={t("label.billing")}
+										route={"/billing"}
+										role={[ROLE_TYPE.OWNER, ROLE_TYPE.FINANCE]}
+										feature={[FEATURES.BILLING]}
+										subscription={[SUBSCRIPTION_TYPE.TRIAL, SUBSCRIPTION_TYPE.BASIC]}
+									/>
+									<NavDropdownLink title={t("label.settings")} route={"/settings"} />
+									<div className="dropdown-divider" />
+								</Fragment>
+							)}
 							<button className={"btn btn-link dropdown-item"} onClick={this.logout}>
 								{t("action.logout")}
 							</button>
@@ -100,13 +104,17 @@ class Header extends Component {
 					<button className="navbar-toggler border-0 ml-2" type="button" aria-expanded="false" onClick={this.showMenu}>
 						<span className="navbar-toggler-icon" />
 					</button>
-					<div className={`collapse navbar-collapse ${menuVisible ? "show" : ""}`}>
-						<div className="navbar-nav-scroll">
-							<ul className="navbar-nav bd-navbar-nav flex-row">
-								<NavMenuLink title={t("label.dashboard")} route={"/"} isExact={true} />
-							</ul>
-						</div>
-					</div>
+					{user.get("subscriptionActive") && (
+						<Fragment>
+							<div className={`collapse navbar-collapse ${menuVisible ? "show" : ""}`}>
+								<div className="navbar-nav-scroll">
+									<ul className="navbar-nav bd-navbar-nav flex-row">
+										<NavMenuLink title={t("label.dashboard")} route={"/"} isExact={true} />
+									</ul>
+								</div>
+							</div>
+						</Fragment>
+					)}
 				</nav>
 			</Fragment>
 		);
