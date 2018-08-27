@@ -24,6 +24,11 @@ export default {
 		// Perform fetch on the endpoint
 		const response = await fetch(route, options);
 
+		// Handle server side redirects
+		if (response.redirected) {
+			return window.location.replace(response.url);
+		}
+
 		// Valid response if status 200 ~ 299
 		let json = response.json();
 		if (response.status >= 200 && response.status < 300) {
