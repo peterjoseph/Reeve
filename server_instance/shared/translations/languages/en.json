@@ -116,6 +116,7 @@
 	},
 	"error": {
 		"code": {
+			"403": "You are not authorized to make this request.",
 			"404": "Page could not be found."
 		},
 		"somethingWentWrong": "Something went wrong!",

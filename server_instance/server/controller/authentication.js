@@ -3,7 +3,9 @@ import passport from "../services/passport";
 import { register, login, forgot, workspaceURL, verifyResetPassword, resetPassword, verifyEmail } from "shared/validation/authentication";
 import { t } from "shared/translations/i18n";
 import { ServerResponseError } from "utilities/errors/serverResponseError";
+import restrict from "utilities/restrictRoutes";
 import { variableExists } from "shared/utilities/filters";
+import { RESTRICT_ROUTES } from "shared/constants";
 import {
 	validateWorkspaceURL,
 	registerNewClient,
@@ -114,7 +116,7 @@ module.exports = function(router) {
 	});
 
 	// Load user properties
-	router.get("/internal/load_user/", passport.perform().authenticate("jwt"), function(req, res, next) {
+	router.get("/internal/load_user/", restrict([RESTRICT_ROUTES.LOGGED_IN]), function(req, res, next) {
 		loadUser(req.user).then(
 			result => {
 				return res.status(200).send(result);
