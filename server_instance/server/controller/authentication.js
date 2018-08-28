@@ -108,7 +108,7 @@ module.exports = function(router) {
 	});
 
 	// Logout of user account
-	router.post("/internal/logout/", passport.perform().authenticate("jwt"), function(req, res) {
+	router.post("/internal/logout/", restrict([RESTRICT_ROUTES.LOGGED_IN]), function(req, res) {
 		// Destroy the session
 		req.session.destroy();
 
@@ -128,7 +128,7 @@ module.exports = function(router) {
 	});
 
 	// Resend verify email address email
-	router.post("/internal/resend_verify_email/", passport.perform().authenticate("jwt"), function(req, res, next) {
+	router.post("/internal/resend_verify_email/", restrict([RESTRICT_ROUTES.LOGGED_IN]), function(req, res, next) {
 		if (!variableExists(req.user.userId) || !Number.isInteger(req.user.userId)) {
 			const errorMsg = new ServerResponseError(403, t("validation.invalidUserId"), null);
 			return next(errorMsg);
