@@ -7,9 +7,10 @@ import { Helmet } from "react-helmet";
 import validate from "validate.JS";
 import queryString from "query-string";
 import { t } from "shared/translations/i18n";
-import { REDUX_STATE, SERVER_DETAILS } from "shared/constants";
+import { REDUX_STATE } from "shared/constants";
 import { extractSubdomain } from "shared/utilities/subdomain";
 import { resetPassword } from "shared/validation/authentication";
+import { baseURL } from "shared/utilities/urls";
 
 import { clientStyling } from "./components/ClientStyling";
 import {
@@ -52,7 +53,8 @@ class ResetPassword extends Component {
 		if (this.props.workspaceURLStatus !== REDUX_STATE.FULFILLED) {
 			this.props.validateWorkspaceURL(subdomain).then(result => {
 				if (result.type === VALIDATE_WORKSPACE_URL_REJECTED) {
-					window.location.replace(`${SERVER_DETAILS.PROTOCOL}://${SERVER_DETAILS.DOMAIN}/`);
+					const url = baseURL();
+					window.location.replace(url);
 				}
 			});
 		}

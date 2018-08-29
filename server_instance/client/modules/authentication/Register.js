@@ -7,7 +7,7 @@ import { Helmet } from "react-helmet";
 import validate from "validate.JS";
 import { t, l } from "shared/translations/i18n";
 import { extractSubdomain } from "shared/utilities/subdomain";
-import { SERVER_DETAILS } from "shared/constants";
+import { registerURL, registerSuccessURL } from "shared/utilities/urls";
 
 import { registerClient, REGISTER_REJECTED } from "common/store/reducers/authentication.js";
 import { register } from "shared/validation/authentication";
@@ -43,7 +43,8 @@ class Register extends Component {
 		// Redirect if user is on register page when there is a subdomain
 		const subdomain = extractSubdomain(window.location.href);
 		if (subdomain && subdomain.trim() !== null) {
-			window.location.replace(`${SERVER_DETAILS.PROTOCOL}://${SERVER_DETAILS.DOMAIN}/register`);
+			const url = registerURL();
+			window.location.replace(url);
 		} else {
 			this.setState({
 				visible: true
@@ -93,7 +94,8 @@ class Register extends Component {
 						serverError: result.payload
 					});
 				} else {
-					window.location.replace(`${SERVER_DETAILS.PROTOCOL}://${client.workspaceURL}.${SERVER_DETAILS.DOMAIN}/signin?registration=success`);
+					const url = registerSuccessURL(client.workspaceURL);
+					window.location.replace(url);
 				}
 			});
 		}

@@ -1,7 +1,5 @@
 import { database, models } from "services/sequelize";
 import moment from "moment";
-import { arrayContains } from "shared/utilities/filters";
-import { FEATURES } from "shared/constants";
 
 let passport = require("passport");
 let JwtStrategy = require("passport-jwt").Strategy;

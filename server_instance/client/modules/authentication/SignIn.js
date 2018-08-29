@@ -10,8 +10,9 @@ import fetch from "shared/utilities/fetch";
 
 import { t } from "shared/translations/i18n";
 import { saveToken, clearToken } from "shared/utilities/securityToken";
-import { REDUX_STATE, SERVER_DETAILS } from "shared/constants";
+import { REDUX_STATE } from "shared/constants";
 import { extractSubdomain } from "shared/utilities/subdomain";
+import { signinURL } from "shared/utilities/urls";
 
 import { AUTHENTICATION, LOGIN_REJECTED, validateWorkspaceURL, VALIDATE_WORKSPACE_URL_REJECTED, loginUser, loadUser, LOAD_USER_REJECTED } from "common/store/reducers/authentication.js";
 import { login, workspaceURL } from "shared/validation/authentication";
@@ -137,7 +138,7 @@ class SignIn extends Component {
 				validationErrors: valid
 			});
 		} else {
-			const url = `${SERVER_DETAILS.PROTOCOL}://${subdomain.workspaceURL}.${SERVER_DETAILS.DOMAIN}/signin`;
+			const url = signinURL(subdomain.workspaceURL);
 			window.location.replace(url);
 		}
 	}
