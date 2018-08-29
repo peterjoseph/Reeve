@@ -16,9 +16,13 @@ export default function(properties) {
 			// Define unauthorized error message
 			const errorMsg = new ServerResponseError(403, t("error.code.403"), null);
 
+			// Check if function params contain logged in restrictions
+			const loggedIn = arrayContains(RESTRICT_ROUTES.LOGGED_IN, properties || []);
+			const notLoggedIn = arrayContains(RESTRICT_ROUTES.NOT_LOGGED_IN, properties || []);
+
 			if (!user) {
 				// If no user exists but route is restricted to logged in users, throw error
-				if (arrayContains(RESTRICT_ROUTES.LOGGED_IN, properties || [])) {
+				if (loggedIn && !notLoggedIn) {
 					return next(errorMsg);
 				} else {
 					return next();
@@ -26,14 +30,14 @@ export default function(properties) {
 			}
 
 			// If user exists but route restricted to not logged in users, throw error
-			if (arrayContains(RESTRICT_ROUTES.NOT_LOGGED_IN, properties || [])) {
+			if (notLoggedIn && !loggedIn) {
 				return next(errorMsg);
 			} else {
 				req.user = user;
 			}
 
 			// If subscription not active, redirect to billing page
-			if (arrayContains(RESTRICT_ROUTES.SUBSCRIPTION_ACTIVE, properties || []) && req.user.subscriptionActive !== true) {
+			if (arrayContains(RESTRICT_ROUTES.SUBSCRIPTION_ACTIVE, properties || []) && req.user && req.user.subscriptionActive !== true) {
 				const url = billingURL(req.user.workspaceURL);
 				return res.redirect(url);
 			} else {

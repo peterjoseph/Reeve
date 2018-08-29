@@ -1,5 +1,4 @@
 import validate from "validate.JS";
-import passport from "../services/passport";
 import { register, login, forgot, workspaceURL, verifyResetPassword, resetPassword, verifyEmail } from "shared/validation/authentication";
 import { t } from "shared/translations/i18n";
 import { ServerResponseError } from "utilities/errors/serverResponseError";
@@ -22,7 +21,7 @@ import {
 
 module.exports = function(router) {
 	// Validate Workspace URL
-	router.get("/internal/validate_workspace_url/", function(req, res, next) {
+	router.get("/internal/validate_workspace_url/", restrict([RESTRICT_ROUTES.NOT_LOGGED_IN, RESTRICT_ROUTES.LOGGED_IN]), function(req, res, next) {
 		// Get workspaceURL name from header
 		const workspaceURL = req.headers["workspaceurl"] ? req.headers["workspaceurl"] : "";
 
@@ -44,7 +43,7 @@ module.exports = function(router) {
 	});
 
 	// Register New Client Account
-	router.post("/internal/register", function(req, res, next) {
+	router.post("/internal/register", restrict([RESTRICT_ROUTES.NOT_LOGGED_IN]), function(req, res, next) {
 		// Store received object properties
 		const body = {
 			workspaceURL: req.body.workspaceURL,
@@ -74,7 +73,7 @@ module.exports = function(router) {
 	});
 
 	// Login to user account
-	router.post("/internal/login", function(req, res, next) {
+	router.post("/internal/login", restrict([RESTRICT_ROUTES.NOT_LOGGED_IN]), function(req, res, next) {
 		// Authenticate with token if authToken exists
 		if (variableExists(req.body.authToken) && req.body.authToken === true) {
 			authenticateWithToken(req, res, next);
@@ -145,7 +144,7 @@ module.exports = function(router) {
 	});
 
 	// Forgot account details password request
-	router.post("/internal/forgot_account_details/", function(req, res, next) {
+	router.post("/internal/forgot_account_details/", restrict([RESTRICT_ROUTES.NOT_LOGGED_IN]), function(req, res, next) {
 		// Authenticate with user properties sent in body
 		const body = {
 			emailAddress: req.body.emailAddress
@@ -194,7 +193,7 @@ module.exports = function(router) {
 	});
 
 	// Confirm a supplied reset password code is valid
-	router.get("/internal/validate_reset_password_code/", function(req, res, next) {
+	router.get("/internal/validate_reset_password_code/", restrict([RESTRICT_ROUTES.NOT_LOGGED_IN]), function(req, res, next) {
 		// Get reset password code and workspaceURL from header
 		const resetCode = req.headers["code"] ? req.headers["code"] : "";
 		const workspaceURL = req.headers["workspaceurl"] ? req.headers["workspaceurl"] : "";
@@ -230,7 +229,7 @@ module.exports = function(router) {
 	});
 
 	// Reset user password
-	router.post("/internal/reset_password/", function(req, res, next) {
+	router.post("/internal/reset_password/", restrict([RESTRICT_ROUTES.NOT_LOGGED_IN]), function(req, res, next) {
 		// Store received object properties
 		const body = {
 			password: req.body.password,
@@ -258,7 +257,7 @@ module.exports = function(router) {
 	});
 
 	// Verify User Email
-	router.post("/internal/verify_email/", function(req, res, next) {
+	router.post("/internal/verify_email/", restrict([RESTRICT_ROUTES.NOT_LOGGED_IN, RESTRICT_ROUTES.LOGGED_IN]), function(req, res, next) {
 		// Store received object properties
 		const body = {
 			code: req.body.code,
