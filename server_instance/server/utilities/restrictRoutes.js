@@ -1,12 +1,10 @@
 import passport from "services/passport";
 
-import { arrayContains } from "shared/utilities/filters";
-import { RESTRICT_ROUTES } from "shared/constants";
 import { t } from "shared/translations/i18n";
 import { billingURL } from "shared/utilities/urls";
 import { ServerResponseError } from "utilities/errors/serverResponseError";
 
-export default function(properties) {
+export default function(properties = {}) {
 	return function(req, res, next) {
 		passport.perform().authenticate("jwt", function(error, user, info) {
 			if (error) {
@@ -16,13 +14,13 @@ export default function(properties) {
 			// Define unauthorized error message
 			const errorMsg = new ServerResponseError(403, t("error.code.403"), null);
 
-			// Check if function params contain logged in restrictions
-			const loggedIn = arrayContains(RESTRICT_ROUTES.LOGGED_IN, properties || []);
-			const notLoggedIn = arrayContains(RESTRICT_ROUTES.NOT_LOGGED_IN, properties || []);
+			// Check if properties params contain logged in restrictions
+			const loggedIn = properties.loggedIn;
+			const notLoggedIn = properties.notLoggedIn;
 
 			if (!user) {
 				// If no user exists but route is restricted to logged in users, throw error
-				if (loggedIn && !notLoggedIn) {
+				if (loggedIn === true && !notLoggedIn) {
 					return next(errorMsg);
 				} else {
 					return next();
@@ -30,19 +28,19 @@ export default function(properties) {
 			}
 
 			// If user exists but route restricted to not logged in users, throw error
-			if (notLoggedIn && !loggedIn) {
+			if (notLoggedIn === true && !loggedIn) {
 				return next(errorMsg);
 			} else {
 				req.user = user;
 			}
 
 			// If subscription not active, redirect to billing page
-			if (arrayContains(RESTRICT_ROUTES.SUBSCRIPTION_ACTIVE, properties || []) && req.user && req.user.subscriptionActive !== true) {
+			if (properties.activeSubscription === true && req.user && req.user.subscriptionActive !== true) {
 				const url = billingURL(req.user.workspaceURL);
 				return res.redirect(url);
-			} else {
-				return next();
 			}
+
+			return next();
 		})(req, res, next);
 	};
 }

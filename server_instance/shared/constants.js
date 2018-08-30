@@ -38,11 +38,6 @@ module.exports = Object.freeze({
 		FORGOT_PASSWORD: 4,
 		RESET_PASSWORD_SUCCESS: 5
 	},
-	RESTRICT_ROUTES: {
-		LOGGED_IN: 1,
-		NOT_LOGGED_IN: 2,
-		SUBSCRIPTION_ACTIVE: 3
-	},
 	LANGUAGE: {
 		ENGLISH: 1
 	},
