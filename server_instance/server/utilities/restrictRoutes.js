@@ -3,6 +3,7 @@ import passport from "services/passport";
 import { t } from "shared/translations/i18n";
 import { billingURL } from "shared/utilities/urls";
 import { ServerResponseError } from "utilities/errors/serverResponseError";
+import { arrayContains, arrayHasAny } from "shared/utilities/filters";
 
 export default function(properties = {}) {
 	return function(req, res, next) {
@@ -15,12 +16,12 @@ export default function(properties = {}) {
 			const errorMsg = new ServerResponseError(403, t("error.code.403"), null);
 
 			// Check if properties params contain logged in restrictions
-			const loggedIn = properties.loggedIn;
-			const notLoggedIn = properties.notLoggedIn;
+			const registered = properties.registered;
+			const unregistered = properties.unregistered;
 
 			if (!user) {
 				// If no user exists but route is restricted to logged in users, throw error
-				if (loggedIn === true && !notLoggedIn) {
+				if (registered === true && !unregistered) {
 					return next(errorMsg);
 				} else {
 					return next();
@@ -28,7 +29,7 @@ export default function(properties = {}) {
 			}
 
 			// If user exists but route restricted to not logged in users, throw error
-			if (notLoggedIn === true && !loggedIn) {
+			if (unregistered === true && !registered) {
 				return next(errorMsg);
 			} else {
 				req.user = user;
@@ -38,6 +39,16 @@ export default function(properties = {}) {
 			if (properties.activeSubscription === true && req.user && req.user.subscriptionActive !== true) {
 				const url = billingURL(req.user.workspaceURL);
 				return res.redirect(url);
+			}
+
+			// Error if user is missing correct role
+			if (properties.hasAnyRole && !arrayHasAny(properties.hasAnyRole, req.user.roles || [])) {
+				return next(errorMsg);
+			}
+
+			// Error if user is missing correct feature
+			if (properties.hasFeatures && !arrayContains(properties.hasFeatures, req.user.features || [])) {
+				return next(errorMsg);
 			}
 
 			return next();

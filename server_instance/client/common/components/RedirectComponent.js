@@ -2,7 +2,6 @@ import React, { Component } from "react";
 import PropTypes from "prop-types";
 import { Route } from "react-router";
 import { Redirect } from "react-router-dom";
-import moment from "moment";
 import { arrayContains, arrayHasAny } from "shared/utilities/filters";
 import AsyncComponent from "./AsyncComponent";
 
