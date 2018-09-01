@@ -8,11 +8,12 @@ import { withRouter } from "react-router-dom";
 
 import User from "common/components/User";
 
-import SubscriptionList from "./components/SubscriptionList";
+// import SubscriptionList from "./components/SubscriptionList";
+import PaymentForm from "./components/PaymentForm";
 
 class Billing extends Component {
 	render() {
-		return <SubscriptionList />;
+		return <PaymentForm />;
 	}
 }
 
