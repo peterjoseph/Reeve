@@ -17,23 +17,29 @@ class PaymentPlan extends Component {
 						<button type="button" className="btn btn-secondary btn-sm float-left">
 							Back
 						</button>
-						<h1 className="display-6 font-weight-light">Subscription Details</h1>
+						<h1 className="display-6 font-weight-light">Subscription details</h1>
 						<p className="lead">
 							Start your <strong>Basic</strong> plan today. Pay securely with a credit card.
 						</p>
 					</div>
-					<div>
-						<div className="row border-top border-bottom p-3">
-							<div className="float-left">Billed Annually</div>
-							<div className="float-right">$49.95</div>
-						</div>
-						<div>Form Information in here</div>
-						<div className="row border-top border-bottom p-3 text-right">Total Billed: $49.95</div>
-					</div>
 				</div>
-				<button type="button" className="btn btn-primary btn-block">
-					Subscribe
-				</button>
+				<div className="row">
+					<div className="col-3" />
+					<div className="col-6">
+						<div>
+							<div className="row border-top border-bottom p-3">
+								<div className="float-left">Billed Annually</div>
+								<div className="float-right">$49.95</div>
+							</div>
+							<div className="mt-4 mb-4">Form Information in here</div>
+							<div className="row border-top border-bottom p-3 text-right">Total Billed: $49.95</div>
+						</div>
+						<button type="button" className="btn btn-primary btn-block">
+							Subscribe
+						</button>
+					</div>
+					<div className="col-3" />
+				</div>
 			</div>
 		);
 	}
