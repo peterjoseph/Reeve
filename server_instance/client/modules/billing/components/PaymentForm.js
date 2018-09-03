@@ -6,6 +6,7 @@ import { withRouter } from "react-router-dom";
 
 // import { } from "common/store/reducers/billing.js";
 
+import InputField from "common/components/inputs/InputField";
 import User from "common/components/User";
 
 class PaymentPlan extends Component {
@@ -23,22 +24,86 @@ class PaymentPlan extends Component {
 						</p>
 					</div>
 				</div>
-				<div className="row">
-					<div className="col-3" />
+				<div className="row border border-primary rounded">
 					<div className="col-6">
-						<div>
-							<div className="row border-top border-bottom p-3">
+						<div className="p-4">
+							<div className="row p-3">
 								<div className="float-left">Billed Annually</div>
 								<div className="float-right">$49.95</div>
 							</div>
-							<div className="mt-4 mb-4">Form Information in here</div>
-							<div className="row border-top border-bottom p-3 text-right">Total Billed: $49.95</div>
+							<div className="mt-4 mb-4">
+								<InputField
+									label={"Name on Card"}
+									name={"nameOnCard"}
+									id={"name-on-card"}
+									value={""}
+									type={"textField"}
+									ariaLabel={"nameOnCard"}
+									onChange={this.changeField}
+									disabled={false}
+									error={null}
+								/>
+								<InputField
+									label={"Card Number"}
+									name={"cardNumber"}
+									id={"card-number"}
+									value={""}
+									type={"textField"}
+									ariaLabel={"cardNumber"}
+									onChange={this.changeField}
+									disabled={false}
+									error={null}
+								/>
+								<div className="row">
+									<div className="col-4">
+										<InputField
+											label={"Expiry Date (MM)"}
+											name={"expiryMonth"}
+											id={"expiry-month"}
+											value={""}
+											type={"textField"}
+											ariaLabel={"expiryMonth"}
+											onChange={this.changeField}
+											disabled={false}
+											error={null}
+										/>
+									</div>
+									<div className="col-4">
+										<InputField
+											label={"(YYYY)"}
+											name={"expiryYear"}
+											id={"expiry-year"}
+											value={""}
+											type={"textField"}
+											ariaLabel={"expiryYear"}
+											onChange={this.changeField}
+											disabled={false}
+											error={null}
+										/>
+									</div>
+									<div className="col-4">
+										<InputField
+											label={"CVC / CVV"}
+											name={"ccv"}
+											id={"ccv"}
+											value={""}
+											type={"textField"}
+											ariaLabel={"ccv"}
+											onChange={this.changeField}
+											disabled={false}
+											error={null}
+										/>
+									</div>
+								</div>
+							</div>
+							<div className="row p-3 text-right">Total Billed: $49.95</div>
+
+							<button type="button" className="btn btn-primary btn-block">
+								Subscribe
+							</button>
 						</div>
-						<button type="button" className="btn btn-primary btn-block">
-							Subscribe
-						</button>
 					</div>
-					<div className="col-3" />
+					<div className="col-6 bg-primary" />
 				</div>
 			</div>
 		);
