@@ -8,20 +8,14 @@
 		"start:PM2": "pm2 start ecosystem.config.js",
 		"development": "nodemon --ignore './client/' --ignore './shared/' ./server/server",
 		"test": "ava tests",
-		"build": "webpack -p"
+		"build": "webpack -p",
+		"buildAndRun": "webpack -p && node server/server.js"
 	},
 	"repository": {
 		"type": "git",
 		"url": "git+https://github.com/peterjoseph/reeve.git"
 	},
-	"keywords": [
-		"node.js",
-		"server",
-		"node",
-		"express",
-		"mySQL",
-		"Redis"
-	],
+	"keywords": ["node.js", "server", "node", "express", "mySQL", "Redis"],
 	"author": "Peter Joseph",
 	"bugs": {
 		"url": "https://github.com/peterjoseph/reeve/issues"
