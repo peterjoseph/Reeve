@@ -10,7 +10,9 @@ import AsyncComponent from "common/components/AsyncComponent";
 const Header = AsyncComponent(() => import("./modules/header"));
 const Dashboard = AsyncComponent(() => import("./modules/dashboard"));
 const Authentication = AsyncComponent(() => import("./modules/authentication"));
+const Profile = AsyncComponent(() => import("./modules/profile"));
 const Billing = AsyncComponent(() => import("./modules/billing"));
+const Settings = AsyncComponent(() => import("./modules/settings"));
 const MissingPath = AsyncComponent(() => import("common/components/MissingPath"));
 
 class Router extends Component {
@@ -37,6 +39,8 @@ class Router extends Component {
 							user={user}
 							render={() => <Billing />}
 						/>
+						<RedirectComponent path="/profile" user={user} render={() => <Profile />} />
+						<RedirectComponent path="/settings" role={[ROLE_TYPE.OWNER, ROLE_TYPE.ADMINISTRATOR]} user={user} render={() => <Settings />} />
 						<RedirectComponent component={MissingPath} />
 					</Switch>
 				</Fragment>

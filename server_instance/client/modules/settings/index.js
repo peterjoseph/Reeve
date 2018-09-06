@@ -3,17 +3,17 @@ import PropTypes from "prop-types";
 
 import { t } from "shared/translations/i18n";
 
-import DashboardIcon from "common/media/icons/Dashboard";
+import SettingsIcon from "common/media/icons/Settings";
 import User from "common/components/User";
 
-class Dashboard extends Component {
+class Settings extends Component {
 	render() {
 		return (
 			<div className="container">
 				<div className="px-3 py-3 pt-md-5 pb-md-4 mx-auto">
 					<div className="mb-3 text-center">
 						<div>
-							<DashboardIcon width="48px" height="48px" color="#CCCCCC" />
+							<SettingsIcon width="48px" height="48px" color="#CCCCCC" />
 						</div>
 					</div>
 				</div>
@@ -22,8 +22,8 @@ class Dashboard extends Component {
 	}
 }
 
-Dashboard.propTypes = {
+Settings.propTypes = {
 	user: PropTypes.object
 };
 
-export default User(Dashboard);
+export default User(Settings);
