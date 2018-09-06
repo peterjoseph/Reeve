@@ -19,6 +19,11 @@ import NavProfileMenu from "./components/NavProfileMenu";
 import NavDropdownLink from "./components/NavDropdownLink";
 import ActiveTrial from "./components/ActiveTrial";
 
+import ProfileIcon from "common/media/icons/Profile";
+import CreditCardIcon from "common/media/icons/CreditCard";
+import SettingsIcon from "common/media/icons/Settings";
+import LogoutIcon from "common/media/icons/Logout";
+
 class Header extends Component {
 	constructor(props) {
 		super(props);
@@ -84,20 +89,21 @@ class Header extends Component {
 						<NavProfileMenu>
 							{user.get("subscriptionActive") && (
 								<Fragment>
-									<NavDropdownLink title={t("label.profile")} route={"/profile"} />
+									<NavDropdownLink title={t("label.profile")} route={"/profile"} icon={<ProfileIcon width="16px" height="16px" />} />
 									<NavDropdownLink
 										title={t("label.billing")}
 										route={"/billing"}
 										role={[ROLE_TYPE.OWNER, ROLE_TYPE.FINANCE]}
 										feature={[FEATURES.BILLING]}
 										subscription={[SUBSCRIPTION_TYPE.TRIAL, SUBSCRIPTION_TYPE.BASIC]}
+										icon={<CreditCardIcon width="16px" height="16px" />}
 									/>
-									<NavDropdownLink title={t("label.settings")} route={"/settings"} />
+									<NavDropdownLink title={t("label.settings")} route={"/settings"} icon={<SettingsIcon width="16px" height="16px" />} />
 									<div className="dropdown-divider" />
 								</Fragment>
 							)}
 							<button className={"btn btn-link dropdown-item"} onClick={this.logout}>
-								{t("action.logout")}
+								<span className="align-middle mr-1">{<LogoutIcon width="16px" height="16px" />}</span> {t("action.logout")}
 							</button>
 						</NavProfileMenu>
 					</ul>

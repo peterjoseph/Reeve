@@ -7,7 +7,7 @@ import User from "common/components/User";
 
 class NavDropdownLink extends Component {
 	render() {
-		const { title, route, user, feature, role, subscription } = this.props;
+		const { title, route, user, icon, feature, role, subscription } = this.props;
 
 		// Hide if user has incorrect role
 		if (role && (!user.get("userRoles") || !arrayHasAny(role, user.get("userRoles").toJS() || []))) {
@@ -26,7 +26,7 @@ class NavDropdownLink extends Component {
 
 		return (
 			<Link to={route} className="dropdown-item">
-				{title}
+				{icon && <span className="align-middle mr-1">{icon}</span>} {title}
 			</Link>
 		);
 	}
@@ -41,6 +41,7 @@ NavDropdownLink.propTypes = {
 	title: PropTypes.string,
 	route: PropTypes.string,
 	user: PropTypes.object,
+	icon: PropTypes.object,
 	feature: PropTypes.oneOfType([PropTypes.array, PropTypes.number]),
 	role: PropTypes.oneOfType([PropTypes.array, PropTypes.number]),
 	subscription: PropTypes.oneOfType([PropTypes.array, PropTypes.number])
