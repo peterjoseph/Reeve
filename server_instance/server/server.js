@@ -16,6 +16,7 @@ let loadWebpack = require("./server.dev");
 let routes = require("./services/router"); // Server Routes
 let winston = require("winston");
 let expressWinston = require("express-winston");
+let compression = require("compression");
 let app = express();
 
 let passport = require("./services/passport");
@@ -72,6 +73,9 @@ app.engine("html", function(path, options, callback) {
 	fs.readFile(path, "utf-8", callback);
 });
 
+// Enable compression on Routes
+app.use(compression());
+
 // Enable Helmet for improved endpoint security
 app.use(helmet());
 
@@ -127,7 +131,7 @@ app.use(function(req, res, next) {
 // Initialise user authentication with passport
 passport.initialize(app);
 
-// Set Routes
+// Load the Routes
 app.use(function(err, req, res, next) {
 	res.status(err.status || 500);
 });
