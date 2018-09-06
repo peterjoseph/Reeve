@@ -16,6 +16,7 @@ let loadWebpack = require("./server.dev");
 let routes = require("./services/router"); // Server Routes
 let winston = require("winston");
 let expressWinston = require("express-winston");
+let cors = require("cors");
 let compression = require("compression");
 let app = express();
 
@@ -130,6 +131,14 @@ app.use(function(req, res, next) {
 
 // Initialise user authentication with passport
 passport.initialize(app);
+
+// Enable CORS for Routes
+app.use(
+	cors({
+		origin: new RegExp(config.build.domainPath + "$"),
+		optionsSuccessStatus: 200
+	})
+);
 
 // Load the Routes
 app.use(function(err, req, res, next) {

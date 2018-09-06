@@ -8,7 +8,8 @@ let config = {
 		certificate: process.env.CERTIFICATE,
 		server: process.env.SERVER,
 		port: process.env.PORT,
-		publicPath: process.env.PUBLICPATH
+		publicPath: process.env.PUBLICPATH,
+		domainPath: process.env.DOMAINPATH
 	},
 	authentication: {
 		jwtSecret: process.env.JWT_SECRET,
