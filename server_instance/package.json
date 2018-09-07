@@ -24,6 +24,7 @@
 		"Redis"
 	],
 	"author": "Peter Joseph",
+	"private": true,
 	"bugs": {
 		"url": "https://github.com/peterjoseph/reeve/issues"
 	},
