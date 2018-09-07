@@ -41,9 +41,9 @@ function loadPlugins() {
 
 function loadEntryFile() {
 	if (config.build.environment === "development") {
-		return ["babel-polyfill", "./client/index.js", "webpack-hot-middleware/client", "webpack/hot/dev-server"];
+		return ["babel-polyfill", "whatwg-fetch", "./client/index.js", "webpack-hot-middleware/client", "webpack/hot/dev-server"];
 	} else {
-		return ["babel-polyfill", "./client/index.js"];
+		return ["babel-polyfill", "whatwg-fetch", "./client/index.js"];
 	}
 }
 
