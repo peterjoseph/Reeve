@@ -36,6 +36,13 @@ function loadPlugins() {
 	if (config.development.analyzeBundle === true) {
 		plugins.push(new BundleAnalyzerPlugin());
 	}
+	// Define sentry environmental variables for client
+	plugins.push(
+		new webpack.DefinePlugin({
+			SENTRY_ENABLED: JSON.stringify(config.sentry.enabled),
+			SENTRY_DNS: JSON.stringify(config.sentry.dns)
+		})
+	);
 	return plugins;
 }
 
