@@ -2,6 +2,7 @@ require("dotenv").config({ path: "config.env" });
 
 let config = {
 	build: {
+		release: process.env.RELEASE,
 		environment: process.env.NODE_ENV,
 		protocol: process.env.PROTOCOL,
 		key: process.env.KEY,

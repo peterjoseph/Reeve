@@ -16,7 +16,10 @@ import "./common/styles/entry.scss";
 // Load Sentry error reporting
 /* eslint-disable */
 if (SENTRY_ENABLED) {
-	Raven.config(SENTRY_DNS).install();
+	Raven.config(SENTRY_DNS, {
+		release: SENTRY_RELEASE,
+		environment: SENTRY_ENVIRONMENT
+	}).install();
 }
 /* eslint-enable */
 
