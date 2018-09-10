@@ -1,5 +1,6 @@
 import { createStore, applyMiddleware, compose } from "redux";
 import thunk from "redux-thunk";
+import Raven from "raven-js";
 import createRavenMiddleware from "raven-for-redux";
 
 import root from "./reducers/root";
@@ -14,8 +15,9 @@ const composeEnhancers = (BUILD_ENVIRONMENT !== "production" && window.__REDUX_D
 // Define middleware to be applied
 const middleware = [thunk];
 if (SENTRY_ENABLED) {
+	Raven.config(SENTRY_DSN).install();
 	middleware.push(
-		createRavenMiddleware(window.Raven, {
+		createRavenMiddleware(Raven, {
 			release: BUILD_RELEASE,
 			environment: BUILD_ENVIRONMENT
 		})

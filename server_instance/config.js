@@ -54,7 +54,7 @@ let config = {
 	},
 	sentry: {
 		enabled: String(process.env.SENTRY_ENABLED) === "true",
-		dns: process.env.SENTRY_DNS
+		dns: process.env.SENTRY_DSN
 	},
 	papertrail: {
 		enabled: String(process.env.PAPERTRAIL_ENABLED) === "true",
