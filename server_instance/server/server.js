@@ -173,7 +173,6 @@ if (config.stripe.enabled) {
 
 // Handle server errors
 app.use(function errorHandler(err, req, res, next) {
-	// Report to Sentry
 	// Report to Papertrail
 	// Report to Kinesis
 	const status = err.status != null ? err.status : 500;

@@ -17,8 +17,8 @@ import "./common/styles/entry.scss";
 /* eslint-disable */
 if (SENTRY_ENABLED) {
 	Raven.config(SENTRY_DNS, {
-		release: SENTRY_RELEASE,
-		environment: SENTRY_ENVIRONMENT
+		release: BUILD_RELEASE,
+		environment: BUILD_ENVIRONMENT
 	}).install();
 }
 /* eslint-enable */

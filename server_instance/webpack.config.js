@@ -41,8 +41,8 @@ function loadPlugins() {
 		new webpack.DefinePlugin({
 			SENTRY_ENABLED: JSON.stringify(config.sentry.enabled),
 			SENTRY_DNS: JSON.stringify(config.sentry.dns),
-			SENTRY_ENVIRONMENT: JSON.stringify(config.build.environment),
-			SENTRY_RELEASE: JSON.stringify(config.build.release)
+			BUILD_ENVIRONMENT: JSON.stringify(config.build.environment),
+			BUILD_RELEASE: JSON.stringify(config.build.release)
 		})
 	);
 	return plugins;
