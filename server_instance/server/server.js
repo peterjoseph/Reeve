@@ -34,13 +34,15 @@ if (config.sentry.enabled && config.build.environment === "production") {
 }
 
 // Set up Papertrail Logging
-if (config.papertrail.enabled && config.build.environment === "production") {
+let logger = null;
+if (config.papertrail.enabled) {
 	let WinstonPapertrail = require("winston-papertrail").Papertrail;
-	const transport = new WinstonPapertrail({
+	const PTtransport = new WinstonPapertrail({
 		host: config.papertrail.host,
 		port: config.papertrail.port,
 		hostname: config.papertrail.hostname,
 		level: config.papertrail.level,
+		handleExceptions: true,
 		logFormat: function(level, message) {
 			return "[" + level + "] " + message;
 		}
@@ -49,19 +51,28 @@ if (config.papertrail.enabled && config.build.environment === "production") {
 	// Connect express to Papertrail Logging
 	app.use(
 		expressWinston.logger({
-			transports: [transport],
-			meta: true,
-			msg: "{{req.method}} {{req.url}}",
-			expressFormat: true,
-			colorize: false,
+			transports: [PTtransport],
+			meta: false,
+			msg:
+				"{{req.ip}} - {{res.statusCode}} - {{req.method}} - {{res.responseTime}}ms - URL: {{req.url}} - ORIGINAL URL: {{req.originalUrl}} - HOST: {{req.headers['host']}} - ORIGIN: {{req.headers['origin']}} - REFERER: {{req.headers['referer']}} - USER AGENT: {{req.headers['user-agent']}}",
+			expressFormat: false,
+			colorize: true,
 			ignoreRoute: function(req, res) {
 				return false;
 			}
 		})
 	);
 
-	let logger = new winston.Logger({
-		transports: [transport]
+	logger = new winston.Logger({
+		transports: [PTtransport]
+	});
+
+	PTtransport.on("error", function(err) {
+		logger && logger.error(err);
+	});
+
+	PTtransport.on("connect", function(message) {
+		logger && logger.info(message);
 	});
 }
 
@@ -173,8 +184,6 @@ if (config.stripe.enabled) {
 
 // Handle server errors
 app.use(function errorHandler(err, req, res, next) {
-	// Report to Papertrail
-	// Report to Kinesis
 	const status = err.status != null ? err.status : 500;
 	let response = {
 		status: status,
@@ -187,6 +196,10 @@ app.use(function errorHandler(err, req, res, next) {
 	if (err.reason != null) {
 		response.reason = err.reason;
 	}
+
+	// Report to Papertrail
+	logger && logger.error(response);
+
 	res.status(status).send(response);
 });
 
