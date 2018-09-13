@@ -6,6 +6,7 @@ import { withRouter } from "react-router-dom";
 
 // import { } from "common/store/reducers/billing.js";
 
+import DefaultLayout from "common/layouts/DefaultLayout";
 import User from "common/components/User";
 
 // import SubscriptionList from "./components/SubscriptionList";
@@ -13,7 +14,11 @@ import PaymentForm from "./components/PaymentForm";
 
 class Billing extends Component {
 	render() {
-		return <PaymentForm />;
+		return (
+			<DefaultLayout>
+				<PaymentForm />
+			</DefaultLayout>
+		);
 	}
 }
 

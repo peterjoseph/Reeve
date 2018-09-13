@@ -7,7 +7,6 @@ import User from "common/components/User";
 import RedirectComponent from "common/components/RedirectComponent";
 import AsyncComponent from "common/components/AsyncComponent";
 
-const Header = AsyncComponent(() => import("./modules/header"));
 const Dashboard = AsyncComponent(() => import("./modules/dashboard"));
 const Authentication = AsyncComponent(() => import("./modules/authentication"));
 const Profile = AsyncComponent(() => import("./modules/profile"));
@@ -22,7 +21,6 @@ class Router extends Component {
 		return (
 			<BrowserRouter>
 				<Fragment>
-					<Header />
 					<Switch>
 						<RedirectComponent exact path="/" role={[ROLE_TYPE.OWNER]} user={user} render={() => <Dashboard />} />
 						<RedirectComponent exact path="/signin" role={[ROLE_TYPE.UNREGISTERED]} user={user} render={() => <Authentication />} />
