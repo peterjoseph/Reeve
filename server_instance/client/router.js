@@ -7,6 +7,8 @@ import User from "common/components/User";
 import RedirectComponent from "common/components/RedirectComponent";
 import AsyncComponent from "common/components/AsyncComponent";
 
+import DefaultLayout from "common/layouts/DefaultLayout";
+
 const Dashboard = AsyncComponent(() => import("./modules/dashboard"));
 const Authentication = AsyncComponent(() => import("./modules/authentication"));
 const Profile = AsyncComponent(() => import("./modules/profile"));
@@ -22,7 +24,17 @@ class Router extends Component {
 			<BrowserRouter>
 				<Fragment>
 					<Switch>
-						<RedirectComponent exact path="/" role={[ROLE_TYPE.OWNER]} user={user} render={() => <Dashboard />} />
+						<RedirectComponent
+							exact
+							path="/"
+							role={[ROLE_TYPE.OWNER]}
+							user={user}
+							render={() => (
+								<DefaultLayout key="/">
+									<Dashboard />
+								</DefaultLayout>
+							)}
+						/>
 						<RedirectComponent exact path="/signin" role={[ROLE_TYPE.UNREGISTERED]} user={user} render={() => <Authentication />} />
 						<RedirectComponent exact path="/signin/help" role={[ROLE_TYPE.UNREGISTERED]} user={user} render={() => <Authentication />} />
 						<RedirectComponent exact path="/register" role={[ROLE_TYPE.UNREGISTERED]} user={user} render={() => <Authentication />} />
@@ -35,10 +47,31 @@ class Router extends Component {
 							feature={[FEATURES.BILLING]}
 							subscription={[SUBSCRIPTION_TYPE.TRIAL, SUBSCRIPTION_TYPE.BASIC]}
 							user={user}
-							render={() => <Billing />}
+							render={() => (
+								<DefaultLayout key="/billing">
+									<Billing />
+								</DefaultLayout>
+							)}
 						/>
-						<RedirectComponent path="/profile" user={user} render={() => <Profile />} />
-						<RedirectComponent path="/settings" role={[ROLE_TYPE.OWNER, ROLE_TYPE.ADMINISTRATOR]} user={user} render={() => <Settings />} />
+						<RedirectComponent
+							path="/profile"
+							user={user}
+							render={() => (
+								<DefaultLayout key="/profile">
+									<Profile />
+								</DefaultLayout>
+							)}
+						/>
+						<RedirectComponent
+							path="/settings"
+							role={[ROLE_TYPE.OWNER, ROLE_TYPE.ADMINISTRATOR]}
+							user={user}
+							render={() => (
+								<DefaultLayout key="/settings">
+									<Settings />
+								</DefaultLayout>
+							)}
+						/>
 						<RedirectComponent component={MissingPath} />
 					</Switch>
 				</Fragment>

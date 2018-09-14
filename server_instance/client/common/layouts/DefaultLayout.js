@@ -1,8 +1,6 @@
 import React, { Component, Fragment } from "react";
 import PropTypes from "prop-types";
-
-import AsyncComponent from "common/components/AsyncComponent";
-const Header = AsyncComponent(() => import("client/modules/header"));
+import Header from "client/modules/header";
 
 class DefaultLayout extends Component {
 	render() {
