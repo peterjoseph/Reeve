@@ -26,7 +26,7 @@ class NavDropdownLink extends Component {
 
 		return (
 			<Link to={route} className="dropdown-item">
-				{icon && <span className="align-middle mr-1">{icon}</span>} {title}
+				{icon && <span className="mr-1">{icon}</span>} {title}
 			</Link>
 		);
 	}

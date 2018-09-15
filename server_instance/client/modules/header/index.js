@@ -102,8 +102,8 @@ class Header extends Component {
 									<div className="dropdown-divider" />
 								</Fragment>
 							)}
-							<button className={"btn btn-link dropdown-item"} onClick={this.logout}>
-								<span className="align-middle mr-1">{<LogoutIcon width="16px" height="16px" />}</span> {t("action.logout")}
+							<button className={"btn btn-link dropdown-item text-danger"} onClick={this.logout}>
+								<span className="mr-1">{<LogoutIcon width="16px" height="16px" />}</span> {t("action.logout")}
 							</button>
 						</NavProfileMenu>
 					</ul>
@@ -146,4 +146,9 @@ function mapDispatchToProps(dispatch) {
 	};
 }
 
-export default User(connect(mapStateToProps, mapDispatchToProps)(Header));
+export default User(
+	connect(
+		mapStateToProps,
+		mapDispatchToProps
+	)(Header)
+);
