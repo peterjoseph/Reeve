@@ -4,10 +4,12 @@ body {
 }
 
 .toast-notification {
+	position: initial !important;
 	width: 100% !important;
-	max-width: 700px !important;
+	transition: none !important;
 
 	span {
 		width: 100% !important;
+		border-radius: 0 !important;
 	}
 }
