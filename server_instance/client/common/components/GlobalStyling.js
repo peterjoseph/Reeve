@@ -17,7 +17,24 @@ class GlobalStyling extends Component {
                 border-color: ${color};
             }
 
+            .btn-primary:hover {
+                background-color: ${color};
+                border-color: ${color};
+                filter: brightness(120%);
+            }
+
+            .btn-primary.active, .btn-primary:active, .btn-primary.focus, .btn-primary:focus {
+                background-color: ${color};
+                border-color: ${color};
+            }
+
             .btn-primary.disabled, .btn-primary:disabled {
+                background-color: ${color};
+                border-color: ${color};
+            }
+
+            .btn-primary:not(:disabled):not(.disabled):active, .btn-primary:not(:disabled):not(.disabled).active,
+            .show > .btn-primary.dropdown-toggle {
                 background-color: ${color};
                 border-color: ${color};
             }
@@ -46,6 +63,20 @@ class GlobalStyling extends Component {
                 color: ${color};
             }
 
+            .btn-link.active, .btn-link:active, .btn-link.focus, .btn-link:focus {
+                color: ${color};
+            }
+
+            .btn-link:hover {
+                color: ${color};
+                filter: brightness(120%);
+            }
+
+            .btn-link:disabled, .btn-link.disabled {
+                color: ${color};
+                filter: brightness(80%);
+            }
+
             .dropdown-item.active, .dropdown-item:active {
                 background-color: ${color};
             }
@@ -56,6 +87,16 @@ class GlobalStyling extends Component {
 
             .custom-checkbox .custom-control-input:checked ~ .custom-control-label::before {
                 background-color: ${color};
+            }
+
+            .custom-control-input:active ~ .custom-control-label::before {
+                background-color: ${color};
+                filter: brightness(120%);
+            }
+              
+            .custom-control-input:disabled ~ .custom-control-label::before {
+                background-color: ${color};
+                filter: brightness(80%);
             }
 
             .custom-checkbox .custom-control-input:indeterminate ~ .custom-control-label::before {
@@ -163,7 +204,24 @@ class GlobalStyling extends Component {
                 border-color: ${color};
             }
 
+            .btn-secondary.hover, .btn-secondary:hover {
+                background-color: ${color};
+                border-color: ${color};
+                filter: brightness(120%);
+            }
+
+            .btn-secondary.active, .btn-secondary:active, .btn-secondary.focus, .btn-secondary:focus {
+                background-color: ${color};
+                border-color: ${color};
+            }
+
             .btn-secondary.disabled, .btn-secondary:disabled {
+                background-color: ${color};
+                border-color: ${color};
+            }
+
+            .btn-secondary:not(:disabled):not(.disabled):active, .btn-secondary:not(:disabled):not(.disabled).active,
+            .show > .btn-secondary.dropdown-toggle {
                 background-color: ${color};
                 border-color: ${color};
             }
