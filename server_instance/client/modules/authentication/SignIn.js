@@ -4,7 +4,7 @@ import { Route } from "react-router";
 import { Link, withRouter } from "react-router-dom";
 import { connect } from "react-redux";
 import { bindActionCreators } from "redux";
-import validate from "validate.JS";
+import validate from "validate.js";
 import { Helmet } from "react-helmet";
 import fetch from "shared/utilities/fetch";
 

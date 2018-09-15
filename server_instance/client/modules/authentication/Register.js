@@ -4,7 +4,7 @@ import { connect } from "react-redux";
 import { bindActionCreators } from "redux";
 import { Link } from "react-router-dom";
 import { Helmet } from "react-helmet";
-import validate from "validate.JS";
+import validate from "validate.js";
 import { t, l } from "shared/translations/i18n";
 import { extractSubdomain } from "shared/utilities/subdomain";
 import { registerURL, registerSuccessURL } from "shared/utilities/urls";

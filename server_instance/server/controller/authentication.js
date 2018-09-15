@@ -1,4 +1,4 @@
-import validate from "validate.JS";
+import validate from "validate.js";
 import { register, login, forgot, workspaceURL, verifyResetPassword, resetPassword, verifyEmail } from "shared/validation/authentication";
 import { t } from "shared/translations/i18n";
 import { ServerResponseError } from "utilities/errors/serverResponseError";
