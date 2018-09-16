@@ -114,7 +114,7 @@ class Header extends Component {
 						<Fragment>
 							<div className={`collapse navbar-collapse ${menuVisible ? "show" : ""}`}>
 								<div className="navbar-nav-scroll">
-									<ul className="navbar-nav bd-navbar-nav flex-row">
+									<ul className="navbar-nav bd-navbar-nav flex-md-row">
 										<NavMenuLink title={t("label.dashboard")} route={"/"} isExact={true} />
 										<NavMenuLink title={t("label.profile")} route={"/profile"} isExact={true} />
 									</ul>
