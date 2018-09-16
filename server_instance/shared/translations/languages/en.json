@@ -66,8 +66,7 @@
 			},
 			"workspaceModal": {
 				"title": "What is my workspace name?",
-				"body":
-					"Team or organization, every group has a private workspace.<br />A workspace consists of group members, who collaborate together on projects.<br /><br />You can find your workspace name on the introductory email you received when you created a new account, or were invited to an existing workspace.<br /><br />If you can't remember your workspace name, we can help you get back into your account. What would you like to do?",
+				"body": "Team or organization, every group has a private workspace.<br />A workspace consists of group members, who collaborate together on projects.<br /><br />You can find your workspace name on the introductory email you received when you created a new account, or were invited to an existing workspace.<br /><br />If you can't remember your workspace name, we can help you get back into your account. What would you like to do?",
 				"forgotWorkspace": "Help me get back into my account",
 				"newWorkspace": "I want to create a new workspace for my team"
 			},
@@ -139,6 +138,7 @@
 		"loadUserFailed": "Load user failed.",
 		"loadUserRolesFailed": "Load user roles failed.",
 		"validWorkspaceURL": "cannot contain the following name",
+		"registeredWorkspaceURL": "Sorry, this workspace name has already been used.",
 		"emptyWorkspaceURL": "Workspace name does not exist.",
 		"emptyResetCode": "Password reset code does not exist or is invalid.",
 		"emptyVerifyCode": "Verify email code does not exist or is invalid.",

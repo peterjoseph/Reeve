@@ -93,7 +93,7 @@ export function registerNewClient(received) {
 
 			// Throw an error if a client already exists for a WorkspaceURL
 			if (client !== null) {
-				throw new ServerResponseError(403, t("validation.clientInvalidProperties"), { workspaceURL: [t("validation.validWorkspaceURL")] });
+				throw new ServerResponseError(403, t("validation.clientInvalidProperties"), { workspaceURL: [t("validation.registeredWorkspaceURL")] });
 			}
 
 			// Calculate trial start and end times
