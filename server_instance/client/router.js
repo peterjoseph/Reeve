@@ -27,7 +27,7 @@ class Router extends Component {
 						<RedirectComponent
 							exact
 							path="/"
-							role={[ROLE_TYPE.OWNER]}
+							role={[ROLE_TYPE.OWNER, ROLE_TYPE.ADMINISTRATOR, ROLE_TYPE.FINANCE]}
 							user={user}
 							render={() => (
 								<DefaultLayout key="/">
@@ -57,6 +57,7 @@ class Router extends Component {
 						<RedirectComponent
 							exact
 							path="/profile"
+							role={[ROLE_TYPE.OWNER, ROLE_TYPE.ADMINISTRATOR, ROLE_TYPE.FINANCE]}
 							user={user}
 							render={() => (
 								<DefaultLayout key="/profile">

@@ -7,6 +7,7 @@ import { notify } from "react-notify-toast";
 import { ROLE_TYPE, FEATURES, SUBSCRIPTION_TYPE } from "shared/constants";
 import { t } from "shared/translations/i18n";
 import fetch from "shared/utilities/fetch";
+import { signinURL } from "shared/utilities/urls";
 import { clearToken } from "shared/utilities/securityToken";
 import { AUTHENTICATION, LOGOUT_REJECTED, logoutUser } from "common/store/reducers/authentication";
 
@@ -64,8 +65,8 @@ class Header extends Component {
 				fetch.clearSecurityToken(); // Clear token in fetch header
 
 				// Refresh Browser Window
-				window.location.hash = "";
-				window.location.reload(true);
+				const url = signinURL(this.props.user.get("workspaceURL"));
+				window.location.replace(url);
 			}
 		});
 	}

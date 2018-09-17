@@ -3,6 +3,7 @@ import PropTypes from "prop-types";
 import { Route } from "react-router";
 import { Redirect } from "react-router-dom";
 import { arrayContains, arrayHasAny } from "shared/utilities/filters";
+import { variableExists } from "shared/utilities/filters";
 import AsyncComponent from "./AsyncComponent";
 
 const MissingPath = AsyncComponent(() => import("./MissingPath"));
@@ -11,7 +12,7 @@ class RedirectComponent extends Component {
 	render() {
 		const { path, user, role, feature, subscription } = this.props;
 
-		const userLoggedIn = user && user.get("userId") !== null;
+		const userLoggedIn = variableExists(user) && user.get("userId") !== null;
 
 		// Redirect to signin page when on homepage and not logged in
 		if (path === "/" && !userLoggedIn) {
@@ -24,7 +25,7 @@ class RedirectComponent extends Component {
 		}
 
 		// Redirect to billing pages if user is loaded but trial has ended
-		if (path !== "/billing" && user && !user.get("subscriptionActive")) {
+		if (path !== "/billing" && userLoggedIn && !user.get("subscriptionActive")) {
 			return <Redirect to="/billing" />;
 		}
 
@@ -39,18 +40,30 @@ class RedirectComponent extends Component {
 		}
 
 		// Show Error 404 if user has incorrect role
-		if (role && ((user && !user.get("userRoles")) || !arrayHasAny(role, (user && user.get("userRoles").toJS()) || []))) {
-			return <Route {...this.props} render={() => <MissingPath />} />;
+		if (role && ((userLoggedIn && !user.get("userRoles")) || !arrayHasAny(role, (userLoggedIn && user.get("userRoles").toJS()) || []))) {
+			if (!userLoggedIn) {
+				return <Redirect to="/signin" />;
+			} else {
+				return <Route {...this.props} render={() => <MissingPath />} />;
+			}
 		}
 
 		// Show Error 404 if user has incorrect feature
-		if (feature && ((user && !user.get("clientFeatures")) || !arrayContains(feature, (user && user.get("clientFeatures").toJS()) || []))) {
-			return <Route {...this.props} render={() => <MissingPath />} />;
+		if (feature && ((userLoggedIn && !user.get("clientFeatures")) || !arrayContains(feature, (userLoggedIn && user.get("clientFeatures").toJS()) || []))) {
+			if (!userLoggedIn) {
+				return <Redirect to="/signin" />;
+			} else {
+				return <Route {...this.props} render={() => <MissingPath />} />;
+			}
 		}
 
 		// Show Error 404 if user has incorrect subscription
-		if (subscription && ((user && !user.get("subscriptionId")) || !arrayHasAny(subscription, (user && user.get("subscriptionId")) || []))) {
-			return <Route {...this.props} render={() => <MissingPath />} />;
+		if (subscription && ((userLoggedIn && !user.get("subscriptionId")) || !arrayHasAny(subscription, (userLoggedIn && user.get("subscriptionId")) || []))) {
+			if (!userLoggedIn) {
+				return <Redirect to="/signin" />;
+			} else {
+				return <Route {...this.props} render={() => <MissingPath />} />;
+			}
 		}
 
 		return <Route {...this.props} />;
