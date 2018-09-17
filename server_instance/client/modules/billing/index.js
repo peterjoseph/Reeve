@@ -1,9 +1,10 @@
-import React, { Component } from "react";
+import React, { Component, Fragment } from "react";
 import PropTypes from "prop-types";
 import { connect } from "react-redux";
 // import { bindActionCreators } from "redux";
 import { withRouter } from "react-router-dom";
-
+import { Helmet } from "react-helmet";
+import { t } from "shared/translations/i18n";
 // import { } from "common/store/reducers/billing.js";
 
 import User from "common/components/User";
@@ -13,7 +14,15 @@ import PaymentForm from "./components/PaymentForm";
 
 class Billing extends Component {
 	render() {
-		return <PaymentForm />;
+		return (
+			<Fragment>
+				<Helmet>
+					<title>{t("headers.billing.title")}</title>
+					<meta name="description" content={t("headers.billing.description")} />
+				</Helmet>
+				<PaymentForm />
+			</Fragment>
+		);
 	}
 }
 
@@ -28,4 +37,11 @@ function mapDispatchToProps(dispatch) {
 	};
 }
 
-export default withRouter(User(connect(null, mapDispatchToProps)(Billing)));
+export default withRouter(
+	User(
+		connect(
+			null,
+			mapDispatchToProps
+		)(Billing)
+	)
+);

@@ -102,6 +102,22 @@
 			"title": "Reset Account Password | $t(site.name)",
 			"description": "Reset the password to your account."
 		},
+		"dashboard": {
+			"title": "Dashboard | $t(site.name)",
+			"description": "Workspace overview"
+		},
+		"billing": {
+			"title": "Billing | $t(site.name)",
+			"description": "Manage your account subscription and payments"
+		},
+		"profile": {
+			"title": "Profile | $t(site.name)",
+			"description": "User profile customisation"
+		},
+		"settings": {
+			"title": "Settings | $t(site.name)",
+			"description": "Global account settings"
+		},
 		"404": {
 			"title": "404 Page Not Found | $t(site.name)",
 			"description": "404 Page could not be found."
