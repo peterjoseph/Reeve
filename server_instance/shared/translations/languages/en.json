@@ -118,6 +118,7 @@
 			"403": "You are not authorized to make this request.",
 			"404": "Page could not be found."
 		},
+		"internalServerError": "It looks like something has gone wrong on our system. Don't panic! While our engineers investigate, feel free to contact us and provide the following code for further details. Code: {{ code }}",
 		"somethingWentWrong": "Something went wrong!",
 		"outdatedBrowser": "Hey! You are using an out-of-date web browser version. This might cause compatibility issues with our service. Please consider upgrading your browser.",
 		"verifyEmail": "Error: Your email address could not be successfully verified. Please refresh the page and try again.",

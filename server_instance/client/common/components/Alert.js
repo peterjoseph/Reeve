@@ -34,7 +34,7 @@ class Alert extends Component {
 
 Alert.propTypes = {
 	title: PropTypes.string,
-	children: PropTypes.object,
+	children: PropTypes.oneOfType([PropTypes.string, PropTypes.object]),
 	closeModal: PropTypes.func
 };
 

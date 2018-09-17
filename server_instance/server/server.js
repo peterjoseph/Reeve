@@ -8,6 +8,7 @@ let path = require("path");
 let fs = require("fs");
 let https = require("https");
 let cookieParser = require("cookie-parser");
+let uniqid = require("uniqid");
 let bodyParser = require("body-parser");
 let RateLimit = require("express-rate-limit");
 let RateLimitRedisStore = require("rate-limit-redis");
@@ -23,6 +24,7 @@ let app = express();
 let passport = require("./services/passport");
 let database = require("./services/sequelize");
 let nodemailer = require("./services/nodemailer");
+let i18n = require("../shared/translations/i18n");
 let config = require("../config");
 
 // Set up Sentry Error Reporting
@@ -197,41 +199,50 @@ app.use(function errorHandler(err, req, res, next) {
 		response.reason = err.reason;
 	}
 
-	// Report to Papertrail
-	logger && logger.error(response);
+	if (err.name !== "ServerResponseError") {
+		// Generate a unique error code
+		const code = uniqid();
 
-	res.status(status).send(response);
+		// Append error code to err object
+		err.uniqueErrorCode = code;
+
+		// Report full trace to Papertrail
+		logger && logger.error(err);
+
+		res.status(500).send({ status: 500, message: i18n.t("error.internalServerError", { code: code }) });
+	} else {
+		// Report basic error to Papertrail
+		logger && logger.error(response);
+
+		// Send response to client
+		res.status(status).send(response);
+	}
 });
 
 // Set server port
 app.set("port", config.build.port || 3000);
 
 // Connect to MySQL database
-database.connect(function(err) {
-	if (err) {
-		process.stdout.write("Unable to connect to MySQL Database\n");
-		process.exit(1);
-	} else {
-		// Load server if database connection successful
-		let server = null;
-		if (config.build.protocol === "https") {
-			// Create https server if specified
-			server = https
-				.createServer(
-					{
-						key: fs.readFileSync(config.build.key),
-						cert: fs.readFileSync(config.build.certificate)
-					},
-					app
-				)
-				.listen(app.get("port"), function() {
-					process.stdout.write(`Server listening securely on port: ${server.address().port}\n`);
-				});
-		} else {
-			server = app.listen(app.get("port"), function() {
-				process.stdout.write(`Server listening on port: ${server.address().port}\n`);
+database.connect(() => {
+	// Load server if database connection successful
+	let server = null;
+	if (config.build.protocol === "https") {
+		// Create https server if specified
+		server = https
+			.createServer(
+				{
+					key: fs.readFileSync(config.build.key),
+					cert: fs.readFileSync(config.build.certificate)
+				},
+				app
+			)
+			.listen(app.get("port"), function() {
+				process.stdout.write(`Server listening securely on port: ${server.address().port}\n`);
 			});
-		}
+	} else {
+		server = app.listen(app.get("port"), function() {
+			process.stdout.write(`Server listening on port: ${server.address().port}\n`);
+		});
 	}
 });
 
