@@ -42,6 +42,7 @@ class Router extends Component {
 						<RedirectComponent exact path="/reset" role={[ROLE_TYPE.UNREGISTERED]} user={user} render={() => <Authentication />} />
 						<RedirectComponent exact path="/verify" role={[ROLE_TYPE.UNREGISTERED, ROLE_TYPE.OWNER]} user={user} render={() => <Authentication />} />
 						<RedirectComponent
+							exact
 							path="/billing"
 							role={[ROLE_TYPE.OWNER, ROLE_TYPE.FINANCE]}
 							feature={[FEATURES.BILLING]}
@@ -54,6 +55,7 @@ class Router extends Component {
 							)}
 						/>
 						<RedirectComponent
+							exact
 							path="/profile"
 							user={user}
 							render={() => (
@@ -63,6 +65,7 @@ class Router extends Component {
 							)}
 						/>
 						<RedirectComponent
+							exact
 							path="/settings"
 							role={[ROLE_TYPE.OWNER, ROLE_TYPE.ADMINISTRATOR]}
 							user={user}
@@ -72,7 +75,14 @@ class Router extends Component {
 								</DefaultLayout>
 							)}
 						/>
-						<RedirectComponent component={MissingPath} />
+						<RedirectComponent
+							path="*"
+							render={() => (
+								<DefaultLayout key="*">
+									<MissingPath />
+								</DefaultLayout>
+							)}
+						/>
 					</Switch>
 				</Fragment>
 			</BrowserRouter>

@@ -11,7 +11,7 @@ class MissingPath extends React.Component {
 	render() {
 		const { user } = this.props;
 
-		const subscriptionExpired = user.get("subscriptionActive") === false && arrayContains(FEATURES.BILLING, user.get("clientFeatures").toJS() || []);
+		const subscriptionExpired = user && user.get("subscriptionActive") === false && arrayContains(FEATURES.BILLING, user.get("clientFeatures").toJS() || []);
 
 		return (
 			<Fragment>

@@ -11,11 +11,11 @@ class RedirectComponent extends Component {
 	render() {
 		const { path, user, role, feature, subscription } = this.props;
 
-		const isNotLoggedIn = !user || user.get("userId") === null;
+		const userLoggedIn = user && user.get("userId") !== null;
 
-		// Show certain routes if user is not logged in
-		if ((path == "/register" || path == "/forgot" || path == "/signin" || path == "/signin/help" || path == "/reset") && isNotLoggedIn) {
-			return <Route {...this.props} />;
+		// Redirect to signin page when on homepage and not logged in
+		if (path === "/" && !userLoggedIn) {
+			return <Redirect to="/signin" />;
 		}
 
 		// Show verify email page regardless of if user is logged in
@@ -23,33 +23,33 @@ class RedirectComponent extends Component {
 			return <Route {...this.props} />;
 		}
 
-		// Redirect if user is not logged in and tries to access restricted page
-		if (path !== "/signin" && isNotLoggedIn) {
-			return <Redirect to="/signin" />;
-		}
-
-		// Redirect if user is loaded
-		if ((path === "/signin" || path === "/register" || path === "/forgot" || path === "/reset") && user.get("userId")) {
-			return <Redirect to="/" />;
-		}
-
 		// Redirect to billing pages if user is loaded but trial has ended
-		if (path !== "/billing" && !user.get("subscriptionActive")) {
+		if (path !== "/billing" && user && !user.get("subscriptionActive")) {
 			return <Redirect to="/billing" />;
 		}
 
+		// Show certain routes if user is not logged in
+		if ((path == "/register" || path == "/forgot" || path == "/signin" || path == "/signin/help" || path == "/reset") && !userLoggedIn) {
+			return <Route {...this.props} />;
+		}
+
+		// Redirect if user is loaded
+		if ((path == "/register" || path == "/forgot" || path == "/signin" || path == "/signin/help" || path == "/reset") && userLoggedIn) {
+			return <Redirect to="/" />;
+		}
+
 		// Show Error 404 if user has incorrect role
-		if (role && (!user.get("userRoles") || !arrayHasAny(role, user.get("userRoles").toJS() || []))) {
+		if (role && ((user && !user.get("userRoles")) || !arrayHasAny(role, (user && user.get("userRoles").toJS()) || []))) {
 			return <Route {...this.props} render={() => <MissingPath />} />;
 		}
 
 		// Show Error 404 if user has incorrect feature
-		if (feature && (!user.get("clientFeatures") || !arrayContains(feature, user.get("clientFeatures").toJS() || []))) {
+		if (feature && ((user && !user.get("clientFeatures")) || !arrayContains(feature, (user && user.get("clientFeatures").toJS()) || []))) {
 			return <Route {...this.props} render={() => <MissingPath />} />;
 		}
 
 		// Show Error 404 if user has incorrect subscription
-		if (subscription && (!user.get("subscriptionId") || !arrayHasAny(subscription, user.get("subscriptionId") || []))) {
+		if (subscription && ((user && !user.get("subscriptionId")) || !arrayHasAny(subscription, (user && user.get("subscriptionId")) || []))) {
 			return <Route {...this.props} render={() => <MissingPath />} />;
 		}
 
