@@ -36,9 +36,9 @@ function initialize(app) {
 		done(null, user);
 	});
 
-	passport.deserializeUser(function(id, done) {
+	passport.deserializeUser(function(user, done) {
 		models()
-			.user.findOne({ where: { id: id, active: true } })
+			.user.findOne({ where: { id: user.userId, clientId: user.clientId, active: true } })
 			.then(result => {
 				done(null, result);
 			})
