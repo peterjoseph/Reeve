@@ -1,5 +1,6 @@
 import i18next from "i18next";
 import markdownJsx from "i18next-markdown-jsx-plugin";
+import moment from "moment";
 
 const languages = {
 	en: {
@@ -23,7 +24,17 @@ i18next.use(markdownJsx).init({
 	}
 });
 
+// Update moment js locale when language is changed
+i18next.on("languageChanged", lng => {
+	moment.locale(lng);
+});
+
 export default i18next;
+
+// Change translation language
+export function changeLanguage(lng) {
+	return i18next.changeLanguage(lng);
+}
 
 // Standard text string translations
 export function t(...args) {
