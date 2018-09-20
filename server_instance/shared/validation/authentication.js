@@ -10,11 +10,11 @@ const login = {
 		format: {
 			pattern: "[a-z0-9]+",
 			flags: "i",
-			message: t("validation.validCharactersAZ09")
+			message: t("validation.validators.validCharactersAZ09")
 		},
 		exclusion: {
 			within: restrictedDomains,
-			message: t("validation.validWorkspaceURL")
+			message: t("validation.validators.validWorkspaceURL")
 		},
 		length: {
 			maximum: 255
@@ -80,11 +80,11 @@ const register = {
 		format: {
 			pattern: "[a-z0-9]+",
 			flags: "i",
-			message: t("validation.validCharactersAZ09")
+			message: t("validation.validators.validCharactersAZ09")
 		},
 		exclusion: {
 			within: restrictedDomains,
-			message: t("validation.validWorkspaceURL")
+			message: t("validation.validators.validWorkspaceURL")
 		},
 		length: {
 			minimum: 4,
@@ -98,7 +98,7 @@ const register = {
 		},
 		exclusion: {
 			within: [false],
-			message: t("validation.missingConsent")
+			message: t("validation.validators.missingConsent")
 		}
 	}
 };
@@ -111,11 +111,11 @@ const workspaceURL = {
 		format: {
 			pattern: "[a-z0-9]+",
 			flags: "i",
-			message: t("validation.validCharactersAZ09")
+			message: t("validation.validators.validCharactersAZ09")
 		},
 		exclusion: {
 			within: restrictedDomains,
-			message: t("validation.validWorkspaceURL")
+			message: t("validation.validators.validWorkspaceURL")
 		},
 		length: {
 			minimum: 4,
@@ -152,11 +152,11 @@ const verifyResetPassword = {
 		format: {
 			pattern: "[a-z0-9]+",
 			flags: "i",
-			message: t("validation.validCharactersAZ09")
+			message: t("validation.validators.validCharactersAZ09")
 		},
 		exclusion: {
 			within: restrictedDomains,
-			message: t("validation.validWorkspaceURL")
+			message: t("validation.validators.validWorkspaceURL")
 		},
 		length: {
 			minimum: 4,
@@ -205,11 +205,11 @@ const resetPassword = {
 		format: {
 			pattern: "[a-z0-9]+",
 			flags: "i",
-			message: t("validation.validCharactersAZ09")
+			message: t("validation.validators.validCharactersAZ09")
 		},
 		exclusion: {
 			within: restrictedDomains,
-			message: t("validation.validWorkspaceURL")
+			message: t("validation.validators.validWorkspaceURL")
 		},
 		length: {
 			minimum: 4,
@@ -234,11 +234,11 @@ const verifyEmail = {
 		format: {
 			pattern: "[a-z0-9]+",
 			flags: "i",
-			message: t("validation.validCharactersAZ09")
+			message: t("validation.validators.validCharactersAZ09")
 		},
 		exclusion: {
 			within: restrictedDomains,
-			message: t("validation.validWorkspaceURL")
+			message: t("validation.validators.validWorkspaceURL")
 		},
 		length: {
 			minimum: 4,

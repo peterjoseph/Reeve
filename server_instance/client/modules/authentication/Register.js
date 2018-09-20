@@ -4,7 +4,7 @@ import { connect } from "react-redux";
 import { bindActionCreators } from "redux";
 import { Link } from "react-router-dom";
 import { Helmet } from "react-helmet";
-import validate from "validate.js";
+import validate from "shared/validation/validate";
 import { t, l } from "shared/translations/i18n";
 import { extractSubdomain } from "shared/utilities/subdomain";
 import { registerURL, registerSuccessURL } from "shared/utilities/urls";
@@ -178,8 +178,7 @@ class Register extends Component {
 										<div>
 											<span>
 												<small>
-													{t("components.authentication.policyAgreement")}:
-													<br />
+													{t("components.authentication.policyAgreement")}:<br />
 													{t("numbers.1")}){" "}
 													<a href={l("termsAndConditions")} target="_blank" rel="noopener noreferrer">
 														{t("label.termsAndConditions")}
@@ -237,4 +236,7 @@ function mapDispatchToProps(dispatch) {
 	};
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(Register);
+export default connect(
+	mapStateToProps,
+	mapDispatchToProps
+)(Register);

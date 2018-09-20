@@ -4,7 +4,7 @@ import { connect } from "react-redux";
 import { bindActionCreators } from "redux";
 import { Link, withRouter } from "react-router-dom";
 import { Helmet } from "react-helmet";
-import validate from "validate.js";
+import validate from "shared/validation/validate";
 import { t } from "shared/translations/i18n";
 import { REDUX_STATE } from "shared/constants";
 import { extractSubdomain } from "shared/utilities/subdomain";
@@ -193,4 +193,9 @@ function mapDispatchToProps(dispatch) {
 	};
 }
 
-export default withRouter(connect(mapStateToProps, mapDispatchToProps)(Forgot));
+export default withRouter(
+	connect(
+		mapStateToProps,
+		mapDispatchToProps
+	)(Forgot)
+);

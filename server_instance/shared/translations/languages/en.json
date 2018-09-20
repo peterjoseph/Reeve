@@ -145,7 +145,6 @@
 		"clientInvalidProperties": "Client object contains invalid properties.",
 		"resetPasswordInvalidProperties": "Reset password code contains invalid properties.",
 		"verifyEmailInvalidProperties": "Verify email object contains invalid properties.",
-		"validCharactersAZ09": "can only contain characters from a-z and 0-9, and no spaces",
 		"invalidPasswordSupplied": "Incorrect password supplied. Please enter a valid password.",
 		"invalidUserId": "Incorrect userId supplied",
 		"userDoesNotExist": "A user with this email address does not exist.",
@@ -154,7 +153,6 @@
 		"loadClientFeaturesFailed": "Load client features failed.",
 		"loadUserFailed": "Load user failed.",
 		"loadUserRolesFailed": "Load user roles failed.",
-		"validWorkspaceURL": "cannot contain the following name",
 		"registeredWorkspaceURL": "Sorry, this workspace name has already been used.",
 		"emptyWorkspaceURL": "Workspace name does not exist.",
 		"emptyResetCode": "Password reset code does not exist or is invalid.",
@@ -167,7 +165,19 @@
 		"verifyCodeExpired": "This verify email code has expired. It could be used within a {{ gracePeriod }} hour period. $t(validation.sendNewVerify)",
 		"emailAlreadyVerified": "This email address has already been verified. Please reload the page to continue.",
 		"tokenInvalidOrExpired": "Token invalid or expired.",
-		"missingConsent": "must be accepted to continue",
-		"emailTemplateNotFound": "Error loading email template."
+		"emailTemplateNotFound": "Error loading email template.",
+		"validators": {
+			"validDate": "(Must be a valid date)",
+			"invalidEmail": "(Not a valid email)",
+			"notEqual": "(Not Equal)",
+			"restricted": "(Restricted)",
+			"invalid": "(Invalid)",
+			"notIncluded": "(Is not included in the list)",
+			"validWorkspaceURL": "(Cannot contain the following name)",
+			"missingConsent": "(Must be accepted to continue)",
+			"cannotBeBlank": "(Cannot be blank)",
+			"validCharactersAZ09": "(Can only contain characters from a-z and 0-9, and no spaces)",
+			"invalidURL": "(Not a valid URL)"
+		}
 	}
 }
