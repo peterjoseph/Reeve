@@ -43,14 +43,14 @@ npm install && npm start
 - [x] Subdomains
 - [x] Session Storage
 - [x] React Router
-- [ ] Load Balancing
-- [ ] Email Notifications Management
-- [ ] User Authentication
-- [ ] Error Reporting
+- [x] User Authentication
+- [x] Error Reporting
 - [x] JSON Web Tokens
-- [ ] Polyfills & IE Support
-- [ ] Email Sending
-- [ ] Stripe Payment & Subscription Gateway
+- [x] Polyfills & IE Support
+- [x] Email Sending
 - [x] Sentry error logging
 - [x] Papertrail logging
 - [x] API Rate Limiting
+- [ ] Load Balancing
+- [ ] Stripe Payment & Subscription Gateway
+- [ ] Email Notifications Management
