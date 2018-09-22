@@ -24,7 +24,7 @@ npm install && npm start
 ![](https://i.imgur.com/662XXKg.png)
 \*Subject to change as new services are implemented
 
-## Development Progress
+## Key Features
 
 - [x] Server Configuration & Environment Store
 - [x] Express Server
@@ -51,6 +51,4 @@ npm install && npm start
 - [x] Sentry error logging
 - [x] Papertrail logging
 - [x] API Rate Limiting
-- [ ] Load Balancing
 - [ ] Stripe Payment & Subscription Gateway
-- [ ] Email Notifications Management
