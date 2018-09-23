@@ -36,6 +36,16 @@ export function changeLanguage(lng) {
 	return i18next.changeLanguage(lng);
 }
 
+// Reload active language
+export function reloadLanguage() {
+	return i18next.reloadResources();
+}
+
+// Get currently active language string
+export function activeLanguage() {
+	return i18next.language();
+}
+
 // Standard text string translations
 export function t(...args) {
 	return i18next.t(...args);
