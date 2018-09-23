@@ -1,4 +1,5 @@
 import i18next from "i18next";
+import lngDetector from "i18next-browser-languagedetector";
 import markdownJsx from "i18next-markdown-jsx-plugin";
 import moment from "moment";
 
@@ -11,18 +12,25 @@ const languages = {
 	}
 };
 
-i18next.use(markdownJsx).init({
-	ns: ["translation", "links", "countries", "currencies"],
-	interpolation: {
-		escapeValue: false
-	},
-	lng: "en",
-	fallbackLng: "en",
-	resources: languages,
-	react: {
-		wait: true
-	}
-});
+i18next
+	.use(lngDetector)
+	.use(markdownJsx)
+	.init({
+		ns: ["translation", "links", "countries", "currencies"],
+		interpolation: {
+			escapeValue: false
+		},
+		lng: "en",
+		fallbackLng: "en",
+		resources: languages,
+		react: {
+			wait: true
+		},
+		detection: {
+			order: ["navigator", "htmlTag"],
+			excludeCacheFor: ["cimode"]
+		}
+	});
 
 // Update moment js locale when language is changed
 i18next.on("languageChanged", lng => {

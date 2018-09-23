@@ -51,6 +51,7 @@
 		"express-winston": "^3.0.0",
 		"helmet": "^3.12.1",
 		"i18next": "^11.2.3",
+		"i18next-browser-languagedetector": "^2.2.3",
 		"i18next-markdown-jsx-plugin": "^1.0.13",
 		"immutable": "^3.8.2",
 		"jquery": "^3.3.1",
