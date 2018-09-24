@@ -1,6 +1,8 @@
 import validate from "validate.js";
 import { t } from "shared/translations/i18n";
 
+validate.options = { fullMessages: false };
+
 // Overwrite default validator.js translation strings to ensure internationalization
 validate.validators.date.options = {
 	message: t("validation.validators.validDate")
