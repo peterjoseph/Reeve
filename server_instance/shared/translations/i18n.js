@@ -9,6 +9,12 @@ const languages = {
 		links: require("./links/en.json"),
 		countries: require("./countries/en.json"),
 		currencies: require("./currencies/en.json")
+	},
+	it: {
+		translation: require("./languages/it.json"),
+		links: require("./links/it.json"),
+		countries: require("./countries/it.json"),
+		currencies: require("./currencies/it.json")
 	}
 };
 
@@ -20,16 +26,16 @@ i18next
 		interpolation: {
 			escapeValue: false
 		},
-		lng: "en",
-		fallbackLng: "en",
+		fallbackLng: {
+			it: ["fr"],
+			default: ["en"]
+		},
 		resources: languages,
+		whitelist: ["en", "it"],
 		react: {
 			wait: true
 		},
-		detection: {
-			order: ["navigator", "htmlTag"],
-			excludeCacheFor: ["cimode"]
-		}
+		detection: {}
 	});
 
 // Update moment js locale when language is changed

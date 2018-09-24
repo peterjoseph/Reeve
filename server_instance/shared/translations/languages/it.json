@@ -1,0 +1,183 @@
+{
+	"site": {
+		"name": "Reeve"
+	},
+	"action": {
+		"login": "Accesso",
+		"logout": "Disconnettersi",
+		"signUp": "Iscriviti",
+		"signIn": "Registrati",
+		"register": "Registrare",
+		"continue": "Continua",
+		"close": "Vicino",
+		"save": "Salvare",
+		"sendEmail": "Invia una email",
+		"resendEmail": "Rinvia l'e-mail",
+		"emailSent": "Email inviata"
+	},
+	"label": {
+		"firstName": "Nome di battesimo",
+		"lastName": "Cognome",
+		"emailAddress": "Indirizzo email",
+		"password": "Parola d'ordine",
+		"verifyPassword": "Verifica la password",
+		"workspaceName": "Spazio di lavoro",
+		"welcome": "Benvenuto",
+		"success": "Successo",
+		"termsAndConditions": "Termini e condizioni",
+		"privacyPolicy": "Politica sulla riservatezza",
+		"accountDetails": "Dettagli account",
+		"resetPassword": "Resetta la password",
+		"error": "Errore",
+		"dashboard": "Cruscotto",
+		"activity": "Attività",
+		"contacts": "Contatti",
+		"profile": "Profilo",
+		"settings": "impostazioni",
+		"billing": "Fatturazione",
+		"oops": "Oops!"
+	},
+	"numbers": {
+		"1": "1",
+		"2": "2",
+		"3": "3",
+		"4": "4",
+		"5": "5"
+	},
+	"components": {
+		"authentication": {
+			"workspaceName": "spazio_di_lavoro",
+			"keepSignedIn": "Tienimi connesso",
+			"forgotPassword": "Ha dimenticato la password?",
+			"getStarted": "Per iniziare, inserisci il spazio di lavoro associato al tuo account.",
+			"whatIsWorkspaceName": "Qual è il nome del mio spazio di lavoro?",
+			"noAccount": "La tua squadra non ha ancora un account?",
+			"existingAccount": "Hai già un account?",
+			"noReset": "Non hai bisogno di resettare la tua password?",
+			"policyAgreement": "Registrando un account, accetti quanto segue",
+			"privacyConsent": "Acconsento alla raccolta e all'archiviazione delle mie informazioni per gestire l'elaborazione e il funzionamento del mio account.",
+			"forgotAccountDetails": {
+				"header": "Non ricordi il nome del tuo spazio di lavoro o la password?",
+				"headerPasswordOnly": "Non ricordi la tua password?",
+				"description": "Inserisci il tuo indirizzo email e ti invieremo le istruzioni su come tornare nel tuo account."
+			},
+			"resetPassword": {
+				"description": "Inserisci una nuova password qui sotto per reimpostare la password sul tuo account."
+			},
+			"workspaceModal": {
+				"title": "Qual è il nome del mio spazio di lavoro?",
+				"body": "Squadra o organizzazione, ogni gruppo ha uno spazio di lavoro privato. <br /> Uno spazio di lavoro è composto da membri del gruppo, che collaborano insieme ai progetti. <br /> <br /> Puoi trovare il nome del tuo spazio di lavoro sull'email introduttiva che hai ricevuto quando creato un nuovo account o invitato ad uno spazio di lavoro esistente. <br /> <br /> Se non ricordi il nome del tuo spazio di lavoro, possiamo aiutarti a tornare nel tuo account. Cosa ti piacerebbe fare?",
+				"forgotWorkspace": "Aiutami a tornare nel mio account",
+				"newWorkspace": "Voglio creare un nuovo spazio di lavoro per il mio team"
+			},
+			"verifyEmailNotification": {
+				"welcomeEmailSent": "Ciao {{ firstName }}, è stata inviata un'email di benvenuto a {{ email }}.",
+				"clickLink": "Fai clic sul link nell'e-mail per verificare il tuo indirizzo email."
+			}
+		},
+		"billing": {
+			"trialExpired": "Il tuo processo è scaduto",
+			"trialDaysLeft": "{{ count }} giorno rimasto in prova",
+			"trialDaysLeft_plural": "{{ count }} giorni rimasti in prova",
+			"subscriptionExpired": "Il tuo abbonamento è scaduto. La pagina che stai cercando potrebbe essere stata disabilitata. Si prega di contattare l'amministratore."
+		}
+	},
+	"headers": {
+		"home": {
+			"title": "$t(site.name)"
+		},
+		"login": {
+			"title": "Accedi al tuo account | $t(site.name)",
+			"description": "Inserisci il tuo nome utente e password per accedere al tuo account."
+		},
+		"register": {
+			"title": "Registrati per un account | $t(site.name)",
+			"description": "Completa i tuoi dati di registrazione per creare un account cliente."
+		},
+		"forgot": {
+			"title": "Hai dimenticato i dettagli dell'account | $t(site.name)",
+			"description": "Inserisci il tuo indirizzo email per resettare il tuo account."
+		},
+		"reset": {
+			"title": "Reimposta password account | $t(site.name)",
+			"description": "Reimposta la password sul tuo account."
+		},
+		"dashboard": {
+			"title": "Cruscotto | $t(site.name)",
+			"description": "Panoramica dello spazio di lavoro"
+		},
+		"billing": {
+			"title": "Fatturazione | $t(site.name)",
+			"description": "Gestisci l'abbonamento e i pagamenti del tuo account"
+		},
+		"profile": {
+			"title": "Profilo | $t(site.name)",
+			"description": "Personalizzazione del profilo utente"
+		},
+		"settings": {
+			"title": "Impostazioni | $t(site.name)",
+			"description": "Impostazioni account globali"
+		},
+		"404": {
+			"title": "404 Pagina non trovata | $t(site.name)",
+			"description": "404 Page could not be found."
+		}
+	},
+	"success": {
+		"clientRegistration": "Successo! Il tuo account è stato creato.",
+		"forgotPasswordEmail": "Successo! Se un account è associato a questo indirizzo email, riceverai un messaggio con le istruzioni su come accedere o reimpostare la password sul tuo account.",
+		"resetPassword": "Successo! La password del tuo account è stata ripristinata.",
+		"verifyEmail": "Successo! Il tuo indirizzo email è stato verificato"
+	},
+	"error": {
+		"code": {
+			"403": "Non sei autorizzato a fare questa richiesta.",
+			"404": "La pagina non è stata trovata."
+		},
+		"internalServerError": "Sembra che qualcosa sia andato storto sul nostro sistema. Non farti prendere dal panico! Mentre i nostri ingegneri indagano, sentiti libero di contattarci e fornire il seguente codice per ulteriori dettagli. Codice: {{ code }}",
+		"somethingWentWrong": "Qualcosa è andato storto!",
+		"outdatedBrowser": "Hey! Stai utilizzando una versione del browser Web non aggiornata. Ciò potrebbe causare problemi di compatibilità con il nostro servizio. Si prega di considerare l'aggiornamento del browser.",
+		"verifyEmail": "Errore: il tuo indirizzo email non può essere verificato con successo. Perfavore ricarica la pagina e riprova.",
+		"logout": "Errore: non siamo riusciti a disconnettere il tuo account. Perfavore ricarica la pagina e riprova."
+	},
+	"validation": {
+		"userInvalidProperties": "L'oggetto utente contiene proprietà non valide.",
+		"clientInvalidProperties": "L'oggetto client contiene proprietà non valide.",
+		"resetPasswordInvalidProperties": "Il codice di reimpostazione della password contiene proprietà non valide.",
+		"verifyEmailInvalidProperties": "Verifica che l'oggetto di posta elettronica contenga proprietà non valide.",
+		"invalidPasswordSupplied": "Password errata fornita Per cortesia inserire una password valida.",
+		"invalidUserId": "UserId errato fornito",
+		"userDoesNotExist": "Un utente con questo indirizzo email non esiste.",
+		"loadUserPropertiesFailed": "Le proprietà dell'utente non possono essere caricate correttamente.",
+		"loadClientFailed": "Carica client non riuscito.",
+		"loadClientFeaturesFailed": "Carica le funzionalità del client non riuscite.",
+		"loadUserFailed": "Carica utente fallito.",
+		"loadUserRolesFailed": "Carica ruoli utente falliti.",
+		"registeredWorkspaceURL": "Siamo spiacenti, questo nome dell'area di lavoro è già stato utilizzato.",
+		"emptyWorkspaceURL": "Il nome dell'area di lavoro non esiste.",
+		"emptyResetCode": "Il codice di reimpostazione della password non esiste o non è valido.",
+		"emptyVerifyCode": "Verifica che il codice email non esista o non sia valido.",
+		"sendNewVerify": "Invia una nuova email di verifica e utilizza il codice fornito.",
+		"sendNewReset": "Invia una nuova email di reimpostazione della password e utilizza il codice fornito.",
+		"resetCodeAlreadyUsed": "Questo codice di reimpostazione della password è già stato utilizzato. $t(validation.sendNewReset)",
+		"resetCodeExpired": "Questo codice di reimpostazione della password è scaduto. Potrebbe essere utilizzato entro un periodo di {{ gracePeriod }} ore. $t(validation.sendNewReset)",
+		"verifyCodeAlreadyUsed": "Questo codice email di verifica è già stato utilizzato. $t(validation.sendNewVerify)",
+		"verifyCodeExpired": "Questo codice email di verifica è scaduto. Potrebbe essere utilizzato entro un periodo di {{ gracePeriod }} ore. $t(validation.sendNewVerify)",
+		"emailAlreadyVerified": "Questo indirizzo email è già stato verificato. Si prega di ricaricare la pagina per continuare.",
+		"tokenInvalidOrExpired": "Token non valido o scaduto.",
+		"emailTemplateNotFound": "Errore durante il caricamento del modello di email.",
+		"validators": {
+			"validDate": "(Deve essere una data valida)",
+			"invalidEmail": "(Non è un'e-mail valida)",
+			"notEqual": "(Non uguale)",
+			"restricted": "(Limitato)",
+			"invalid": "(Non valido)",
+			"notIncluded": "(Non è incluso nella lista)",
+			"validWorkspaceURL": "(Non può contenere il seguente nome)",
+			"missingConsent": "(Deve essere accettato per continuare)",
+			"cannotBeBlank": "(Non può essere vuoto)",
+			"validCharactersAZ09": "(Può contenere solo caratteri da a-z e 0-9 e nessuno spazio)",
+			"invalidURL": "(Non è un URL valido)"
+		}
+	}
+}
