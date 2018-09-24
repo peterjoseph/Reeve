@@ -35,7 +35,8 @@
 		"profile": "Profile",
 		"settings": "Settings",
 		"billing": "Billing",
-		"oops": "Oops!"
+		"oops": "Oops!",
+		"errorField": "Error:"
 	},
 	"numbers": {
 		"1": "1",
@@ -167,17 +168,17 @@
 		"tokenInvalidOrExpired": "Token invalid or expired.",
 		"emailTemplateNotFound": "Error loading email template.",
 		"validators": {
-			"validDate": "Must be a valid date",
-			"invalidEmail": "Not a valid email",
-			"notEqual": "Not Equal",
-			"restricted": "Restricted",
-			"invalid": "Invalid",
-			"notIncluded": "Is not included in the list",
-			"validWorkspaceURL": "Cannot contain the following name",
-			"missingConsent": "Must be accepted to continue",
-			"cannotBeBlank": "Cannot be blank",
-			"validCharactersAZ09": "Can only contain characters from a-z and 0-9, and no spaces",
-			"invalidURL": "Not a valid URL"
+			"validDate": "$t(label.errorField) Must be a valid date.",
+			"invalidEmail": "$t(label.errorField) Not a valid email.",
+			"notEqual": "$t(label.errorField) Not Equal.",
+			"restricted": "$t(label.errorField) Restricted.",
+			"invalid": "$t(label.errorField) Invalid.",
+			"notIncluded": "$t(label.errorField) Is not included in the list.",
+			"validWorkspaceURL": "$t(label.errorField) Cannot contain the following name.",
+			"missingConsent": "$t(label.errorField) Must be accepted to continue.",
+			"cannotBeBlank": "$t(label.errorField) Field cannot be blank.",
+			"validCharactersAZ09": "$t(label.errorField) Field can only contain characters from a-z and 0-9, and no spaces.",
+			"invalidURL": "$t(label.errorField) Not a valid URL."
 		}
 	}
 }

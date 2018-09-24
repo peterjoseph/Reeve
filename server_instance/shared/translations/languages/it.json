@@ -35,7 +35,8 @@
 		"profile": "Profilo",
 		"settings": "impostazioni",
 		"billing": "Fatturazione",
-		"oops": "Oops!"
+		"oops": "Oops!",
+		"errorField": "Errore:"
 	},
 	"numbers": {
 		"1": "1",
@@ -46,7 +47,7 @@
 	},
 	"components": {
 		"authentication": {
-			"workspaceName": "spazio_di_lavoro",
+			"workspaceName": "spaziodilavoro",
 			"keepSignedIn": "Tienimi connesso",
 			"forgotPassword": "Ha dimenticato la password?",
 			"getStarted": "Per iniziare, inserisci il spazio di lavoro associato al tuo account.",
@@ -167,17 +168,17 @@
 		"tokenInvalidOrExpired": "Token non valido o scaduto.",
 		"emailTemplateNotFound": "Errore durante il caricamento del modello di email.",
 		"validators": {
-			"validDate": "(Deve essere una data valida)",
-			"invalidEmail": "(Non è un'e-mail valida)",
-			"notEqual": "(Non uguale)",
-			"restricted": "(Limitato)",
-			"invalid": "(Non valido)",
-			"notIncluded": "(Non è incluso nella lista)",
-			"validWorkspaceURL": "(Non può contenere il seguente nome)",
-			"missingConsent": "(Deve essere accettato per continuare)",
-			"cannotBeBlank": "(Non può essere vuoto)",
-			"validCharactersAZ09": "(Può contenere solo caratteri da a-z e 0-9 e nessuno spazio)",
-			"invalidURL": "(Non è un URL valido)"
+			"validDate": "$t(label.errorField) Deve essere una data valida.",
+			"invalidEmail": "$t(label.errorField) Non è un'e-mail valida.",
+			"notEqual": "$t(label.errorField) Non uguale.",
+			"restricted": "$t(label.errorField) Limitato.",
+			"invalid": "$t(label.errorField) Non valido.",
+			"notIncluded": "$t(label.errorField) Non è incluso nella lista.",
+			"validWorkspaceURL": "$t(label.errorField) Non può contenere il seguente nome.",
+			"missingConsent": "$t(label.errorField) Deve essere accettato per continuare.",
+			"cannotBeBlank": "$t(label.errorField) Non può essere vuoto.",
+			"validCharactersAZ09": "$t(label.errorField) Può contenere solo caratteri da a-z e 0-9 e nessuno spazio.",
+			"invalidURL": "$t(label.errorField) Non è un URL valido."
 		}
 	}
 }
