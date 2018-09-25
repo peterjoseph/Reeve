@@ -22,6 +22,7 @@ import { clientStyling } from "./components/ClientStyling";
 import WorkspaceURL from "./components/WorkspaceURL";
 import SignInForm from "./components/SignInForm";
 import Loading from "common/components/Loading";
+import LanguageSwitcher from "./components/LanguageSwitcher";
 
 class SignIn extends Component {
 	constructor(props) {
@@ -198,6 +199,7 @@ class SignIn extends Component {
 											validationErrors={validationErrors}
 										/>
 									)}
+									<LanguageSwitcher />
 								</form>
 							)}
 						</div>
