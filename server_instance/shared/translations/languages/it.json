@@ -45,6 +45,10 @@
 		"4": "4",
 		"5": "5"
 	},
+	"languages": {
+		"en": "Inglese",
+		"it": "Italiano"
+	},
 	"components": {
 		"authentication": {
 			"workspaceName": "spaziodilavoro",

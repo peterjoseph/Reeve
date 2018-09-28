@@ -1,4 +1,5 @@
 import React, { Component } from "react";
+import { activeLanguage, changeLanguage, t } from "shared/translations/i18n";
 
 import EnglandFlagIcon from "common/media/icons/flags/England";
 import ItalyFlagIcon from "common/media/icons/flags/Italy";
@@ -11,6 +12,7 @@ class LanguageSwitcher extends Component {
 			menuVisible: false
 		};
 
+		this.languageChange = this.languageChange.bind(this);
 		this.showMenu = this.showMenu.bind(this);
 		this.closeMenu = this.closeMenu.bind(this);
 	}
@@ -29,23 +31,43 @@ class LanguageSwitcher extends Component {
 		});
 	}
 
+	languageChange(evt) {
+		evt.preventDefault();
+		changeLanguage(evt.target.name, () => {
+			window.location.reload;
+		});
+	}
+
+	flagIcon(lng) {
+		switch (lng) {
+			case "en":
+				return <EnglandFlagIcon width="16px" height="16px" />;
+			case "it":
+				return <ItalyFlagIcon width="16px" height="16px" />;
+			default:
+				return null;
+		}
+	}
+
 	render() {
 		const { menuVisible } = this.state;
+
+		const language = activeLanguage();
 
 		return (
 			<div className="row mt-4 justify-content-center">
 				<div className="col-xs-2 col-centered">
 					<div className="dropdown">
-						<button className="btn btn-light btn-sm dropdown-toggle" type="button" aria-haspopup="true" aria-expanded={menuVisible ? "true" : "false"} onClick={this.showMenu}>
-							<EnglandFlagIcon width="16px" height="16px" />
+						<button className="btn btn-sm dropdown-toggle" type="button" aria-haspopup="true" aria-expanded={menuVisible ? "true" : "false"} onClick={this.showMenu}>
+							{this.flagIcon(language)} {language.toUpperCase()}
 						</button>
 						<div className={`dropdown-menu ${menuVisible ? "d-block" : ""}`} aria-labelledby="dropdownMenuButton">
-							<a className="dropdown-item" href="#">
-								<EnglandFlagIcon width="16px" height="16px" /> English
-							</a>
-							<a className="dropdown-item" href="#">
-								<ItalyFlagIcon width="16px" height="16px" /> Italian
-							</a>
+							<button name="en" className="dropdown-item" onClick={this.languageChange}>
+								{this.flagIcon("en")} {t("languages.en")}
+							</button>
+							<button name="it" className="dropdown-item" onClick={this.languageChange}>
+								{this.flagIcon("it")} {t("languages.it")}
+							</button>
 						</div>
 					</div>
 				</div>

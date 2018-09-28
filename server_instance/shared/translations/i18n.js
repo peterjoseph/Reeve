@@ -56,7 +56,7 @@ export function reloadLanguage() {
 
 // Get currently active language string
 export function activeLanguage() {
-	return i18next.language();
+	return i18next.language;
 }
 
 // Standard text string translations
