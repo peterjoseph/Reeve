@@ -12,6 +12,7 @@ import { extractSubdomain } from "shared/utilities/subdomain";
 import { resetPassword } from "shared/validation/authentication";
 import { baseURL } from "shared/utilities/urls";
 
+import LanguageSwitcher from "./components/LanguageSwitcher";
 import { clientStyling } from "./components/ClientStyling";
 import {
 	AUTHENTICATION,
@@ -194,6 +195,7 @@ class ResetPassword extends Component {
 								<div className="mt-4">
 									{t("components.authentication.noReset")} <Link to={{ pathname: "/signin" }}>{t("action.signIn")}</Link>
 								</div>
+								<LanguageSwitcher />
 							</form>
 						</div>
 					</div>
@@ -231,4 +233,9 @@ function mapDispatchToProps(dispatch) {
 	};
 }
 
-export default withRouter(connect(mapStateToProps, mapDispatchToProps)(ResetPassword));
+export default withRouter(
+	connect(
+		mapStateToProps,
+		mapDispatchToProps
+	)(ResetPassword)
+);

@@ -33,9 +33,10 @@ class LanguageSwitcher extends Component {
 
 	languageChange(evt) {
 		evt.preventDefault();
-		changeLanguage(evt.target.name, () => {
-			window.location.reload;
-		});
+		changeLanguage(evt.target.name);
+
+		// Reload the page once the language has been changed
+		window.location.reload();
 	}
 
 	flagIcon(lng) {

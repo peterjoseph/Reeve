@@ -16,6 +16,7 @@ import ServerError from "common/components/ServerError";
 import InputField from "common/components/inputs/InputField";
 import Checkbox from "common/components/inputs/Checkbox";
 import WorkspaceURLField from "common/components/inputs/WorkspaceURLField";
+import LanguageSwitcher from "./components/LanguageSwitcher";
 
 class Register extends Component {
 	constructor(props) {
@@ -211,6 +212,7 @@ class Register extends Component {
 									<div className="mt-4">
 										{t("components.authentication.existingAccount")} <Link to={{ pathname: "/signin" }}>{t("action.signIn")}</Link>
 									</div>
+									<LanguageSwitcher />
 								</form>
 							</div>
 						</div>

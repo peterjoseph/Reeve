@@ -9,6 +9,7 @@ import { t } from "shared/translations/i18n";
 import { REDUX_STATE } from "shared/constants";
 import { extractSubdomain } from "shared/utilities/subdomain";
 
+import LanguageSwitcher from "./components/LanguageSwitcher";
 import { clientStyling } from "./components/ClientStyling";
 import { AUTHENTICATION, FORGOT_ACCOUNT_REJECTED, validateWorkspaceURL, forgotAccount } from "../../common/store/reducers/authentication.js";
 import { forgot } from "shared/validation/authentication";
@@ -159,6 +160,7 @@ class Forgot extends Component {
 								<div className="mt-4">
 									{t("components.authentication.existingAccount")} <Link to={{ pathname: "/signin" }}>{t("action.signIn")}</Link>
 								</div>
+								<LanguageSwitcher />
 							</form>
 						</div>
 					</div>
