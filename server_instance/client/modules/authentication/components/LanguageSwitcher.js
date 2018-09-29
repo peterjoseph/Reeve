@@ -1,5 +1,8 @@
 import React, { Component } from "react";
 import { activeLanguage, changeLanguage, t } from "shared/translations/i18n";
+import { bindActionCreators } from "redux";
+import { withRouter } from "react-router-dom";
+import { connect } from "react-redux";
 
 import EnglandFlagIcon from "common/media/icons/flags/England";
 import ItalyFlagIcon from "common/media/icons/flags/Italy";
@@ -77,4 +80,17 @@ class LanguageSwitcher extends Component {
 	}
 }
 
-export default LanguageSwitcher;
+function mapStateToProps(state) {
+	return {};
+}
+
+function mapDispatchToProps(dispatch) {
+	return {};
+}
+
+export default withRouter(
+	connect(
+		mapStateToProps,
+		mapDispatchToProps
+	)(LanguageSwitcher)
+);
