@@ -13,6 +13,7 @@ import GlobalStyling from "common/components/GlobalStyling";
 import Loading from "common/components/Loading";
 
 import { AUTHENTICATION, LOGIN_REJECTED, loginUser, loadUser } from "./common/store/reducers/authentication";
+import { LANGUAGE } from "common/store/reducers/language.js";
 import { getToken, saveToken, clearToken } from "shared/utilities/securityToken";
 
 class App extends Component {
@@ -87,12 +88,13 @@ class App extends Component {
 	}
 
 	render() {
+		const { activeLanguage } = this.props;
 		return (
 			<Fragment>
 				{this.state.loading ? (
 					<Loading />
 				) : (
-					<GlobalStyling>
+					<GlobalStyling key={activeLanguage}>
 						<Router {...this.props} />
 					</GlobalStyling>
 				)}
@@ -112,6 +114,7 @@ App.propTypes = {
 
 function mapStateToProps(state, props) {
 	return {
+		activeLanguage: state.getIn([LANGUAGE, "changeLanguage", "payload", "language"]),
 		logInStatus: state.getIn([AUTHENTICATION, "userLogin", "status"]),
 		logInData: state.getIn([AUTHENTICATION, "userLogin", "payload"]),
 		userStatus: state.getIn([AUTHENTICATION, "user", "status"]),
@@ -126,4 +129,7 @@ function mapDispatchToProps(dispatch) {
 	};
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(App);
+export default connect(
+	mapStateToProps,
+	mapDispatchToProps
+)(App);
