@@ -46,10 +46,12 @@ export function changeLanguage(language) {
 
 		return i18next.changeLanguage(language, (err, t) => {
 			if (err) {
-				dispatch({
+				return dispatch({
 					type: CHANGE_LANGUAGE_REJECTED
 				});
 			}
+
+			i18next.reloadResources();
 
 			return dispatch({
 				type: CHANGE_LANGUAGE_FULFILLED,

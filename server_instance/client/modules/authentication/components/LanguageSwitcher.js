@@ -1,10 +1,10 @@
 import React, { Component } from "react";
 import PropTypes from "prop-types";
 import { activeLanguage, t } from "shared/translations/i18n";
+import { REDUX_STATE } from "shared/constants";
 import { bindActionCreators } from "redux";
 import { withRouter } from "react-router-dom";
 import { connect } from "react-redux";
-import { REDUX_STATE } from "shared/constants";
 
 import { LANGUAGE, changeLanguage } from "common/store/reducers/language.js";
 
@@ -27,7 +27,6 @@ class LanguageSwitcher extends Component {
 	static getDerivedStateFromProps(nextProps, prevState) {
 		if (nextProps.changeLanguageStatus === REDUX_STATE.FULFILLED) {
 			window.location.reload();
-			return null;
 		}
 		return null;
 	}
