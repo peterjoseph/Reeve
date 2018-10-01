@@ -1,8 +1,12 @@
 import React, { Component } from "react";
-import { activeLanguage, changeLanguage, t } from "shared/translations/i18n";
+import PropTypes from "prop-types";
+import { activeLanguage, t } from "shared/translations/i18n";
 import { bindActionCreators } from "redux";
 import { withRouter } from "react-router-dom";
 import { connect } from "react-redux";
+import { REDUX_STATE } from "shared/constants";
+
+import { LANGUAGE, changeLanguage } from "common/store/reducers/language.js";
 
 import EnglandFlagIcon from "common/media/icons/flags/England";
 import ItalyFlagIcon from "common/media/icons/flags/Italy";
@@ -18,6 +22,14 @@ class LanguageSwitcher extends Component {
 		this.languageChange = this.languageChange.bind(this);
 		this.showMenu = this.showMenu.bind(this);
 		this.closeMenu = this.closeMenu.bind(this);
+	}
+
+	static getDerivedStateFromProps(nextProps, prevState) {
+		if (nextProps.changeLanguageStatus === REDUX_STATE.FULFILLED) {
+			window.location.reload();
+			return null;
+		}
+		return null;
 	}
 
 	showMenu(evt) {
@@ -36,10 +48,7 @@ class LanguageSwitcher extends Component {
 
 	languageChange(evt) {
 		evt.preventDefault();
-		changeLanguage(evt.target.name);
-
-		// Reload the page once the language has been changed
-		window.location.reload();
+		this.props.changeLanguage(evt.target.name);
 	}
 
 	flagIcon(lng) {
@@ -80,12 +89,21 @@ class LanguageSwitcher extends Component {
 	}
 }
 
+LanguageSwitcher.propTypes = {
+	changeLanguage: PropTypes.func,
+	changeLanguageStatus: PropTypes.string
+};
+
 function mapStateToProps(state) {
-	return {};
+	return {
+		changeLanguageStatus: state.getIn([LANGUAGE, "changeLanguage", "status"])
+	};
 }
 
 function mapDispatchToProps(dispatch) {
-	return {};
+	return {
+		changeLanguage: bindActionCreators(changeLanguage, dispatch)
+	};
 }
 
 export default withRouter(
