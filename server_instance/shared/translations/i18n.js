@@ -23,6 +23,7 @@ i18next
 	.use(languageDetector)
 	.init({
 		resources: languages,
+		whitelist: ["it", "en"],
 		fallbackLng: "en",
 		ns: ["translation", "links", "countries", "currencies"],
 		interpolation: {
@@ -57,6 +58,12 @@ export function reloadLanguage() {
 // Get currently active language string
 export function activeLanguage() {
 	return i18next.language;
+}
+
+// Retrieve browser language string
+export function getToken() {
+	const lang = window.sessionStorage.getItem("i18nextLng") || window.localStorage.getItem("i18nextLng");
+	return JSON.parse(lang);
 }
 
 // Standard text string translations
