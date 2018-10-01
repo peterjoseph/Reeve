@@ -41,7 +41,7 @@ function validate(body, constraints, options = {}) {
 		message: t("validation.validators.invalidURL")
 	};
 
-	return validate(body, constraints, {});
+	return validate(body, constraints, options);
 }
 
 export default validate;
