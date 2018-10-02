@@ -11,7 +11,7 @@ import { arrayContains } from "shared/utilities/filters";
 import { ServerResponseError } from "utilities/errors/serverResponseError";
 import { t } from "shared/translations/i18n";
 import { baseWorkspaceURL, resetPasswordURL, emailValidationURL } from "shared/utilities/urls";
-import { FEATURES, SUBSCRIPTION_TYPE, ROLE_TYPE, EMAIL_TYPE, BILLING_CYCLE, SERVER_DETAILS } from "shared/constants";
+import { FEATURES, SUBSCRIPTION_TYPE, ROLE_TYPE, EMAIL_TYPE, BILLING_CYCLE, LANGUAGE_CODES } from "shared/constants";
 
 // Validate Workspace URL and retrieve client styling (if feature exists)
 export function validateWorkspaceURL(workspaceURL) {
@@ -34,7 +34,7 @@ export function validateWorkspaceURL(workspaceURL) {
 			}
 
 			// Load styling if client has styling feature
-			let clientStyling = null;
+			let clientStyling = {};
 			if (arrayContains(FEATURES.STYLING, features)) {
 				let styling = await models().clientStyling.findOne({ where: { clientId: client.get("id") } }, { transaction: transaction });
 				if (styling != null) {
@@ -47,6 +47,9 @@ export function validateWorkspaceURL(workspaceURL) {
 					};
 				}
 			}
+
+			// Load client default language into styling object
+			clientStyling.defaultLanguage = LANGUAGE_CODES[client.get("defaultLanguage")] || "";
 
 			// Create a response object
 			const response = { status: 200, message: t("label.success") };

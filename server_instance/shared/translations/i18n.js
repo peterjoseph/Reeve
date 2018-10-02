@@ -63,7 +63,7 @@ export function activeLanguage() {
 // Retrieve browser language string
 export function getToken() {
 	const lang = window.sessionStorage.getItem("i18nextLng") || window.localStorage.getItem("i18nextLng");
-	return JSON.parse(lang);
+	return lang;
 }
 
 // Standard text string translations

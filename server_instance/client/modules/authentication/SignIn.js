@@ -8,13 +8,15 @@ import validate from "shared/validation/validate";
 import { Helmet } from "react-helmet";
 import fetch from "shared/utilities/fetch";
 
-import { t } from "shared/translations/i18n";
+import { t, activeLanguage } from "shared/translations/i18n";
 import { saveToken, clearToken } from "shared/utilities/securityToken";
 import { REDUX_STATE } from "shared/constants";
 import { extractSubdomain } from "shared/utilities/subdomain";
 import { signinURL } from "shared/utilities/urls";
+import { variableExists } from "shared/utilities/filters";
 
 import { AUTHENTICATION, LOGIN_REJECTED, validateWorkspaceURL, VALIDATE_WORKSPACE_URL_REJECTED, loginUser, loadUser, LOAD_USER_REJECTED } from "common/store/reducers/authentication.js";
+import { changeLanguage } from "common/store/reducers/language.js";
 import { login, workspaceURL } from "shared/validation/authentication";
 
 import Alert from "common/components/Alert";
@@ -54,6 +56,13 @@ class SignIn extends Component {
 					this.setState({
 						serverError: result.payload
 					});
+					return;
+				}
+
+				// Load client specific default language
+				const lng = result.payload.defaultLanguage;
+				if (variableExists(lng) !== "" && activeLanguage() !== lng) {
+					this.props.changeLanguage(lng);
 				}
 			});
 		}
@@ -240,7 +249,8 @@ SignIn.propTypes = {
 	loadUser: PropTypes.func,
 	validateWorkspaceURL: PropTypes.func,
 	userToken: PropTypes.string,
-	userKeepSignedIn: PropTypes.bool
+	userKeepSignedIn: PropTypes.bool,
+	changeLanguage: PropTypes.func
 };
 
 function mapStateToProps(state) {
@@ -257,7 +267,8 @@ function mapDispatchToProps(dispatch) {
 	return {
 		loginUser: bindActionCreators(loginUser, dispatch),
 		loadUser: bindActionCreators(loadUser, dispatch),
-		validateWorkspaceURL: bindActionCreators(validateWorkspaceURL, dispatch)
+		validateWorkspaceURL: bindActionCreators(validateWorkspaceURL, dispatch),
+		changeLanguage: bindActionCreators(changeLanguage, dispatch)
 	};
 }
 

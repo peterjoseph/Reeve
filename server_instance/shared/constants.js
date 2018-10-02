@@ -39,7 +39,12 @@ module.exports = Object.freeze({
 		RESET_PASSWORD_SUCCESS: 5
 	},
 	LANGUAGE: {
-		ENGLISH: 1
+		ENGLISH: 1,
+		ITALIAN: 2
+	},
+	LANGUAGE_CODES: {
+		1: "en",
+		2: "it"
 	},
 	REDUX_STATE: {
 		PENDING: "PENDING",
