@@ -33,8 +33,9 @@ i18next
 			wait: true
 		},
 		detection: {
+			lookupLocalStorage: "lng",
 			order: ["localStorage", "navigator"],
-			caches: ["localStorage"]
+			caches: []
 		}
 	});
 
