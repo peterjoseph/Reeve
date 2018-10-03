@@ -5,13 +5,15 @@ import { bindActionCreators } from "redux";
 import { Link, withRouter } from "react-router-dom";
 import { Helmet } from "react-helmet";
 import validate from "shared/validation/validate";
-import { t } from "shared/translations/i18n";
+import { t, activeLanguage, getLNGToken } from "shared/translations/i18n";
 import { REDUX_STATE } from "shared/constants";
 import { extractSubdomain } from "shared/utilities/subdomain";
+import { variableExists } from "shared/utilities/filters";
 
 import LanguageSwitcher from "./components/LanguageSwitcher";
 import { clientStyling } from "./components/ClientStyling";
-import { AUTHENTICATION, FORGOT_ACCOUNT_REJECTED, validateWorkspaceURL, forgotAccount } from "../../common/store/reducers/authentication.js";
+import { AUTHENTICATION, FORGOT_ACCOUNT_REJECTED, VALIDATE_WORKSPACE_URL_REJECTED, validateWorkspaceURL, forgotAccount } from "../../common/store/reducers/authentication.js";
+import { changeLanguage } from "common/store/reducers/language.js";
 import { forgot } from "shared/validation/authentication";
 
 import ServerSuccess from "common/components/ServerSuccess";
@@ -38,7 +40,21 @@ class Forgot extends Component {
 		// Validate workspace url and retrieve client information
 		if (this.props.workspaceURLStatus !== REDUX_STATE.FULFILLED) {
 			const subdomain = extractSubdomain(window.location.href);
-			this.props.validateWorkspaceURL(subdomain);
+			this.props.validateWorkspaceURL(subdomain).then(result => {
+				if (result.type === VALIDATE_WORKSPACE_URL_REJECTED) {
+					this.setState({
+						serverError: result.payload
+					});
+					return;
+				}
+
+				// Load client specific default language
+				const lng = result.payload.defaultLanguage;
+				const activeBrowserLNG = getLNGToken();
+				if (!variableExists(activeBrowserLNG) && variableExists(lng) && activeLanguage() !== lng) {
+					this.props.changeLanguage(lng);
+				}
+			});
 		}
 	}
 
@@ -177,7 +193,8 @@ Forgot.propTypes = {
 	validateWorkspaceURL: PropTypes.func,
 	workspaceURLStatus: PropTypes.string,
 	forgotAccountStatus: PropTypes.string,
-	clientStyle: PropTypes.object
+	clientStyle: PropTypes.object,
+	changeLanguage: PropTypes.func
 };
 
 function mapStateToProps(state) {
@@ -191,7 +208,8 @@ function mapStateToProps(state) {
 function mapDispatchToProps(dispatch) {
 	return {
 		forgotAccount: bindActionCreators(forgotAccount, dispatch),
-		validateWorkspaceURL: bindActionCreators(validateWorkspaceURL, dispatch)
+		validateWorkspaceURL: bindActionCreators(validateWorkspaceURL, dispatch),
+		changeLanguage: bindActionCreators(changeLanguage, dispatch)
 	};
 }
 

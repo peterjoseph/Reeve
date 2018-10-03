@@ -6,11 +6,12 @@ import { Link, withRouter } from "react-router-dom";
 import { Helmet } from "react-helmet";
 import validate from "shared/validation/validate";
 import queryString from "query-string";
-import { t } from "shared/translations/i18n";
+import { t, activeLanguage, getLNGToken } from "shared/translations/i18n";
 import { REDUX_STATE } from "shared/constants";
 import { extractSubdomain } from "shared/utilities/subdomain";
 import { resetPassword } from "shared/validation/authentication";
 import { baseURL } from "shared/utilities/urls";
+import { variableExists } from "shared/utilities/filters";
 
 import LanguageSwitcher from "./components/LanguageSwitcher";
 import { clientStyling } from "./components/ClientStyling";
@@ -23,6 +24,7 @@ import {
 	validateResetPasswordCode,
 	resetUserPassword
 } from "common/store/reducers/authentication.js";
+import { changeLanguage } from "common/store/reducers/language.js";
 
 import ServerSuccess from "common/components/ServerSuccess";
 import ServerError from "common/components/ServerError";
@@ -56,6 +58,14 @@ class ResetPassword extends Component {
 				if (result.type === VALIDATE_WORKSPACE_URL_REJECTED) {
 					const url = baseURL();
 					window.location.replace(url);
+					return;
+				}
+
+				// Load client specific default language
+				const lng = result.payload.defaultLanguage;
+				const activeBrowserLNG = getLNGToken();
+				if (!variableExists(activeBrowserLNG) && variableExists(lng) && activeLanguage() !== lng) {
+					this.props.changeLanguage(lng);
 				}
 			});
 		}
@@ -213,7 +223,8 @@ ResetPassword.propTypes = {
 	resetUserPassword: PropTypes.func,
 	workspaceURLStatus: PropTypes.string,
 	resetPasswordStatus: PropTypes.string,
-	clientStyle: PropTypes.object
+	clientStyle: PropTypes.object,
+	changeLanguage: PropTypes.func
 };
 
 function mapStateToProps(state) {
@@ -229,7 +240,8 @@ function mapDispatchToProps(dispatch) {
 	return {
 		validateWorkspaceURL: bindActionCreators(validateWorkspaceURL, dispatch),
 		validateResetPasswordCode: bindActionCreators(validateResetPasswordCode, dispatch),
-		resetUserPassword: bindActionCreators(resetUserPassword, dispatch)
+		resetUserPassword: bindActionCreators(resetUserPassword, dispatch),
+		changeLanguage: bindActionCreators(changeLanguage, dispatch)
 	};
 }
 
