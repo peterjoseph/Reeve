@@ -42,9 +42,6 @@ class Forgot extends Component {
 			const subdomain = extractSubdomain(window.location.href);
 			this.props.validateWorkspaceURL(subdomain).then(result => {
 				if (result.type === VALIDATE_WORKSPACE_URL_REJECTED) {
-					this.setState({
-						serverError: result.payload
-					});
 					return;
 				}
 
