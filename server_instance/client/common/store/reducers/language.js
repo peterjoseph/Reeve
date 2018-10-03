@@ -1,6 +1,6 @@
 import { fromJS } from "immutable";
 import { REDUX_STATE } from "shared/constants";
-import i18next from "shared/translations/i18n";
+import i18next, { saveLNGToken } from "shared/translations/i18n";
 
 import "./root";
 
@@ -51,7 +51,11 @@ export function changeLanguage(language) {
 				});
 			}
 
+			// Reload i18n resources
 			i18next.reloadResources();
+
+			// Store active token in browser
+			saveLNGToken(i18next.language);
 
 			return dispatch({
 				type: CHANGE_LANGUAGE_FULFILLED,

@@ -8,7 +8,7 @@ import validate from "shared/validation/validate";
 import { Helmet } from "react-helmet";
 import fetch from "shared/utilities/fetch";
 
-import { t, activeLanguage } from "shared/translations/i18n";
+import { t, activeLanguage, getLNGToken } from "shared/translations/i18n";
 import { saveToken, clearToken } from "shared/utilities/securityToken";
 import { REDUX_STATE } from "shared/constants";
 import { extractSubdomain } from "shared/utilities/subdomain";
@@ -61,7 +61,8 @@ class SignIn extends Component {
 
 				// Load client specific default language
 				const lng = result.payload.defaultLanguage;
-				if (variableExists(lng) !== "" && activeLanguage() !== lng) {
+				const activeBrowserLNG = getLNGToken();
+				if (!variableExists(activeBrowserLNG) && variableExists(lng) && activeLanguage() !== lng) {
 					this.props.changeLanguage(lng);
 				}
 			});

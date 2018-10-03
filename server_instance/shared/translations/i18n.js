@@ -62,9 +62,20 @@ export function activeLanguage() {
 }
 
 // Retrieve browser language string
-export function getToken() {
-	const lang = window.sessionStorage.getItem("i18nextLng") || window.localStorage.getItem("i18nextLng");
-	return lang;
+export function getLNGToken() {
+	const lng = window.sessionStorage.getItem("lng") || window.localStorage.getItem("lng");
+	return lng;
+}
+
+// Store browser language string
+export function saveLNGToken(lng) {
+	window.localStorage.setItem("lng", lng);
+}
+
+// Clear browser language string
+export function clearLNGToken() {
+	window.localStorage.removeItem("lng");
+	window.sessionStorage.removeItem("lng");
 }
 
 // Standard text string translations
