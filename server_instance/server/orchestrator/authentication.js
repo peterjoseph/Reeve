@@ -321,7 +321,8 @@ export function loadUser(received) {
 				subscriptionActive: subscriptionActive,
 				billingCycle: client.get("billingCycle"),
 				clientFeatures: features,
-				userRoles: roles
+				userRoles: roles,
+				language: LANGUAGE_CODES[user.get("language")] || ""
 			};
 
 			// Append styling if client has styling feature enabled

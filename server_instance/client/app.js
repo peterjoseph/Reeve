@@ -5,15 +5,16 @@ import PropTypes from "prop-types";
 import bowser from "bowser";
 import { notify } from "react-notify-toast";
 import fetch from "shared/utilities/fetch";
-import { t } from "shared/translations/i18n";
+import { t, activeLanguage } from "shared/translations/i18n";
 import { SERVER_DETAILS, REDUX_STATE } from "shared/constants";
+import { variableExists } from "shared/utilities/filters";
 
 import Router from "./Router";
 import GlobalStyling from "common/components/GlobalStyling";
 import Loading from "common/components/Loading";
 
-import { AUTHENTICATION, LOGIN_REJECTED, loginUser, loadUser } from "./common/store/reducers/authentication";
-import { LANGUAGE } from "common/store/reducers/language.js";
+import { AUTHENTICATION, LOGIN_REJECTED, LOAD_USER_REJECTED, loginUser, loadUser } from "./common/store/reducers/authentication";
+import { LANGUAGE, changeLanguage } from "common/store/reducers/language.js";
 import { getToken, saveToken, clearToken } from "shared/utilities/securityToken";
 
 class App extends Component {
@@ -78,7 +79,26 @@ class App extends Component {
 					loading: false
 				});
 			} else {
-				this.props.loadUser().then(() => {
+				this.props.loadUser().then(result => {
+					if (result.type === LOAD_USER_REJECTED) {
+						clearToken(); // Clear security token if user could not be loaded
+						fetch.clearSecurityToken(); // Clear token in fetch header
+						this.setState({
+							loading: false
+						});
+
+						// Reload the web browser as loading the user failed
+						window.location.reload;
+						return;
+					}
+
+					// Load client specific default language
+					const lng = result.payload.language;
+					if (variableExists(lng) && activeLanguage() !== lng) {
+						this.props.changeLanguage(lng);
+					}
+
+					// Loading is complete
 					this.setState({
 						loading: false
 					});
@@ -109,7 +129,8 @@ App.propTypes = {
 	logInStatus: PropTypes.string,
 	userStatus: PropTypes.string,
 	logInData: PropTypes.object,
-	userData: PropTypes.object
+	userData: PropTypes.object,
+	changeLanguage: PropTypes.func
 };
 
 function mapStateToProps(state, props) {
@@ -125,7 +146,8 @@ function mapStateToProps(state, props) {
 function mapDispatchToProps(dispatch) {
 	return {
 		loginUser: bindActionCreators(loginUser, dispatch),
-		loadUser: bindActionCreators(loadUser, dispatch)
+		loadUser: bindActionCreators(loadUser, dispatch),
+		changeLanguage: bindActionCreators(changeLanguage, dispatch)
 	};
 }
 
