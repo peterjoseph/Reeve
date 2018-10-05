@@ -1,6 +1,5 @@
 import { t } from "shared/translations/i18n";
-
-const restrictedDomains = ["domain", "account", "accounts", "admin", "registration", "signup", "configuration", "web", "mobile", "app", "software", "com", "net", "org"];
+import { RESTRICTED_LANGUAGES, RESTRICTED_DOMAINS } from "shared/constants";
 
 const login = {
 	workspaceURL: {
@@ -13,7 +12,7 @@ const login = {
 			message: t("validation.validators.validCharactersAZ09")
 		},
 		exclusion: {
-			within: restrictedDomains,
+			within: RESTRICTED_DOMAINS,
 			message: t("validation.validators.validWorkspaceURL")
 		},
 		length: {
@@ -83,7 +82,7 @@ const register = {
 			message: t("validation.validators.validCharactersAZ09")
 		},
 		exclusion: {
-			within: restrictedDomains,
+			within: RESTRICTED_DOMAINS,
 			message: t("validation.validators.validWorkspaceURL")
 		},
 		length: {
@@ -100,6 +99,14 @@ const register = {
 			within: [false],
 			message: t("validation.validators.missingConsent")
 		}
+	},
+	language: {
+		presence: {
+			allowEmpty: false
+		},
+		inclusion: {
+			within: RESTRICTED_LANGUAGES
+		}
 	}
 };
 
@@ -114,7 +121,7 @@ const workspaceURL = {
 			message: t("validation.validators.validCharactersAZ09")
 		},
 		exclusion: {
-			within: restrictedDomains,
+			within: RESTRICTED_DOMAINS,
 			message: t("validation.validators.validWorkspaceURL")
 		},
 		length: {
@@ -155,7 +162,7 @@ const verifyResetPassword = {
 			message: t("validation.validators.validCharactersAZ09")
 		},
 		exclusion: {
-			within: restrictedDomains,
+			within: RESTRICTED_DOMAINS,
 			message: t("validation.validators.validWorkspaceURL")
 		},
 		length: {
@@ -208,7 +215,7 @@ const resetPassword = {
 			message: t("validation.validators.validCharactersAZ09")
 		},
 		exclusion: {
-			within: restrictedDomains,
+			within: RESTRICTED_DOMAINS,
 			message: t("validation.validators.validWorkspaceURL")
 		},
 		length: {
@@ -237,7 +244,7 @@ const verifyEmail = {
 			message: t("validation.validators.validCharactersAZ09")
 		},
 		exclusion: {
-			within: restrictedDomains,
+			within: RESTRICTED_DOMAINS,
 			message: t("validation.validators.validWorkspaceURL")
 		},
 		length: {

@@ -118,6 +118,9 @@ export function registerNewClient(received) {
 			// Encrypt and salt user password
 			const password = bcrypt.hashSync(received.password, 10);
 
+			// Load active language numerical value from constants object
+			const activeLanguage = Object.keys(LANGUAGE_CODES).find(key => LANGUAGE_CODES[key] === received.language);
+
 			// Create new user and save to database
 			const userInstance = await models().user.create(
 				{
@@ -125,7 +128,8 @@ export function registerNewClient(received) {
 					lastName: received.lastName,
 					clientId: clientInstance.get("id"),
 					emailAddress: received.emailAddress,
-					password: password
+					password: password,
+					language: activeLanguage
 				},
 				{ transaction: transaction }
 			);

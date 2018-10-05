@@ -50,5 +50,29 @@ module.exports = Object.freeze({
 		PENDING: "PENDING",
 		FULFILLED: "FULFILLED",
 		REJECTED: "REJECTED"
-	}
+	},
+	RESTRICTED_LANGUAGES: ["en", "it"],
+	RESTRICTED_DOMAINS: [
+		"domain",
+		"account",
+		"accounts",
+		"admin",
+		"registration",
+		"signup",
+		"configuration",
+		"web",
+		"mobile",
+		"app",
+		"software",
+		"com",
+		"net",
+		"org",
+		"login",
+		"register",
+		"account",
+		"app",
+		"reeve",
+		"member",
+		"membership"
+	]
 });

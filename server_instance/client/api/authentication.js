@@ -10,7 +10,8 @@ export function clientRegistration(client) {
 			lastName: client.lastName,
 			emailAddress: client.emailAddress,
 			password: client.password,
-			privacyConsent: client.privacyConsent
+			privacyConsent: client.privacyConsent,
+			language: client.language
 		})
 	});
 }

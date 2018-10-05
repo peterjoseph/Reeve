@@ -50,7 +50,8 @@ module.exports = function(router) {
 			lastName: req.body.lastName,
 			emailAddress: req.body.emailAddress,
 			password: req.body.password,
-			privacyConsent: req.body.privacyConsent
+			privacyConsent: req.body.privacyConsent,
+			language: req.body.language
 		};
 
 		// Validate properties in received object

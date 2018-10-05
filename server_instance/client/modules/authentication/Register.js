@@ -5,7 +5,7 @@ import { bindActionCreators } from "redux";
 import { Link } from "react-router-dom";
 import { Helmet } from "react-helmet";
 import validate from "shared/validation/validate";
-import { t, l } from "shared/translations/i18n";
+import { t, l, activeLanguage } from "shared/translations/i18n";
 import { extractSubdomain } from "shared/utilities/subdomain";
 import { registerURL, registerSuccessURL } from "shared/utilities/urls";
 
@@ -71,17 +71,23 @@ class Register extends Component {
 			validationErrors: null,
 			serverError: null
 		});
+
+		// Load the browser active language
+		const language = activeLanguage();
+
 		const client = {
 			workspaceURL: this.state.workspaceURL,
 			firstName: this.state.firstName,
 			lastName: this.state.lastName,
 			emailAddress: this.state.emailAddress,
 			password: this.state.password,
-			privacyConsent: this.state.privacyConsent
+			privacyConsent: this.state.privacyConsent,
+			language: language
 		};
 
 		// Validate input parameters
 		const valid = validate(client, register);
+
 		if (valid != null) {
 			this.setState({
 				loading: false,
