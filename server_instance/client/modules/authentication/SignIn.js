@@ -103,7 +103,7 @@ class SignIn extends Component {
 		};
 
 		// Validate input parameters
-		const valid = validate(user, login);
+		const valid = validate(user, login());
 		if (valid != null) {
 			this.setState({
 				loginPending: false,
@@ -142,7 +142,7 @@ class SignIn extends Component {
 		};
 
 		// Validate input parameters
-		const valid = validate(subdomain, workspaceURL);
+		const valid = validate(subdomain, workspaceURL());
 		if (valid != null) {
 			this.setState({
 				redirectPending: false,

@@ -55,7 +55,7 @@ module.exports = function(router) {
 		};
 
 		// Validate properties in received object
-		const valid = validate(body, register);
+		const valid = validate(body, register());
 		if (valid != null) {
 			const errorMsg = new ServerResponseError(403, t("validation.clientInvalidProperties"), valid);
 			return next(errorMsg);
@@ -89,7 +89,7 @@ module.exports = function(router) {
 		};
 
 		// Validate properties in received object
-		const valid = validate(body, login);
+		const valid = validate(body, login());
 		if (valid != null) {
 			const errorMsg = new ServerResponseError(403, t("validation.userInvalidProperties"), valid);
 			return next(errorMsg);
@@ -156,7 +156,7 @@ module.exports = function(router) {
 		}
 
 		// Validate email address
-		const valid = validate(body, forgot);
+		const valid = validate(body, forgot());
 		if (valid != null) {
 			const errorMsg = new ServerResponseError(403, t("validation.userInvalidProperties"), valid);
 			return next(errorMsg);
@@ -164,7 +164,7 @@ module.exports = function(router) {
 
 		// If workspace name is invalid, remove it from the body object
 		if (variableExists(body.workspaceURL)) {
-			const validWorkspaceURL = validate(body, workspaceURL);
+			const validWorkspaceURL = validate(body, workspaceURL());
 			if (validWorkspaceURL != null) {
 				delete body.workspaceURL;
 			}
@@ -211,7 +211,7 @@ module.exports = function(router) {
 		};
 
 		// Validate header item exists
-		const valid = validate(header, verifyResetPassword);
+		const valid = validate(header, verifyResetPassword());
 		if (valid != null) {
 			const error = new ServerResponseError(403, t("validation.resetPasswordInvalidProperties"), valid);
 			return next(error);
@@ -239,7 +239,7 @@ module.exports = function(router) {
 		};
 
 		// Validate properties in received object
-		const valid = validate(body, resetPassword);
+		const valid = validate(body, resetPassword());
 		if (valid != null) {
 			const errorMsg = new ServerResponseError(403, t("validation.resetPasswordInvalidProperties"), valid);
 			return next(errorMsg);
@@ -266,7 +266,7 @@ module.exports = function(router) {
 		};
 
 		// Validate properties in received object
-		const valid = validate(body, verifyEmail);
+		const valid = validate(body, verifyEmail());
 		if (valid != null) {
 			const errorMsg = new ServerResponseError(403, t("validation.verifyEmailInvalidProperties"), valid);
 			return next(errorMsg);

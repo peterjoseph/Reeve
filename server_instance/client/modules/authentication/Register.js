@@ -86,7 +86,7 @@ class Register extends Component {
 		};
 
 		// Validate input parameters
-		const valid = validate(client, register);
+		const valid = validate(client, register());
 
 		if (valid != null) {
 			this.setState({

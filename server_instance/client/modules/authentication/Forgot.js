@@ -94,7 +94,7 @@ class Forgot extends Component {
 		}
 
 		// Validate input parameters
-		const valid = validate(body, forgot);
+		const valid = validate(body, forgot());
 		if (valid != null) {
 			this.setState({
 				loading: false,

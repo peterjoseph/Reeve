@@ -126,7 +126,7 @@ class ResetPassword extends Component {
 		};
 
 		// Validate input parameters
-		const valid = validate(password, resetPassword);
+		const valid = validate(password, resetPassword());
 		if (valid != null) {
 			this.setState({
 				loading: false,
