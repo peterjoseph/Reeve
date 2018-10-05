@@ -103,6 +103,9 @@ export function registerNewClient(received) {
 			const startDate = moment(new Date()).format("YYYY-MM-DD HH:mm:ss");
 			const endDate = moment(startDate, "YYYY-MM-DD HH:mm:ss").add(BILLING_CYCLE.TRIAL, "days");
 
+			// Load active language numerical value from constants object
+			const activeLanguage = Object.keys(LANGUAGE_CODES).find(key => LANGUAGE_CODES[key] === received.language);
+
 			// Create new client and save to database
 			const clientInstance = await models().client.create(
 				{
@@ -110,16 +113,14 @@ export function registerNewClient(received) {
 					workspaceURL: received.workspaceURL,
 					subscriptionId: SUBSCRIPTION_TYPE.TRIAL,
 					subscriptionStartDate: startDate,
-					subscriptionEndDate: endDate
+					subscriptionEndDate: endDate,
+					defaultLanguage: activeLanguage,
 				},
 				{ transaction: transaction }
 			);
 
 			// Encrypt and salt user password
 			const password = bcrypt.hashSync(received.password, 10);
-
-			// Load active language numerical value from constants object
-			const activeLanguage = Object.keys(LANGUAGE_CODES).find(key => LANGUAGE_CODES[key] === received.language);
 
 			// Create new user and save to database
 			const userInstance = await models().user.create(
