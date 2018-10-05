@@ -54,7 +54,7 @@ export function changeLanguage(language) {
 			// Reload i18n resources
 			i18next.reloadResources();
 
-			// Store active token in browser
+			// Store active language in browser
 			saveLNGToken(i18next.language);
 
 			return dispatch({

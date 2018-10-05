@@ -1,4 +1,5 @@
 import { customPathURL } from "shared/utilities/urls";
+import { activeLanguage } from "shared/translations/i18n";
 
 // Async function for handling front-end get, post and patch calls
 export default {
@@ -8,8 +9,9 @@ export default {
 		options.headers = Object.assign(
 			{
 				Accept: "application/json",
+				Pragma: "no-cache",
 				"Content-Type": "application/json",
-				Pragma: "no-cache"
+				"Accept-Language": activeLanguage() || ""
 			},
 			options.headers || {}
 		);
@@ -41,6 +43,7 @@ export default {
 		});
 	},
 
+	// Set Security Token Header
 	setSecurityToken(token) {
 		this.token = token;
 	},
@@ -51,6 +54,19 @@ export default {
 
 	clearSecurityToken() {
 		this.token = null;
+	},
+
+	// Set Accept Language Header
+	setLanguageToken(language) {
+		this.language = language;
+	},
+
+	getLanguageToken() {
+		return this.language;
+	},
+
+	clearLanguageToken() {
+		this.language = null;
 	},
 
 	perform(path, options = {}) {
