@@ -4,6 +4,7 @@ import { t } from "shared/translations/i18n";
 import { ServerResponseError } from "utilities/errors/serverResponseError";
 import restrict from "utilities/restrictRoutes";
 import { variableExists } from "shared/utilities/filters";
+import { LANGUAGE_CODES } from "shared/constants";
 import {
 	validateWorkspaceURL,
 	registerNewClient,
@@ -24,14 +25,17 @@ module.exports = function(router) {
 		// Get workspaceURL name from header
 		const workspaceURL = req.headers["workspaceurl"] ? req.headers["workspaceurl"] : "";
 
+		// Load browser language from header
+		const browserLng = req.headers["accept-language"] || LANGUAGE_CODES[1];
+
 		// Validate header item exists
 		if (!variableExists(workspaceURL)) {
-			const error = new ServerResponseError(403, t("validation.clientInvalidProperties"), { workspaceURL: [t("validation.emptyWorkspaceURL")] });
+			const error = new ServerResponseError(403, t("validation.clientInvalidProperties", { lng: browserLng }), { workspaceURL: [t("validation.emptyWorkspaceURL", { lng: browserLng })] });
 			return next(error);
 		}
 
 		// Validate workspaceURL and return response
-		validateWorkspaceURL(workspaceURL).then(
+		validateWorkspaceURL(workspaceURL, browserLng).then(
 			result => {
 				return res.status(200).send(result);
 			},

@@ -14,7 +14,7 @@ import { baseWorkspaceURL, resetPasswordURL, emailValidationURL } from "shared/u
 import { FEATURES, SUBSCRIPTION_TYPE, ROLE_TYPE, EMAIL_TYPE, BILLING_CYCLE, LANGUAGE_CODES } from "shared/constants";
 
 // Validate Workspace URL and retrieve client styling (if feature exists)
-export function validateWorkspaceURL(workspaceURL) {
+export function validateWorkspaceURL(workspaceURL, browserLng) {
 	return database().transaction(async function(transaction) {
 		try {
 			// Load a client using a workspaceURL
@@ -22,7 +22,7 @@ export function validateWorkspaceURL(workspaceURL) {
 
 			// Throw an error if the client was not returned for the WorkspaceURL
 			if (client === null || client.get("workspaceURL") === null || client.get("workspaceURL") !== workspaceURL) {
-				throw new ServerResponseError(403, t("validation.clientInvalidProperties"), { workspaceURL: [t("validation.emptyWorkspaceURL")] });
+				throw new ServerResponseError(403, t("validation.clientInvalidProperties", { lng: browserLng }), { workspaceURL: [t("validation.emptyWorkspaceURL", { lng: browserLng })] });
 			}
 
 			// Load list of features for client based on their subscription id
@@ -52,7 +52,7 @@ export function validateWorkspaceURL(workspaceURL) {
 			clientStyling.defaultLanguage = LANGUAGE_CODES[client.get("defaultLanguage")] || "";
 
 			// Create a response object
-			const response = { status: 200, message: t("label.success") };
+			const response = { status: 200, message: t("label.success", { lng: browserLng }) };
 
 			// Append client styling to response object if exists
 			if (clientStyling !== null) {
@@ -114,7 +114,7 @@ export function registerNewClient(received) {
 					subscriptionId: SUBSCRIPTION_TYPE.TRIAL,
 					subscriptionStartDate: startDate,
 					subscriptionEndDate: endDate,
-					defaultLanguage: activeLanguage,
+					defaultLanguage: activeLanguage
 				},
 				{ transaction: transaction }
 			);
