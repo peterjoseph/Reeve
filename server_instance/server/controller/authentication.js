@@ -3,8 +3,8 @@ import { register, login, forgot, workspaceURL, verifyResetPassword, resetPasswo
 import { t } from "shared/translations/i18n";
 import { ServerResponseError } from "utilities/errors/serverResponseError";
 import restrict from "utilities/restrictRoutes";
+import browserResponseLng from "utilities/browserResponseLng";
 import { variableExists } from "shared/utilities/filters";
-import { LANGUAGE_CODES } from "shared/constants";
 import {
 	validateWorkspaceURL,
 	registerNewClient,
@@ -26,7 +26,7 @@ module.exports = function(router) {
 		const workspaceURL = req.headers["workspaceurl"] ? req.headers["workspaceurl"] : "";
 
 		// Load browser language from header
-		const browserLng = req.headers["accept-language"] || LANGUAGE_CODES[1];
+		const browserLng = browserResponseLng(req);
 
 		// Validate header item exists
 		if (!variableExists(workspaceURL)) {
@@ -58,15 +58,18 @@ module.exports = function(router) {
 			language: req.body.language
 		};
 
+		// Load browser language from header
+		const browserLng = browserResponseLng(req);
+
 		// Validate properties in received object
 		const valid = validate(body, register());
 		if (valid != null) {
-			const errorMsg = new ServerResponseError(403, t("validation.clientInvalidProperties"), valid);
+			const errorMsg = new ServerResponseError(403, t("validation.clientInvalidProperties", { lng: browserLng }), valid);
 			return next(errorMsg);
 		}
 
 		// Register new client and return response
-		registerNewClient(body).then(
+		registerNewClient(body, browserLng).then(
 			result => {
 				return res.status(200).send(result);
 			},
@@ -78,9 +81,12 @@ module.exports = function(router) {
 
 	// Login to user account
 	router.post("/internal/login", restrict({ unregistered: true, registered: true }), function(req, res, next) {
+		// Load browser language from header
+		const browserLng = browserResponseLng(req);
+
 		// Authenticate with token if authToken exists
 		if (variableExists(req.body.authToken) && req.body.authToken === true) {
-			authenticateWithToken(req, res, next);
+			authenticateWithToken(req, res, next, browserLng);
 			return;
 		}
 
@@ -95,12 +101,12 @@ module.exports = function(router) {
 		// Validate properties in received object
 		const valid = validate(body, login());
 		if (valid != null) {
-			const errorMsg = new ServerResponseError(403, t("validation.userInvalidProperties"), valid);
+			const errorMsg = new ServerResponseError(403, t("validation.userInvalidProperties", { lng: browserLng }), valid);
 			return next(errorMsg);
 		}
 
 		// Authenticate without token
-		authenticateWithoutToken(body).then(
+		authenticateWithoutToken(body, browserLng).then(
 			result => {
 				return res.status(200).send(result);
 			},
@@ -120,7 +126,10 @@ module.exports = function(router) {
 
 	// Load user properties
 	router.get("/internal/load_user/", restrict({ registered: true }), function(req, res, next) {
-		loadUser(req.user).then(
+		// Load browser language from header
+		const browserLng = browserResponseLng(req);
+
+		loadUser(req.user, browserLng).then(
 			result => {
 				return res.status(200).send(result);
 			},
@@ -132,12 +141,15 @@ module.exports = function(router) {
 
 	// Resend verify email address email
 	router.post("/internal/resend_verify_email/", restrict({ registered: true }), function(req, res, next) {
+		// Load browser language from header
+		const browserLng = browserResponseLng(req);
+
 		if (!variableExists(req.user.userId) || !Number.isInteger(req.user.userId)) {
-			const errorMsg = new ServerResponseError(403, t("validation.invalidUserId"), null);
+			const errorMsg = new ServerResponseError(403, t("validation.invalidUserId", { lng: browserLng }), null);
 			return next(errorMsg);
 		}
 
-		resendVerifyEmail(req.user.userId, req.user.clientId).then(
+		resendVerifyEmail(req.user.userId, req.user.clientId, browserLng).then(
 			result => {
 				return res.status(200).send(result);
 			},
@@ -159,10 +171,13 @@ module.exports = function(router) {
 			Object.assign(body, { workspaceURL: req.body.workspaceURL });
 		}
 
+		// Load browser language from header
+		const browserLng = browserResponseLng(req);
+
 		// Validate email address
 		const valid = validate(body, forgot());
 		if (valid != null) {
-			const errorMsg = new ServerResponseError(403, t("validation.userInvalidProperties"), valid);
+			const errorMsg = new ServerResponseError(403, t("validation.userInvalidProperties", { lng: browserLng }), valid);
 			return next(errorMsg);
 		}
 
@@ -176,7 +191,7 @@ module.exports = function(router) {
 
 		// Orchestrate workspace or password email depending on whether workspaceURL is provided
 		if (variableExists(body.workspaceURL)) {
-			forgotAccountPasswordEmail(body).then(
+			forgotAccountPasswordEmail(body, browserLng).then(
 				result => {
 					return res.status(200).send(result);
 				},
@@ -185,7 +200,7 @@ module.exports = function(router) {
 				}
 			);
 		} else {
-			forgotAccountEmail(body).then(
+			forgotAccountEmail(body, browserLng).then(
 				result => {
 					return res.status(200).send(result);
 				},
@@ -202,9 +217,12 @@ module.exports = function(router) {
 		const resetCode = req.headers["code"] ? req.headers["code"] : "";
 		const workspaceURL = req.headers["workspaceurl"] ? req.headers["workspaceurl"] : "";
 
+		// Load browser language from header
+		const browserLng = browserResponseLng(req);
+
 		// Validate header item exists
 		if (!variableExists(resetCode)) {
-			const error = new ServerResponseError(403, t("validation.resetPasswordInvalidProperties"), { code: [t("validation.emptyResetCode")] });
+			const error = new ServerResponseError(403, t("validation.resetPasswordInvalidProperties", { lng: browserLng }), { code: [t("validation.emptyResetCode", { lng: browserLng })] });
 			return next(error);
 		}
 
@@ -217,12 +235,12 @@ module.exports = function(router) {
 		// Validate header item exists
 		const valid = validate(header, verifyResetPassword());
 		if (valid != null) {
-			const error = new ServerResponseError(403, t("validation.resetPasswordInvalidProperties"), valid);
+			const error = new ServerResponseError(403, t("validation.resetPasswordInvalidProperties", { lng: browserLng }), valid);
 			return next(error);
 		}
 
 		// Validate reset password code and return response
-		validateResetPasswordCode(header).then(
+		validateResetPasswordCode(header, browserLng).then(
 			result => {
 				return res.status(200).send(result);
 			},
@@ -242,15 +260,18 @@ module.exports = function(router) {
 			workspaceURL: req.body.workspaceURL
 		};
 
+		// Load browser language from header
+		const browserLng = browserResponseLng(req);
+
 		// Validate properties in received object
 		const valid = validate(body, resetPassword());
 		if (valid != null) {
-			const errorMsg = new ServerResponseError(403, t("validation.resetPasswordInvalidProperties"), valid);
+			const errorMsg = new ServerResponseError(403, t("validation.resetPasswordInvalidProperties", { lng: browserLng }), valid);
 			return next(errorMsg);
 		}
 
 		// Validate reset password code and return response
-		resetUserPassword(body).then(
+		resetUserPassword(body, browserLng).then(
 			result => {
 				return res.status(200).send(result);
 			},
@@ -269,15 +290,18 @@ module.exports = function(router) {
 			workspaceURL: req.body.workspaceURL
 		};
 
+		// Load browser language from header
+		const browserLng = browserResponseLng(req);
+
 		// Validate properties in received object
 		const valid = validate(body, verifyEmail());
 		if (valid != null) {
-			const errorMsg = new ServerResponseError(403, t("validation.verifyEmailInvalidProperties"), valid);
+			const errorMsg = new ServerResponseError(403, t("validation.verifyEmailInvalidProperties", { lng: browserLng }), valid);
 			return next(errorMsg);
 		}
 
 		// Validate reset password code and return response
-		verifyUserEmail(body).then(
+		verifyUserEmail(body, browserLng).then(
 			result => {
 				return res.status(200).send(result);
 			},

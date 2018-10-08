@@ -88,7 +88,7 @@ export async function generateUserEmailValidationCode(userId, clientId, transact
 }
 
 // Register new Client
-export function registerNewClient(received) {
+export function registerNewClient(received, browserLng) {
 	return database().transaction(async function(transaction) {
 		try {
 			// Check if client already exists for workspaceURL
@@ -96,7 +96,7 @@ export function registerNewClient(received) {
 
 			// Throw an error if a client already exists for a WorkspaceURL
 			if (client !== null) {
-				throw new ServerResponseError(403, t("validation.clientInvalidProperties"), { workspaceURL: [t("validation.registeredWorkspaceURL")] });
+				throw new ServerResponseError(403, t("validation.clientInvalidProperties", { lng: browserLng }), { workspaceURL: [t("validation.registeredWorkspaceURL", { lng: browserLng })] });
 			}
 
 			// Calculate trial start and end times
@@ -160,7 +160,7 @@ export function registerNewClient(received) {
 			sendEmail(EMAIL_TYPE.CLIENT_WELCOME, userInstance.get("language"), userInstance.get("emailAddress"), emailParams, clientInstance.get("id"), userInstance.get("id"));
 
 			// Create a response object
-			const response = { status: 200, message: t("label.success") };
+			const response = { status: 200, message: t("label.success", { lng: browserLng }) };
 
 			// Return the response object
 			return response;
@@ -171,7 +171,7 @@ export function registerNewClient(received) {
 }
 
 // Authenticate User with security token
-export function authenticateWithToken(req, res, next) {
+export function authenticateWithToken(req, res, next, browserLng) {
 	return passport.perform().authenticate("jwt", function(error, user) {
 		if (error) {
 			return next(error);
@@ -191,7 +191,7 @@ export function authenticateWithToken(req, res, next) {
 
 						// Throw an error if user could not be loaded from database
 						if (userObject === null) {
-							throw new ServerResponseError(403, t("validation.tokenInvalidOrExpired"), { token: [t("validation.tokenInvalidOrExpired")] });
+							throw new ServerResponseError(403, t("validation.tokenInvalidOrExpired", { lng: browserLng }), { token: [t("validation.tokenInvalidOrExpired", { lng: browserLng })] });
 						}
 						userObject.updateAttributes({
 							lastLoginDate: currentTime
@@ -202,18 +202,18 @@ export function authenticateWithToken(req, res, next) {
 				});
 
 				// Create a response object
-				const response = { status: 200, message: t("label.success") };
+				const response = { status: 200, message: t("label.success", { lng: browserLng }) };
 				// Return the response object
 				return res.status(200).send(response);
 			} else {
-				const errorMsg = new ServerResponseError(403, t("validation.tokenInvalidOrExpired"), { token: [t("validation.tokenInvalidOrExpired")] });
+				const errorMsg = new ServerResponseError(403, t("validation.tokenInvalidOrExpired", { lng: browserLng }), { token: [t("validation.tokenInvalidOrExpired", { lng: browserLng })] });
 				return next(errorMsg);
 			}
 		});
 	})(req, res, next);
 }
 
-export function authenticateWithoutToken(received) {
+export function authenticateWithoutToken(received, browserLng) {
 	return database().transaction(async function(transaction) {
 		try {
 			// Load a client using a workspaceURL
@@ -221,7 +221,7 @@ export function authenticateWithoutToken(received) {
 
 			// Throw an error if the client was not returned for the WorkspaceURL
 			if (client === null || client.get("workspaceURL") === null || client.get("workspaceURL") !== received.workspaceURL) {
-				throw new ServerResponseError(403, t("validation.userInvalidProperties"), { workspaceURL: [t("validation.emptyWorkspaceURL")] });
+				throw new ServerResponseError(403, t("validation.userInvalidProperties", { lng: browserLng }), { workspaceURL: [t("validation.emptyWorkspaceURL", { lng: browserLng })] });
 			}
 
 			// Load user based on provided values
@@ -229,13 +229,13 @@ export function authenticateWithoutToken(received) {
 
 			// Throw an error if the user does not exist
 			if (user === null) {
-				throw new ServerResponseError(403, t("validation.userInvalidProperties"), { emailAddress: [t("validation.userDoesNotExist")] });
+				throw new ServerResponseError(403, t("validation.userInvalidProperties", { lng: browserLng }), { emailAddress: [t("validation.userDoesNotExist", { lng: browserLng })] });
 			}
 
 			// Validate the supplied user password
 			const valid = bcrypt.compareSync(received.password, user.get("password"));
 			if (valid === false) {
-				throw new ServerResponseError(403, t("validation.userInvalidProperties"), { password: [t("validation.invalidPasswordSupplied")] });
+				throw new ServerResponseError(403, t("validation.userInvalidProperties", { lng: browserLng }), { password: [t("validation.invalidPasswordSupplied", { lng: browserLng })] });
 			}
 
 			// Create the JSON Web Token for the User
@@ -250,7 +250,7 @@ export function authenticateWithoutToken(received) {
 			});
 
 			// Build our response object
-			const response = { status: 200, message: t("label.success"), token: token, keepSignedIn: received.keepSignedIn };
+			const response = { status: 200, message: t("label.success", { lng: browserLng }), token: token, keepSignedIn: received.keepSignedIn };
 
 			// Return the response object
 			return response;
@@ -261,7 +261,7 @@ export function authenticateWithoutToken(received) {
 }
 
 // Load properties for a user
-export function loadUser(received) {
+export function loadUser(received, browserLng) {
 	return database().transaction(async function(transaction) {
 		try {
 			// Load client for authenticated user
@@ -269,7 +269,7 @@ export function loadUser(received) {
 
 			// Throw an error if the client does not exist
 			if (client === null) {
-				throw new ServerResponseError(403, t("validation.loadUserPropertiesFailed"), { client: [t("validation.loadClientFailed")] });
+				throw new ServerResponseError(403, t("validation.loadUserPropertiesFailed", { lng: browserLng }), { client: [t("validation.loadClientFailed", { lng: browserLng })] });
 			}
 
 			// Load user properties for authenticated user
@@ -277,7 +277,7 @@ export function loadUser(received) {
 
 			// Throw an error if the user does not exist
 			if (user === null) {
-				throw new ServerResponseError(403, t("validation.loadUserPropertiesFailed"), { user: [t("validation.loadUserPropertiesFailed")] });
+				throw new ServerResponseError(403, t("validation.loadUserPropertiesFailed", { lng: browserLng }), { user: [t("validation.loadUserPropertiesFailed", { lng: browserLng })] });
 			}
 
 			// Load client features
@@ -285,7 +285,7 @@ export function loadUser(received) {
 
 			// Map feature id's to an array
 			if (features === null || features.length === 0) {
-				throw new ServerResponseError(403, t("validation.loadUserPropertiesFailed"), { features: [t("validation.loadClientFeaturesFailed")] });
+				throw new ServerResponseError(403, t("validation.loadUserPropertiesFailed", { lng: browserLng }), { features: [t("validation.loadClientFeaturesFailed", { lng: browserLng })] });
 			}
 			features = features.map(result => result.get("featureId"));
 
@@ -294,7 +294,7 @@ export function loadUser(received) {
 
 			// Map role id's to an array
 			if (roles === null || roles.length === 0) {
-				throw new ServerResponseError(403, t("validation.loadUserPropertiesFailed"), { roles: [t("validation.loadUserRolesFailed")] });
+				throw new ServerResponseError(403, t("validation.loadUserPropertiesFailed", { lng: browserLng }), { roles: [t("validation.loadUserRolesFailed", { lng: browserLng })] });
 			}
 			roles = roles.map(result => result.get("roleId"));
 
@@ -346,7 +346,7 @@ export function loadUser(received) {
 			}
 
 			// Build our response object
-			const response = { status: 200, message: t("label.success"), user: userProperties };
+			const response = { status: 200, message: t("label.success", { lng: browserLng }), user: userProperties };
 
 			// Return the response object
 			return response;
@@ -357,17 +357,17 @@ export function loadUser(received) {
 }
 
 // Resend verification email for validating email addresses
-export function resendVerifyEmail(userId, clientId) {
+export function resendVerifyEmail(userId, clientId, browserLng) {
 	return database().transaction(async function(transaction) {
 		try {
 			if (userId === null || !Number.isInteger(userId)) {
-				throw new ServerResponseError(403, t("validation.invalidUserId"), null);
+				throw new ServerResponseError(403, t("validation.invalidUserId", { lng: browserLng }), null);
 			}
 
 			// Load user and check if email has already been verified
 			const user = await models().user.findOne({ where: { id: userId, clientId: clientId, active: true } }, { transaction: transaction });
 			if (!user || Boolean(Number(user.get("emailVerified"))) === true) {
-				throw new ServerResponseError(403, t("validation.invalidUserId"), null); // Email already verified response
+				throw new ServerResponseError(403, t("validation.invalidUserId", { lng: browserLng }), null); // Email already verified response
 			}
 
 			// Load client object
@@ -424,7 +424,7 @@ export function resendVerifyEmail(userId, clientId) {
 			}
 
 			// Create a response object
-			return { status: 200, message: t("label.success") };
+			return { status: 200, message: t("label.success", { lng: browserLng }) };
 		} catch (error) {
 			throw error;
 		}
@@ -432,7 +432,7 @@ export function resendVerifyEmail(userId, clientId) {
 }
 
 // Send email with password reset if user forgot their password but workspace name is provided
-export function forgotAccountPasswordEmail(received) {
+export function forgotAccountPasswordEmail(received, browserLng) {
 	return database().transaction(async function(transaction) {
 		try {
 			// Load client object associated with the workspace name
@@ -440,7 +440,7 @@ export function forgotAccountPasswordEmail(received) {
 
 			// Load generic forgot account details page
 			if (client === null) {
-				return forgotAccountEmail(received);
+				return forgotAccountEmail(received, browserLng);
 			}
 
 			// Check if email sent in the last 5 minutes
@@ -471,7 +471,7 @@ export function forgotAccountPasswordEmail(received) {
 
 				// Return success if no users associated with the email, or no accounts active
 				if (user === null) {
-					return { status: 200, message: t("label.success") };
+					return { status: 200, message: t("label.success", { lng: browserLng }) };
 				}
 
 				// Generate password reset code for each account
@@ -502,7 +502,7 @@ export function forgotAccountPasswordEmail(received) {
 			}
 
 			// Create a response object
-			return { status: 200, message: t("label.success") };
+			return { status: 200, message: t("label.success", { lng: browserLng }) };
 		} catch (error) {
 			throw error;
 		}
@@ -510,7 +510,7 @@ export function forgotAccountPasswordEmail(received) {
 }
 
 // Send email with account details if user forgot their account or workspace url
-export function forgotAccountEmail(received) {
+export function forgotAccountEmail(received, browserLng) {
 	return database().transaction(async function(transaction) {
 		try {
 			// Check if email sent in the last 5 minutes
@@ -541,7 +541,7 @@ export function forgotAccountEmail(received) {
 
 				// Return success if no users associated with the email, or no accounts active
 				if (users === null || users.length === 0) {
-					return { status: 200, message: t("label.success") };
+					return { status: 200, message: t("label.success", { lng: browserLng }) };
 				}
 
 				// Create account array to be used in the email template
@@ -594,7 +594,7 @@ export function forgotAccountEmail(received) {
 			}
 
 			// Create a response object
-			return { status: 200, message: t("label.success") };
+			return { status: 200, message: t("label.success", { lng: browserLng }) };
 		} catch (error) {
 			throw error;
 		}
@@ -602,7 +602,7 @@ export function forgotAccountEmail(received) {
 }
 
 // Validate the reset code used to reset passwords
-export function validateResetPasswordCode(received) {
+export function validateResetPasswordCode(received, browserLng) {
 	return database().transaction(async function(transaction) {
 		try {
 			// Load client from workspace url
@@ -610,7 +610,7 @@ export function validateResetPasswordCode(received) {
 
 			// Throw an error if the client does not exist
 			if (client === null) {
-				throw new ServerResponseError(403, t("validation.resetPasswordInvalidProperties"), { client: [t("validation.loadClientFailed")] });
+				throw new ServerResponseError(403, t("validation.resetPasswordInvalidProperties", { lng: browserLng }), { client: [t("validation.loadClientFailed", { lng: browserLng })] });
 			}
 
 			// Check if reset code exists and is valid
@@ -626,7 +626,7 @@ export function validateResetPasswordCode(received) {
 
 			// Throw error if code could not be found
 			if (reset === null) {
-				throw new ServerResponseError(403, t("validation.resetPasswordInvalidProperties"), { code: [t("validation.emptyResetCode")] });
+				throw new ServerResponseError(403, t("validation.resetPasswordInvalidProperties", { lng: browserLng }), { code: [t("validation.emptyResetCode", { lng: browserLng })] });
 			}
 
 			// Confirm different states of the reset code
@@ -640,11 +640,13 @@ export function validateResetPasswordCode(received) {
 			const timeWindow = moment(currentTime).subtract(reset.get("gracePeriod"), "hour");
 
 			if (!moment(reset.get("createdAt")).isBetween(timeWindow, currentTime)) {
-				throw new ServerResponseError(403, t("validation.resetPasswordInvalidProperties"), { code: [t("validation.resetCodeExpired", { gracePeriod: reset.get("gracePeriod") })] });
+				throw new ServerResponseError(403, t("validation.resetPasswordInvalidProperties", { lng: browserLng }), {
+					code: [t("validation.resetCodeExpired", { gracePeriod: reset.get("gracePeriod", { lng: browserLng }) })]
+				});
 			}
 
 			// Return the response object
-			return { status: 200, message: t("label.success") };
+			return { status: 200, message: t("label.success", { lng: browserLng }) };
 		} catch (error) {
 			throw error;
 		}
@@ -652,7 +654,7 @@ export function validateResetPasswordCode(received) {
 }
 
 // Reset user password
-export function resetUserPassword(received) {
+export function resetUserPassword(received, browserLng) {
 	return database().transaction(async function(transaction) {
 		try {
 			// Load client from workspace url
@@ -660,7 +662,7 @@ export function resetUserPassword(received) {
 
 			// Throw an error if the client does not exist
 			if (client === null) {
-				throw new ServerResponseError(403, t("validation.resetPasswordInvalidProperties"), { client: [t("validation.loadClientFailed")] });
+				throw new ServerResponseError(403, t("validation.resetPasswordInvalidProperties", { lng: browserLng }), { client: [t("validation.loadClientFailed", { lng: browserLng })] });
 			}
 
 			// Check if reset code exists and is valid
@@ -676,12 +678,12 @@ export function resetUserPassword(received) {
 
 			// Throw error if code could not be found
 			if (reset === null) {
-				throw new ServerResponseError(403, t("validation.resetPasswordInvalidProperties"), { code: [t("validation.emptyResetCode")] });
+				throw new ServerResponseError(403, t("validation.resetPasswordInvalidProperties", { lng: browserLng }), { code: [t("validation.emptyResetCode", { lng: browserLng })] });
 			}
 
 			// Confirm different states of the reset code
 			if (Boolean(Number(reset.get("activated"))) === true) {
-				throw new ServerResponseError(403, t("validation.resetPasswordInvalidProperties"), { code: [t("validation.resetCodeAlreadyUsed")] });
+				throw new ServerResponseError(403, t("validation.resetPasswordInvalidProperties", { lng: browserLng }), { code: [t("validation.resetCodeAlreadyUsed", { lng: browserLng })] });
 			}
 
 			// Throw error if code has expired based on gracePeriod
@@ -690,7 +692,9 @@ export function resetUserPassword(received) {
 			const timeWindow = moment(currentTime).subtract(reset.get("gracePeriod"), "hour");
 
 			if (!moment(reset.get("createdAt")).isBetween(timeWindow, currentTime)) {
-				throw new ServerResponseError(403, t("validation.resetPasswordInvalidProperties"), { code: [t("validation.resetCodeExpired", { gracePeriod: reset.get("gracePeriod") })] });
+				throw new ServerResponseError(403, t("validation.resetPasswordInvalidProperties", { lng: browserLng }), {
+					code: [t("validation.resetCodeExpired", { lng: browserLng, gracePeriod: reset.get("gracePeriod") })]
+				});
 			}
 
 			// Load user based on provided values
@@ -698,7 +702,7 @@ export function resetUserPassword(received) {
 
 			// Throw an error if the user does not exist
 			if (user === null) {
-				throw new ServerResponseError(403, t("validation.loadUserFailed"), null);
+				throw new ServerResponseError(403, t("validation.loadUserFailed", { lng: browserLng }), null);
 			}
 
 			// Encrypt user password
@@ -724,7 +728,7 @@ export function resetUserPassword(received) {
 			sendEmail(EMAIL_TYPE.RESET_PASSWORD_SUCCESS, user.get("language"), user.get("emailAddress"), emailParams, user.get("clientId"), user.get("id"));
 
 			// Return the response object
-			return { status: 200, message: t("label.success") };
+			return { status: 200, message: t("label.success", { lng: browserLng }) };
 		} catch (error) {
 			throw error;
 		}
@@ -732,7 +736,7 @@ export function resetUserPassword(received) {
 }
 
 // Verify User Email
-export function verifyUserEmail(received) {
+export function verifyUserEmail(received, browserLng) {
 	return database().transaction(async function(transaction) {
 		try {
 			// Load client from workspace url
@@ -740,7 +744,7 @@ export function verifyUserEmail(received) {
 
 			// Throw an error if the client does not exist
 			if (client === null) {
-				throw new ServerResponseError(403, t("validation.verifyEmailInvalidProperties"), { client: [t("validation.loadClientFailed")] });
+				throw new ServerResponseError(403, t("validation.verifyEmailInvalidProperties", { lng: browserLng }), { client: [t("validation.loadClientFailed", { lng: browserLng })] });
 			}
 
 			// Determine values to use in fetching the email verification code
@@ -756,12 +760,12 @@ export function verifyUserEmail(received) {
 
 			// Throw error if code could not be found
 			if (emailVerificationCode === null) {
-				throw new ServerResponseError(403, t("validation.verifyEmailInvalidProperties"), { code: [t("validation.emptyVerifyCode")] });
+				throw new ServerResponseError(403, t("validation.verifyEmailInvalidProperties", { lng: browserLng }), { code: [t("validation.emptyVerifyCode", { lng: browserLng })] });
 			}
 
 			// Confirm different states of the verify email code
 			if (Boolean(Number(emailVerificationCode.get("activated"))) === true) {
-				throw new ServerResponseError(403, t("validation.verifyEmailInvalidProperties"), { code: [t("validation.verifyCodeAlreadyUsed")] });
+				throw new ServerResponseError(403, t("validation.verifyEmailInvalidProperties", { lng: browserLng }), { code: [t("validation.verifyCodeAlreadyUsed", { lng: browserLng })] });
 			}
 
 			// Throw error if code has expired based on gracePeriod
@@ -769,7 +773,7 @@ export function verifyUserEmail(received) {
 			const timeWindow = moment(currentTime).subtract(emailVerificationCode.get("gracePeriod"), "hour");
 			if (!moment(emailVerificationCode.get("createdAt")).isBetween(timeWindow, currentTime)) {
 				throw new ServerResponseError(403, t("validation.verifyEmailInvalidProperties"), {
-					code: [t("validation.verifyCodeExpired", { gracePeriod: emailVerificationCode.get("gracePeriod") })]
+					code: [t("validation.verifyCodeExpired", { lng: browserLng }, { lng: browserLng, gracePeriod: emailVerificationCode.get("gracePeriod") })]
 				});
 			}
 
@@ -781,12 +785,12 @@ export function verifyUserEmail(received) {
 
 			// Throw an error if the user does not exist
 			if (user === null) {
-				throw new ServerResponseError(403, t("validation.loadUserFailed"), null);
+				throw new ServerResponseError(403, t("validation.loadUserFailed", { lng: browserLng }), null);
 			}
 
 			// Throw an error if the email has already been verified
 			if (Boolean(Number(user.get("emailVerified"))) === true) {
-				throw new ServerResponseError(403, t("validation.emailAlreadyVerified"), null);
+				throw new ServerResponseError(403, t("validation.emailAlreadyVerified", { lng: browserLng }), null);
 			}
 
 			// Change email verified column to true
@@ -800,7 +804,7 @@ export function verifyUserEmail(received) {
 			});
 
 			// Return the response object
-			return { status: 200, message: t("label.success") };
+			return { status: 200, message: t("label.success", { lng: browserLng }) };
 		} catch (error) {
 			throw error;
 		}
