@@ -57,7 +57,7 @@ function loadEntryFile() {
 }
 
 module.exports = {
-	mode: config.build.environment,
+	mode: config.build.environment !== "test" ? config.build.environment : "none",
 	entry: loadEntryFile(),
 	output: {
 		path: path.join(__dirname, "distribution"),
@@ -115,5 +115,5 @@ module.exports = {
 			}
 		]
 	},
-	plugins: loadPlugins()
+	plugins: config.build.environment !== "test" ? loadPlugins() : []
 };
