@@ -13,13 +13,12 @@ request = request(config.build.publicPath);
 
 // Workspace URL
 // 403 Error Response when missing or incorrect workspace url provided
-test("Workspace URL - 403", async t => {
+test("Authenticate Workspace URL - Missing Header - 403 Response", async t => {
 	const response = await request.get("internal/validate_workspace_url/");
 	t.is(response.status, 403);
 });
 
-// Exit test server on completion
-test("Exit Test Server", t => {
+// Cleanup test server on completion
+test.after("Cleanup test environment", t => {
 	server.close();
-	t.pass();
 });
