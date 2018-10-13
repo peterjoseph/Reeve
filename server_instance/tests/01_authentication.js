@@ -1,4 +1,5 @@
 const test = require("ava");
+const uniqid = require("uniqid");
 const app = require("../server/server.js");
 const config = require("../config");
 
@@ -10,7 +11,56 @@ const server = app.listen();
 // Define default server path
 request = request(config.build.publicPath);
 
-/******** WORKSPACE URL TEST CASES ********/
+// Generate unique global test data
+let testData = {
+	workspaceURL: `testworkspace${uniqid()}`,
+	firstName: "John",
+	lastName: "Demo",
+	emailAddress: `test-account-${uniqid()}@getreeve.com`,
+	password: uniqid(),
+	privacyConsent: true,
+	language: "en",
+	securityToken: null
+};
+module.exports = testData;
+
+// 403 - Create new client account
+test("Create New Client - Missing Body Content - 403 Response", async t => {
+	const response = await request.post("internal/register/");
+	t.is(response.status, 403);
+	t.deepEqual(response.body.reason.emailAddress, ["Error: Field cannot be blank."]);
+	t.deepEqual(response.body.reason.password, ["Error: Field cannot be blank."]);
+	t.deepEqual(response.body.reason.workspaceURL, ["Error: Field cannot be blank."]);
+});
+
+// 200 - Create new client account
+test("Create New Client - Valid Body - 200 Response", async t => {
+	const response = await request.post("internal/register/").send({
+		workspaceURL: testData.workspaceURL,
+		firstName: testData.firstName,
+		lastName: testData.lastName,
+		emailAddress: testData.emailAddress,
+		password: testData.password,
+		privacyConsent: testData.privacyConsent,
+		language: testData.language
+	});
+	t.is(response.status, 200);
+});
+
+// 403 - Create new client account, workspace url already used
+test("Create New Client - Duplicate body content - 403 Response", async t => {
+	const response = await request.post("internal/register/").send({
+		workspaceURL: testData.workspaceURL,
+		firstName: testData.firstName,
+		lastName: testData.lastName,
+		emailAddress: testData.emailAddress,
+		password: testData.password,
+		privacyConsent: testData.privacyConsent,
+		language: testData.language
+	});
+	t.is(response.status, 403);
+	t.deepEqual(response.body.reason.workspaceURL, ["Sorry, this workspace name has already been used."]);
+});
 
 // 403 - Missing or incorrect Workspace URL provided
 test("Authenticate Workspace URL - Missing Header - 403 Response", async t => {
@@ -20,8 +70,64 @@ test("Authenticate Workspace URL - Missing Header - 403 Response", async t => {
 
 // 200 - Valid Workspace URL supplied
 test("Authenticate Workspace URL - Valid Header - 200 Response", async t => {
-	const response = await request.get("internal/validate_workspace_url/").set("workspaceurl", "test");
+	const response = await request.get("internal/validate_workspace_url/").set("workspaceurl", testData.workspaceURL);
 	t.is(response.status, 200);
+	t.is(response.body.style.defaultLanguage, "en");
+});
+
+// 200 - Login to User Account (Client Owner)
+test("Owner Account Login - Valid Body - 200 Response", async t => {
+	const response = await request.post("internal/login").send({
+		workspaceURL: testData.workspaceURL,
+		emailAddress: testData.emailAddress,
+		password: testData.password,
+		keepSignedIn: false
+	});
+	t.is(response.status, 200);
+	t.not(response.body.token, null);
+	t.is(response.body.keepSignedIn, false);
+
+	// Store token for future user
+	testData.securityToken = `jwt ${response.body.token}`;
+});
+
+// 200 - Login to User Account with Security Token (Client Owner)
+test("Owner Account Security Token Login - Valid Body - 200 Response", async t => {
+	const response = await request
+		.post("internal/login")
+		.set("Authorization", testData.securityToken)
+		.send({
+			authToken: true
+		});
+	t.is(response.status, 200);
+});
+
+// 403 - Login to User Account failure with invalid Security Token (Client Owner)
+test("Owner Account Invalid Security Token Login Failure - Invalid Token - 403 Response", async t => {
+	const response = await request
+		.post("internal/login")
+		.set("Authorization", "invalid security token")
+		.send({
+			authToken: true
+		});
+	t.is(response.status, 403);
+});
+
+// 200 - Logout of active user account (Client Owner)
+test("Owner Account Logout - Valid Header - 200 Response", async t => {
+	const response = await request.post("internal/logout").set("Authorization", testData.securityToken);
+	t.is(response.status, 200);
+});
+
+// 403 - Test security token after logout
+test("Invalid Security Token After Logout - Invalid Token - 403 Response", async t => {
+	const response = await request
+		.post("internal/login")
+		.set("Authorization", testData.securityToken)
+		.send({
+			authToken: true
+		});
+	t.is(response.status, 403);
 });
 
 // Cleanup test server on completion

@@ -174,11 +174,11 @@ export function registerNewClient(received, browserLng) {
 export function authenticateWithToken(req, res, next, browserLng) {
 	return passport.perform().authenticate("jwt", function(error, user) {
 		if (error) {
-			return next(error);
+			throw new ServerResponseError(403, t("validation.tokenInvalidOrExpired", { lng: browserLng }), { token: [t("validation.tokenInvalidOrExpired", { lng: browserLng })] });
 		}
 		req.logIn(user, function(error) {
 			if (error) {
-				return next(error);
+				throw new ServerResponseError(403, t("validation.tokenInvalidOrExpired", { lng: browserLng }), { token: [t("validation.tokenInvalidOrExpired", { lng: browserLng })] });
 			}
 			if (user) {
 				// Store lastLoginDate in database
