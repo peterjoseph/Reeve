@@ -113,6 +113,19 @@ test("Owner Account Invalid Security Token Login Failure - Invalid Token - 403 R
 	t.is(response.status, 403);
 });
 
+// 200 - Load User (Client Owner)
+test("Load User Account - Valid Body - 200 Response", async t => {
+	const response = await request.get("internal/load_user/").set("Authorization", testData.securityToken);
+	t.is(response.status, 200);
+	t.is(response.body.user.firstName, testData.firstName);
+	t.is(response.body.user.lastName, testData.lastName);
+	t.is(response.body.user.emailAddress, testData.emailAddress);
+	t.is(response.body.user.workspaceURL, testData.workspaceURL);
+	t.not(response.body.user.clientFeatures, null);
+	t.not(response.body.user.userRoles, null);
+	t.is(response.body.user.language, testData.language);
+});
+
 // 200 - Logout of active user account (Client Owner)
 test("Owner Account Logout - Valid Header - 200 Response", async t => {
 	const response = await request.post("internal/logout").set("Authorization", testData.securityToken);
