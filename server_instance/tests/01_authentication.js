@@ -1,16 +1,8 @@
 const test = require("ava");
 const app = require("../server/server.js");
 const config = require("../config");
-const path = require("path");
-const SequelizeMock = require("sequelize-mock");
 
 let request = require("supertest");
-
-// Create Sequelize DB Mock
-let dbMock = new SequelizeMock();
-
-// Override DB Models
-dbMock.$overrideImport(path.join(__dirname, "../server/models/client.js"), path.join(__dirname, "../server/tests/mocks/client.js"));
 
 // Launch Server
 const server = app.listen();
