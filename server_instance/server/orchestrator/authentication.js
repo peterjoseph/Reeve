@@ -120,7 +120,7 @@ export function registerNewClient(received, browserLng) {
 			);
 
 			// Encrypt and salt user password
-			const password = bcrypt.hashSync(received.password, 10);
+			const password = await bcrypt.hash(received.password, 10);
 
 			// Create new user and save to database
 			const userInstance = await models().user.create(
@@ -233,7 +233,7 @@ export function authenticateWithoutToken(received, browserLng) {
 			}
 
 			// Validate the supplied user password
-			const valid = bcrypt.compareSync(received.password, user.get("password"));
+			const valid = await bcrypt.compare(received.password, user.get("password"));
 			if (valid === false) {
 				throw new ServerResponseError(403, t("validation.userInvalidProperties", { lng: browserLng }), { password: [t("validation.invalidPasswordSupplied", { lng: browserLng })] });
 			}
@@ -706,7 +706,7 @@ export function resetUserPassword(received, browserLng) {
 			}
 
 			// Encrypt user password
-			const password = bcrypt.hashSync(received.password, 10);
+			const password = await bcrypt.hash(received.password, 10);
 
 			// store new password in user object
 			user.updateAttributes({
