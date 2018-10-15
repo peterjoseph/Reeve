@@ -1,17 +1,13 @@
 require("babel-register")({ presets: ["env"] }); // Transpile server code to support ES6
 
 let express = require("express"); // Express Server
-let session = require("express-session");
 let helmet = require("helmet");
-let SessionRedisStore = require("connect-redis")(session);
 let path = require("path");
 let fs = require("fs");
 let https = require("https");
 let cookieParser = require("cookie-parser");
 let uniqid = require("uniqid");
 let bodyParser = require("body-parser");
-let RateLimit = require("express-rate-limit");
-let RateLimitRedisStore = require("rate-limit-redis");
 let favicon = require("serve-favicon");
 let loadWebpack = require("./server.dev");
 let routes = require("./services/router"); // Server Routes
@@ -22,6 +18,7 @@ let compression = require("compression");
 let app = express();
 
 let passport = require("./services/passport");
+let redis = require("./services/redis");
 let database = require("./services/sequelize");
 let nodemailer = require("./services/nodemailer");
 let i18n = require("../shared/translations/i18n");
@@ -87,24 +84,14 @@ app.engine("html", function(path, options, callback) {
 	fs.readFile(path, "utf-8", callback);
 });
 
+// Load Redis Session Store
+redis.initialize(app);
+
 // Enable compression on Routes
 app.use(compression());
 
 // Enable Helmet for improved endpoint security
 app.use(helmet());
-
-// Add rate limiting to endpoints to prevent excessive use
-app.enable("trust proxy");
-var apiLimiter = new RateLimit({
-	store: new RateLimitRedisStore({
-		host: config.redis.host,
-		port: config.redis.port
-	}),
-	windowMs: 15 * 60 * 1000,
-	max: 100,
-	delayMs: 0
-});
-app.use(apiLimiter);
 
 // Handle HTTP Post body data
 app.use(bodyParser.json());
@@ -118,29 +105,6 @@ if (config.build.environment === "development") {
 
 // Load static files from client directory
 app.use(express.static(path.join(__dirname, "../distribution")));
-
-// Connection to Redis user session store
-app.use(
-	session({
-		store: new SessionRedisStore({
-			host: config.redis.host,
-			port: config.redis.port
-		}),
-		secret: config.redis.secret,
-		proxy: false,
-		resave: config.redis.resave,
-		saveUninitialized: false
-	})
-);
-
-// Handle Redis connection failure
-app.use(function(req, res, next) {
-	if (!req.session) {
-		process.stdout.write("Unable to connect to Redis session store\n");
-		process.exit(1);
-	}
-	next();
-});
 
 // Initialise user authentication with passport
 passport.initialize(app);
