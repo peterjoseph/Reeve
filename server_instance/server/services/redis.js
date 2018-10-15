@@ -52,11 +52,6 @@ function initialize(app) {
 	});
 }
 
-function destroySession(sessionID) {
-	redisSessionStore.destroy(sessionID);
-}
-
 module.exports = {
-	initialize: initialize,
-	destroySession: destroySession
+	initialize: initialize
 };
