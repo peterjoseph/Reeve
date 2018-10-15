@@ -4,14 +4,26 @@ let RateLimit = require("express-rate-limit");
 let RateLimitRedisStore = require("rate-limit-redis");
 let config = require("../../config");
 
+let redisSessionStore = null;
+let redisRateLimitStore = null;
+
 function initialize(app) {
+	// Create Session Store
+	redisSessionStore = new SessionRedisStore({
+		host: config.redis.host,
+		port: config.redis.port
+	});
+
+	// Create Rate Limit Store
+	redisRateLimitStore = new RateLimitRedisStore({
+		host: config.redis.host,
+		port: config.redis.port
+	});
+
 	// Connection to Redis user session store
 	app.use(
 		session({
-			store: new SessionRedisStore({
-				host: config.redis.host,
-				port: config.redis.port
-			}),
+			store: redisSessionStore,
 			secret: config.redis.secret,
 			proxy: false,
 			resave: config.redis.resave,
@@ -23,10 +35,7 @@ function initialize(app) {
 	// Add rate limiting to endpoints to prevent excessive use
 	app.enable("trust proxy");
 	var apiLimiter = new RateLimit({
-		store: new RateLimitRedisStore({
-			host: config.redis.host,
-			port: config.redis.port
-		}),
+		store: redisRateLimitStore,
 		windowMs: 15 * 60 * 1000,
 		max: 100,
 		delayMs: 0
@@ -43,6 +52,11 @@ function initialize(app) {
 	});
 }
 
+function destroySession(sessionID) {
+	redisSessionStore.destroy(sessionID);
+}
+
 module.exports = {
-	initialize: initialize
+	initialize: initialize,
+	destroySession: destroySession
 };

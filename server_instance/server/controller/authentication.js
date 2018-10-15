@@ -4,6 +4,7 @@ import { t } from "shared/translations/i18n";
 import { ServerResponseError } from "utilities/errors/serverResponseError";
 import restrict from "utilities/restrictRoutes";
 import browserResponseLng from "utilities/browserResponseLng";
+import { destroySession } from "services/redis";
 import { variableExists } from "shared/utilities/filters";
 import {
 	validateWorkspaceURL,
@@ -118,9 +119,12 @@ module.exports = function(router) {
 
 	// Logout of user account
 	router.post("/internal/logout/", restrict({ registered: true }), function(req, res) {
-		// Destroy the session
+		// Destroy the session in Redis and on server
+		destroySession(req.sessionID);
 		req.session.destroy();
+		req.logout();
 
+		// Return success message
 		return res.status(200).send({ status: 200, message: t("label.success") });
 	});
 

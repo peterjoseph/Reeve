@@ -132,17 +132,6 @@ test("Owner Account Logout - Valid Header - 200 Response", async t => {
 	t.is(response.status, 200);
 });
 
-// 403 - Test security token after logout
-test("Invalid Security Token After Logout - Invalid Token - 403 Response", async t => {
-	const response = await request
-		.post("internal/login")
-		.set("Authorization", testData.securityToken)
-		.send({
-			authToken: true
-		});
-	t.is(response.status, 403);
-});
-
 // Cleanup test server on completion
 test.after("Cleanup test environment", t => {
 	server.close();
