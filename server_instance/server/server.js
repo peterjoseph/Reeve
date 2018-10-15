@@ -1,28 +1,28 @@
 require("babel-register")({ presets: ["env"] }); // Transpile server code to support ES6
 
-let express = require("express"); // Express Server
-let helmet = require("helmet");
-let path = require("path");
-let fs = require("fs");
-let https = require("https");
-let cookieParser = require("cookie-parser");
-let uniqid = require("uniqid");
-let bodyParser = require("body-parser");
-let favicon = require("serve-favicon");
-let loadWebpack = require("./server.dev");
-let routes = require("./services/router"); // Server Routes
-let winston = require("winston");
-let expressWinston = require("express-winston");
-let cors = require("cors");
-let compression = require("compression");
-let app = express();
-
-let passport = require("./services/passport");
-let redis = require("./services/redis");
-let database = require("./services/sequelize");
-let nodemailer = require("./services/nodemailer");
-let i18n = require("../shared/translations/i18n");
-let config = require("../config");
+let express = require("express"), // Express Server
+	helmet = require("helmet"),
+	path = require("path"),
+	fs = require("fs"),
+	https = require("https"),
+	cookieParser = require("cookie-parser"),
+	uniqid = require("uniqid"),
+	bodyParser = require("body-parser"),
+	favicon = require("serve-favicon"),
+	loadWebpack = require("./server.dev"),
+	routes = require("./services/router"), // Server Routes
+	winston = require("winston"),
+	expressWinston = require("express-winston"),
+	lusca = require("lusca"),
+	cors = require("cors"),
+	compression = require("compression"),
+	app = express(),
+	passport = require("./services/passport"),
+	redis = require("./services/redis"),
+	database = require("./services/sequelize"),
+	nodemailer = require("./services/nodemailer"),
+	i18n = require("../shared/translations/i18n"),
+	config = require("../config");
 
 // Set up Sentry Error Reporting
 if (config.sentry.enabled && config.build.environment === "production") {
@@ -90,6 +90,17 @@ redis.initialize(app);
 // Enable compression on Routes
 app.use(compression());
 
+// Enable Lusca Application Security
+app.use(
+	lusca({
+		//csrf: true
+		csp: { policy: [{ "img-src": "'self' http:" }, "block-all-mixed-content"] },
+		hsts: { maxAge: 31536000, includeSubDomains: true, preload: true },
+		xssProtection: true,
+		nosniff: true
+	})
+);
+
 // Enable Helmet for improved endpoint security
 app.use(helmet());
 
@@ -113,7 +124,8 @@ passport.initialize(app);
 app.use(
 	cors({
 		origin: new RegExp(config.build.domainPath + "$"),
-		optionsSuccessStatus: 200
+		optionsSuccessStatus: 200,
+		methods: "GET,PUT,POST"
 	})
 );
 
