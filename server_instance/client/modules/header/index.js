@@ -91,14 +91,14 @@ class Header extends Component {
 							{user.get("subscriptionActive") && (
 								<Fragment>
 									<NavDropdownLink title={t("label.profile")} route={"/profile"} icon={<ProfileIcon width="16px" height="16px" />} />
-									<NavDropdownLink
+									{/*<NavDropdownLink
 										title={t("label.billing")}
 										route={"/billing"}
 										role={[ROLE_TYPE.OWNER, ROLE_TYPE.FINANCE]}
 										feature={[FEATURES.BILLING]}
 										subscription={[SUBSCRIPTION_TYPE.TRIAL, SUBSCRIPTION_TYPE.BASIC]}
 										icon={<CreditCardIcon width="16px" height="16px" />}
-									/>
+									/>*/}
 									<NavDropdownLink title={t("label.settings")} route={"/settings"} icon={<SettingsIcon width="16px" height="16px" />} />
 									<div className="dropdown-divider" />
 								</Fragment>
