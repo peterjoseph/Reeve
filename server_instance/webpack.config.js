@@ -11,27 +11,11 @@ function loadPlugins() {
 		new webpack.ProvidePlugin({
 			Promise: "imports-loader?this=>global!exports-loader?global.Promise!es6-promise",
 			fetch: "imports-loader?this=>global!exports-loader?global.fetch!whatwg-fetch"
-		})
+		}),
+		new webpack.ContextReplacementPlugin(/moment[/\\]locale$/, /en|it/)
 	);
 	if (config.build.environment === "development") {
 		plugins.push(new webpack.HotModuleReplacementPlugin());
-	}
-	if (config.build.environment === "production") {
-		plugins.push(
-			new UglifyJsPlugin({
-				uglifyOptions: {
-					warnings: false,
-					compress: true,
-					mangle: true,
-					output: {
-						comments: false,
-						beautify: false
-					},
-					toplevel: false,
-					keep_fnames: false
-				}
-			})
-		);
 	}
 	if (config.development.analyzeBundle === true) {
 		plugins.push(new BundleAnalyzerPlugin());
@@ -65,6 +49,24 @@ module.exports = {
 		publicPath: config.build.publicPath,
 		hotUpdateChunkFilename: "hot/[id].[hash].hot-update.js",
 		hotUpdateMainFilename: "hot/[hash].hot-update.json"
+	},
+	optimization: {
+		minimizer: [
+			new UglifyJsPlugin({
+				uglifyOptions: {
+					warnings: false,
+					compress: true,
+					mangle: true,
+					output: {
+						comments: false,
+						beautify: false
+					},
+					toplevel: false,
+					keep_fnames: false
+				}
+			})
+		],
+		mangleWasmImports: true
 	},
 	module: {
 		rules: [
