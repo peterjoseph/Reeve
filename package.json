@@ -7,7 +7,7 @@
 		"start": "node server/server.js",
 		"start:PM2": "pm2 start ecosystem.config.js",
 		"development": "nodemon --ignore './client/' --ignore './shared/' ./server/server",
-		"test": "ava tests --serial --verbose",
+		"test": "ava tests_integration --serial --verbose",
 		"build": "webpack -p",
 		"buildAndRun": "webpack -p && node server/server.js"
 	},
