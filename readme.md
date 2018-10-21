@@ -15,8 +15,7 @@ Reeve aims to provide a robust set of solutions to these areas so that you can f
 ```
 git clone https://github.com/peterjoseph/Reeve.git
 cd Reeve
-cd server_instance
-npm install && npm start
+npm install && npm run development
 ```
 
 ## Server Architecture
