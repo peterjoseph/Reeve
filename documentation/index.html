@@ -1,0 +1,608 @@
+<!doctype html>
+<html>
+
+<head>
+	<meta charset="utf-8">
+	<meta name="description" content="">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<title>Reeve Documentation</title>
+	<link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+	<div class="doc__bg"></div>
+	<nav class="header">
+		<h1 class="logo">Reeve <span class="logo__thin">Documentation</span></h1>
+	</nav>
+	<div class="wrapper">
+		<aside class="doc__nav">
+			<ul>
+				<a href="#1.0">
+					<li class="js-btn">1.0 Introduction</li>
+				</a>
+				<a href="#2.0">
+					<li class="js-btn">2.0 Core Features</li>
+				</a>
+				<a href="#3.0">
+					<li class="js-btn">3.0 Technology Stack</li>
+				</a>
+				<a href="#4.0">
+					<li class="js-btn">4.0 Directory Layout</li>
+				</a>
+				<a href="#5.0">
+					<li class="js-btn">5.0 Getting Started</li>
+				</a>
+				<ul class="doc__sub_items">
+					<a href="#5.1">
+						<li class="js-btn">5.1 Node.js & NPM</li>
+					</a>
+					<a href="#5.2">
+						<li class="js-btn">5.2 Building the Database</li>
+					</a>
+					<a href="#5.3">
+						<li class="js-btn">5.3 Running Redis</li>
+					</a>
+					<a href="#5.4">
+						<li class="js-btn">5.4 Developing Locally</li>
+					</a>
+					<a href="#5.5">
+						<li class="js-btn">5.5 Build Tools</li>
+					</a>
+					<a href="#5.6">
+						<li class="js-btn">5.6 Server Configuration</li>
+					</a>
+				</ul>
+				<a href="#6.0">
+					<li class="js-btn">6.0 The Client</li>
+				</a>
+				<ul class="doc__sub_items">
+					<a href="#6.1">
+						<li class="js-btn">6.1 Overview</li>
+					</a>
+					<a href="#6.2">
+						<li class="js-btn">6.2 Routing</li>
+					</a>
+					<a href="#6.3">
+						<li class="js-btn">6.3 Redirects</li>
+					</a>
+					<a href="#6.4">
+						<li class="js-btn">6.4 Missing Paths</li>
+					</a>
+					<a href="#6.5">
+						<li class="js-btn">6.5 API Development</li>
+					</a>
+					<a href="#6.6">
+						<li class="js-btn">6.6 Validation</li>
+					</a>
+					<a href="#6.7">
+						<li class="js-btn">6.7 State Management</li>
+					</a>
+					<a href="#6.8">
+						<li class="js-btn">6.8 The User Store</li>
+					</a>
+					<a href="#6.9">
+						<li class="js-btn">6.9 Common Components</li>
+					</a>
+					<a href="#6.10">
+						<li class="js-btn">6.10 Asyncronous Components</li>
+					</a>
+					<a href="#6.11">
+						<li class="js-btn">6.11 Input Components</li>
+					</a>
+					<a href="#6.12">
+						<li class="js-btn">6.12 Page Layouts</li>
+					</a>
+					<a href="#6.13">
+						<li class="js-btn">6.13 Global Styling</li>
+					</a>
+					<a href="#6.14">
+						<li class="js-btn">6.14 Notifications</li>
+					</a>
+					<a href="#6.15">
+						<li class="js-btn">6.15 Alerts</li>
+					</a>
+					<a href="#6.16">
+						<li class="js-btn">6.16 Success & Error Messages</li>
+					</a>
+					<a href="#6.17">
+						<li class="js-btn">6.17 Interface Icons</li>
+					</a>
+				</ul>
+				<a href="#7.0">
+					<li class="js-btn">7.0 The Server</li>
+				</a>
+				<ul class="doc__sub_items">
+					<a href="#7.1">
+						<li class="js-btn">7.1 Overview</li>
+					</a>
+					<a href="#7.2">
+						<li class="js-btn">7.2 Node.js Environments</li>
+					</a>
+					<a href="#7.3">
+						<li class="js-btn">7.3 Services</li>
+					</a>
+					<a href="#7.4">
+						<li class="js-btn">7.4 Routing</li>
+					</a>
+					<a href="#7.5">
+						<li class="js-btn">7.5 Connecting to the Database</li>
+					</a>
+					<a href="#7.6">
+						<li class="js-btn">7.6 Database Models</li>
+					</a>
+					<a href="#7.7">
+						<li class="js-btn">7.7 API Design & Development</li>
+					</a>
+					<a href="#7.8">
+						<li class="js-btn">7.8 Endpoint Security</li>
+					</a>
+					<a href="#7.9">
+						<li class="js-btn">7.9 Controllers</li>
+					</a>
+					<a href="#7.10">
+						<li class="js-btn">7.10 The Orchestrator</li>
+					</a>
+					<a href="#7.11">
+						<li class="js-btn">7.11 Session Management</li>
+					</a>
+					<a href="#7.12">
+						<li class="js-btn">7.12 CORS</li>
+					</a>
+					<a href="#7.13">
+						<li class="js-btn">7.13 Validation</li>
+					</a>
+					<a href="#7.14">
+						<li class="js-btn">7.14 Sending Emails</li>
+					</a>
+					<a href="#7.15">
+						<li class="js-btn">7.15 Passport Authentication</li>
+					</a>
+					<a href="#7.16">
+						<li class="js-btn">7.16 Security Tokens</li>
+					</a>
+					<a href="#7.17">
+						<li class="js-btn">7.17 Stripe Payment Gateway</li>
+					</a>
+					<a href="#7.18">
+						<li class="js-btn">7.18 Sequelize</li>
+					</a>
+					<a href="#7.19">
+						<li class="js-btn">7.19 Sentry Error Logging</li>
+					</a>
+					<a href="#7.20">
+						<li class="js-btn">7.20 Papertrail Logging</li>
+					</a>
+					<a href="#7.21">
+						<li class="js-btn">7.21 Server Errors</li>
+					</a>
+					<a href="#7.22">
+						<li class="js-btn">7.22 Error Handling</li>
+					</a>
+				</ul>
+				<a href="#8.0">
+					<li class="js-btn">8.0 Shared Components</li>
+				</a>
+				<ul class="doc__sub_items">
+					<a href="#8.1">
+						<li class="js-btn">8.1 Overview</li>
+					</a>
+					<a href="#8.2">
+						<li class="js-btn">8.2 Trials & Subscriptions</li>
+					</a>
+					<a href="#8.3">
+						<li class="js-btn">8.3 Account Types</li>
+					</a>
+					<a href="#8.4">
+						<li class="js-btn">8.4 User Roles</li>
+					</a>
+					<a href="#8.5">
+						<li class="js-btn">8.5 Features</li>
+					</a>
+					<a href="#8.6">
+						<li class="js-btn">8.6 Translations</li>
+					</a>
+				</ul>
+				<a href="#9.0">
+					<li class="js-btn">9.0 Testing</li>
+				</a>
+				<a href="#10.0">
+					<li class="js-btn">10.0 Deployment</li>
+				</a>
+				<a href="#11.0">
+					<li class="js-btn">11.0 Code Migration</li>
+				</a>
+				<a href="#12.0">
+					<li class="js-btn">12.0 Database Updates</li>
+				</a>
+			</ul>
+		</aside>
+		<article class="doc__content">
+			<section class="js-section">
+				<a name="1.0">
+					<h2 class="section__title">1.0 Introduction</h2>
+				</a>
+				<p>Contents</p>
+			</section>
+			<section class="js-section">
+				<a name="2.0">
+					<h2 class="section__title">2.0 Core Features</h2>
+				</a>
+				<p>Contents</p>
+			</section>
+			<section class="js-section">
+				<a name="3.0">
+					<h2 class="section__title">3.0 Technology Stack</h2>
+				</a>
+				<p>Contents</p>
+			</section>
+			<section class="js-section">
+				<a name="4.0">
+					<h2 class="section__title">4.0 Directory Layout</h2>
+				</a>
+				<p>Contents</p>
+			</section>
+			<section class="js-section">
+				<a name="5.0">
+					<h2 class="section__title">5.0 Getting Started</h2>
+				</a>
+				<p>Contents</p>
+			</section>
+			<section class="js-section">
+				<a name="5.1">
+					<h3 class="section__title">5.1 Node.js & NPM</h3>
+				</a>
+				<div class="code__block code__block--notabs">
+					<pre class="code code--block">
+						<code>
+							Program code in here
+						</code>
+						</pre>
+				</div>
+			</section>
+			<section class="js-section">
+				<a name="5.2">
+					<h3 class="section__title">5.2 Building the Database</h3>
+				</a>
+				<p>Contents</p>
+			</section>
+			<section class="js-section">
+				<a name="5.3">
+					<h3 class="section__title">5.3 Running Redis</h3>
+				</a>
+				<p>Contents</p>
+			</section>
+			<section class="js-section">
+				<a name="5.4">
+					<h3 class="section__title">5.4 Developing Locally</h3>
+				</a>
+				<p>Contents</p>
+			</section>
+			<section class="js-section">
+				<a name="5.5">
+					<h3 class="section__title">5.5 Build Tools</h3>
+				</a>
+				<p>Contents</p>
+			</section>
+			<section class="js-section">
+				<a name="5.6">
+					<h3 class="section__title">5.6 Server Configuration</h3>
+				</a>
+				<p>Contents</p>
+			</section>
+			<section class="js-section">
+				<a name="6.0">
+					<h2 class="section__title">6.0 The Client</h2>
+				</a>
+				<p>Contents</p>
+			</section>
+			<section class="js-section">
+				<a name="6.1">
+					<h3 class="section__title">6.1 Overview</h3>
+				</a>
+				<p>Contents</p>
+			</section>
+			<section class="js-section">
+				<a name="6.2">
+					<h3 class="section__title">6.2 Routing</h3>
+				</a>
+				<p>Contents</p>
+			</section>
+			<section class="js-section">
+				<a name="6.3">
+					<h3 class="section__title">6.3 Redirects</h3>
+				</a>
+				<p>Contents</p>
+			</section>
+			<section class="js-section">
+				<a name="6.4">
+					<h3 class="section__title">6.4 Missing Paths</h3>
+				</a>
+				<p>Contents</p>
+			</section>
+			<section class="js-section">
+				<a name="6.5">
+					<h3 class="section__title">6.5 API Development</h3>
+				</a>
+				<p>Contents</p>
+			</section>
+			<section class="js-section">
+				<a name="6.6">
+					<h3 class="section__title">6.6 Validation</h3>
+				</a>
+				<p>Contents</p>
+			</section>
+			<section class="js-section">
+				<a name="6.7">
+					<h3 class="section__title">6.7 State Management</h3>
+				</a>
+				<p>Contents</p>
+			</section>
+			<section class="js-section">
+				<a name="6.8">
+					<h3 class="section__title">6.8 The User Store</h3>
+				</a>
+				<p>Contents</p>
+			</section>
+			<section class="js-section">
+				<a name="6.9">
+					<h3 class="section__title">6.9 Common Components</h3>
+				</a>
+				<p>Contents</p>
+			</section>
+			<section class="js-section">
+				<a name="6.10">
+					<h3 class="section__title">6.10 Asyncronous Components</h3>
+				</a>
+				<p>Contents</p>
+			</section>
+			<section class="js-section">
+				<a name="6.11">
+					<h3 class="section__title">6.11 Input Components</h3>
+				</a>
+				<p>Contents</p>
+			</section>
+			<section class="js-section">
+				<a name="6.12">
+					<h3 class="section__title">6.12 Page Layouts</h3>
+				</a>
+				<p>Contents</p>
+			</section>
+			<section class="js-section">
+				<a name="6.13">
+					<h3 class="section__title">6.13 Global Styling</h3>
+				</a>
+				<p>Contents</p>
+			</section>
+			<section class="js-section">
+				<a name="6.14">
+					<h3 class="section__title">6.14 Notifications</h3>
+				</a>
+				<p>Contents</p>
+			</section>
+			<section class="js-section">
+				<a name="6.15">
+					<h3 class="section__title">6.15 Alerts</h3>
+				</a>
+				<p>Contents</p>
+			</section>
+			<section class="js-section">
+				<a name="6.16">
+					<h3 class="section__title">6.16 Success & Error Messages</h3>
+				</a>
+				<p>Contents</p>
+			</section>
+			<section class="js-section">
+				<a name="6.17">
+					<h3 class="section__title">6.17 Interface Icons</h3>
+				</a>
+				<p>Contents</p>
+			</section>
+			<section class="js-section">
+				<a name="7.0">
+					<h2 class="section__title">7.0 The Server</h2>
+				</a>
+				<p>Contents</p>
+			</section>
+			<section class="js-section">
+				<a name="7.1">
+					<h3 class="section__title">7.1 Overview</h3>
+				</a>
+				<p>Contents</p>
+			</section>
+			<section class="js-section">
+				<a name="7.2">
+					<h3 class="section__title">7.2 Node.js Environments</h3>
+				</a>
+				<p>Contents</p>
+			</section>
+			<section class="js-section">
+				<a name="7.3">
+					<h3 class="section__title">7.3 Services</h3>
+				</a>
+				<p>Contents</p>
+			</section>
+			<section class="js-section">
+				<a name="7.4">
+					<h3 class="section__title">7.4 Routing</h3>
+				</a>
+				<p>Contents</p>
+			</section>
+			<section class="js-section">
+				<a name="7.5">
+					<h3 class="section__title">7.5 Connecting to the Database</h3>
+				</a>
+				<p>Contents</p>
+			</section>
+			<section class="js-section">
+				<a name="7.6">
+					<h3 class="section__title">7.6 Database Models</h3>
+				</a>
+				<p>Contents</p>
+			</section>
+			<section class="js-section">
+				<a name="7.7">
+					<h3 class="section__title">7.7 API Design & Development</h3>
+				</a>
+				<p>Contents</p>
+			</section>
+			<section class="js-section">
+				<a name="7.8">
+					<h3 class="section__title">7.8 Endpoint Security</h3>
+				</a>
+				<p>Contents</p>
+			</section>
+			<section class="js-section">
+				<a name="7.9">
+					<h3 class="section__title">7.9 Controllers</h3>
+				</a>
+				<p>Contents</p>
+			</section>
+			<section class="js-section">
+				<a name="7.10">
+					<h3 class="section__title">7.10 The Orchestrator</h3>
+				</a>
+				<p>Contents</p>
+			</section>
+			<section class="js-section">
+				<a name="7.11">
+					<h3 class="section__title">7.11 Session Management</h3>
+				</a>
+				<p>Contents</p>
+			</section>
+			<section class="js-section">
+				<a name="7.12">
+					<h3 class="section__title">7.12 CORS</h3>
+				</a>
+				<p>Contents</p>
+			</section>
+			<section class="js-section">
+				<a name="7.13">
+					<h3 class="section__title">7.13 Validation</h3>
+				</a>
+				<p>Contents</p>
+			</section>
+			<section class="js-section">
+				<a name="7.14">
+					<h3 class="section__title">7.14 Sending Emails</h3>
+				</a>
+				<p>Contents</p>
+			</section>
+			<section class="js-section">
+				<a name="7.15">
+					<h3 class="section__title">7.15 Passport Authentication</h3>
+				</a>
+				<p>Contents</p>
+			</section>
+			<section class="js-section">
+				<a name="7.16">
+					<h3 class="section__title">7.16 Security Tokens</h3>
+				</a>
+				<p>Contents</p>
+			</section>
+			<section class="js-section">
+				<a name="7.17">
+					<h3 class="section__title">7.17 Stripe Payment Gateway</h3>
+				</a>
+				<p>Contents</p>
+			</section>
+			<section class="js-section">
+				<a name="7.18">
+					<h3 class="section__title">7.18 Sequelize</h3>
+				</a>
+				<p>Contents</p>
+			</section>
+			<section class="js-section">
+				<a name="7.19">
+					<h3 class="section__title">7.19 Sentry Error Logging</h3>
+				</a>
+				<p>Contents</p>
+			</section>
+			<section class="js-section">
+				<a name="7.20">
+					<h3 class="section__title">7.20 Papertrail Logging</h3>
+				</a>
+				<p>Contents</p>
+			</section>
+			<section class="js-section">
+				<a name="7.21">
+					<h3 class="section__title">7.21 Server Errors</h3>
+				</a>
+				<p>Contents</p>
+			</section>
+			<section class="js-section">
+				<a name="7.22">
+					<h3 class="section__title">7.22 Error Handling</h3>
+				</a>
+				<p>Contents</p>
+			</section>
+			<section class="js-section">
+				<a name="8.0">
+					<h2 class="section__title">8.0 Shared Components</h2>
+				</a>
+				<p>Contents</p>
+			</section>
+			<section class="js-section">
+				<a name="8.1">
+					<h3 class="section__title">8.1 Overview</h3>
+				</a>
+				<p>Contents</p>
+			</section>
+			<section class="js-section">
+				<a name="8.2">
+					<h3 class="section__title">8.2 Trials & Subscriptions</h3>
+				</a>
+				<p>Contents</p>
+			</section>
+			<section class="js-section">
+				<a name="8.3">
+					<h3 class="section__title">8.3 Account Types</h3>
+				</a>
+				<p>Contents</p>
+			</section>
+			<section class="js-section">
+				<a name="8.4">
+					<h3 class="section__title">8.4 User Roles</h3>
+				</a>
+				<p>Contents</p>
+			</section>
+			<section class="js-section">
+				<a name="8.5">
+					<h3 class="section__title">8.5 Features</h3>
+				</a>
+				<p>Contents</p>
+			</section>
+			<section class="js-section">
+				<a name="8.6">
+					<h3 class="section__title">8.6 Translations</h3>
+				</a>
+				<p>Contents</p>
+			</section>
+			<section class="js-section">
+				<a name="9.0">
+					<h2 class="section__title">9.0 Testing</h2>
+				</a>
+				<p>Contents</p>
+			</section>
+			<section class="js-section">
+				<a name="10.0">
+					<h2 class="section__title">10.0 Deployment</h2>
+				</a>
+				<p>Contents</p>
+			</section>
+			<section class="js-section">
+				<a name="11.0">
+					<h2 class="section__title">11.0 Code Migration</h2>
+				</a>
+				<p>Contents</p>
+			</section>
+			<section class="js-section">
+				<a name="12.0">
+					<h2 class="section__title">12.0 Database Updates</h2>
+				</a>
+				<p>Contents</p>
+			</section>
+		</article>
+	</div>
+</body>
+
+</html>
