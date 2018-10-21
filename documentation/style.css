@@ -279,7 +279,7 @@ table td:first-child {
 }
 
 .doc__nav {
-	flex-basis: 20%;
+	flex-basis: 30%;
 	font-weight: 200;
 }
 
@@ -308,6 +308,10 @@ table td:first-child {
 .doc__content {
 	flex-basis: 80%;
 	padding: 0 0 5rem 1rem;
+}
+
+.doc__sub_items {
+	padding-left: 20px !important;
 }
 
 @media (max-width: 750px) {

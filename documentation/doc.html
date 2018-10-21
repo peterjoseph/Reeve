@@ -2,69 +2,136 @@
 <html>
 
 <head>
-  <meta charset="utf-8">
-  <meta name="description" content="">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Reeve Documentation</title>
-  <link rel="stylesheet" href="style.css">
+	<meta charset="utf-8">
+	<meta name="description" content="">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<title>Reeve Documentation</title>
+	<link rel="stylesheet" href="style.css">
 </head>
 
 <body>
-  <div class="doc__bg"></div>
-  <nav class="header">
-    <h1 class="logo">Reeve <span class="logo__thin">Documentation</span></h1>
-  </nav>
-  <div class="wrapper">
-    <aside class="doc__nav">
-      <ul>
-        <li class="js-btn">Get Started</li>
-        <li class="js-btn">Menu Item 2</li>
-        <li class="js-btn">Menu Item 3</li>
-        <li class="js-btn">Menu Item 4</li>
-      </ul>
-    </aside>
-    <article class="doc__content">
-      <section class="js-section">
-        <h3 class="section__title">Get Started</h3>
-        <p>Configure Settings</p>
-        <h3 class="section__title">Installation</h3>
-        <div class="code__block code__block--notabs">
-          <pre class="code code--block">
-              <code>
-                Program code in here
-              </code>
-            </pre>
-        </div>
-      </section>
-      <section class="js-section">
-        <h3 class="section__title">Menu Item 2</h3>
-        <p>More content in here</p>
-        <table id="customers">
-          <tr>
-            <th>Table Header 1</th>
-            <th>Table Header 2</th>
-            <th>Table Header 3</th>
-          </tr>
-          <tr>
-            <td>Table Column 1</td>
-            <td>Table Column 2</td>
-            <td>Table Column 3</td>
-          </tr>
-        </table>
-        <p>Content in here</p>
-        <hr />
-      </section>
-      <section class="js-section">
-        <h3 class="section__title">Menu Item 3</h3>
-        <p>Content in here</p>
-        <hr />
-      </section>
-      <section class="js-section">
-        <h3 class="section__title">Menu Item 4</h3>
-        <p>Content in here</p>
-      </section>
-    </article>
-  </div>
+	<div class="doc__bg"></div>
+	<nav class="header">
+		<h1 class="logo">Reeve <span class="logo__thin">Documentation</span></h1>
+	</nav>
+	<div class="wrapper">
+		<aside class="doc__nav">
+			<ul>
+				<li class="js-btn">Introduction</li>
+				<li class="js-btn">Core Features</li>
+				<li class="js-btn">Technology Stack</li>
+				<li class="js-btn">Directory Layout</li>
+				<li class="js-btn">Getting Started</li>
+				<ul class="doc__sub_items">
+					<li class="js-btn">Node.js & NPM</li>
+					<li class="js-btn">Building the Database</li>
+					<li class="js-btn">Running Redis</li>
+					<li class="js-btn">Developing Locally</li>
+					<li class="js-btn">Build Tools</li>
+					<li class="js-btn">Server Configuration</li>
+				</ul>
+				<li class="js-btn">The Client</li>
+				<ul class="doc__sub_items">
+					<li class="js-btn">Overview</li>
+					<li class="js-btn">Routing</li>
+					<li class="js-btn">Redirects</li>
+					<li class="js-btn">Missing Paths</li>
+					<li class="js-btn">API Development</li>
+					<li class="js-btn">Validation</li>
+					<li class="js-btn">State Management</li>
+					<li class="js-btn">The User Store</li>
+					<li class="js-btn">Common Components</li>
+					<li class="js-btn">Asyncronous Components</li>
+					<li class="js-btn">Input Components</li>
+					<li class="js-btn">Page Layouts</li>
+					<li class="js-btn">Global Styling</li>
+					<li class="js-btn">Notifications</li>
+					<li class="js-btn">Alerts</li>
+					<li class="js-btn">Success & Error Messages</li>
+					<li class="js-btn">Interface Icons</li>
+				</ul>
+				<li class="js-btn">The Server</li>
+				<ul class="doc__sub_items">
+					<li class="js-btn">Overview</li>
+					<li class="js-btn">Node.js Environments</li>
+					<li class="js-btn">Services</li>
+					<li class="js-btn">Routing</li>
+					<li class="js-btn">Connecting to the Database</li>
+					<li class="js-btn">Database Models</li>
+					<li class="js-btn">API Design & Development</li>
+					<li class="js-btn">Endpoint Security</li>
+					<li class="js-btn">Controllers</li>
+					<li class="js-btn">The Orchestrator</li>
+					<li class="js-btn">Session Management</li>
+					<li class="js-btn">CORS</li>
+					<li class="js-btn">Validation</li>
+					<li class="js-btn">Sending Emails</li>
+					<li class="js-btn">Passport Authentication</li>
+					<li class="js-btn">Security Tokens</li>
+					<li class="js-btn">Stripe Payment Gateway</li>
+					<li class="js-btn">Sequelize</li>
+					<li class="js-btn">Sentry Error Logging</li>
+					<li class="js-btn">Papertrail Logging</li>
+					<li class="js-btn">Server Errors</li>
+					<li class="js-btn">Error Handling</li>
+				</ul>
+				<li class="js-btn">Shared Components</li>
+				<ul class="doc__sub_items">
+					<li class="js-btn">Overview</li>
+					<li class="js-btn">Trials & Subscriptions</li>
+					<li class="js-btn">Account Types</li>
+					<li class="js-btn">User Roles</li>
+					<li class="js-btn">Features</li>
+					<li class="js-btn">Translations</li>
+				</ul>
+				<li class="js-btn">Testing</li>
+				<li class="js-btn">Deployment</li>
+				<li class="js-btn">Code Migration</li>
+				<li class="js-btn">Database Updates</li>
+			</ul>
+		</aside>
+		<article class="doc__content">
+			<section class="js-section">
+				<h3 class="section__title">Get Started</h3>
+				<p>Configure Settings</p>
+				<h3 class="section__title">Installation</h3>
+				<div class="code__block code__block--notabs">
+					<pre class="code code--block">
+			  <code>
+				Program code in here
+			  </code>
+			</pre>
+				</div>
+			</section>
+			<section class="js-section">
+				<h3 class="section__title">Menu Item 2</h3>
+				<p>More content in here</p>
+				<table id="customers">
+					<tr>
+						<th>Table Header 1</th>
+						<th>Table Header 2</th>
+						<th>Table Header 3</th>
+					</tr>
+					<tr>
+						<td>Table Column 1</td>
+						<td>Table Column 2</td>
+						<td>Table Column 3</td>
+					</tr>
+				</table>
+				<p>Content in here</p>
+				<hr />
+			</section>
+			<section class="js-section">
+				<h3 class="section__title">Menu Item 3</h3>
+				<p>Content in here</p>
+				<hr />
+			</section>
+			<section class="js-section">
+				<h3 class="section__title">Menu Item 4</h3>
+				<p>Content in here</p>
+			</section>
+		</article>
+	</div>
 </body>
 
 </html>
