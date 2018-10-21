@@ -111,6 +111,12 @@ hr {
 	font-size: 80%;
 }
 
+/* List */
+.list {
+	font-weight: 300;
+	color: #4a4a4a;
+}
+
 /* buttons */
 .button--primary {
 	padding: 10px 22px;
