@@ -249,17 +249,16 @@
 				</a>
 				<div>
 					<p>Reeve was designed to abstract away a lot of the common functionality found in web applications that doesn't directly contribute to the primary "solution". These features include -</p>
-					<p><b>User Accounts:</b> Registration, Login, Forgot Password, Email Verification</p>
-					<p><b>Client Accounts:</b></p>
-					<p><b>Client Specific Branding:</b></p>
-					<p><b>Routing & Page Management:</b></p>
+					<p><b>User Accounts:</b> Common utility pages for logging in, registering client accounts, sending emails when a user forgets their password, and verifying email addresses when new accounts are created.</p>
+					<p><b>Client Accounts:</b> New user accounts are provisioned under a 'client'. A client is a group of users working together in an organisation. They can share resources and information, and collaborate with each other. The overarching client manages the subscription and payment handling for a group of users.</p>
+					<p><b>Client Specific Branding:</b> Each client on the platform can have unique branding, and web address to access their resources. When a user navigates to a client page, they may see the client logo, background and colours specified by the client administrator.</p>
+					<p><b>Routing & Page Management:</b> Pages on the platform can be restricted in their presentation, in a variety of ways. The developer can restrict pages to logged in, or unregistered users. They can require users to have a particular feature or role to view a page. Reeve handles the routing and page management to simply this process, and maintain security.</p>
 					<p><b>Translations:</b> The email templates, front-end and back-end of the application support multi-language text translations with full i18n support. Clients can define a default language to display on the login page, and users can set a language specific to their account.</p>
-					<p><b>Subscription and Payment Gateway:</b></p>
-					<p><b>Feature Restrictions:</b> Subscription Features.</p>
-					<p><b>User Roles:</b></p>
-					<p><b>Email Sending:</b> Email Templates.</p>
-					<p><b>Notifications:</b></p>
-					<p><b>Session Management:</b></p>
+					<p><b>Subscription and Payment Gateway:</b> Subscriptions are handled through a Stripe payment processor. When a new client is created, they are automatically placed on a 14 day trial period where they can use the app freely. After this period of time, they need to select a subscription and make ongoing payments to continue accessing the platform.</p>
+					<p><b>Feature Restrictions:</b> The internal database and pages supports defining a series of features, and restricting them to certain clients or subscription types. Restrictions can be as granular as blocking objects on a page, to restricting access to entire routes/pages. An example of using this could include providing extra features to a client that is on a better subscription plan.</p>
+					<p><b>User Roles:</b> User accounts can be assigned multiple roles which act as granular permissions to perform certain actions, view pages or objects.</p>
+					<p><b>Email Sending:</b> Every user has an email address associated with their account, and the platform supports sending emails to them. These messages are structured using a translation-friendly templating system.</p>
+					<p><b>Session Management:</b> An in-memory database is used to handle active user sessions for fast and efficient application performance.</p>
 				</div>
 			</section>
 			<section class="js-section">
