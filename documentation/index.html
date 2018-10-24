@@ -277,9 +277,15 @@
 					<h2 class="section__title">4.0 Directory Layout</h2>
 				</a>
 				<div>
+					<p>The Reeve directory layout is designed to be as simple and organised as possible. Most of the core application functionality is handled inside three directories.</p>
+					<ul class="list">
+						<li><b>Client:</b> Front-end content served to the user when using the application.</li>
+						<li><b>Server:</b> Code specific to the back-end and deployed on a server/the cloud.</li>
+						<li><b>Shared:</b> Contains functions that are shared between both the client and server directories.</li>
+					</ul>
 					<pre class="code code--block">
 						<code>
-							Reeve (Root Directory)
+							root directory
 							|____ client
 							|____|____ api
 							|____|____ common
@@ -322,12 +328,62 @@
 							|____|____|____ currencies
 							|____|____|____ languages
 							|____|____|____ links
-							|____|____ Utilities
-							|____|____ Validation
+							|____|____ utilities
+							|____|____ validation
 							|____ tests_integration
 							|____ tests_load
 						</code>
 					</pre>
+					<p>A more detailed breakdown and explanation of each of the directories and their purpose below -</p>
+					<div>
+						<p><b>root directory: </b></p>
+						<p><b>/client/: </b></p>
+						<p><b>/client/api/: </b></p>
+						<p><b>/client/common/: </b></p>
+						<p><b>/client/common/components/: </b></p>
+						<p><b>/client/common/components/inputs/: </b></p>
+						<p><b>/client/common/layouts/: </b></p>
+						<p><b>/client/common/media/: </b></p>
+						<p><b>/client/common/media/icons/: </b></p>
+						<p><b>/client/common/media/icons/flags/: </b></p>
+						<p><b>/client/common/store/: </b></p>
+						<p><b>/client/common/store/reducers/: </b></p>
+						<p><b>/client/common/styles/: </b></p>
+						<p><b>/client/common/styles/modules/: </b></p>
+						<p><b>/client/modules/: </b></p>
+						<p><b>/client/modules/authentication/: </b></p>
+						<p><b>/client/modules/authentication/components/: </b></p>
+						<p><b>/client/modules/billing/: </b></p>
+						<p><b>/client/modules/billing/components/: </b></p>
+						<p><b>/client/modules/dashboard/: </b></p>
+						<p><b>/client/modules/header/: </b></p>
+						<p><b>/client/modules/header/components/: </b></p>
+						<p><b>/client/modules/profile/: </b></p>
+						<p><b>/client/modules/settings/: </b></p>
+						<p><b>/database/: </b></p>
+						<p><b>/database/scripts/: </b></p>
+						<p><b>/distribution/: </b></p>
+						<p><b>/distribution/images/: </b></p>
+						<p><b>/documentation/: </b></p>
+						<p><b>/node_modules/: </b></p>
+						<p><b>/server/: </b></p>
+						<p><b>/server/controller/: </b></p>
+						<p><b>/server/models/: </b></p>
+						<p><b>/server/orchestrator/: </b></p>
+						<p><b>/server/services/: </b></p>
+						<p><b>/server/utilities/: </b></p>
+						<p><b>/server/utilities/errors/: </b></p>
+						<p><b>/shared/: </b></p>
+						<p><b>/shared/translations/: </b></p>
+						<p><b>/shared/translations/countries/: </b></p>
+						<p><b>/shared/translations/currencies/: </b></p>
+						<p><b>/shared/translations/languages/: </b></p>
+						<p><b>/shared/translations/links/: </b></p>
+						<p><b>/shared/utilities: </b></p>
+						<p><b>/shared/valiation/: </b></p>
+						<p><b>/tests_integration/: </b></p>
+						<p><b>/tests_load/: </b></p>
+					</div>
 				</div>
 			</section>
 			<section class="js-section">
