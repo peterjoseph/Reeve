@@ -225,8 +225,7 @@
 					<h2 class="section__title">1.0 Introduction</h2>
 				</a>
 				<div>
-					<p>Reeve is a Node.js boilerplate framework designed to reduce setup time, and mitigate risk when building scalable web applications.
-						<br>With pre-packaged solutions to common problems found early in the development process, developers can focus on the core features of the product directly, and avoid building secondary functionality that is expected, but not critical of the primary product features.</p>
+					<p>Reeve is a Node.js boilerplate framework designed to reduce setup time, and mitigate risk when building scalable web applications.</p>
 					<p>Many web applications depend on commonly found, generic functionality. This can include -<br>
 						<ul class="list">
 							<li>User authentication and account management.</li>
@@ -239,8 +238,9 @@
 						</ul>
 					</p>
 					<p>Reeve aims to provide a robust set of solutions to these areas (and more), so that the focus can return to rapid prototyping and feature delivery.</p>
-					<p><b>Why would someone want this?</b><br> Developing a software product is expensive and time-consuming. By using a framework, you can ensure consistency and enforce commonality across products.
-						<br>If you are outsourcing, you can reduce risk by standardizing how a product should be developed and enforcing practices that might not be used if you asked a developer to start from scratch.</p>
+					<p>Using pre-packaged solutions to common problems found early in the development process, developers can focus on the core features of the product directly, and avoid building secondary functionality that is expected, but not critical of the primary product features.</p>
+					<p><b>Why would someone want this?</b><br> Developing a software product is expensive and time-consuming. By using a framework, you can ensure consistency and enforce commonality across multiple products being developed in parallel.</p>
+					<p>If you are outsourcing, you can reduce risk by standardizing how a product should be developed and enforcing practices that might not be used if you asked a developer to start from scratch.</p>
 				</div>
 			</section>
 			<section class="js-section">
@@ -259,19 +259,76 @@
 					<p><b>User Roles:</b> User accounts can be assigned multiple roles which act as granular permissions to perform certain actions, view pages or objects.</p>
 					<p><b>Email Sending:</b> Every user has an email address associated with their account, and the platform supports sending emails to them. These messages are structured using a translation-friendly templating system.</p>
 					<p><b>Session Management:</b> An in-memory database is used to handle active user sessions for fast and efficient application performance.</p>
+					<p><b>Error Reporting:</b> Activites, behaviours and system events throughout the platform can be recorded to external services such as Papertrail, or Sentry.</p>
 				</div>
 			</section>
 			<section class="js-section">
 				<a name="3.0">
 					<h2 class="section__title">3.0 Technology Stack</h2>
 				</a>
-				<p>Contents</p>
+				<div>
+					<p>Reeve relies on a variety of open source technologies to function. Key inter-connected services are depicted in the image below, and an explanation of their usage underneath this image.</p>
+					<p><img src="./images/tech-stack.png" /></p>
+					<p></p>
+				</div>
 			</section>
 			<section class="js-section">
 				<a name="4.0">
 					<h2 class="section__title">4.0 Directory Layout</h2>
 				</a>
-				<p>Contents</p>
+				<div>
+					<pre class="code code--block">
+						<code>
+							Reeve (Root Directory)
+							|____ client
+							|____|____ api
+							|____|____ common
+							|____|____|____ components
+							|____|____|____|____ inputs
+							|____|____|____ layouts
+							|____|____|____ media
+							|____|____|____|____ icons
+							|____|____|____|____|____ flags
+							|____|____|____ store
+							|____|____|____|____ reducers
+							|____|____|____ styles
+							|____|____|____|____ modules
+							|____|____ modules
+							|____|____|____ authentication
+							|____|____|____|____ components
+							|____|____|____ billing
+							|____|____|____|____ components
+							|____|____|____ dashboard
+							|____|____|____ header
+							|____|____|____|____ components
+							|____|____|____ profile
+							|____|____|____ settings
+							|____ database
+							|____|____ scripts
+							|____ distribution
+							|____|____ images
+							|____ documentation
+							|____ node_modules
+							|____ server
+							|____|____ controller
+							|____|____ models
+							|____|____ orchestrator
+							|____|____ services
+							|____|____ utilities
+							|____|____|____ errors
+							|____ shared
+							|____|____ translations
+							|____|____|____ countries
+							|____|____|____ currencies
+							|____|____|____ languages
+							|____|____|____ links
+							|____|____ Utilities
+							|____|____ Validation
+							|____ tests_integration
+							|____ tests_load
+						</code>
+					</pre>
+				</div>
 			</section>
 			<section class="js-section">
 				<a name="5.0">
@@ -288,7 +345,7 @@
 						<code>
 							Program code in here
 						</code>
-						</pre>
+					</pre>
 				</div>
 			</section>
 			<section class="js-section">
