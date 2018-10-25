@@ -267,8 +267,88 @@
 					<h2 class="section__title">3.0 Technology Stack</h2>
 				</a>
 				<div>
-					<p>Reeve relies on a variety of open source technologies to function. Key inter-connected services are depicted in the image below, and an explanation of their usage underneath this image.</p>
-					<p><img src="./images/tech-stack.png" /></p>
+					<p>Reeve relies on a variety of open source technologies to function. Key inter-connected services are listed in the table below with a short description of their purpose. It is <b>strongly</b> recommended that you review all the dependencies found in the <i>package.json</i> file in the root directory.</p>
+					<table>
+						<tr>
+							<th>Component</th>
+							<th>Dependencies</th>
+						</tr>
+						<tr>
+							<td>Front-End</td>
+							<td>
+								<ul class="list">
+									<li>React</li>
+									<li>React-Router v4</li>
+									<li>Redux</li>
+									<li>Bootstrap</li>
+									<li>Ejs</li>
+									<li>Emotion</li>
+									<li>i18next (and associated plugins)</li>
+									<li>React-notify-toast</li>
+									<li>Moment</li>
+									<li>Validate.js</li>
+									<li>Raven</li>
+									<li>Webpack (and associated plugins)</li>
+									<li>Babel (and associated plugins)</li>
+								</ul>
+							</td>
+						</tr>
+						<tr>
+							<td>Back-End</td>
+							<td>
+								<ul class="list">
+									<li>Express</li>
+									<li>MySql2</li>
+									<li>Sequelize</li>
+									<li>Stripe</li>
+									<li>Nodemailer</li>
+									<li>Passport</li>
+									<li>Winston (and associated plugins)</li>
+									<li>Dotenv</li>
+								</ul>
+							</td>
+						</tr>
+						<tr>
+							<td>Database</td>
+							<td>
+								<ul class="list">
+									<li>MySQL</li>
+									<li>Sequelize</li>
+								</ul>
+							</td>
+						</tr>
+						<tr>
+							<td>Session Management</td>
+							<td>
+								<ul class="list">
+									<li>Redis</li>
+									<li>Connect-redis</li>
+									<li>Rate-limit-redis</li>
+								</ul>
+							</td>
+						</tr>
+						<tr>
+							<td>Development</td>
+							<td>
+								<ul class="list" style="list-style: none;">
+									<li>Nodemon</li>
+									<li>Prettier</li>
+									<li>React-hot-loader</li>
+									<li>Eslint (and associated plugins)</li>
+								</ul>
+							</td>
+						</tr>
+						<tr>
+							<td>Integration Testing</td>
+							<td>
+								<ul class="list" style="list-style: none;">
+									<li>Ava</li>
+									<li>Supertest</li>
+									<li>JMeter</li>
+								</ul>
+							</td>
+						</tr>
+					</table>
 					<p></p>
 				</div>
 			</section>
@@ -334,9 +414,10 @@
 							|____ tests_load
 						</code>
 					</pre>
-					<p>A more detailed breakdown and explanation of each of the directories and their purpose below -</p>
+					<p>A more detailed breakdown and explanation of each of the directories and their purpose can be found below. Compare these directories with the notes below to better understand their purpose.</p>
 					<div>
 						<p><b>root directory: </b></p>
+						<br>
 						<p><b>/client/: </b></p>
 						<p><b>/client/api/: </b></p>
 						<p><b>/client/common/: </b></p>
@@ -360,12 +441,20 @@
 						<p><b>/client/modules/header/components/: </b></p>
 						<p><b>/client/modules/profile/: </b></p>
 						<p><b>/client/modules/settings/: </b></p>
+						<br>
 						<p><b>/database/: </b></p>
-						<p><b>/database/scripts/: </b></p>
+						<p><b>/database/scripts/: </b>As the product is developed and the underlying database is changed, database scripts containing the changes are included in this directory. Scripts are chronological in order so when new changes are introduced, you only have to run the latest scripts. <br>All scripts used to make database changes should be documented in this directory. <br>Every script records
+							an entry
+							in the 'executedScripts' database table, so you always know what scripts have already been run on the database.</p>
+						<p><b>/database/scripts/compiled/: </b>All individual sql files are compiled into a single script and supplied in this directory. For sake of convenience, if you ever have to build a new database from scratch, you can use the one script.</p>
+						<br>
 						<p><b>/distribution/: </b></p>
 						<p><b>/distribution/images/: </b></p>
+						<br>
 						<p><b>/documentation/: </b></p>
+						<br>
 						<p><b>/node_modules/: </b></p>
+						<br>
 						<p><b>/server/: </b></p>
 						<p><b>/server/controller/: </b></p>
 						<p><b>/server/models/: </b></p>
@@ -373,6 +462,7 @@
 						<p><b>/server/services/: </b></p>
 						<p><b>/server/utilities/: </b></p>
 						<p><b>/server/utilities/errors/: </b></p>
+						<br>
 						<p><b>/shared/: </b></p>
 						<p><b>/shared/translations/: </b></p>
 						<p><b>/shared/translations/countries/: </b></p>
@@ -381,7 +471,9 @@
 						<p><b>/shared/translations/links/: </b></p>
 						<p><b>/shared/utilities: </b></p>
 						<p><b>/shared/valiation/: </b></p>
+						<br>
 						<p><b>/tests_integration/: </b></p>
+						<br>
 						<p><b>/tests_load/: </b></p>
 					</div>
 				</div>
