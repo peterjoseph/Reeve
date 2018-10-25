@@ -269,6 +269,7 @@
 				<div>
 					<p>Reeve relies on a variety of open source technologies to function. Key inter-connected services are listed in the table below with a short description of their purpose. It is <b>strongly</b> recommended that you review all the dependencies found in the <i>package.json</i> file in the root directory.</p>
 					<table>
+						<col width="20%">
 						<tr>
 							<th>Component</th>
 							<th>Dependencies</th>
@@ -276,7 +277,7 @@
 						<tr>
 							<td>Front-End</td>
 							<td>
-								<ul class="list">
+								<ul class="table-list">
 									<li>React</li>
 									<li>React-Router v4</li>
 									<li>Redux</li>
@@ -296,7 +297,7 @@
 						<tr>
 							<td>Back-End</td>
 							<td>
-								<ul class="list">
+								<ul class="table-list">
 									<li>Express</li>
 									<li>MySql2</li>
 									<li>Sequelize</li>
@@ -311,7 +312,7 @@
 						<tr>
 							<td>Database</td>
 							<td>
-								<ul class="list">
+								<ul class="table-list">
 									<li>MySQL</li>
 									<li>Sequelize</li>
 								</ul>
@@ -320,7 +321,7 @@
 						<tr>
 							<td>Session Management</td>
 							<td>
-								<ul class="list">
+								<ul class="table-list">
 									<li>Redis</li>
 									<li>Connect-redis</li>
 									<li>Rate-limit-redis</li>
@@ -330,7 +331,7 @@
 						<tr>
 							<td>Development</td>
 							<td>
-								<ul class="list" style="list-style: none;">
+								<ul class="table-list">
 									<li>Nodemon</li>
 									<li>Prettier</li>
 									<li>React-hot-loader</li>
@@ -341,7 +342,7 @@
 						<tr>
 							<td>Integration Testing</td>
 							<td>
-								<ul class="list" style="list-style: none;">
+								<ul class="table-list">
 									<li>Ava</li>
 									<li>Supertest</li>
 									<li>JMeter</li>
@@ -446,7 +447,7 @@
 						<p><b>/database/scripts/: </b>As the product is developed and the underlying database is changed, database scripts containing the changes are included in this directory. Scripts are chronological in order so when new changes are introduced, you only have to run the latest scripts. <br>All scripts used to make database changes should be documented in this directory. <br>Every script records
 							an entry
 							in the 'executedScripts' database table, so you always know what scripts have already been run on the database.</p>
-						<p><b>/database/scripts/compiled/: </b>All individual sql files are compiled into a single script and supplied in this directory. For sake of convenience, if you ever have to build a new database from scratch, you can use the one script.</p>
+						<p><b>/database/scripts/compiled/: </b>All individual sql files are compiled into a single script and supplied in this directory. For sake of convenience, if you ever have to build a new database from scratch, you can use the one script. <br>When you add a new sql script to the `scripts` directory, you should also include it in this file.</p>
 						<br>
 						<p><b>/distribution/: </b></p>
 						<p><b>/distribution/images/: </b></p>
