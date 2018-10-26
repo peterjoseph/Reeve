@@ -124,6 +124,11 @@ hr {
 	padding-left: 0;
 }
 
+.table-list li {
+	padding-top: 5px;
+	padding-bottom: 5px;
+}
+
 /* buttons */
 .button--primary {
 	padding: 10px 22px;
