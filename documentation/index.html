@@ -450,12 +450,12 @@
 							in the 'executedScripts' database table, so you always know what scripts have already been run on the database.</p>
 						<p><b>/database/scripts/compiled/: </b>All individual sql files are compiled into a single script and supplied in this directory. For sake of convenience, if you ever have to build a new database from scratch, you can use the one script. <br>When you add a new sql script to the `scripts` directory, you should also include it in this file.</p>
 						<br>
-						<p><b>/distribution/: </b></p>
-						<p><b>/distribution/images/: </b></p>
+						<p><b>/distribution/: </b>The only directory that serves static files to users over the internet. When building for production, <i>bundle.js</i> files are created through webpack and stored in this directory. When a user navigates to the correct address, these resources are loaded.</p>
+						<p><b>/distribution/images/: </b>This directory is for loading static image files. If you are displaying an image from the server to a user without using a distribution network, the images should all be located within this directory.</p>
 						<br>
-						<p><b>/documentation/: </b></p>
+						<p><b>/documentation/: </b>Contains reference material for using and developing the product.</p>
 						<br>
-						<p><b>/node_modules/: </b></p>
+						<p><b>/node_modules/: </b>When the node command <i>'node install'</i> is run, third-party dependencies used by Reeve are downloaded from the internet and stored here.</p>
 						<br>
 						<p><b>/server/: </b></p>
 						<p><b>/server/controller/: </b></p>
