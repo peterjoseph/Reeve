@@ -231,7 +231,7 @@
 							<li>User authentication and account management.</li>
 							<li>Payment and subscriptions.</li>
 							<li>Routing and page management.</li>
-							<li>Internationalization (Translations).</li>
+							<li>Internationalization (translations).</li>
 							<li>Security.</li>
 							<li>Access and usage logging.</li>
 							<li>Error reporting.</li>
@@ -284,7 +284,7 @@
 									<li><b>Bootstrap:</b> CSS Framework for designing stylish layouts and components.</li>
 									<li><b>Ejs:</b> A templating framework used by the email sender to insert personalised information into a html email.</li>
 									<li><b>Emotion:</b> A react component for inserting custom css into react components.</li>
-									<li><b>i18next (and associated plugins):</b> Node and React tools for handling language translations throughout the application.</li>
+									<li><b>I18next (and associated plugins):</b> Node and React tools for handling language translations throughout the application.</li>
 									<li><b>React-notify-toast:</b> A react component for displaying toast notifications.</li>
 									<li><b>Moment:</b> Time and date manipulation utility.</li>
 									<li><b>Validate.js:</b> Validate user supplied inputs as valid and correct.</li>
@@ -417,7 +417,8 @@
 					</pre>
 					<p>A more detailed breakdown and explanation of each of the directories and their purpose can be found below. Compare these directories with the notes below to better understand their purpose.</p>
 					<div>
-						<p><b>root directory: </b></p>
+						<p><b>root directory: </b> The root directory contains the node package file for starting node, and a series of configuration and property files. An environment file <i>config.env</i> contains build configuration information. <i>webpack.config.js</i> handles the configuration of webpack, bundling and building the files when node is started. There are also a number of configuration files to
+							be used with your code editor for code styling and formatting.</p>
 						<br>
 						<p><b>/client/: </b></p>
 						<p><b>/client/api/: </b></p>
@@ -443,7 +444,7 @@
 						<p><b>/client/modules/profile/: </b></p>
 						<p><b>/client/modules/settings/: </b></p>
 						<br>
-						<p><b>/database/: </b></p>
+						<p><b>/database/: </b> The root database directory contains a series of directories pertaining to building the mysql database. There is a readme file that explains how to run the sql installation scripts.</p>
 						<p><b>/database/scripts/: </b>As the product is developed and the underlying database is changed, database scripts containing the changes are included in this directory. Scripts are chronological in order so when new changes are introduced, you only have to run the latest scripts. <br>All scripts used to make database changes should be documented in this directory. <br>Every script records
 							an entry
 							in the 'executedScripts' database table, so you always know what scripts have already been run on the database.</p>
