@@ -419,20 +419,20 @@
 					<div>
 						<p><b>root directory: </b> The root directory contains the node package file for starting node, and a series of configuration and property files. An environment file <i>config.env</i> contains build configuration information. <i>webpack.config.js</i> handles the configuration of webpack, bundling and building the files when node is started. There are also a number of configuration files to
 							be used with your code editor for code styling and formatting.</p>
-						<br>
-						<p><b>/client/: </b></p>
-						<p><b>/client/api/: </b></p>
-						<p><b>/client/common/: </b></p>
-						<p><b>/client/common/components/: </b></p>
-						<p><b>/client/common/components/inputs/: </b></p>
-						<p><b>/client/common/layouts/: </b></p>
-						<p><b>/client/common/media/: </b></p>
-						<p><b>/client/common/media/icons/: </b></p>
-						<p><b>/client/common/media/icons/flags/: </b></p>
-						<p><b>/client/common/store/: </b></p>
-						<p><b>/client/common/store/reducers/: </b></p>
-						<p><b>/client/common/styles/: </b></p>
-						<p><b>/client/common/styles/modules/: </b></p>
+						<p><b>/client/: </b>The client directory contains content that is bundled together during development and served to users. At the root of the directory there is an <i>index.js</i> file, this injects React into the web-browser dom. The <i>app.js</i> file loads the router and other dependencies. The <i>router.js</i> file handles the react routing (using react-router v4) throughout the
+							application.</p>
+						<p><b>/client/api/: </b>Exported js functions that call the browser 'fetch' function to communicate with the api endpoints on the back-end are stored in this directory.</p>
+						<p><b>/client/common/: </b>Common front-end functions that are shared across multiple pages within the client application.</p>
+						<p><b>/client/common/components/: </b>A directory for storing common react page elements.</p>
+						<p><b>/client/common/components/inputs/: </b>Shared react input elements. Fields, checkboxes and drop-downs. The advantage of using a single field component throughout the application is that you can update once and the changes will be visible everywhere.</p>
+						<p><b>/client/common/layouts/: </b>Every page is wrapped in a 'layout' component. This component defines whether a header, navigation bar or sidebar should be visible along with the page content.</p>
+						<p><b>/client/common/media/: </b>Visual front-end components (usually SVG's').</p>
+						<p><b>/client/common/media/icons/: </b>A central repository of icons used throughout the application front-end.</p>
+						<p><b>/client/common/media/icons/flags/: </b>SVG country flags.</p>
+						<p><b>/client/common/store/: </b>This directory contains a <i>store.js</i> file which loads the Redux application state store. In the development environment, it also contains code that loads the React and Redux development tools.</p>
+						<p><b>/client/common/store/reducers/: </b>All the Redux reducers are stored in this directory. Reducers specify how the Redux application state changes in response to actions that are sent to the store.</p>
+						<p><b>/client/common/styles/: </b>A single <i>entry.scss</i> imports styling files (Sass - Syntactically awesome style sheets) from the modules directory. Webpack compiles these files into pure css during development and production. Sass provides a significant number of benefits over writing pure css.</p>
+						<p><b>/client/common/styles/modules/: </b>The most significant file in this directory is <i>_bootstrap_variations.scss</i> which specifies the default styling and colours of the bootstrap css framework.</p>
 						<p><b>/client/modules/: </b></p>
 						<p><b>/client/modules/authentication/: </b></p>
 						<p><b>/client/modules/authentication/components/: </b></p>
@@ -443,20 +443,15 @@
 						<p><b>/client/modules/header/components/: </b></p>
 						<p><b>/client/modules/profile/: </b></p>
 						<p><b>/client/modules/settings/: </b></p>
-						<br>
 						<p><b>/database/: </b> The root database directory contains a series of directories pertaining to building the mysql database. There is a readme file that explains how to run the sql installation scripts.</p>
 						<p><b>/database/scripts/: </b>As the product is developed and the underlying database is changed, database scripts containing the changes are included in this directory. Scripts are chronological in order so when new changes are introduced, you only have to run the latest scripts. <br>All scripts used to make database changes should be documented in this directory. <br>Every script records
 							an entry
 							in the 'executedScripts' database table, so you always know what scripts have already been run on the database.</p>
 						<p><b>/database/scripts/compiled/: </b>All individual sql files are compiled into a single script and supplied in this directory. For sake of convenience, if you ever have to build a new database from scratch, you can use the one script. <br>When you add a new sql script to the `scripts` directory, you should also include it in this file.</p>
-						<br>
 						<p><b>/distribution/: </b>The only directory that serves static files to users over the internet. When building for production, <i>bundle.js</i> files are created through webpack and stored in this directory. When a user navigates to the correct address, these resources are loaded.</p>
 						<p><b>/distribution/images/: </b>This directory is for loading static image files. If you are displaying an image from the server to a user without using a distribution network, the images should all be located within this directory.</p>
-						<br>
 						<p><b>/documentation/: </b>Contains reference material for using and developing the product.</p>
-						<br>
 						<p><b>/node_modules/: </b>When the node command <i>'node install'</i> is run, third-party dependencies used by Reeve are downloaded from the internet and stored here.</p>
-						<br>
 						<p><b>/server/: </b></p>
 						<p><b>/server/controller/: </b></p>
 						<p><b>/server/models/: </b></p>
@@ -464,7 +459,6 @@
 						<p><b>/server/services/: </b></p>
 						<p><b>/server/utilities/: </b></p>
 						<p><b>/server/utilities/errors/: </b></p>
-						<br>
 						<p><b>/shared/: </b></p>
 						<p><b>/shared/translations/: </b></p>
 						<p><b>/shared/translations/countries/: </b></p>
