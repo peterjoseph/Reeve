@@ -299,7 +299,7 @@
 							<td>
 								<ul class="table-list">
 									<li><b>Express:</b> Node.js web application and api framework.</li>
-									<li><b>Mysql2:</b> Improved sql driver for node.js. Used in combination with Sequelize for database management.</li>
+									<li><b>MySQL2:</b> Improved sql driver for node.js. Used in combination with Sequelize for database management.</li>
 									<li><b>Sequelize:</b> Object Relational Mapping (ORM). Provides a fast, secure and efficient way of communication with the database.</li>
 									<li><b>Stripe:</b> Payment gateway for handling subscriptions.</li>
 									<li><b>Nodemailer:</b> Node.js package for generating and sending emails.</li>
@@ -361,7 +361,7 @@
 					<p>The Reeve directory layout is designed to be as simple and organised as possible. Most of the core application functionality is handled inside three directories.</p>
 					<ul class="list">
 						<li><b>Client:</b> Front-end content served to the user when using the application.</li>
-						<li><b>Server:</b> Code specific to the back-end and deployed on a server/the cloud.</li>
+						<li><b>Server:</b> Code specific to the back-end and deployed on a node server/the cloud.</li>
 						<li><b>Shared:</b> Contains functions that are shared between both the client and server directories.</li>
 					</ul>
 					<pre class="code code--block">
@@ -433,16 +433,17 @@
 						<p><b>/client/common/store/reducers/: </b>All the Redux reducers are stored in this directory. Reducers specify how the Redux application state changes in response to actions that are sent to the store.</p>
 						<p><b>/client/common/styles/: </b>A single <i>entry.scss</i> imports styling files (Sass - Syntactically awesome style sheets) from the modules directory. Webpack compiles these files into pure css during development and production. Sass provides a significant number of benefits over writing pure css.</p>
 						<p><b>/client/common/styles/modules/: </b>The most significant file in this directory is <i>_bootstrap_variations.scss</i> which specifies the default styling and colours of the bootstrap css framework.</p>
-						<p><b>/client/modules/: </b></p>
-						<p><b>/client/modules/authentication/: </b></p>
-						<p><b>/client/modules/authentication/components/: </b></p>
-						<p><b>/client/modules/billing/: </b></p>
-						<p><b>/client/modules/billing/components/: </b></p>
-						<p><b>/client/modules/dashboard/: </b></p>
-						<p><b>/client/modules/header/: </b></p>
-						<p><b>/client/modules/header/components/: </b></p>
-						<p><b>/client/modules/profile/: </b></p>
-						<p><b>/client/modules/settings/: </b></p>
+						<p><b>/client/modules/: </b>Pages within the web-application are separated into unique directories and loaded in an asynchronous fashion. If you are creating a new page, most of the content should be stored in a sub-directory within this directory. The first file to be loaded is a <i>index.js</i> file which contains a react-router component. This component handles what should be visible on
+							the page.</p>
+						<p><b>/client/modules/authentication/: </b>Contains all of the pages and components for authentication. This includes, sign-in, registration, forgot password, reset password and verify email. The react-router component in <i>index.js</i> determines which one of these components should be visible.</p>
+						<p><b>/client/modules/authentication/components/: </b>Shared components that are used in a particular page or group of pages, but are unlikely to be required across the whole application, should be stored in a 'components' directory.</p>
+						<p><b>/client/modules/billing/: </b>Pages and components for presenting billing and subscription management to the end user.</p>
+						<p><b>/client/modules/billing/components/: </b>Shared components that are used in a particular page or group of pages, but are unlikely to be required across the whole application, should be stored in a 'components' directory.</p>
+						<p><b>/client/modules/dashboard/: </b>The first page that is presented to a user when they sign-in to an account.</p>
+						<p><b>/client/modules/header/: </b>A navigation header that is shared across multiple pages throughout the app. The visibility of the header is determined by its use in the layouts directory '<i>client/common/layouts</i>'.</p>
+						<p><b>/client/modules/header/components/: </b>Shared components that are used in a particular page or group of pages, but are unlikely to be required across the whole application, should be stored in a 'components' directory.</p>
+						<p><b>/client/modules/profile/: </b>A directory containing pages where users can update their personal information and add a profile picture.</p>
+						<p><b>/client/modules/settings/: </b>This directory contains pages for handling client specific settings that are applied to all users within the client account.</p>
 						<p><b>/database/: </b> The root database directory contains a series of directories pertaining to building the mysql database. There is a readme file that explains how to run the sql installation scripts.</p>
 						<p><b>/database/scripts/: </b>As the product is developed and the underlying database is changed, database scripts containing the changes are included in this directory. Scripts are chronological in order so when new changes are introduced, you only have to run the latest scripts. <br>All scripts used to make database changes should be documented in this directory. <br>Every script records
 							an entry
@@ -452,25 +453,30 @@
 						<p><b>/distribution/images/: </b>This directory is for loading static image files. If you are displaying an image from the server to a user without using a distribution network, the images should all be located within this directory.</p>
 						<p><b>/documentation/: </b>Contains reference material for using and developing the product.</p>
 						<p><b>/node_modules/: </b>When the node command <i>'node install'</i> is run, third-party dependencies used by Reeve are downloaded from the internet and stored here.</p>
-						<p><b>/server/: </b></p>
-						<p><b>/server/controller/: </b></p>
-						<p><b>/server/models/: </b></p>
-						<p><b>/server/orchestrator/: </b></p>
-						<p><b>/server/services/: </b></p>
-						<p><b>/server/utilities/: </b></p>
-						<p><b>/server/utilities/errors/: </b></p>
-						<p><b>/shared/: </b></p>
-						<p><b>/shared/translations/: </b></p>
-						<p><b>/shared/translations/countries/: </b></p>
-						<p><b>/shared/translations/currencies/: </b></p>
-						<p><b>/shared/translations/languages/: </b></p>
-						<p><b>/shared/translations/links/: </b></p>
-						<p><b>/shared/utilities: </b></p>
-						<p><b>/shared/valiation/: </b></p>
-						<br>
-						<p><b>/tests_integration/: </b></p>
-						<br>
-						<p><b>/tests_load/: </b></p>
+						<p><b>/server/: </b>This directory contains the server specific code that is run on a node js server. The service is initialised via the <i>server.js</i> file. A separate file <i>server.dev.js</i> contains code specific to when the server is running in a development environment.</p>
+						<p><b>/server/controller/: </b>The controller supplies and manages the 'routes' used by the server. When a request is sent to a route on the server, a permission check performed by <i>restrictRoutes.js</i> validates the request and passes the action to a function in one of the files in the orchestrator directory.</p>
+						<p><b>/server/models/: </b>The sequelize ORM maps to the database through the models directory. Each database mapping is stored in a unique file in this directory and automatically loaded by the server.</p>
+						<p><b>/server/orchestrator/: </b>The orchestrator directory is where data manipulation and communication with the database occurs.</p>
+						<p><b>/server/services/: </b>Reeve depends on a variety of third-party services. These integrations are stored in separate files in the services directory, and imported via the <i>server.js</i> file located in the root directory.</p>
+						<p><b>/server/utilities/: </b>Server specific utility functions. The file <i>restrictRoutes.js</i> handles the security of routes and whether an endpoint is accessible to a user. <i>browserResponseLng.js</i> Loads the accept-language from the request header. This is used for determining the language a response should be returned.</p>
+						<p><b>/server/utilities/errors/: </b>Provides a common set of functions for cleanly presenting server errors to the client.</p>
+						<p><b>/shared/: </b>The shared directory is used to share code between the client and the server. This is frequently used in translation and validation, where the inputs and outputs on the server are expected to be the same as what is presented on the client. A significant file in this directory is <i>constants.js</i> which provides a central location for static variables, ensuring values
+							are not 'hard-coded' into multiple pages.</p>
+						<p><b>/shared/translations/: </b>The translations directory contains code that initializes i18next with the correct translation strings. Inside this directory, the file <i>i18n.js</i> loads translation strings from a group of sub-directories. A number of utility functions are also provided in this file, used for displaying translation strings, changing the language and determining the
+							currently active language.</p>
+						<p><b>/shared/translations/countries/: </b>Country names translated into the language of the translation file.</p>
+						<p><b>/shared/translations/currencies/: </b>Currencies translated into the language of the translation file.</p>
+						<p><b>/shared/translations/languages/: </b>A collection of translation strings to be used with the i18next package. Translations are divided into separate files based on their language.</p>
+						<p><b>/shared/translations/links/: </b>Translatable links that point to unique url's written in the language.</p>
+						<p><b>/shared/utilities: </b>Common utility functions shared across the client and server. Date and subdomain manipulation, urls, security token handling and array manipulation.</p>
+						<p><b>/shared/validation/: </b>A collection of validation objects used by the 'validate.js' package. Validation should be performed on the client and server, and these validation objects should be as complex as required to maintain the integrity of the application.</p>
+						<p><b>/tests_integration/: </b>JMeter is a powerful software application designed to load-test and measure the performance of services. This directory contains a basic pre-made file to load-test Reeve. You will need to download and install JMeter separately.</p>
+						<p><b>/tests_load/: </b>The javascript test runner 'ava' is heavily used for integration testing in Reeve. This involves testing the communication paths between the endpoints and the front-end to ensure they are all working correctly. All tests should be stored in the <i>tests_integration</i> directory. You can run the tests using the following command -</p>
+						<div class="code__block code__block--notabs">
+							<pre class="code code--block">
+									<code>npm run test</code>
+							</pre>
+						</div>
 					</div>
 				</div>
 			</section>
