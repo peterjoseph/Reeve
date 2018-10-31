@@ -196,6 +196,11 @@ nav {
 	grid-template-columns: 70px auto;
 }
 
+/* img */
+img {
+	width: 100%;
+}
+
 /* table */
 table {
 	border-collapse: collapse;

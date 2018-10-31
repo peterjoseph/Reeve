@@ -539,13 +539,80 @@
 					</pre>
 				</div>
 				<p>Once the installation is complete, a new directory called <i>node_modules</i> should have been created in the root directory. This contains the node dependencies Reeve is reliant on.</p>
-				<p>We can now move to setting up our sql and in-memory databases.</p>
+				<p>We can now move on to setting up our sql and in-memory databases.</p>
 			</section>
 			<section class="js-section">
 				<a name="5.2">
 					<h3 class="section__title">5.2 Building the Database</h3>
 				</a>
-				<p>Contents</p>
+				<p>The MySQL development documentation has a very detailed guide on installing MySQL for various platforms. Please read the following article <a href="https://dev.mysql.com/doc/mysql-getting-started/en/">Getting Started with MySQL</a>.</p>
+				<p>Once you have successfully installed MySQL, you should be able connect to the server using the mysql client through your terminal.</p>
+				<div class="code__block code__block--notabs">
+					<pre class="code code--block">
+						<code>
+							$ mysql -u root -p
+						</code>
+					</pre>
+				</div>
+				<p>If the connection was successful, you should receive a similar welcome message to the one below.</p>
+				<div class="code__block code__block--notabs">
+					<pre class="code code--block">
+						<code>
+							Welcome to the MySQL monitor. Commands end with ; or \g.
+							Your MySQL connection id is 4
+							Server version: 5.7.13 MySQL Community Server (GPL)
+						</code>
+					</pre>
+				</div>
+				<p>Run the following command in your terminal to see a list of existing databases.</p>
+				<div class="code__block code__block--notabs">
+					<pre class="code code--block">
+						<code>
+							mysql> SHOW DATABASES;
+							+--------------------+
+							| Database |
+							+--------------------+
+							| information_schema |
+							| mysql |
+							| performance_schema |
+							| sys |
+							+--------------------+
+						</code>
+					</pre>
+				</div>
+				<p>We now want to create a new database which will be used by Reeve.</p>
+				<div class="code__block code__block--notabs">
+					<pre class="code code--block">
+						<code>
+							mysql> CREATE DATABASE reeve;
+							Query OK, 1 row affected (0.01 sec)
+						</code>
+					</pre>
+				</div>
+				<p>As we will be importing scripts to build our database, we will have a significantly less painful experience using a graphical user interface over the terminal.</p>
+				<p>Most of the database management during the development of Reeve was handled by a mac program called <a href="https://www.sequelpro.com/">Sequel Pro</a>. An alternative software product for windows is <a href="https://www.heidisql.com/">HeidiSQL</a>. If you installed MySQL through an installer, it is also quite possible you may have already installed <a href="https://www.mysql.com/products/workbench/">MySQL
+						Workbench</a> on your machine.</p>
+				<p>Inside the directory <i>database > scripts > compiled</i> there is a single file called <i>compiled.sql</i>. We need to take the entire contents of this file and execute the contained scripts on our sql database.</p>
+				<p><img src="images/database.png"></p>
+				<p>The database directory also contains each individual script in chronological order since when they were last created. In the future, as new database changes are made, you don't want to have to rebuild the database from scratch, you only have to run the latest scripts that are yet to be installed.</p>
+				<p>Once our database is successfully built, we can now point Reeve to our database.</p>
+				<p>From the Reeve root directory, open the file called <i>config.env</i>. This file contains all the environmental variables used by the server. Populate the following section of the file with the details of the MySQL server you just created -</p>
+				<div class="code__block code__block--notabs">
+					<pre class="code code--block">
+						<code>
+							# MySQL Database
+							DB_HOST=localhost
+							DB_USER=root
+							DB_PASS=root
+							DB_SCHEMA=reeve
+							DB_POOL_MIN=0
+							DB_POOL_MAX=10
+							DB_POOL_ACQUIRE=30000
+							DB_POOL_IDLE=10000
+						</code>
+					</pre>
+				</div>
+				<p>Reeve should now be successfully interfacing with our MySQL database. We can now move on to setting up a Redis in-memory database to handle session management.</p>
 			</section>
 			<section class="js-section">
 				<a name="5.3">
