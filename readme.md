@@ -25,29 +25,29 @@ npm install && npm run development
 
 ## Key Features
 
-- [x] Server Configuration & Environment Store
-- [x] Express Server
-- [x] React
-- [x] SASS
-- [x] React Bootstrap
-- [x] Webpack
-- [x] i18n Translation File
-- [x] Redux
-- [x] React-Tooltips
-- [x] Dropdown Alerts
-- [x] AVA Test System
-- [x] JS Validation
-- [x] Redis
-- [x] MySQL Server
-- [x] Subdomains
-- [x] Session Storage
-- [x] React Router
-- [x] User Authentication
-- [x] Error Reporting
-- [x] JSON Web Tokens
-- [x] Polyfills & IE Support
-- [x] Email Sending
-- [x] Sentry error logging
-- [x] Papertrail logging
-- [x] API Rate Limiting
-- [ ] Stripe Payment & Subscription Gateway
+-   [x] Server Configuration & Environment Store
+-   [x] Express Server
+-   [x] React
+-   [x] SASS
+-   [x] Bootstrap
+-   [x] Webpack
+-   [x] i18n Translation File
+-   [x] Redux
+-   [x] React-Tooltips
+-   [x] Dropdown Alerts
+-   [x] AVA Test System
+-   [x] JS Validation
+-   [x] Redis
+-   [x] MySQL Server
+-   [x] Subdomains
+-   [x] Session Storage
+-   [x] React Router
+-   [x] User Authentication
+-   [x] Error Reporting
+-   [x] JSON Web Tokens
+-   [x] Polyfills & IE Support
+-   [x] Email Sending
+-   [x] Sentry error logging
+-   [x] Papertrail logging
+-   [x] API Rate Limiting
+-   [ ] Stripe Payment & Subscription Gateway
