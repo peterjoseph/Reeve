@@ -259,14 +259,14 @@ table td:first-child {
 /* layout */
 .header {
 	border-bottom: 1px solid var(--code-bg-color);
-	grid-template-columns: 1fr 150px 60% 1fr;
+	grid-template-columns: 1fr 150px 50% 1fr;
 }
 
 .wrapper {
 	display: flex;
 	flex-grow: 1;
 	margin: 0 auto;
-	width: 70%;
+	width: 60%;
 }
 
 /* logo */

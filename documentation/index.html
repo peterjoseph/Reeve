@@ -665,7 +665,88 @@
 				<a name="5.4">
 					<h3 class="section__title">5.4 Developing Locally</h3>
 				</a>
-				<p>Contents</p>
+				<p>Reeve was developed using the flexible code editing software <a href="https://code.visualstudio.com/">Visual Studio Code</a>. VS Code is optimized for building web applications and includes a variety of useful integrations that make the development experience easier.</p>
+				<p>If you do decided to work with VS Code, we recommend a number of plugins to make your experience more enjoyable.</p>
+				<p><b><a href="https://marketplace.visualstudio.com/items?itemName=dbaeumer.vscode-eslint">ESLint: </a></b>JavaScript linting tool for identifying and reporting on code patterns, to maintain code quality.</p>
+				<p><b><a href="https://marketplace.visualstudio.com/items?itemName=esbenp.prettier-vscode">Prettier - Code Formatter: </a></b>Code formatting for Prettier.</p>
+				<p><b><a href="https://marketplace.visualstudio.com/items?itemName=robinbentley.sass-indented">Sass: </a></b>Syntax highlighting and auto-complete for Sass files.</p>
+				<p><b><a href="https://marketplace.visualstudio.com/items?itemName=hnw.vscode-auto-open-markdown-preview">Auto-Open Markdown Preview: </a></b>Displays a visual preview of markdown (.md) files as changes are made.</p>
+				<p><b><a href="https://marketplace.visualstudio.com/items?itemName=mikestead.dotenv">DotENV: </b>Adds dotenv file syntax support.</a></p>
+				<p>When these plugins are installed they should automatically integrate nicely using the configuration files in the Reeve directory.</p>
+				<p>For complete parity between your development environment and the authors of this product, our user settings file for VS Code has been provided below.</p>
+				<div class="code__block code__block--notabs">
+					<pre class="code code--block">
+						<code>
+							{
+								"telemetry.enableCrashReporter": false,
+								"telemetry.enableTelemetry": false,
+								"workbench.sideBar.location": "left",
+								"editor.insertSpaces": true,
+								"editor.minimap.enabled": false,
+								"editor.minimap.renderCharacters": false,
+								"workbench.iconTheme": "vs-minimal",
+								"extensions.ignoreRecommendations": false,
+								"html.format.wrapLineLength": 400,
+								"gitlens.advanced.messages": {
+									"suppressCommitHasNoPreviousCommitWarning": false,
+									"suppressCommitNotFoundWarning": false,
+									"suppressFileNotUnderSourceControlWarning": false,
+									"suppressGitVersionWarning": false,
+									"suppressLineUncommittedWarning": false,
+									"suppressNoRepositoryWarning": false,
+									"suppressResultsExplorerNotice": false,
+									"suppressShowKeyBindingsNotice": true,
+									"suppressUpdateNotice": true,
+									"suppressWelcomeNotice": true
+								},
+								"workbench.startupEditor": "newUntitledFile",
+								"gitlens.keymap": "none",
+								"gitlens.gitExplorer.files.layout": "auto",
+								"gitlens.historyExplorer.enabled": true,
+								"javascript.updateImportsOnFileMove.enabled": "never",
+								"workbench.colorTheme": "Tomorrow Night Blue",
+								"editor.formatOnPaste": true,
+								"editor.formatOnSave": true,
+								"html.autoClosingTags": false
+							}
+						</code>
+				</div>
+				<p>Independent of this product, you can work with any code editor to develop your application. Reeve is not exclusively dependent on this one editor.</p>
+				<p><img src="images/vscode.png"></p>
+				<p>Once your development environment has been set up, the MySQL database and Redis in-memory database are both connected through the <i>config.env</i> file; we can now test the Reeve server on our local machine. Run the following command to start the server in <i>development</i> mode.</p>
+				<div class="code__block code__block--notabs">
+					<pre class="code code--block">
+						<code>
+							$ npm run development
+						</code>
+					</pre>
+				</div>
+				<p>If the development server builds correctly, you should receive a response in your terminal similar to the following.</p>
+				<div class="code__block code__block--notabs">
+					<pre class="code code--block">
+						<code>
+							[nodemon] starting `node ./server/server.js`
+							Server listening on port: 3000
+							Time: 12336ms
+							Asset Size Chunks Chunk Names
+								2.bundle.js 5.77 KiB 2 [emitted]
+								/images/avatar.png 6.81 KiB [emitted]
+								0.bundle.js 53.3 KiB 0 [emitted]
+								1.bundle.js 4.7 KiB 1 [emitted]
+								bundle.js 3.33 MiB main [emitted] main
+								/images/logo_small.png 8.53 KiB [emitted]
+								3.bundle.js 145 KiB 3 [emitted]
+								4.bundle.js 4.18 KiB 4 [emitted]
+								5.bundle.js 26.4 KiB 5 [emitted]
+								6.bundle.js 4.2 KiB 6 [emitted]
+								7.bundle.js 98.8 KiB 7 [emitted]
+							Entrypoint main = bundle.js
+							ℹ ｢wdm｣: Compiled successfully.
+						</code>
+					</pre>
+				</div>
+				<p>Go to the address <a href="http://localhost:3000/">http://localhost:3000/</a> in your web browser to see Reeve successfully loaded on the page.</p>
+				<p>When you make changes to the code-base while the server is running, the server will automatically restart and reload the contents. You may need to occasionally reload your web-browser to see the changes occur.</p>
 			</section>
 			<section class="js-section">
 				<a name="5.5">
