@@ -618,7 +618,48 @@
 				<a name="5.3">
 					<h3 class="section__title">5.3 Running Redis</h3>
 				</a>
-				<p>Contents</p>
+				<p>Redis is an in-memory database used by Reeve to store active user sessions. A user session is semi-permanent information that is required throughout a user interacting with Reeve, from login to logout. On logout this information is cleared.</p>
+				<p>To install Redis, read the following official <a href="https://redis.io/topics/quickstart">quick-start guide.</a></p>
+				<p>Alternatively, if you are using a unix machine, one of the easiest ways to install Redis is using <a href="http://brew.sh/">Homebrew</a> (Mac OS) or <a href="http://linuxbrew.sh/">Linuxbrew</a> (Linux), with the command -</p>
+				<div class="code__block code__block--notabs">
+					<pre class="code code--block">
+						<code>
+							$ brew install redis
+						</code>
+					</pre>
+				</div>
+				<p>To start the Redis server you need to execute the redis-server binary as follows -</p>
+				<div class="code__block code__block--notabs">
+					<pre class="code code--block">
+						<code>
+							$ redis-server
+						</code>
+					</pre>
+				</div>
+				<p>Once these commands have been run, we now need to confirm if the redis-server is working correctly. Run the following command on the redis-cli. You should receive a 'PONG' response.</p>
+				<div class="code__block code__block--notabs">
+					<pre class="code code--block">
+						<code>
+							$ redis-cli ping
+							PONG
+						</code>
+					</pre>
+				</div>
+				<p>The final installation procedure involves mapping Reeve to Redis so the two systems can communicate with each other. In the Reeve root directory, open the file <i>config.env</i> and replace the following lines with the Redis database details.</p>
+				<div class="code__block code__block--notabs">
+					<pre class="code code--block">
+						<code>
+							# Redis Session Store
+							R_HOST=127.0.0.1
+							R_PORT=6379
+							R_PROXY=false
+							R_SECRET=redis_secret
+							R_SAVE_UNINITIALIZED=false
+							R_RESAVE=false
+						</code>
+					</pre>
+				</div>
+				<p>By default, the Redis host is 127.0.0.1 and the port is 6379.</p>
 			</section>
 			<section class="js-section">
 				<a name="5.4">
