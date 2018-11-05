@@ -752,7 +752,47 @@
 				<a name="5.5">
 					<h3 class="section__title">5.5 Build Tools</h3>
 				</a>
-				<p>Contents</p>
+				<p>Throughout stages of the development lifecycle, it is important that a development environment responds to each stage with unique behaviour that is relevant to the current stage. When in development, you wouldn't expect the server environment to behave the same as it would in production, you probably want access to extra utilities and tools for debugging and testing.</p>
+				<p>There are three system environments used by Reeve you may be familiar with. <i>Development</i>, <i>Production</i> and <i>Test</i>. All three environments change a number of settings, and should be used as intended. You wouldn't run a development environment on a production server!.</p>
+				<p>You can change the environment setting in the <i>config.env</i> file in the root directory.</p>
+				<p>Reeve utilises Webpack, a module bundler that takes javascript files and compiles them into static assets to be loaded by the browser.</p>
+				<p>Webpack handles a lot of the code change and settings manipulation when swapping between these environments.</p>
+				<p>In the root directory, open the file <i>webpack.config.js</i>.</p>
+				<p>Scroll through the code and look for lines such as the following.</p>
+				<div class="code__block code__block--notabs">
+					<pre class="code code--block">
+						<code>
+							config.build.environment === "development"
+						</code>
+					</pre>
+				</div>
+				<p>These checks run code specific to certain environments. In the first function called <i>loadPlugins()</i> there are two stand-out plugins that are loaded on different conditions.</p>
+				<div class="code__block code__block--notabs">
+					<pre class="code code--block">
+						<code>
+							if (config.build.environment === "development") {
+								plugins.push(new webpack.HotModuleReplacementPlugin());
+							}
+						</code>
+					</pre>
+				</div>
+				<p>When in development mode, Webpack loads the HotModuleReplacementPlugin. This plugin provides live page-refresh when code changes occur during development. Plugins such as this, you wouldn't expect to be loaded on production.</p>
+				<div class="code__block code__block--notabs">
+					<pre class="code code--block">
+						<code>
+							if (config.development.analyzeBundle === true) {
+								plugins.push(new BundleAnalyzerPlugin());
+							}
+						</code>
+					</pre>
+				</div>
+				<p>Inside <i>config.env</i> there is an option to enable analyzeBundle (by default this is false). BundleAnalyzerPlugin is a plugin that performs an analysis of the packages in the bundle.js file and reports on their sizes. This plugin is useful if you are concerned about the size of the client application to be downloaded by the web-browser.</p>
+				<p>If you swap the environmental variable to production, webpack minifies the bundle.js file it is producing, strips out comments and debugging related markers, and creates re-distributable bundle.js files in the <i>./distribution</i> directory. This setting is for ensuring that Reeve is in a state where it can securely work in production.</p>
+				<p><b>React and Redux Developer Tools</b><br>
+					When working with the front-end, there are two useful plugins you may be interested in installing on your machine.</p>
+				<p><a href="https://chrome.google.com/webstore/detail/react-developer-tools/fmkadmapgofadopljbjfkapdkoienihi?hl=en">React Developer Tools:</a> Adds React debugging tools to the Chrome Developer Tools.</p>
+				<p><a href="https://chrome.google.com/webstore/detail/redux-devtools/lmhkpmbekcpmknklioeibfkpmmfibljd?hl=en">Redux Developer Tools:</a> Adds Chrome developer tools for debugging redux application state changes.</p>
+				<p>Both of these tools only work when the <i>development</i> environment mode is set.</p>
 			</section>
 			<section class="js-section">
 				<a name="5.6">
