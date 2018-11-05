@@ -798,7 +798,10 @@
 				<a name="5.6">
 					<h3 class="section__title">5.6 Server Configuration</h3>
 				</a>
-				<p>Contents</p>
+				<p>For security reasons, it is never a good idea to "hard-code" private information directly into a code-base. We use environmental variables to pass universal information throughout.</p>
+				<p>Within Reeve, at the root directory there is a file called <i>config.env</i>. This file contains a large list of environmental variables for configuring, enabling and disabling features on the platform.</p>
+				<p>In the same root directory, the file <i>config.js</i> takes all of the environment variables from <i>config.env</i> and loads them into a static javascript object that can be imported and used across the server.</p>
+				<p>You will need to work through the <i>config.env</i> file and determine what properties need to be updated to reflect the desired server configuration.</p>
 			</section>
 			<section class="js-section">
 				<a name="6.0">
