@@ -831,8 +831,7 @@
 									&nbsp;&nbsp;&lt;/Fragment&gt;
 								&nbsp;&lt;/I18nextProvider&gt;
 							&lt;/Provider&gt;,
-							document.getElementById("app")
-							)
+							document.getElementById("app"))
 						</code>
 					</pre>
 				</div>
@@ -846,7 +845,38 @@
 				</a>
 				<p>The front-end of the Reeve application uses a unique routing system that ensures only certain pages are accessible to users based on the correct security permissions, roles, features and subscription type they may have as a user or client.</p>
 				<p>This routing is handled within a file called <i>router.js</i> in the ./client directory.</p>
-				<p>Within this file, pages are loaded asyncronously as follows:</p>
+				<p>Within this file, pages are loaded asyncronously by calling a component called <i>AsyncComponent</i>.</p>
+				<div class="code__block code__block--notabs">
+					<pre class="code code--block">
+						<code>
+							const Dashboard = AsyncComponent(() => import("./modules/dashboard"));
+						</code>
+					</pre>
+				</div>
+				<p>Every page component is wrapped in a component called <i>RedirectComponent</i>.</p>
+				<div class="code__block code__block--notabs">
+					<pre class="code code--block">
+						<code>
+							&lt;RedirectComponent
+							exact path="/billing"
+							role={[ROLE_TYPE.OWNER, ROLE_TYPE.FINANCE]}
+							feature={[FEATURES.BILLING]}
+							subscription={[SUBSCRIPTION_TYPE.TRIAL, SUBSCRIPTION_TYPE.BASIC]}
+							user={user}
+							render={()=&gt; (
+								&nbsp;&lt;DefaultLayout key="/billing"&gt;
+									&nbsp;&nbsp;&lt;Billing /&gt;
+								&nbsp;&lt;/DefaultLayout&gt;
+							)}/&gt;
+						</code>
+					</pre>
+				</div>
+				<p>By defining certain parameters within this <i>RedirectComponent</i>, we can restrict the accessibility of the page to a variety of conditions being met.</p>
+				<p><b>path:</b> The path the page will be accessible from when navigated to in a web browser.</p>
+				<p><b>role:</b> Pages can be restricted on the basis of the type of roles associated with a users account.</p>
+				<p><b>feature:</b> Features can be used to restrict functionality to certain paying customers. With an array of features, you can restrict a page to clients who only have certain features on their account.</p>
+				<p><b>subscription:</b> An array defining the subscription levels required to access the page. In this example, a user with either a trial or basic account will be able to see the page.</p>
+				<p><b>render:</b> When satisfactory conditions are met, <i>render</i> contains the components to be displayed on the page. In this example, a component called <i>DefaultLayout</i> wraps an asyncronously loaded <i>Billing</i> page component. <i>DefaultLayout</i> is a basic component that displays a navigation header on the page.</p>
 			</section>
 			<section class="js-section">
 				<a name="6.3">
