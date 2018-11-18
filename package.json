@@ -1,6 +1,9 @@
 {
 	"name": "Reeve",
 	"version": "1.0.0",
+	"engines": {
+		"node": "10.x"
+	},
 	"description": "Web application scaffolding for production environments",
 	"main": "index.js",
 	"scripts": {
