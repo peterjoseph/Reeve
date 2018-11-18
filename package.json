@@ -36,6 +36,7 @@
 	"dependencies": {
 		"async": "^2.6.0",
 		"babel-plugin-emotion": "^9.1.2",
+		"babel-plugin-module-resolver": "^3.1.1",
 		"babel-runtime": "^6.26.0",
 		"bcrypt": "^3.0.0",
 		"body-parser": "^1.13.0",
@@ -62,7 +63,6 @@
 		"jquery": "^3.3.1",
 		"jsonwebtoken": "^8.0.1",
 		"lusca": "^1.6.1",
-		"module-resolver": "^1.0.0",
 		"moment": "^2.22.2",
 		"mysql2": "^1.5.3",
 		"nodemailer": "^4.6.7",
@@ -108,7 +108,6 @@
 		"ava": "^0.25.0",
 		"babel-core": "^6.26.3",
 		"babel-loader": "^7.1.5",
-		"babel-plugin-module-resolver": "^3.1.1",
 		"babel-plugin-transform-runtime": "^6.23.0",
 		"babel-polyfill": "^6.26.0",
 		"babel-preset-env": "^1.7.0",
