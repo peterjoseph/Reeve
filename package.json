@@ -114,6 +114,7 @@
 		"babel-preset-react": "^6.24.1",
 		"babel-preset-stage-0": "^6.24.1",
 		"babel-register": "^6.26.0",
+		"case-sensitive-paths-webpack-plugin": "^2.1.2",
 		"css-loader": "^1.0.0",
 		"eslint": "^5.5.0",
 		"eslint-config-standard": "^12.0.0",

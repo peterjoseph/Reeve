@@ -4,10 +4,12 @@ let config = require("./config");
 let UglifyJsPlugin = require("uglifyjs-webpack-plugin");
 let BundleAnalyzerPlugin = require("webpack-bundle-analyzer").BundleAnalyzerPlugin;
 let postcssPresetEnv = require("postcss-preset-env");
+let CaseSensitivePathsPlugin = require("case-sensitive-paths-webpack-plugin");
 
 function loadPlugins() {
 	var plugins = [];
 	plugins.push(
+		new CaseSensitivePathsPlugin(),
 		new webpack.ProvidePlugin({
 			Promise: "imports-loader?this=>global!exports-loader?global.Promise!es6-promise",
 			fetch: "imports-loader?this=>global!exports-loader?global.fetch!whatwg-fetch"
