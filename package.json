@@ -12,7 +12,8 @@
 		"development": "nodemon --ignore './client/' --ignore './shared/' ./server/server",
 		"test": "ava tests_integration --serial --verbose",
 		"build": "webpack -p",
-		"buildAndRun": "webpack -p && node server/server.js"
+		"buildAndRun": "webpack -p && node server/server.js",
+		"postinstall": "webpack -p"
 	},
 	"repository": {
 		"type": "git",
