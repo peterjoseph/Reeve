@@ -882,7 +882,53 @@
 				<a name="6.3">
 					<h3 class="section__title">6.3 Redirects</h3>
 				</a>
-				<p>Contents</p>
+				<p>At times when you are developing the routing for your application, you may experience pages redirecting; whereby you visit one page and the application automatically navigates to another page. It is important to understand why this is happening to prevent frustration when building your application routes.</p>
+				<p>Inside of <i>RedirectComponent</i> there are a number of validation checks that need to be satisfied in order for the page to be correctly displayed.</p>
+				<div class="code__block code__block--notabs">
+					<pre class="code code--block">
+						<code>
+							// Redirect to signin page when on homepage and not logged in
+							if (path === "/" && !userLoggedIn) {
+								&nbsp;return &lt;Redirect to="/signin" /&gt;;
+							}
+						</code>
+					</pre>
+				</div>
+				<p>When a visitor navigates to the homepage of the application, this first validation statement checks if the user is logged in, and if not, redirects them to the sign-in page. If you would like to display alternative pages when a user is not logged in to an account, you can safely delete this code-block.</p>
+				<div class="code__block code__block--notabs">
+					<pre class="code code--block">
+						<code>
+							// Redirect to billing pages if user is loaded but trial has ended
+							if (path !== "/billing" && userLoggedIn && !user.get("subscriptionActive")) {
+								&nbsp;return &lt;Redirect to="/billing" /&gt;;
+							}
+						</code>
+					</pre>
+				</div>
+				<p>If a user is logged in but their trial or subscription has ended, we don't want them to be able to continue using the application. This validation redirects the user to the billing page when their subscription ends.</p>
+				<div class="code__block code__block--notabs">
+					<pre class="code code--block">
+						<code>
+							// Show certain routes if user is not logged in
+							if ((path == "/register" || path == "/forgot" || path == "/signin" || path == "/signin/help" || path == "/reset") && !userLoggedIn) {
+								&nbsp;return &lt;Route {...this.props} /&gt;;
+							}
+						</code>
+					</pre>
+				</div>
+				<p>When a visitor is not logged in to an account, there are only certain page routes that the visitor should be able to access. This validation check restricts access to signin, registration and forgot password pages.</p>
+				<div class="code__block code__block--notabs">
+					<pre class="code code--block">
+						<code>
+							// Redirect if user is loaded
+							if ((path == "/register" || path == "/forgot" || path == "/signin" || path == "/signin/help" || path == "/reset") && userLoggedIn) {
+								&nbsp;return &lt;Redirect to="/" /&gt;;
+							}
+						</code>
+					</pre>
+				</div>
+				<p>Similar to the check above, this one redirects a user back to the homepage if they are already logged in but try to navigate to a signup or registration page. Signup / registration / forgot password should only be accessible when a user is not logged in.</p>
+				<p>You will need to meet these conditions in order to ensure that your page displays correctly. Alternatively, you can modify the parameters to display your pages outside of these conditions.</p>
 			</section>
 			<section class="js-section">
 				<a name="6.4">
