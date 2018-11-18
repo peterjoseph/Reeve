@@ -62,6 +62,7 @@
 		"jquery": "^3.3.1",
 		"jsonwebtoken": "^8.0.1",
 		"lusca": "^1.6.1",
+		"module-resolver": "^1.0.0",
 		"moment": "^2.22.2",
 		"mysql2": "^1.5.3",
 		"nodemailer": "^4.6.7",
