@@ -957,7 +957,91 @@
 				<a name="6.5">
 					<h3 class="section__title">6.5 API Development</h3>
 				</a>
-				<p>Contents</p>
+				<p>When you are developing the front-end client, at times you are going to want to be able to communicate with the server to transfer information between the two. Whether you are retrieving information, or manipulating data, this section focuses on communicating with the server via an Application Programming Interface (API).</p>
+				<p>An API is a specification of the possible interactions between one component and another. The client / web-browser doesn't necessarily need to know how to perform a complex piece of work, it only needs to know the correct path on the server to call, and the server will do most of the work.</p>
+				<p>In non-technical terms, if you were at a restaraunt and ordered food from a menu, you wouldn't need to know how the food was prepared, only that you received the meal at the end.</p>
+				<p>Reeve interacts with the server using REST (Representational State Transfer) APIs and an inbuilt web-browser technology called 'fetch'. A very good introduction to REST APIs can be found at <a href="https://www.smashingmagazine.com/2018/01/understanding-using-rest-api/">Smashing Magazine</a>.</p>
+				<p>Sending and requesting data through the REST API is formatted using JSON (JavaScript Object Notation). JSON is formatted like the following:</p>
+				<div class="code__block code__block--notabs">
+					<pre class="code code--block">
+						<code>
+							{
+							&nbsp;"key1": "value1",
+							&nbsp;"key2": "value2",
+							&nbsp;"key3": "value3"
+							}
+						</code>
+					</pre>
+				</div>
+				<p>In the <i>./client</i> directory there is a directory called <i>./api</i>. We define all of the APIs we want to communicate with on the server as exportable functions in this location. Open the file <i>authentication.js</i> and review the different functions calling the api on the server. The anatomy of a front-end API call looks like the following.</p>
+				<div class="code__block code__block--notabs">
+					<pre class="code code--block">
+						<code>
+							// Reset User Password
+							export function resetPassword(reset) {
+								&nbsp;return fetch.perform("/internal/reset_password/", {
+									&nbsp;&nbsp;method: "POST",
+									&nbsp;&nbsp;body: JSON.stringify({
+										&nbsp;&nbsp;&nbsp;password: reset.password,
+										&nbsp;&nbsp;&nbsp;verifyPassword: reset.verifyPassword,
+										&nbsp;&nbsp;&nbsp;code: reset.code,
+										&nbsp;&nbsp;&nbsp;workspaceURL: reset.workspaceURL
+									&nbsp;&nbsp;})
+								&nbsp;});
+							}
+						</code>
+					</pre>
+				</div>
+				<p>- The first line is a comment that defines what the purpose of the API call is. In this instance, we have a function that calls an API endpoint to reset a users password.</p>
+				<p>- The third line calls a unique function called 'fetch' (located in <i>./shared/utilities/fetch.js</i>). This function receives the path of the api endpoint to communicated with. The location on the back-end server.</p>
+				<p>- Line four is the method type. In this example, we are making a 'POST' request. The server expects some information from our web-browser for the command to be successful. Other types of request methods can include GET, PUT, PATCH, DELETE.</p>
+				<p>- The fifth and preceeding lines contains a JSON object with information that we are sending to the server for processing.</p>
+				<p>Now with this information we can successfully start writing methods that make API calls to the back-end server. Most of the functionality is handled by the 'fetch' function. It is important to understand what this function is doing, as you may need to modify it in the future.</p>
+				<p>Open the file <i>fetch.js</i> from the following location <i>./shared/utilities/fetch.js</i></p>
+				<p>Fetch is an asyncronous function that is executed every time a method request is made. The purpose of this function is to introduce standardization; i.e if you make changes, you only have to update one function instead of multiple.</p>
+				<p>Some important functions within <i>fetch.js</i> include -</p>
+				<div class="code__block code__block--notabs">
+					<pre class="code code--block">
+						<code>
+							// Add security token to header
+							if (this.token != null) {
+								&nbsp;options.headers = Object.assign(options.headers, {
+								&nbsp;Authorization: `jwt ${this.token}`
+							});
+							}
+						</code>
+					</pre>
+				</div>
+				<p>When a user has logged in to an account, every request is attached with a JSON Web Token to ensure that the request is authorized.</p>
+				<div class="code__block code__block--notabs">
+					<pre class="code code--block">
+						<code>
+							// Handle server side redirects
+							if (response.redirected) {
+								&nbsp;return window.location.replace(response.url);
+							}
+						</code>
+					</pre>
+				</div>
+				<p>If the server responds with a redirect request, the web-browser will redirect the user to a new page. This is frequently used when a trial account has expired, and we want to direct the user to the billing page.</p>
+				<div class="code__block code__block--notabs">
+					<pre class="code code--block">
+						<code>
+							// Valid response if status 200 ~ 299
+							let json = response.json();
+							if (response.status >= 200 && response.status < 300) {
+								&nbsp;return json;
+							} 
+							
+							// Throw error if any other response from server
+							return json.then(error=> {
+								&nbsp;throw error;
+							});
+						</code>
+					</pre>
+				</div>
+				<p>Once we receive a request, we need to confirm that it was successful and the server is not sending us an error. On every request we check that the server response status is between 200 and 299. If this is true, the function will return the JSON data as normal, if not, the function will throw an error.</p>
+				<p>While we have built functions that call our REST endpoints, we need to be able to manipulate and store this information as the function itself isn't very useful alone. <a href="#6.7">6.7 State Management</a> covers retrieving data via our endpoints and storing/manipulating this data.</p>
 			</section>
 			<section class="js-section">
 				<a name="6.6">
