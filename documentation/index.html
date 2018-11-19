@@ -934,7 +934,24 @@
 				<a name="6.4">
 					<h3 class="section__title">6.4 Missing Paths</h3>
 				</a>
-				<p>Contents</p>
+				<p>When a user attempts to navigate in their web browser to a page route that does not exist, we need a way to catch this behaviour and display a generic 'Page Not Found' message.</p>
+				<p>At the end of the <i>Router.js</i> page, a final <i>RedirectComponent</i> with a wildcard path of "*" is supplied. If a user navigates to a page that does not exist on the router list, the final <i>MissingPath</i> component will be displayed</p>
+				<div class="code__block code__block--notabs">
+					<pre class="code code--block">
+						<code>
+							&lt;RedirectComponent
+								&nbsp;path="*"
+								&nbsp;render={()=> (
+									&nbsp;&nbsp;&lt;DefaultLayout key="*"&gt;
+										&nbsp;&nbsp;&nbsp;&lt;MissingPath /&gt;
+									&nbsp;&nbsp;&lt;/DefaultLayout&gt;
+								&nbsp;)}
+							/>
+						</code>
+					</pre>
+				</div>
+				<p>By default, the <i>MissingPath</i> component will display an alternative message when a client subscription has expired compared to when the account is active.</p>
+				<p>If you are building sub-routes (i.e. /billing/payments/) you should remember to include a MissingPath component with a wildcard path to accomodate the cases where a user enters a partially incorrect page route.</p>
 			</section>
 			<section class="js-section">
 				<a name="6.5">
