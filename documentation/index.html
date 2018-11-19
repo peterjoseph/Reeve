@@ -1047,7 +1047,67 @@
 				<a name="6.6">
 					<h3 class="section__title">6.6 Validation</h3>
 				</a>
-				<p>Contents</p>
+				<p>One of the major issues with communicating with API endpoints is security. Because we are sending information back and forth between the client and server, we need to protect the integrity and security of our server.</p>
+				<p>As users are able to send commands to the server, it is always possible that some are malicious and attempts at retrieving secured information or accessing the database.</p>
+				<p>To protect against this, we <b>always</b> need to validate the data on both the client and server.</p>
+				<p>Reeve makes use of a package called <a href="https://validatejs.org/">validate.js</a> to handle basic integrity checking of the data being sent back and forth.</p>
+				<p>Common uses of this package might be making sure that when an email field is required, the user sends a string that contains a valid email address. Fields are not empty or the wrong length. A number field contains a number and not an alphanumeric string.</p>
+				<p>We want to catch all of this as early as possible, and preferably on the client side first.</p>
+				<p>To start validating javascript objects, we need to import validate from the shared directory.</p>
+				<div class="code__block code__block--notabs">
+					<pre class="code code--block">
+						<code>
+							import validate from "shared/validation/validate";
+						</code>
+					</pre>
+				</div>
+				<p>To use the function, we want to call validate as follows.</p>
+				<div class="code__block code__block--notabs">
+					<pre class="code code--block">
+						<code>
+							// Validate input parameters
+							const valid = validate(objectToBeValidated, ValidationProperties());
+							
+							if (valid != null) {
+								&nbsp;// there is a validation error
+								&nbsp;// valid will return an object with the invalid parameters
+							});
+						</code>
+					</pre>
+				</div>
+				<p>We pass two parameters into the validate function. The first one 'objectToBeValidated' is a JSON object containing all of the parameters we want to confirm are valid.</p>
+				<p>The second parameter ValidationProperties() is a function (which returns an object) that contains all of the rules 'objectToBeValidated' will need to conform against in order to be valid.</p>
+				<p>Validation rules are stored in the <i>./shared/validation/</i> directory.</p>
+				<p>This is what a set of validation rules looks like.</p>
+				<div class="code__block code__block--notabs">
+					<pre class="code code--block">
+						<code>
+							const workspaceURL = () => {
+								&nbsp;return {
+									&nbsp;&nbsp;workspaceURL: {
+										&nbsp;&nbsp;&nbsp;presence: {
+											&nbsp;&nbsp;&nbsp;&nbsp;allowEmpty: false
+										&nbsp;&nbsp;&nbsp;},
+										&nbsp;&nbsp;&nbsp;format: {
+											&nbsp;&nbsp;&nbsp;&nbsp;pattern: "[a-z0-9]+",
+											&nbsp;&nbsp;&nbsp;&nbsp;flags: "i",
+											&nbsp;&nbsp;&nbsp;&nbsp;message: t("validation.validators.validCharactersAZ09")
+										&nbsp;&nbsp;&nbsp;},
+										&nbsp;&nbsp;&nbsp;exclusion: {
+											&nbsp;&nbsp;&nbsp;&nbsp;within: RESTRICTED_DOMAINS,
+											&nbsp;&nbsp;&nbsp;&nbsp;message: t("validation.validators.validWorkspaceURL")
+										&nbsp;&nbsp;&nbsp;},
+										&nbsp;&nbsp;&nbsp;length: {
+											&nbsp;&nbsp;&nbsp;&nbsp;minimum: 4,
+											&nbsp;&nbsp;&nbsp;&nbsp;maximum: 255
+										&nbsp;&nbsp;&nbsp;}
+									&nbsp;&nbsp;}
+								&nbsp;};
+							};
+						</code>
+					</pre>
+				</div>
+				<p>We recommend reading the documentation on the <a href="https://validatejs.org/">validate.js website</a> and following their best practices when designing your validation rules.</p>
 			</section>
 			<section class="js-section">
 				<a name="6.7">
