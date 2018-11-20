@@ -1211,6 +1211,28 @@
 				<p>A Redux store, is a central location that maintains the state of an application. The only way to manipulate the application state is to 'dispatch' an action on it.</p>
 				<p>The following <a href="https://redux.js.org/api/store">page</a> explains the store and the type of functions that can be called against it.</p>
 				<p>As you would have seen above, we defined our store and the action functions in the directory <i>./client/common/store/</i>. We then made sure our Redux store and action functions were accessible to our pages using <i>mapStateToProps</i> and <i>mapDispatchToProps</i>.</p>
+				<p>In Reeve (and part of Redux) we also have a 'User Store.' This is a central location where we keep all of the personal information relevant to a logged in user.</p>
+				<p><img src="images/redux-user-store.png"></p>
+				<p>The reason we lump all of this together, is we want the application to have easy access to the features, subscription type, and roles a user might have, so that we display the correct information, and restrict the parts of the application we don't want the user to see.</p>
+				<p>You can access the user store very easily by importing the following component.</p>
+				<div class="code__block code__block--notabs">
+					<pre class="code code--block">
+						<code>
+							import User from "common/components/User";
+						</code>
+					</pre>
+				</div>
+				<p>And passing it into the React propTypes.</p>
+				<div class="code__block code__block--notabs">
+					<pre class="code code--block">
+						<code>
+							component.propTypes = {
+							&nbsp;user: PropTypes.object
+							};
+						</code>
+					</pre>
+				</div>
+				<p>The user component is very heavily used in displaying and hiding content, and restricting access to certain pages. You will find further references to this component throughout the documentation.</p>
 			</section>
 			<section class="js-section">
 				<a name="6.9">
