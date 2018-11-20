@@ -1113,13 +1113,103 @@
 				<a name="6.7">
 					<h3 class="section__title">6.7 State Management</h3>
 				</a>
-				<p>Contents</p>
+				<p>As a user navigates through an application, we would expect that the pages change and provide relevant contextual information to the user as they interact with it.</p>
+				<p>As these applications grow and involve lots of moving pieces, managing all of these changing components becomes increasingly complex.</p>
+				<p>To handle state management and the frequent data manipulation in large applications, we rely on a package called <a href="https://redux.js.org/">Redux</a>.</p>
+				<p>"Redux is a predictable state container for JavaScript apps."</p>
+				<p>The following <a href="https://medium.freecodecamp.org/understanding-redux-the-worlds-easiest-guide-to-beginning-redux-c695f45546f6">article</a> is a very good introduction to Redux, how it works and how to use it.</p>
+				<p>The Redux store (explained in the proceeding section) is located in the following directory <i>./client/common/store/</i>. A group of imports and helper functions are used on each of the pages to call functions that manipulate this redux state container.</p>
+				<p>To see this in action, open the file <i>authentication.js</i> located at <i>./client/common/store/reducers/authentication.js</i></p>
+				<div class="code__block code__block--notabs">
+					<pre class="code code--block">
+						<code>
+							export default function authentication(state = DEFAULT_STATE, action) {
+							switch (action.type) {
+								&nbsp;case LOGIN_PENDING:
+									&nbsp;&nbsp;return state.setIn(["userLogin", "status"], REDUX_STATE.PENDING);
+								&nbsp;case LOGIN_FULFILLED:
+									&nbsp;&nbsp;return state.set(
+										&nbsp;&nbsp;&nbsp;"userLogin",
+										&nbsp;&nbsp;&nbsp;fromJS({
+											&nbsp;&nbsp;&nbsp;&nbsp;status: REDUX_STATE.FULFILLED,
+											&nbsp;&nbsp;&nbsp;&nbsp;payload: action.payload
+										&nbsp;&nbsp;&nbsp;})
+								&nbsp;);
+						</code>
+					</pre>
+				</div>
+				<p>We first define a series of 'states' we expect our application to be in at certain times. In the example above, a userLogin state, we would expect to be 'pending' and 'fulfilled' once a user has logged in.</p>
+				<p>Next we create functions that call these actions to manipulate the state.</p>
+				<div class="code__block code__block--notabs">
+					<pre class="code code--block">
+						<code>
+							export function loginUser(body) {
+								&nbsp;return dispatch => {
+									&nbsp;&nbsp;dispatch({
+										&nbsp;&nbsp;&nbsp;type: LOGIN_PENDING
+									&nbsp;&nbsp;});
+									&nbsp;&nbsp;return userLogin(body).then(
+										&nbsp;&nbsp;&nbsp;result => {
+											&nbsp;&nbsp;&nbsp;&nbsp;return dispatch({
+												&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;type: LOGIN_FULFILLED,
+												&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;payload: result
+											&nbsp;&nbsp;&nbsp;&nbsp;});
+										&nbsp;&nbsp;&nbsp;},
+										&nbsp;&nbsp;&nbsp;error =>
+											&nbsp;&nbsp;&nbsp;&nbsp;dispatch({
+												&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;type: LOGIN_REJECTED,
+												&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;payload: error
+											&nbsp;&nbsp;&nbsp;&nbsp;})
+									&nbsp;&nbsp;);
+								&nbsp;};
+							}
+						</code>
+					</pre>
+				</div>
+				<p>Do you notice anything interesting about the example above?</p>
+				<p>The following function manipulating the Redux store calls the function userLogin(). This function is one of the api functions located in our <i>./client/api/</i> directory.</p>
+				<p>So the process is as follows. We are calling an action function called a Reducer. This Reducer sets the state to 'Pending'. While the state is 'Pending,' the action function calls another function in our <i>./api</i> directory. If this communication with the server is successful, we change the state to a 'fulfilled' state.</p>
+				<p>Open the file SignIn.js located in <i>./client/modules/authentication/SignIn.js</i></p>
+				<p>At the base of the file we are using two functions to integrate with our Redux store. mapStateToProps and mapDispatchToProps.</p>
+				<div class="code__block code__block--notabs">
+					<pre class="code code--block">
+						<code>
+							function mapStateToProps(state) {
+								&nbsp;return {
+									&nbsp;&nbsp;workspaceURLStatus: state.getIn([AUTHENTICATION, "workspaceURL", "status"]),
+									&nbsp;&nbsp;logInStatus: state.getIn([AUTHENTICATION, "userLogin", "status"]),
+									&nbsp;&nbsp;clientStyle: state.getIn([AUTHENTICATION, "workspaceURL", "payload"]),
+									&nbsp;&nbsp;userToken: state.getIn([AUTHENTICATION, "userLogin", "status", "payload", "token"]),
+									&nbsp;&nbsp;userKeepSignedIn: state.getIn([AUTHENTICATION, "userLogin", "status", "payload", "keepSignedIn"])
+								&nbsp;};
+							}
+						</code>
+					</pre>
+				</div>
+				<p>In the mapStateToProps function, we are pulling data from our redux store and loading it into the SignIn component so that is accessible to the user on the front-end.</p>
+				<p>If we want to manipulate this data, we use the mapDispatchToProps function and call one of the Reducers (Action functions) which goes and calls an API and then manipulates the Redux store.</p>
+				<div class="code__block code__block--notabs">
+					<pre class="code code--block">
+						<code>
+							function mapDispatchToProps(dispatch) {
+								&nbsp;return {
+									&nbsp;&nbsp;loginUser: bindActionCreators(loginUser, dispatch),
+									&nbsp;&nbsp;loadUser: bindActionCreators(loadUser, dispatch),
+									&nbsp;&nbsp;validateWorkspaceURL: bindActionCreators(validateWorkspaceURL, dispatch),
+									&nbsp;&nbsp;changeLanguage: bindActionCreators(changeLanguage, dispatch)
+								&nbsp;};
+							}
+						</code>
+					</pre>
+				</div>
+				<p>This is a basic introduction to how Reeve uses Redux to maintain its application state and where they key files are located. To gain a full understanding of working with Redux, it is important to read the official <a href="https://redux.js.org/">documentation</a>.</p>
 			</section>
 			<section class="js-section">
 				<a name="6.8">
 					<h3 class="section__title">6.8 The User Store</h3>
 				</a>
-				<p>Contents</p>
+				<p>A Redux store, is a central location that maintains the state of an application. The only way to manipulate the application state is to 'dispatch' an action on it.</p>
+				<p>The following <a href="https://redux.js.org/api/store">page</a> explains the store and the type of functions that can be called against it.</p>
 			</section>
 			<section class="js-section">
 				<a name="6.9">

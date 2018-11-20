@@ -17,6 +17,8 @@ body {
 	--accent-color-light: #ffe4e4;
 	--accent-color-dark: #312eca;
 	--white-color: #fafbfc;
+	--red-color: #bd1616;
+	--black: #000;
 	--light-gray-color: #c6cbd1;
 	--medium-gray-color: #959da5;
 	--dark-gray-color: #444d56;
@@ -31,8 +33,9 @@ p {
 
 a,
 a:hover {
-	text-decoration: none;
-	color: var(--primary-color);
+	text-decoration: underline;
+	text-decoration-style: dotted;
+	color: var(--black);
 }
 
 hr {
