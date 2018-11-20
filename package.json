@@ -35,6 +35,7 @@
 	"homepage": "https://github.com/peterjoseph/reeve#readme",
 	"dependencies": {
 		"async": "^2.6.0",
+		"ava": "^0.25.0",
 		"babel-core": "^6.26.3",
 		"babel-loader": "^7.1.5",
 		"babel-plugin-emotion": "^9.1.2",
@@ -116,10 +117,13 @@
 		"serve-favicon": "^2.5.0",
 		"stripe": "^6.7.0",
 		"style-loader": "^0.23.0",
+		"supertest": "^3.3.0",
 		"underscore": "^1.9.0",
 		"uniqid": "^5.0.3",
+		"url-loader": "^1.0.1",
 		"validate.js": "^0.12.0",
 		"webpack": "^4.6.0",
+		"webpack-bundle-analyzer": "^3.0.2",
 		"webpack-dev-middleware": "^3.1.3",
 		"webpack-hot-middleware": "^2.24.0",
 		"whatwg-fetch": "^2.0.4",
@@ -127,7 +131,6 @@
 		"winston-papertrail": "^1.0.5"
 	},
 	"devDependencies": {
-		"ava": "^0.25.0",
 		"eslint": "^5.5.0",
 		"eslint-config-standard": "^12.0.0",
 		"eslint-plugin-class-property": "^1.1.0",
@@ -139,9 +142,6 @@
 		"nodemon": "^1.17.3",
 		"prettier": "1.14.2",
 		"react-hot-loader": "^4.1.2",
-		"supertest": "^3.3.0",
-		"url-loader": "^1.0.1",
-		"webpack-bundle-analyzer": "^3.0.2",
 		"webpack-cli": "^3.1.0",
 		"webpack-dev-server": "^3.1.3"
 	}
