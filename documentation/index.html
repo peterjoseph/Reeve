@@ -84,7 +84,7 @@
 						<li class="js-btn">6.9 Common Components</li>
 					</a>
 					<a href="#6.10">
-						<li class="js-btn">6.10 Asyncronous Components</li>
+						<li class="js-btn">6.10 Asynchronous Components</li>
 					</a>
 					<a href="#6.11">
 						<li class="js-btn">6.11 Input Components</li>
@@ -1242,9 +1242,30 @@
 			</section>
 			<section class="js-section">
 				<a name="6.10">
-					<h3 class="section__title">6.10 Asyncronous Components</h3>
+					<h3 class="section__title">6.10 Asynchronous Components</h3>
 				</a>
-				<p>Contents</p>
+				<p>Once the code is ready for production and the environment variables have been set, Reeve takes the client side code and creates bundle files. Bundle files are served to the web-browser when a user visits the application website.</p>
+				<p>As there is a lot of code required to build a useful front-end application, we don't want a user to have to download everything at once just to access it. They should not be waiting 30 seconds to download a 4mb bundle file.</p>
+				<p>To address this, we use asynchronous components. Instead of loading everything on start, the web browser only downloads the code required to work the current page. As the user navigates through the application, more content is downloaded asynchronously. Instead of a single bundle file, the application is broken down into multiple smaller bundle files, downloaded when required.</p>
+				<p>To prepare our codebase when developing, we need to make sure that our pages are loaded asynchronously, so that when the bundles are generated, webpack knows to split them into separate bundle files.</p>
+				<p>Import a component called AsyncComponent as follows.</p>
+				<div class="code__block code__block--notabs">
+					<pre class="code code--block">
+						<code>
+							import AsyncComponent from "./AsyncComponent";
+						</code>
+					</pre>
+				</div>
+				<p>You can now import your pages or components like this.</p>
+				<div class="code__block code__block--notabs">
+					<pre class="code code--block">
+						<code>
+							const MissingPath = AsyncComponent(() => import("./MissingPath"));
+
+							&lt;MissingPath /&gt;
+						</code>
+					</pre>
+				</div>
 			</section>
 			<section class="js-section">
 				<a name="6.11">
