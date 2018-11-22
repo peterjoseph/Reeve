@@ -49,6 +49,7 @@ let config = {
 	redis: {
 		host: process.env.R_HOST,
 		port: process.env.R_PORT,
+		pass: process.env.R_PASS,
 		proxy: String(process.env.R_PROXY) === "true",
 		secret: process.env.R_SECRET,
 		resave: String(process.env.R_RESAVE) === "true",

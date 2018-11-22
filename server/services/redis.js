@@ -11,13 +11,15 @@ function initialize(app) {
 	// Create Session Store
 	redisSessionStore = new SessionRedisStore({
 		host: config.redis.host,
-		port: config.redis.port
+		port: config.redis.port,
+		pass: config.redis.pass
 	});
 
 	// Create Rate Limit Store
 	redisRateLimitStore = new RateLimitRedisStore({
 		host: config.redis.host,
-		port: config.redis.port
+		port: config.redis.port,
+		pass: config.redis.pass
 	});
 
 	// Connection to Redis user session store
