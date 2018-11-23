@@ -2,35 +2,34 @@ let session = require("express-session");
 let SessionRedisStore = require("connect-redis")(session);
 let RateLimit = require("express-rate-limit");
 let RateLimitRedisStore = require("rate-limit-redis");
+let redisClient = require("redis");
 let config = require("../../config");
+
+let redisInterface = redisClient.createClient({
+	host: config.redis.host,
+	port: config.redis.port,
+	password: config.redis.pass
+});
 
 let redisSessionStore = null;
 let redisRateLimitStore = null;
 
 function initialize(app) {
 	// Create Session Store
-	redisSessionStore = new SessionRedisStore({
-		host: config.redis.host,
-		port: config.redis.port,
-		pass: config.redis.pass
-	});
+	redisSessionStore = new SessionRedisStore({ client: redisInterface });
 
 	// Create Rate Limit Store
-	redisRateLimitStore = new RateLimitRedisStore({
-		host: config.redis.host,
-		port: config.redis.port,
-		pass: config.redis.pass
-	});
+	redisRateLimitStore = new RateLimitRedisStore({ client: redisInterface });
 
 	// Connection to Redis user session store
 	app.use(
 		session({
 			store: redisSessionStore,
 			secret: config.redis.secret,
-			proxy: false,
+			proxy: config.redis.proxy,
 			resave: config.redis.resave,
-			saveUninitialized: false,
-			ttl: 2 * 604800
+			saveUninitialized: config.redis.saveUninitialized,
+			ttl: config.redis.ttl
 		})
 	);
 

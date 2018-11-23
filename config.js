@@ -53,7 +53,8 @@ let config = {
 		proxy: String(process.env.R_PROXY) === "true",
 		secret: process.env.R_SECRET,
 		resave: String(process.env.R_RESAVE) === "true",
-		saveUninitialized: String(process.env.R_SAVE_UNINITIALIZED) === "true"
+		saveUninitialized: String(process.env.R_SAVE_UNINITIALIZED) === "true",
+		ttl: process.env.R_TTL
 	},
 	sentry: {
 		enabled: String(process.env.SENTRY_ENABLED) === "true",
