@@ -21,7 +21,7 @@ import {
 
 module.exports = function(router) {
 	// Validate Workspace URL
-	router.get("/internal/validate_workspace_url/", restrict({ registered: true, unregistered: true }), function(req, res, next) {
+	router.get("/api/validate_workspace_url/", restrict({ registered: true, unregistered: true }), function(req, res, next) {
 		// Get workspaceURL name from header
 		const workspaceURL = req.headers["workspaceurl"] ? req.headers["workspaceurl"] : "";
 
@@ -46,7 +46,7 @@ module.exports = function(router) {
 	});
 
 	// Register New Client Account
-	router.post("/internal/register", restrict({ unregistered: true }), function(req, res, next) {
+	router.post("/api/register", restrict({ unregistered: true }), function(req, res, next) {
 		// Store received object properties
 		const body = {
 			workspaceURL: req.body.workspaceURL,
@@ -80,7 +80,7 @@ module.exports = function(router) {
 	});
 
 	// Login to user account
-	router.post("/internal/login", restrict({ unregistered: true, registered: true }), function(req, res, next) {
+	router.post("/api/login", restrict({ unregistered: true, registered: true }), function(req, res, next) {
 		// Load browser language from header
 		const browserLng = browserResponseLng(req);
 
@@ -117,7 +117,7 @@ module.exports = function(router) {
 	});
 
 	// Logout of user account
-	router.post("/internal/logout/", restrict({ registered: true }), function(req, res) {
+	router.post("/api/logout/", restrict({ registered: true }), function(req, res) {
 		// Express Logout
 		req.logout();
 		// Destroy the session
@@ -127,7 +127,7 @@ module.exports = function(router) {
 	});
 
 	// Load user properties
-	router.get("/internal/load_user/", restrict({ registered: true }), function(req, res, next) {
+	router.get("/api/load_user/", restrict({ registered: true }), function(req, res, next) {
 		// Load browser language from header
 		const browserLng = browserResponseLng(req);
 
@@ -142,7 +142,7 @@ module.exports = function(router) {
 	});
 
 	// Resend verify email address email
-	router.post("/internal/resend_verify_email/", restrict({ registered: true }), function(req, res, next) {
+	router.post("/api/resend_verify_email/", restrict({ registered: true }), function(req, res, next) {
 		// Load browser language from header
 		const browserLng = browserResponseLng(req);
 
@@ -162,7 +162,7 @@ module.exports = function(router) {
 	});
 
 	// Forgot account details password request
-	router.post("/internal/forgot_account_details/", restrict({ unregistered: true }), function(req, res, next) {
+	router.post("/api/forgot_account_details/", restrict({ unregistered: true }), function(req, res, next) {
 		// Authenticate with user properties sent in body
 		const body = {
 			emailAddress: req.body.emailAddress
@@ -214,7 +214,7 @@ module.exports = function(router) {
 	});
 
 	// Confirm a supplied reset password code is valid
-	router.get("/internal/validate_reset_password_code/", restrict({ unregistered: true }), function(req, res, next) {
+	router.get("/api/validate_reset_password_code/", restrict({ unregistered: true }), function(req, res, next) {
 		// Get reset password code and workspaceURL from header
 		const resetCode = req.headers["code"] ? req.headers["code"] : "";
 		const workspaceURL = req.headers["workspaceurl"] ? req.headers["workspaceurl"] : "";
@@ -253,7 +253,7 @@ module.exports = function(router) {
 	});
 
 	// Reset user password
-	router.post("/internal/reset_password/", restrict({ unregistered: true }), function(req, res, next) {
+	router.post("/api/reset_password/", restrict({ unregistered: true }), function(req, res, next) {
 		// Store received object properties
 		const body = {
 			password: req.body.password,
@@ -284,7 +284,7 @@ module.exports = function(router) {
 	});
 
 	// Verify User Email
-	router.post("/internal/verify_email/", restrict({ registered: true, unregistered: true }), function(req, res, next) {
+	router.post("/api/verify_email/", restrict({ registered: true, unregistered: true }), function(req, res, next) {
 		// Store received object properties
 		const body = {
 			code: req.body.code,
