@@ -42,13 +42,11 @@ class Register extends Component {
 	componentDidMount() {
 		// Redirect if user is on register page when there is a subdomain
 		const subdomain = extractSubdomain(window.location.href);
-		if (subdomain && subdomain.trim() !== null) {
+		if (subdomain && subdomain.trim() !== null && !BUILD_DOMAINPATH.includes(`${subdomain.trim()}.`)) {
 			const url = `${BUILD_PROTOCOL}://${BUILD_DOMAINPATH}/register`;
 			window.location.replace(url);
 		} else {
-			this.setState({
-				visible: true
-			});
+			this.setState({ visible: true });
 		}
 	}
 
