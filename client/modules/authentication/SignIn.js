@@ -6,13 +6,12 @@ import { connect } from "react-redux";
 import { bindActionCreators } from "redux";
 import validate from "shared/validation/validate";
 import { Helmet } from "react-helmet";
-import fetch from "shared/utilities/fetch";
+import fetch from "common/fetch";
 
 import { t, activeLanguage, getLNGToken } from "shared/translations/i18n";
 import { saveToken, clearToken } from "shared/utilities/securityToken";
 import { REDUX_STATE } from "shared/constants";
 import { extractSubdomain } from "shared/utilities/subdomain";
-import { signinURL } from "shared/utilities/urls";
 import { variableExists } from "shared/utilities/filters";
 
 import { AUTHENTICATION, LOGIN_REJECTED, validateWorkspaceURL, VALIDATE_WORKSPACE_URL_REJECTED, loginUser, loadUser, LOAD_USER_REJECTED } from "common/store/reducers/authentication.js";
@@ -149,7 +148,7 @@ class SignIn extends Component {
 				validationErrors: valid
 			});
 		} else {
-			const url = signinURL(subdomain.workspaceURL);
+			const url = `${BUILD_PROTOCOL}://${subdomain.workspaceURL}.${BUILD_DOMAINPATH}/signin`;
 			window.location.replace(url);
 		}
 	}

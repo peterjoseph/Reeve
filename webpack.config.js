@@ -28,7 +28,9 @@ function loadPlugins() {
 			SENTRY_ENABLED: JSON.stringify(config.sentry.enabled),
 			SENTRY_DSN: JSON.stringify(config.sentry.dns),
 			BUILD_ENVIRONMENT: JSON.stringify(config.build.environment),
-			BUILD_RELEASE: JSON.stringify(config.build.release)
+			BUILD_RELEASE: JSON.stringify(config.build.release),
+			BUILD_PROTOCOL: JSON.stringify(config.build.protocol),
+			BUILD_DOMAINPATH: JSON.stringify(config.build.domainPath)
 		})
 	);
 	return plugins;

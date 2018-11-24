@@ -10,7 +10,6 @@ import config from "../../config";
 import { arrayContains } from "shared/utilities/filters";
 import { ServerResponseError } from "utilities/errors/serverResponseError";
 import { t } from "shared/translations/i18n";
-import { baseWorkspaceURL, resetPasswordURL, emailValidationURL } from "shared/utilities/urls";
 import { FEATURES, SUBSCRIPTION_TYPE, ROLE_TYPE, EMAIL_TYPE, BILLING_CYCLE, LANGUAGE_CODES } from "shared/constants";
 
 // Validate Workspace URL and retrieve client styling (if feature exists)
@@ -152,8 +151,8 @@ export function registerNewClient(received, browserLng) {
 			const emailParams = {
 				firstName: userInstance.get("firstName"),
 				workspaceName: clientInstance.get("workspaceName"),
-				workspaceURL: baseWorkspaceURL(clientInstance.get("workspaceURL")),
-				validationLink: emailValidationURL(clientInstance.get("workspaceURL"), validationCode)
+				workspaceURL: `${config.build.protocol}://${clientInstance.get("workspaceURL")}.${config.build.domainPath}/`,
+				validationLink: `${config.build.protocol}://${clientInstance.get("workspaceURL")}.${config.build.domainPath}/verify#code=${validationCode}`
 			};
 
 			// Send welcome email to user
@@ -416,7 +415,7 @@ export function resendVerifyEmail(userId, clientId, browserLng) {
 				// Build email params object
 				const emailParams = {
 					firstName: user.get("firstName"),
-					validationLink: emailValidationURL(client.get("workspaceURL"), validationCode)
+					validationLink: `${config.build.protocol}://${client.get("workspaceURL")}.${config.build.domainPath}/verify#code=${validationCode}`
 				};
 
 				// Send welcome email to user
@@ -494,7 +493,7 @@ export function forgotAccountPasswordEmail(received, browserLng) {
 					firstName: user.get("firstName"),
 					lastName: user.get("lastName"),
 					clientName: client.get("name"),
-					resetPasswordLink: resetPasswordURL(client.get("workspaceURL"), resetCode)
+					resetPasswordLink: `${config.build.protocol}://${client.get("workspaceURL")}.${config.build.domainPath}/reset#code=${resetCode}`
 				};
 
 				// Send forgot account details
@@ -576,8 +575,8 @@ export function forgotAccountEmail(received, browserLng) {
 						firstName: user.get("firstName"),
 						lastName: user.get("lastName"),
 						clientName: client.get("name"),
-						workspaceLink: baseWorkspaceURL(client.get("workspaceURL")),
-						resetPasswordLink: resetPasswordURL(client.get("workspaceURL"), resetCode)
+						workspaceLink: `${config.build.protocol}://${client.get("workspaceURL")}.${config.build.domainPath}/`,
+						resetPasswordLink: `${config.build.protocol}://${client.get("workspaceURL")}.${config.build.domainPath}/reset#code=${resetCode}`
 					};
 
 					// Add account object to accounts array

@@ -1,9 +1,9 @@
 import passport from "services/passport";
 
 import { t } from "shared/translations/i18n";
-import { billingURL } from "shared/utilities/urls";
 import { ServerResponseError } from "utilities/errors/serverResponseError";
 import { arrayContains, arrayHasAny } from "shared/utilities/filters";
+import config from "../../config";
 
 export default function(properties = {}) {
 	return function(req, res, next) {
@@ -37,7 +37,7 @@ export default function(properties = {}) {
 
 			// If subscription not active, redirect to billing page
 			if (properties.activeSubscription === true && req.user && req.user.subscriptionActive !== true) {
-				const url = billingURL(req.user.workspaceURL);
+				const url = `${config.build.protocol}://${req.user.workspaceURL}.${config.build.domainPath}/billing`;
 				return res.redirect(url);
 			}
 

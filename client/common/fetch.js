@@ -1,10 +1,9 @@
-import { customPathURL } from "shared/utilities/urls";
 import { activeLanguage } from "shared/translations/i18n";
 
 // Async function for handling front-end get, post and patch calls
 export default {
 	async execute(path, options) {
-		const route = customPathURL(path);
+		const route = `${BUILD_PROTOCOL}://${BUILD_DOMAINPATH}${path}`;
 		// Set default headers
 		options.headers = Object.assign(
 			{

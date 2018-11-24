@@ -468,7 +468,7 @@
 						<p><b>/shared/translations/currencies/: </b>Currencies translated into the language of the translation file.</p>
 						<p><b>/shared/translations/languages/: </b>A collection of translation strings to be used with the i18next package. Translations are divided into separate files based on their language.</p>
 						<p><b>/shared/translations/links/: </b>Translatable links that point to unique url's written in the language.</p>
-						<p><b>/shared/utilities: </b>Common utility functions shared across the client and server. Date and subdomain manipulation, urls, security token handling and array manipulation.</p>
+						<p><b>/shared/utilities: </b>Common utility functions shared across the client and server. Date and subdomain manipulation, security token handling and array manipulation.</p>
 						<p><b>/shared/validation/: </b>A collection of validation objects used by the 'validate.js' package. Validation should be performed on the client and server, and these validation objects should be as complex as required to maintain the integrity of the application.</p>
 						<p><b>/tests_integration/: </b>JMeter is a powerful software application designed to load-test and measure the performance of services. This directory contains a basic pre-made file to load-test Reeve. You will need to download and install JMeter separately.</p>
 						<p><b>/tests_load/: </b>The javascript test runner 'ava' is heavily used for integration testing in Reeve. This involves testing the communication paths between the endpoints and the front-end to ensure they are all working correctly. All tests should be stored in the <i>tests_integration</i> directory. You can run the tests using the following command -</p>
@@ -993,11 +993,11 @@
 					</pre>
 				</div>
 				<p>- The first line is a comment that defines what the purpose of the API call is. In this instance, we have a function that calls an API endpoint to reset a users password.</p>
-				<p>- The third line calls a unique function called 'fetch' (located in <i>./shared/utilities/fetch.js</i>). This function receives the path of the api endpoint to communicated with. The location on the back-end server.</p>
+				<p>- The third line calls a unique function called 'fetch' (located in <i>./client/common/fetch.js</i>). This function receives the path of the api endpoint to communicated with. The location on the back-end server.</p>
 				<p>- Line four is the method type. In this example, we are making a 'POST' request. The server expects some information from our web-browser for the command to be successful. Other types of request methods can include GET, PUT, PATCH, DELETE.</p>
 				<p>- The fifth and preceeding lines contains a JSON object with information that we are sending to the server for processing.</p>
 				<p>Now with this information we can successfully start writing methods that make API calls to the back-end server. Most of the functionality is handled by the 'fetch' function. It is important to understand what this function is doing, as you may need to modify it in the future.</p>
-				<p>Open the file <i>fetch.js</i> from the following location <i>./shared/utilities/fetch.js</i></p>
+				<p>Open the file <i>fetch.js</i> from the following location <i>./client/common/fetch.js</i></p>
 				<p>Fetch is an asyncronous function that is executed every time a method request is made. The purpose of this function is to introduce standardization; i.e if you make changes, you only have to update one function instead of multiple.</p>
 				<p>Some important functions within <i>fetch.js</i> include -</p>
 				<div class="code__block code__block--notabs">

@@ -4,9 +4,9 @@ import { bindActionCreators } from "redux";
 import PropTypes from "prop-types";
 import bowser from "bowser";
 import { notify } from "react-notify-toast";
-import fetch from "shared/utilities/fetch";
+import fetch from "common/fetch";
 import { t, activeLanguage } from "shared/translations/i18n";
-import { SERVER_DETAILS, REDUX_STATE } from "shared/constants";
+import { MINIMUM_BROWSER_VERSIONS, REDUX_STATE } from "shared/constants";
 import { variableExists } from "shared/utilities/filters";
 
 import Router from "./Router";
@@ -49,7 +49,7 @@ class App extends Component {
 	}
 
 	browserVersionCheck() {
-		const isSupported = bowser.check(SERVER_DETAILS.MINIMUM_BROWSER_VERSIONS);
+		const isSupported = bowser.check(MINIMUM_BROWSER_VERSIONS);
 		if (!isSupported) {
 			notify.show(t("error.outdatedBrowser"), "warning", -1);
 		}

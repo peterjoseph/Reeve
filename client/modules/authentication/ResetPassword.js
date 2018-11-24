@@ -10,7 +10,6 @@ import { t, activeLanguage, getLNGToken } from "shared/translations/i18n";
 import { REDUX_STATE } from "shared/constants";
 import { extractSubdomain } from "shared/utilities/subdomain";
 import { resetPassword } from "shared/validation/authentication";
-import { baseURL } from "shared/utilities/urls";
 import { variableExists } from "shared/utilities/filters";
 
 import LanguageSwitcher from "./components/LanguageSwitcher";
@@ -56,7 +55,7 @@ class ResetPassword extends Component {
 		if (this.props.workspaceURLStatus !== REDUX_STATE.FULFILLED) {
 			this.props.validateWorkspaceURL(subdomain).then(result => {
 				if (result.type === VALIDATE_WORKSPACE_URL_REJECTED) {
-					const url = baseURL();
+					const url = `${BUILD_PROTOCOL}://${BUILD_DOMAINPATH}/`;
 					window.location.replace(url);
 					return;
 				}

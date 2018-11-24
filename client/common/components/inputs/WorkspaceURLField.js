@@ -1,7 +1,6 @@
 import React from "react";
 import PropTypes from "prop-types";
 import { t } from "shared/translations/i18n";
-import { SERVER_DETAILS } from "shared/constants";
 
 class InputField extends React.Component {
 	render() {
@@ -22,7 +21,7 @@ class InputField extends React.Component {
 						disabled={disabled}
 					/>
 					<div className="input-group-append">
-						<div className="input-group-text">{`.${SERVER_DETAILS.DOMAIN}`}</div>
+						<div className="input-group-text">{`.${BUILD_DOMAINPATH /* Environmental variable defined by Webpack DefinePlugin */}`}</div>
 					</div>
 					{error && error["workspaceURL"] && <div className="d-block invalid-feedback">{error["workspaceURL"][0]}</div>}
 				</div>
