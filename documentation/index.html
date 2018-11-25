@@ -1342,7 +1342,30 @@
 				<a name="6.12">
 					<h3 class="section__title">6.12 Page Layouts</h3>
 				</a>
-				<p>Contents</p>
+				<p>Inside <i>./client/common/</i> there is a directory called <i>layouts</i>.</p>
+				<p>The purpose of this directory is to act as a central location for layout components. Layout components wrap around page components and provide common elements such as Headers, Sidebars and Footers.</p>
+				<p>This is a better alternative than hard-coding these elements into every page, especially when they may not be needed.</p>
+				<p>To use a page layout component, we inject it into the render stage of the React Router in <i>./client/Router.js</i></p>
+				<div class="code__block code__block--notabs">
+					<pre class="code code--block">
+						<code>
+							import DefaultLayout from "common/layouts/DefaultLayout";
+
+							&lt;RedirectComponent
+								&nbsp;exact
+								&nbsp;path="/settings"
+								&nbsp;role={[ROLE_TYPE.OWNER, ROLE_TYPE.ADMINISTRATOR]}
+								&nbsp;user={user}
+								&nbsp;render={() => (
+									&nbsp;&nbsp;&lt;DefaultLayout key="/settings"&gt;
+										&nbsp;&nbsp;&nbsp;&lt;Settings /&gt;
+									&nbsp;&nbsp;&lt;/DefaultLayout&gt;
+								&nbsp;)}
+							/&gt;
+						</code>
+					</pre>
+				</div>
+				<p>Because layout components contain elements that are frequently changing (i.e. Header navigation), a 'key' must be specified. This forces React to refresh the layout on every page change so that the correct display is always visible.</p>
 			</section>
 			<section class="js-section">
 				<a name="6.13">
