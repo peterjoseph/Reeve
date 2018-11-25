@@ -1371,7 +1371,32 @@
 				<a name="6.13">
 					<h3 class="section__title">6.13 Global Styling</h3>
 				</a>
-				<p>Contents</p>
+				<p>Reeve has inbuilt support for <a href="http://getbootstrap.com/about/">Bootstrap</a> 4, which is used in a number of locations throughout the application.</p>
+				<p>Bootstrap is a front-end framework for building responsive websites. They supply a collection of HTML, CSS, and Javascript templates that make it easy to create page layouts and style pages.</p>
+				<p>An introduction to using Bootstrap can be found <a href="https://getbootstrap.com/docs/4.1/getting-started/introduction/">here</a>.</p>
+				<p>Inside the directory <i>./client/common/styles/</i> there are a set of <a href="https://sass-lang.com/">.scss</a> files that include styling customization both dependent and independent of the bootstrap defaults. The file <i>_bootstrap_variations.scss</i> adjusts some of the default bootstrap colours used by the framework.</p>
+				<p>When you create styling sheets, store them in this directory.</p>
+				<p>To offer the most styling flexibility, it may be valuable to integrate a way for users to customise the colours and styling of the application theme.</p>
+				<p>Reeve provides a component called <i>GlobalStyling</i> that overrides the default theme colours to those specified by the user. If you would like to create an element that the colour can be adjusted by the user, you will need to update this file.</p>
+				<div class="code__block code__block--notabs">
+					<pre class="code code--block">
+						<code>
+							loadPCS(color) {
+								&nbsp;return `
+									&nbsp;&nbsp;a {
+										&nbsp;&nbsp;&nbsp;color: ${color};
+									&nbsp;&nbsp;}
+						
+									&nbsp;&nbsp;.btn-primary {
+										&nbsp;&nbsp;&nbsp;background-color: ${color};
+										&nbsp;&nbsp;&nbsp;border-color: ${color};
+									&nbsp;&nbsp;}
+							...
+						</code>
+					</pre>
+				</div>
+				<p>In the database there is a table called <i>clientStyling</i> where each row represents a primary, secondary color, background image and background color for a particular client. When a user is loaded, these values are checked in the database and then passed to <i>GlobalStyling</i> to overide the default colours.</p>
+				<p><i>GlobalStyling</i> takes the primary and secondary colours from the database and overrides the default colour values supplied by the framework.</p>
 			</section>
 			<section class="js-section">
 				<a name="6.14">
