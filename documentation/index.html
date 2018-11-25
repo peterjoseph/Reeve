@@ -1275,7 +1275,68 @@
 				<a name="6.11">
 					<h3 class="section__title">6.11 Input Components</h3>
 				</a>
-				<p>Contents</p>
+				<p>One of the advantages of using React is that components are reusable. Not only does this reduce code duplication, it also means that you can make changes to one component, and the changes are reflected across the whole app.</p>
+				<p>Reeve provides a number of standardized input elements you can integrate into your application.</p>
+				<table>
+					<col width="50%">
+					<tr>
+						<th>Component</th>
+						<th>Inputs</th>
+					</tr>
+					<tr>
+						<td>
+							&lt;InputField /&gt;<br><br>
+							<img src="images/input_inputField.png">
+						</td>
+						<td>
+							<ul class="table-list">
+								<li><b>name:</b> Unique name defining input element.</li>
+								<li><b>value:</b> Text value of the input field.</li>
+								<li><b>onChange:</b> Function call when value inside field changes, i.e. keyboard input.</li>
+								<li><b>label:</b> Text label string positioned to the left of the input field.</li>
+								<li><b>id:</b> CSS id of input field.</li>
+								<li><b>type:</b> HTML type of the input object.</li>
+								<li><b>ariaLabel:</b> Hidden label attribute to for assistive technology.</li>
+								<li><b>placeholder:</b> Placeholder text displayed in field when the input is empty.</li>
+								<li><b>disabled:</b> Boolean check if field should be active or disabled.</li>
+								<li><b>error:</b> Validation error message string displayed below the input field.</li>
+							</ul>
+						</td>
+					</tr>
+					<tr>
+						<td>
+							&lt;Checkbox /&gt;<br><br>
+							<img src="images/input_checkbox.png">
+						</td>
+						<td>
+							<ul class="table-list">
+								<li><b>name:</b> Unique name defining input element.</li>
+								<li><b>value:</b> Boolean value of the checkbox. Selected or unselected.</li>
+								<li><b>onClick:</b> Function call when object is clicked.</li>
+								<li><b>label:</b> Text label string positioned to the left of the checkbox.</li>
+								<li><b>id:</b> CSS id of the checkbox.</li>
+								<li><b>smallText:</b> Boolean check if checkbox label should be printed in small text.</li>
+								<li><b>disabled:</b> Boolean check if field should be active or disabled.</li>
+								<li><b>error:</b> Validation error message string displayed below the input field.</li>
+							</ul>
+						</td>
+					</tr>
+					<tr>
+						<td>
+							&lt;WorkspaceURLField /&gt;<br><br>
+							<img src="images/input_workspaceField.png">
+						</td>
+						<td>
+							<ul class="table-list">
+								<li><b>label:</b> Text label string positioned to the left of the input field.</li>
+								<li><b>value:</b> Text value of the input field.</li>
+								<li><b>onChange:</b> Function call when value inside field changes, i.e. keyboard input.</li>
+								<li><b>disabled:</b> Boolean check if field should be active or disabled.</li>
+								<li><b>error:</b> Validation error message string displayed below the input field.</li>
+							</ul>
+						</td>
+					</tr>
+				</table>
 			</section>
 			<section class="js-section">
 				<a name="6.12">
