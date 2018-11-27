@@ -82,7 +82,7 @@ class Header extends Component {
 		return (
 			<Fragment>
 				<VerifyEmail user={user} />
-				<nav className="navbar navbar-expand-md bg-primary navbar-dark px-2">
+				<nav className="navbar navbar-expand-md bg-primary navbar-dark px-2 py-0">
 					<NavLogo />
 					<ul className="navbar-nav bd-navbar-nav flex-row ml-auto d-flex order-md-1">
 						<ActiveTrial />
