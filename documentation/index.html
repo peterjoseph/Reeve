@@ -1408,7 +1408,29 @@
 				<a name="6.15">
 					<h3 class="section__title">6.15 Alerts</h3>
 				</a>
-				<p>Contents</p>
+				<p>An alert is a modal component that appears over the screen and overlays the content behind it with a faded background.</p>
+				<p>This type of component is useful if you want to draw a users attention to something, or there is an event you require immediate action.</p>
+				<p><img src="images/alert.png"></p>
+				<p>It is very easy to display an alert overlay. In the render() component of a page, import and return the component within an if statement.</p>
+				<div class="code__block code__block--notabs">
+					<pre class="code code--block">
+						<code>
+							import Alert from "common/components/Alert";
+
+							if (visible) {
+								&nbsp;return (
+									&nbsp;&nbsp;&lt;Alert title={} closeModal={}&gt;
+										&nbsp;&nbsp;&nbsp;{message}
+									&nbsp;&nbsp;&lt;/Alert&gt;
+								&nbsp;);
+							}
+						</code>
+					</pre>
+				</div>
+				<p>Alert supports the following configuration properties.</p>
+				<p><b>title:</b> The title message to be displayed in the alert header.</p>
+				<p><b>children:</b> A react propType. Wrap any object around the component (as above) and the content will render within the modal.</p>
+				<p><b>closeModal:</b> A function to be called when the close button, or background shade is clicked.</p>
 			</section>
 			<section class="js-section">
 				<a name="6.16">
