@@ -1436,7 +1436,48 @@
 				<a name="6.16">
 					<h3 class="section__title">6.16 Success & Error Messages</h3>
 				</a>
-				<p>Contents</p>
+				<p>In a number of situations it may be valuable to display a success or error notification. When a user saves a field and the update is completed successfully, you can notify the user of the success.</p>
+				<p>Alternatively, if an update or action results in an error response from the server, you may want to present this information in a clean and appropriate way. Reeve provides a couple of different success and error styles.</p>
+				<p><b>Success Notification</b></p>
+				<p><img src="images/success_notification.png"></p>
+				<p>A success notification appears at the very top of the page above the header. To render a success notification, import the component and render it toward the top of a page.</p>
+				<div class="code__block code__block--notabs">
+					<pre class="code code--block">
+						<code>
+							import SuccessNotification from "common/components/SuccessNotification";
+
+							{showSuccessMsg && &lt;SuccessNotification path={{ reset: "success" }} message={t("success.resetPassword")} /&gt;}
+						</code>
+					</pre>
+				</div>
+				<p>In the instance above, when a user navigates to a url with the parameter <i>?reset="success"</i>, the success notification will display when the url parameter and <i>showSuccessMsg</i> variable conditions are met. The message with translation string "success.resetPassword" will be rendered in the notification.</p>
+				<p><b>Server Success Message</b></p>
+				<p><img src="images/success_message.png"></p>
+				<p>A <i>ServerSuccess</i> message is a smaller notification usually displayed above forms or simple input fields. This type of notification is used in a very similar fashion to the <i>SuccessNotification</i> type.</p>
+				<p>Import the code as follows.</p>
+				<div class="code__block code__block--notabs">
+						<pre class="code code--block">
+							<code>
+								import ServerSuccess from "common/components/ServerSuccess";
+								
+								{showSuccessMsg && &lt;ServerSuccess path={{ registration: "success" }} message={t("success.clientRegistration")} /&gt;}
+							</code>
+						</pre>
+				</div>
+				<p>In this example, the message will display when the web-browser url correctly displays the <i>?registration="success"</i> query and the <i>showSuccessMsg</i> variable condition has also been met.</p>
+				<p><b>Server Failure Message</b></p>
+				<p><img src="images/failure_message.png"></p>
+				<p>The final example is very similar to the <i>ServerSuccess</i> type except the <i>ServerFailure</i> component displays a red coloured warning message.</p>
+				<div class="code__block code__block--notabs">
+					<pre class="code code--block">
+						<code>
+							import ServerError from "common/components/ServerError";
+							
+							return &lt;ServerError error={serverError} /&gt;
+						</code>
+					</pre>
+				</div>
+				<p><i>ServerFailure</i> does not require a query string match in the web-browser to display. Simply render the component and pass the server message directly in as an "error" prop.</p>
 			</section>
 			<section class="js-section">
 				<a name="6.17">
