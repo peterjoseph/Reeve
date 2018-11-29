@@ -1528,7 +1528,12 @@
 				<a name="7.2">
 					<h3 class="section__title">7.2 Node.js Environments</h3>
 				</a>
-				<p>Contents</p>
+				<p>When Reeve is started, it looks for the value of an environment variable called <i>NODE_ENV</i>. Depending on this value, the application can behave in unique ways. For example, in a development environment, there is extra debugging and logging tools enabled.</p>
+				<p>There are 3 major environments Reeve recognizes, and are frequently supported by many cloud application hosting providers.</p>
+				<p><b>development:</b> In development mode, webpack automatically builds the bundle files. Extra logging and error reporting is also enabled. Code is decompressed for better reading. Access to React and Redux development tools are enabled.</p>
+				<p><b>production:</b> In production mode, on start, Reeve expects bundle files to already exist, and simply starts the server to communicate via the api endpoint and serve the bundle files. You will need to build the bundle files first by running the command 'npm run build:production'. When the bundle files are built in production, they are compressed, and stripped of unnecessary data. In production, the server disables debugging and error reporting to the front-end.</p>
+				<p><b>test:</b> When you run the command <i>'npm run test'</i> you should also change the environment to 'test'. The test environment loads a basic express server and disables webpack from building bundle files.<p>
+				<p>You can change the value of the environment variable from the <i>config.env</i> file located in the root directory. By default it is set to <i>Development</i>.</p>
 			</section>
 			<section class="js-section">
 				<a name="7.3">
