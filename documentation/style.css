@@ -31,6 +31,12 @@ p {
 	color: #4a4a4a;
 }
 
+p img {
+	display: block;
+	margin-left: auto;
+	margin-right: auto;
+}
+
 a,
 a:hover {
 	text-decoration: underline;
