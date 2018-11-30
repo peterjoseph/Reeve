@@ -1690,7 +1690,39 @@
 				<a name="7.6">
 					<h3 class="section__title">7.6 Database Models</h3>
 				</a>
-				<p>Contents</p>
+				<p>Sequelize uses models to represent tables in the database. Every model maps to a column in the table, and you use 'getters' and 'setters' to retrieve and manipulate this information.</p>
+				<p>In order for Sequelize to recognize a table in the database, the table must have a model defined.</p>
+				<p>You can find out more about creating model definitions <a href="http://docs.sequelizejs.com/manual/tutorial/models-definition.html">here</a>.</p>
+				<p>In the directory <i>./server/models/</i> are located all of the database model definitions. When the Reeve server starts, it automatically looks through this directory for any files and imports them. You don't have to do this manually.</p>
+				<div class="code__block code__block--notabs">
+					<pre class="code code--block">
+						<code>
+							// Import models to sequelize from the models directory
+							fs.readdirSync(path.join(__dirname, "../models")).forEach(function(file) {
+								&nbsp;if (file.toLowerCase().indexOf(".js")) {
+									&nbsp;&nbsp;var model = connection.import(path.join(__dirname, "../models", file));
+									&nbsp;&nbsp;sqModels[model.name] = model;
+								&nbsp;}
+							});
+						</code>
+					</pre>
+				</div>
+				<p>To call the 'getters' and 'setters' in the models, there is a slight variation from how the Sequelize documentation recommends.</p>
+				<p>Open the file <i>./server/orchestrator/authentication.js</i></p>
+				<p>One of the examples for loading a client from the client table is as follows.</p>
+				<div class="code__block code__block--notabs">
+					<pre class="code code--block">
+						<code>
+							import { database, models } from "services/sequelize";
+
+							// Load a client using a workspaceURL
+							const client = await models().client.findOne({ where: { workspaceURL: workspaceURL, active: true } }, { transaction: transaction });
+						</code>
+					</pre>
+				</div>
+				<p>The first function models() retrieves an object containing all of the database model definitions. The second value 'client' selects the client model from the object. The next function findOne is one of the function calls on the model definition to find a single client with the specified parameters.</p>
+				<p>The process is largely the same as writing standard Sequelize functions, except that you first import all the model definitions in a function, and then select the model you would like to action against.</p>
+				<p>A tutorial on model usage can be found <a href="http://docs.sequelizejs.com/manual/tutorial/models-usage.html">here</a>.</p>
 			</section>
 			<section class="js-section">
 				<a name="7.7">
