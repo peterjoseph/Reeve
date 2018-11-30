@@ -1539,7 +1539,22 @@
 				<a name="7.3">
 					<h3 class="section__title">7.3 Services</h3>
 				</a>
-				<p>Contents</p>
+				<p>Reeve integrates with a lot of third-party platforms and products. Our attitude towards Software as a Service (SaaS) products is, there's no point reinventing the wheel. If an existing solution on the market works well, don't try to duplicate it. Use what works, build fast, and ship fast.</p>
+				<p>Some of the services we integrate with include Stripe, Sentry and PaperTrail.</p>
+				<p>In the directory <i>./server/services/</i> are files that provide the integrations for the third-party services.</p>
+				<p>These files and their exported functions are called throughout the application. The value of developing a system like this is that you can easily swap out an integration by changing the functions in the file, without having to make changes throughout the whole application.</p>
+				<p>Initiating these services occurs in <i>./server/server.js</i>. For example:</p>
+				<div class="code__block code__block--notabs">
+					<pre class="code code--block">
+						<code>
+							let nodemailer = require("./services/nodemailer");
+
+							// Initialise Email Service
+							nodemailer.initialize();
+						</code>
+					</pre>
+				</div>
+				<p>As you increase the integrations used with your application, it is valuable to continue to create an interface in this directory, and call the interface throughout the application, instead of the integration directly.</p>
 			</section>
 			<section class="js-section">
 				<a name="7.4">
