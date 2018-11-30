@@ -1616,7 +1616,75 @@
 				<a name="7.5">
 					<h3 class="section__title">7.5 Connecting to the Database</h3>
 				</a>
-				<p>Contents</p>
+				<p>Reeve uses an Object Relational Mapper (ORM) called Sequelize for connection and communication with an external database. An ORM lets you query and manipulate the data in a database using an object-oriented paradigm. Instead of writing scripts in SQL, you can action the database with javascript.</p>
+				<p>By default, Reeve has been developed to use MySQL. However, as Sequelize also supports Postgres, SQLite, and Tedious; it is possible to strip out the database layer and interface with a different database alternative.</p>
+				<p>To do so, simple remove <i>mysql2</i> from package.json and install an alternative:</p>
+				<div class="code__block code__block--notabs">
+					<pre class="code code--block">
+						<code>
+							$ npm install --save pg pg-hstore
+							$ npm install --save mysql2
+							$ npm install --save sqlite3
+							$ npm install --save tedious // MSSQL
+						</code>
+					</pre>
+				</div>
+				<p>Open the following file <i>./server/services/sequelize.js</i> and change the following line to your desired database type -</p>
+				<div class="code__block code__block--notabs">
+					<pre class="code code--block">
+						<code>
+							dialect: "mysql",
+						</code>
+					</pre>
+				</div>
+				<p>For more information on configuring Sequelize, please read the following <a href="http://docs.sequelizejs.com/manual/installation/getting-started">documentation</a></p>
+				<p>To create the interface between our database and Reeve, we need to update the connection information in <i>./config.env</i>. Database configuration settings are simply environmental variables.</p>
+				<div class="code__block code__block--notabs">
+					<pre class="code code--block">
+						<code>
+							# MySQL Database
+							DB_HOST=localhost
+							DB_USER=root
+							DB_PASS=root
+							DB_SCHEMA=reeve
+							DB_POOL_MIN=0
+							DB_POOL_MAX=10
+							DB_POOL_ACQUIRE=30000
+							DB_POOL_IDLE=10000
+						</code>
+					</pre>
+				</div>
+				<p>Inside <i>./server/services/sequelize.js</i> these values are passed to a Sequelize class that is created when Reeve starts.</p>
+				<div class="code__block code__block--notabs">
+					<pre class="code code--block">
+						<code>
+							// Connect to database through Sequelize
+							connection = new Sequelize(config.database.schema, config.database.username, config.database.password, {
+								&nbsp;host: config.database.host,
+								&nbsp;dialect: "mysql",
+								&nbsp;operatorsAliases: false,
+								&nbsp;pool: {
+									&nbsp;&nbsp;max: config.database.max,
+									&nbsp;&nbsp;min: config.database.min,
+									&nbsp;&nbsp;acquire: config.database.acquire,
+									&nbsp;&nbsp;idle: config.database.idle
+								&nbsp;},
+								&nbsp;logging: false
+							});
+						</code>
+					</pre>
+				</div>
+				<p>If the connection is successful, you can access the database by importing Sequelize.js and calling the database() function.</p>
+				<div class="code__block code__block--notabs">
+					<pre class="code code--block">
+						<code>
+							import { database, models } from "services/sequelize";
+
+							return database().transaction(async function(transaction) {});
+						</code>
+					</pre>
+				</div>
+				<p>Review the code in <i>./server/orchestrator/authentication.js</i> for a good working model of communicating with the database.</p>
 			</section>
 			<section class="js-section">
 				<a name="7.6">
