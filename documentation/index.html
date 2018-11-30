@@ -1773,7 +1773,80 @@
 				<a name="7.8">
 					<h3 class="section__title">7.8 Endpoint Security</h3>
 				</a>
-				<p>Contents</p>
+				<p>When looking at each of the endpoints in the controller directory, you may have noticed a restrict() function being called after the endpoint url is defined.</p>
+				<div class="code__block code__block--notabs">
+					<pre class="code code--block">
+						<code>
+								router.get("/api/endpoint_url/", restrict({ registered: true, unregistered: true }), function(req, res, next) {});
+						</code>
+					</pre>
+				</div>
+				<p>Restrict is a middleware function that should be called on every endpoint. Its sole purpose is to provide authentication and security for the endpoint, and acts as a gateway to allowing only certain users with the right roles and permissions to communicate.</p>
+				<p>You can define how you want to restrict an endpoint by passing an object into the restrict() function and specifying any of the parameters below.</p>
+				<table>
+					<col>
+					<tr>
+						<th>Parameter</th>
+						<th>Type</th>
+						<th>Description</th>
+					</tr>
+					<tr>
+						<td>
+							registered
+						</td>
+						<td>Boolean</td>
+						<td>
+							<ul class="table-list">
+								<p>When true, a user that is registered and currently logged in can access the endpoint. When false, registered users cannot access the endpoint.</p>
+							</ul>
+						</td>
+					</tr>
+					<tr>
+						<td>
+							unregistered
+						</td>
+						<td>Boolean</td>
+						<td>
+							<ul class="table-list">
+									<p>When true, a user that is unregistered and not currently logged in can access the endpoint. When false, unregistered users cannot access the endpoint.</p>
+							</ul>
+						</td>
+					</tr>
+					<tr>
+						<td>
+							activeSubscription
+						</td>
+						<td>Boolean</td>
+						<td>
+							<ul class="table-list">
+								<p>When true, a user must have an active subscription to access the endpoint.</p>
+							</ul>
+						</td>
+					</tr>
+					<tr>
+						<td>
+							hasAnyRole
+						</td>
+						<td>Array</td>
+						<td>
+							<ul class="table-list">
+								<p>hasAnyRole takes an array of roles defined in both the database and <i>./shared/constants.js</i>. If a user has any of the defined roles, the criteria to pass this restriction has been met.</p>
+							</ul>
+						</td>
+					</tr>
+					<tr>
+						<td>
+							hasFeatures
+						</td>
+						<td>Array</td>
+						<td>
+							<ul class="table-list">
+									<p>hasFeatures takes an array of features defined in both the database and <i>./shared/constants.js</i>. A user/client must have all of the defined features before the criteria to pass this restriction is met.</p>
+							</ul>
+						</td>
+					</tr>
+				</table>
+				<p>It is important to note that all of the defined endpoint restriction criteria must be met in-order for endpoint access to be valid. A user cannot pass one restriction and fail another, and still be allowed to communicate through the endpoint.</p>
 			</section>
 			<section class="js-section">
 				<a name="7.9">
