@@ -1728,7 +1728,46 @@
 				<a name="7.7">
 					<h3 class="section__title">7.7 API Design & Development</h3>
 				</a>
-				<p>Contents</p>
+				<p>The Reeve server makes a distinct division between endpoints that a client communicates with, and where the processing and database manipulation occurs.</p>
+				<p>Controller: <i>./server/controller/</i></p>
+				<p>Orchestrator: <i>./server/orchestrator/</i></p>
+				<p>The controller is where the endpoints are first defined. When the client communicates with the server, any data that is sent or received passes through the controller. It is the responsibility of the controller to ensure that the endpoints are secure, the user is properly authenticated, and that the correct response is returned.</p>
+				<p>Once the controller has successfully validated the data (and authentication) it has received, it calls the functions in the orchestrator. The orchestrator performs the data manipulation, communicates with the database, and then returns this information back to the controller.</p>
+				<p>Following this organisational pattern is great for function reusability, and improves code structure.</p>
+				<p>A typical endpoint uses this structure -</p>
+				<div class="code__block code__block--notabs">
+					<pre class="code code--block">
+						<code>
+							router.post("/api/endpoint_url/", restrict({ unregistered: true, registered: true }), function(req, res, next) {
+								&nbsp;// Store received object properties
+								&nbsp;const body = {
+									&nbsp;&nbsp;requestObject: req.body.requestObject,
+								&nbsp;};
+						
+								&nbsp;// Load browser language from header
+								&nbsp;const browserLng = browserResponseLng(req);
+						
+								&nbsp;// Validate properties in received object
+								&nbsp;const valid = validate(body, validateObject());
+								&nbsp;if (valid != null) {
+									&nbsp;&nbsp;return next({});
+								&nbsp;}
+						
+								&nbsp;// Call function in orchestrator
+								&nbsp;orchestratorFunction(body, browserLng).then(
+									&nbsp;&nbsp;result => {
+										&nbsp;&nbsp;&nbsp;return res.status(200).send(result);
+									&nbsp;&nbsp;},
+									&nbsp;&nbsp;error => {
+										&nbsp;&nbsp;&nbsp;return next(error);
+									&nbsp;&nbsp;}
+								&nbsp;);
+							});
+						</code>
+					</pre>
+				</div>
+				<p>In this example, we have a RESTful POST request. The function loads the request body into a body object. It calls a function browserResponseLng that determines the browser language of the request (from the header), validates the properties, and then calls a function in the orchestrator to perform an action, and send a response back to the client.</p>
+				<p>The endpoints that you write should follow the same consistent structure.</p>
 			</section>
 			<section class="js-section">
 				<a name="7.8">
