@@ -1560,7 +1560,57 @@
 				<a name="7.4">
 					<h3 class="section__title">7.4 Routing</h3>
 				</a>
-				<p>Contents</p>
+				<p>Just like the front-end, the Reeve back-end has its own internal routing system using <a href="https://expressjs.com/en/guide/routing.html">Express routing</a>.</p>
+				<p>Inside the directory <i>./server/services/</i> the file <i>router.js</i> builds the express routing using all of the files located in the directory <i>./server/controller/</i>.</p>
+				<p>Routes are the api endpoints that the front-end calls in order to send and receive data, and interact with the back-end of the web application. These endpoints follow the <a href="https://en.wikipedia.org/wiki/Representational_state_transfer">RESTful API design</a>.</p>
+				<p>To create new routes, all you have to do is create a file in the above directory, and follow a structured pattern.</p>
+				<div class="code__block code__block--notabs">
+					<pre class="code code--block">
+						<code>
+								module.exports = function(router) {
+									&nbsp;// Endpoint 1
+									&nbsp;router.get("/api/endpoint_one/", restrict({ registered: true, unregistered: true }), function(req, res, next) {
+										&nbsp;&nbsp;return res.status(200);
+									&nbsp;});
+
+									&nbsp;// Endpoint 2
+									&nbsp;router.get("/api/endpoint_two/", restrict({ registered: true, unregistered: true }), function(req, res, next) {
+										&nbsp;&nbsp;return res.status(200);
+									&nbsp;});
+								};
+						</code>
+					</pre>
+				</div>
+				<p>Reeve will automatically take all of the files from the <i>orchestrator</i> directory and build the endpoint routing.</p>
+				<p>In the example above, the front-end could make a request to the address -</p>
+				<div class="code__block code__block--notabs">
+					<pre class="code code--block">
+						<code>
+							HTTP GET https://&lt;server_address&gt;.com/api/endpoint_one/
+						</code>
+					</pre>
+				</div>
+				<p>Writing good endpoints should always follow a consistent structure.</p>
+				<p>When an endpoint is called, the client always expects a response from the server. There are two types of suggested responses you can return. Here are both ways of returning a response for an endpoint.</p>
+				<p><b>Response Status and JSON Response Data</b></p>
+				<div class="code__block code__block--notabs">
+					<pre class="code code--block">
+						<code>
+							return res.status(200).send({result: resultData});
+						</code>
+					</pre>
+				</div>
+				<p>In this example, the endpoint will respond with a server status of 200, and also supply the JSON response data.</p>
+				<p><b>Error Response</b></p>
+				<div class="code__block code__block--notabs">
+					<pre class="code code--block">
+						<code>
+							return next(error);
+						</code>
+					</pre>
+				</div>
+				<p>Used for when a serious exception / error occurs. The error will bubble upwards, and the stack trace will be sent to server logging. Errors sent like this will always result in a 503 server error response being sent to the client.</p>
+				<p>For details on securing server endpoints, please read the documentation section titled <a href="#7.8">7.8 Endpoint Security</a>.</p>
 			</section>
 			<section class="js-section">
 				<a name="7.5">
