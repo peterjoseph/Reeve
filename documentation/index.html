@@ -1846,7 +1846,30 @@
 				<a name="7.9">
 					<h3 class="section__title">7.9 Session Management</h3>
 				</a>
-				<p>Contents</p>
+				<p>In modern cloud architecture, where the goal is to build scalable services, there is a strong emphasis on building "stateless" architectures.</p>
+				<p>A stateless web architecture depends only on input parameters that are supplied, while a stateful architecture relies on a session state to process requests.</p>
+				<p>If a stateful architecture has an internal session state, then it becomes impossible to scale the application horizontally, because every time there is an attempt to route a user to a particular server, a previous request session may be located on a different server, so the information is not correctly shared across all machines.</p>
+				<p>To work around this issue, we externalise the session management to a third-party, then we use stateless machines that pull data session data from the external source in-order to perform an action.</p>
+				<p>The Reeve server is stateless, this means that you can easily scale horizontally and run multiple servers on different ports at once.</p>
+				<p>Reeve pulls session data from Redis, a separately managed in-memory database store.</p>
+				<p>Redis is an in-memory database used by Reeve to store active user sessions. A user session is semi-permanent information that is required throughout a user interacting with Reeve, from login to logout. On logout this information is cleared.</p>
+				<p>Redis can be configured in the <i>config.env</i> file in the root directory, or as specified in the environmental variables. To edit the service configuration directly, edit the file <i>./server/services/redis.js</i></p>
+				<div class="code__block code__block--notabs">
+					<pre class="code code--block">
+						<code>
+							# Redis Session Store
+							R_HOST=127.0.0.1
+							R_PORT=6379
+							R_PASS=
+							R_TTL=604800
+							R_PROXY=false
+							R_SECRET=redis_secret
+							R_SAVE_UNINITIALIZED=false
+							R_RESAVE=false
+						</code>
+					</pre>
+				</div>
+				<p>While session management is one aspect that Reeve relies on Redis for, Redis is also used for basic DDoS protection. When a person initiates a request from an endpoint, the IP address of the user is recorded in the in-memory database. If the user attempts to "hit the endpoint" too frequently, they will be temporarily locked out.</p>
 			</section>
 			<section class="js-section">
 				<a name="7.10">
