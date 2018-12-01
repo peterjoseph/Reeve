@@ -1899,6 +1899,7 @@
 				</a>
 				<p>Just as we covered front-end validation in <a href="#6.6">6.6</a>, the exact same functionality can be used on the back-end.</p>
 				<p>In every route you should validate the data object received in the request before passing the data on to the orchestrator functions.</p>				<div class="code__block code__block--notabs">
+				<div class="code__block code__block--notabs">
 					<pre class="code code--block">
 						<code>
 							// Validate Object
@@ -1918,7 +1919,62 @@
 				<a name="7.12">
 					<h3 class="section__title">7.12 Sending Emails</h3>
 				</a>
-				<p>Contents</p>
+				<p>Reeve uses the popular Node.js package <a href="https://nodemailer.com/">Nodemailer</a>. This module makes it easy to integrate email sending into a web application.</p>
+				<p>The Nodemailer integration is performed in <i>./server/services/nodemailer.js</i>. To start using the service, you need to specify the value of the environmental variables in the <i>config.env</i> file relating to the mail server that the emails are to be sent from.</p>
+				<div class="code__block code__block--notabs">
+					<pre class="code code--block">
+						<code>
+							# Email Hosting
+							EMAIL_SENDER_ADDRESS=sender@example.com
+							EMAIL_HOST=
+							EMAIL_PORT=
+							EMAIL_SECURE=false
+							EMAIL_AUTH_USERNAME=
+							EMAIL_AUTH_PASSWORD=
+						</code>
+					</pre>
+				</div>
+				<p>Once you have specified the values to connect to your mail server, you can easily send emails in your application by calling the following functions.</p>
+				<p>In your orchestrator layer functions, import the sendEmail function from the nodemailer service.</p>
+				<div class="code__block code__block--notabs">
+					<pre class="code code--block">
+						<code>
+							import { sendEmail } from "services/nodemailer";
+						</code>
+					</pre>
+				</div>
+				<p>Create a new object and store the values you would like to pass to the email template.</p>
+				<div class="code__block code__block--notabs">
+					<pre class="code code--block">
+						<code>
+							// Build email parameters object
+							const emailParams = {
+								&nbsp;firstName: "",
+								&nbsp;workspaceName: "",
+							};
+						</code>
+					</pre>
+				</div>
+				<p>Emails are written in the popular <a href="https://ejs.co/">EJS Framework</a>, which allows a user to write HTML markup with JavaScript. The markup is saved in the database in the 'emailTemplates' table.</p>
+				<p>By specifying values in the emailParams object, we are storing properties that will be imported into the email template and appear in the final email.</p>
+				<p>For more information on importing values into templates, please read the following <a href="https://ejs.co/#docs">documentation</a>.</p>
+				<p>You then need to call the sendEmail function and specific the function parameters in the following format.</p>
+				<div class="code__block code__block--notabs">
+					<pre class="code code--block">
+						<code>
+							// Send welcome email to user example
+							sendEmail(
+								&nbsp;EMAIL_TYPE.CLIENT_WELCOME,
+								&nbsp;userInstance.get("language"),
+								&nbsp;userInstance.get("emailAddress"),
+								&nbsp;emailParams,
+								&nbsp;clientInstance.get("id"),
+								&nbsp;userInstance.get("id")
+							);
+						</code>
+					</pre>
+				</div>
+				<p>The first function parameter is from the constants file, and is a numerical value of the email type to be sent. The second value is the language the email will be sent in, usually the default language defined by the user. The third parameter is the email address to sent the email too. The fourth, we specify the parameters to be passed to the email template. Parameter 5 and 6 is the clientId and userId respectively.</p>
 			</section>
 			<section class="js-section">
 				<a name="7.13">
