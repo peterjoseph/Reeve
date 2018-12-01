@@ -1995,7 +1995,49 @@
 				<a name="7.14">
 					<h3 class="section__title">7.14 Security Tokens</h3>
 				</a>
-				<p>Contents</p>
+				<p>Username & Password authentication with Reeve uses JSON Web Tokens.</p>
+				<p>A JSON Web Token (JWT) is an open, industry standard method of securely transmitting information between two parties as a JSON object. JSON web tokens are digitally signed using a secret key, and are a secure way of ensuring that the person sending the key is the one who signed it.</p>
+				<p>Once a user has authenticated via the functions in <i>./server/services/passport.js</i>, they receive a JWT. Subsequent requests with the JWT specified in the request header ensures that they don't have to keep authenticating.</p>
+				<p>The JWT is passed into the header via the <i>./client/common/fetch.js</i> file.</p>
+				<div class="code__block code__block--notabs">
+					<pre class="code code--block">
+						<code>
+							// Add security token to header
+							if (this.token != null) {
+								&nbsp;options.headers = Object.assign(options.headers, {
+									&nbsp;&nbsp;Authorization: `jwt ${this.token}`
+								&nbsp;});
+							}
+						</code>
+					</pre>
+				</div>
+				<p>As long as you add the restrict() middleware function to each of your routes. The middleware will look for the authentication parameter in the request header, and verify that the token is valid.</p>
+				<p>The JWT is stored in web browser storage for future use. If the user selects the option to 'Keep logged in,' then the JWT is stored in the browsers LocalStorage. Otherwise, the token is stored in SessionStorage.</p>
+				<p>All of the functions to save, retrieve, and delete tokens are found in a file called securityToken.js, located in <i>./shared/utilities/</i></p>
+				<div class="code__block code__block--notabs">
+					<pre class="code code--block">
+						<code>
+							// Store security token in browser
+							export function saveToken(securityToken, keepSignedIn) {
+								...
+							}
+							
+							// Clear security token from browser
+							export function clearToken() {
+								...
+							}
+							
+							// Retrieve security token from browser
+							export function getToken() {
+								...
+							}
+						</code>
+					</pre>
+				</div>
+				<p>As the username and password based authentication has already been built, there isn't too much in this area you should need to change.</p>
+				<p>Once a user has been authenticated, a session is created and stored in Redis. The session data that is stored in Redis includes the workspaceURL, the clientId, and the userId.</p>
+				<p>Reeve decrypts the JWT token, and validates that the information stored in the session matches the properties encrypted in the token.</p>
+				<p>If the two are found to be a match, and the token is valid, the authentication is successful and the request can proceed.</p>
 			</section>
 			<section class="js-section">
 				<a name="7.15">
