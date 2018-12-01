@@ -2049,7 +2049,18 @@
 				<a name="7.16">
 					<h3 class="section__title">7.16 Sentry Error Logging</h3>
 				</a>
-				<p>Contents</p>
+				<p><a href="https://sentry.io/welcome/">Sentry</a> is a subscription based, error tracking platform that provides realtime deep context analysis.</p>
+				<p>If something goes wrong with your application and there is an exception, it is always valuable to be able to trace the cause and implement a fix as soon as possible.</p>
+				<p>Reeve directly integrates with Sentry by default. Simply update the environmental variables with your configuration details.</p>
+				<div class="code__block code__block--notabs">
+					<pre class="code code--block">
+						<code>
+							# Sentry Error Reporting
+							SENTRY_ENABLED=false
+							SENTRY_DSN=https://<key>@sentry.io/<project>
+						</code>
+					</pre>
+				</div>
 			</section>
 			<section class="js-section">
 				<a name="7.17">
