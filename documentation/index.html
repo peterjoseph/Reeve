@@ -1980,7 +1980,19 @@
 				<a name="7.13">
 					<h3 class="section__title">7.13 Passport Authentication</h3>
 				</a>
-				<p>Contents</p>
+				<p>User account authentication is handled by a Node.js package called <a href="http://www.passportjs.org/">Passport</a>. The configuration of the package is found in <i>./server/services/passport.js</i></p>
+				<p>Passport is middleware that supports a mixture of authentication strategies, from basic username and password, to Facebook, Twitter, Oath, and more. By default, Reeve has been built with username and password authentication.</p>
+				<p>Authentication with passport is very simple. Simply import the passport function, and call authenticate()</p>
+				<div class="code__block code__block--notabs">
+					<pre class="code code--block">
+						<code>
+							import passport from "services/passport";
+
+							passport.perform().authenticate("jwt", function(error, user) {});
+						</code>
+					</pre>
+				</div>
+				<p>The string "jwt" tells passport that the type of authentication being requested is a "JSON Web Token," username and password based authentication type.</p>
 			</section>
 			<section class="js-section">
 				<a name="7.14">
