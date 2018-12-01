@@ -1875,7 +1875,23 @@
 				<a name="7.10">
 					<h3 class="section__title">7.10 CORS</h3>
 				</a>
-				<p>Contents</p>
+				<p>Because Reeve supports subdomains for each client, and it is possible that a server is located on a different domain to the front-end client, CORS is a very important consideration.</p>
+				<p>Cross Origin Resource Sharing (CORS) is a standard defined by the w3c foundation on communication between different domains.</p>
+				<p>For security purposes, it is very important that CORS is properly configured. CORS blocks requests made by unknown domains and keeps the connection open only to the domains in its 'approved list'. It can also restrict access from domains that are unsecured using HTTP instead of HTTPS.</p>
+				<p>Web browsers typically follow a same-origin policy, which prevents javascript from executing code located at a different domain to the one it was served from. CORS relaxes these policies, allowing Javascript on a web page to access a REST API located at a different domain from the origin.</p>
+				<p>By default, the CORS configuration is defined in <i>./server/server.js</i> to support the base domain as well as subdomains.</p>
+				<div class="code__block code__block--notabs">
+					<pre class="code code--block">
+						<code>
+							cors({
+								&nbsp;origin: new RegExp(config.build.domainPath + "$"),
+								&nbsp;optionsSuccessStatus: 200,
+								&nbsp;methods: "GET,PUT,POST"
+							})
+						</code>
+					</pre>
+				</div>
+				<p>You can modify the <i>origin</i> parameter to an array to support more than one domain. Change the <i>methods</i> parameter to adjust the type of requests that are supported by the server.</p>
 			</section>
 			<section class="js-section">
 				<a name="7.11">
