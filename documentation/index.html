@@ -2019,17 +2019,17 @@
 						<code>
 							// Store security token in browser
 							export function saveToken(securityToken, keepSignedIn) {
-								...
+								&nbsp;...
 							}
 							
 							// Clear security token from browser
 							export function clearToken() {
-								...
+								&nbsp;...
 							}
 							
 							// Retrieve security token from browser
 							export function getToken() {
-								...
+								&nbsp;...
 							}
 						</code>
 					</pre>
@@ -2066,7 +2066,38 @@
 				<a name="7.17">
 					<h3 class="section__title">7.17 Papertrail Logging</h3>
 				</a>
-				<p>Contents</p>
+				<p>Another subscription service that Reeve integrates with directly is <a href="https://papertrailapp.com/">Papertrail</a>.</p>
+				<p>Papertrail is a hosted log aggregation service.</p>
+				<p>To interface with Papertrail, you will need to update the following environmental variables with your configuration details.</p>
+				<div class="code__block code__block--notabs">
+					<pre class="code code--block">
+						<code>
+							# Papertrail Logging
+							PAPERTRAIL_ENABLED=false
+							PAPERTRAIL_HOST=logs.papertrailapp.com
+							PAPERTRAIL_PORT=1111
+							PAPERTRAIL_HOSTNAME=host
+							PAPERTRAIL_LEVEL=debug
+						</code>
+					</pre>
+				</div>
+				<p>A node package called <a href="https://github.com/winstonjs/winston">Winston</a> logs data and passes the logs over to Papertrail. You can change the type of messages and information that are sent by modifying the following block of code in the <i>./server/server.js</i> file.</p>
+				<div class="code__block code__block--notabs">
+					<pre class="code code--block">
+						<code>
+							expressWinston.logger({
+								&nbsp;transports: [PTtransport],
+								&nbsp;meta: false,
+								&nbsp;msg: "{{req.ip}} - {{res.statusCode}} - {{req.method}} - {{res.responseTime}}ms - URL: {{req.url}} - ORIGINAL URL: {{req.originalUrl}} - HOST: {{req.headers['host']}} - ORIGIN: {{req.headers['origin']}} - REFERER: {{req.headers['referer']}} - USER AGENT: {{req.headers['user-agent']}}",
+								&nbsp;expressFormat: false,
+								&nbsp;colorize: true,
+								&nbsp;ignoreRoute: function(req, res) {
+									&nbsp;&nbsp;return false;
+								&nbsp;}
+							})
+						</code>
+					</pre>
+				</div>
 			</section>
 			<section class="js-section">
 				<a name="7.18">
