@@ -1897,7 +1897,22 @@
 				<a name="7.11">
 					<h3 class="section__title">7.11 Validation</h3>
 				</a>
-				<p>Contents</p>
+				<p>Just as we covered front-end validation in <a href="#6.6">6.6</a>, the exact same functionality can be used on the back-end.</p>
+				<p>In every route you should validate the data object received in the request before passing the data on to the orchestrator functions.</p>				<div class="code__block code__block--notabs">
+					<pre class="code code--block">
+						<code>
+							// Validate Object
+							const valid = validate({ object1: object1, object2: object2 }, validationModel());
+							
+							if (valid != null) {
+								&nbsp;const errorMsg = new ServerResponseError(403, "response message", { lng: browserLng }), valid);
+								&nbsp;return next(errorMsg);
+							}
+						</code>
+					</pre>
+				</div>
+				<p>If the response fails, simply pass an error message into the next() function inside the route.</p>
+				<p>Validation conditions are defined in <i>./shared/validation/</i>. As validation on the back-end works exactly the same as the front-end, you can comfortably share code between the two.</p>
 			</section>
 			<section class="js-section">
 				<a name="7.12">
