@@ -2134,13 +2134,19 @@
 				<a name="8.0">
 					<h2 class="section__title">8.0 Shared Components</h2>
 				</a>
-				<p>Contents</p>
+				<p>Traditionally, developers have frequently had to develop client and server applications independently, as they are written in separate languages, and don't understand each other. Communication protocols pass messages between the two, and they work independently to translate the information and work on-it in their own siloed environments.</p>
+				<p>As Reeve is written in Javascript, both on the front-end and back-end, and a babel transpiler on the back-end translates server code to the <a href="http://es6-features.org/">ES6 standard</a>.</p>
+				<p>It is very easy and possible to take code written on the front-end, and use that same code on the node server backend. The full stack is written in Javascript.</p>
+				<p>The value in standardizing programming to JavaScript is that your developers can work across the full stack without needed to constantly context switch. You don't need to hire a separate team to work on the front-end or the back-end, everyone can work on everything, because the code shared between the two is the same.</p>
+				<p>This ensures reduced costs, as you can train your developers to functionally work everywhere, instead of requiring lots of different languages to be learned.</p>
 			</section>
 			<section class="js-section">
 				<a name="8.1">
 					<h3 class="section__title">8.1 Overview</h3>
 				</a>
-				<p>Contents</p>
+				<p>In the root directory of Reeve, there is a folder called <i>/shared/</i>. This directory contains small snippets of code that have been imported on both the front-end and back-end environment, and are shared between the two.</p>
+				<p>Rather than duplicating the same code for both environments, the code is stored in a shared directory, and used by both systems accordingly.</p>
+				<p>This section of the documentation explores some of the shared types of information and code between the two systems.</p>
 			</section>
 			<section class="js-section">
 				<a name="8.2">
