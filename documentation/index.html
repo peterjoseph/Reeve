@@ -2097,7 +2097,38 @@
 				<a name="7.18">
 					<h3 class="section__title">7.18 Server Errors</h3>
 				</a>
-				<p>Contents</p>
+				<p>Occasionally due to code or server issues, there may be times when an internal server error occurs. How we handle the response to this error is incredibly important as we don't want to inadvertedly leak any sensitive data to the front-end client, and inevitably, the user.</p>
+				<p>By default, when a server error occurs, Reeve follows a "default deny" policy. The error is recorded to logging services such as Papertrail, but only a generic 500 response message is returned to the front-end client. This is designed to reduce the risk of returning error information.</p>
+				<div class="code__block code__block--notabs">
+					<pre class="code code--block">
+						<code>
+							{
+								&nbsp;status: 500,
+								&nbsp;message: "It looks like something has gone wrong on our system. Don't panic! While our engineers investigate, feel free to contact us and provide the following code for further details. Code: XXXXXXXXXXXXXX"
+							}
+						</code>
+					</pre>
+				</div>
+				<p>At times, especially when the error is deliberate, you may want to return a custom message and error code to the front-end client.</p>
+				<p>You can easily do so using the <i>ServerResponseError</i> object.</p>
+				<p>Import the component from the utilities directory as below.</p>
+				<div class="code__block code__block--notabs">
+					<pre class="code code--block">
+						<code>
+							import { ServerResponseError } from "utilities/errors/serverResponseError";
+						</code>
+					</pre>
+				</div>
+				<p>Then throw the error object like so.</p>
+				<div class="code__block code__block--notabs">
+					<pre class="code code--block">
+						<code>
+								throw new ServerResponseError(403, t("i18n.translationString", { lng: browserLng }), { object1: object1, object2: object2 });
+						</code>
+					</pre>
+				</div>
+				<p><i>ServerResponseError</i> takes 3 parameters. The first is the error response code. The second is an error response message, and the third is an json object you can pass to the front-end and use accordingly.</p>
+				<p>As the error handler works its way through resolving the issue, it will recognize the <i>ServerResponseError</i> type, and return this object through to the front-end instead of the generic error response message.</p>
 			</section>
 			<section class="js-section">
 				<a name="8.0">
