@@ -2152,7 +2152,36 @@
 				<a name="8.2">
 					<h3 class="section__title">8.2 Trials & Subscriptions</h3>
 				</a>
-				<p>Contents</p>
+				<p>Subscriptions allow you to easily bill clients on a monthy basis. You can also leverage subscriptions as a way of offering certain application features on a multi-tiered payment arrangement.</p>
+				<p>Reeve by default, supports a subscription model. When a new user signs up for an account, they are placed onto a trial with a fixed period at which they can demo the product. Once the trial ends, they have to subscribe to continue.</p>
+				<p>You can adjust the default trial period of 14 days by modifying the following value.</p>
+				<div class="code__block code__block--notabs">
+					<pre class="code code--block">
+						<code>
+							BILLING_CYCLE: {
+								&nbsp;TRIAL: 14,
+								&nbsp;BASIC: 28
+							},
+						</code>
+					</pre>
+				</div>
+				<p>The default trial period is 14 days.</p>
+				<p>Once a trial account has been created, 4 columns in the client table are updated.</p>
+				<p><b>subscriptionId:</b> A single integer value from the <i>subscription</i> table of the account type.</p>
+				<p><b>subscriptionStartDate:</b> The start date of the subscription.</p>
+				<p><b>subscriptionEndDate:</b> The end date of the subscription.</p>
+				<p><b>billingCycle:</b> The frequency of billing (in days) from the start date.</p>
+				<p>On the front-end, all of these details are passed to the user object in Redux. You can easily take this information and display or hide elememts based on the type of subscription a client has.</p>
+				<div class="code__block code__block--notabs">
+					<pre class="code code--block">
+						<code>
+							if (subscription === (user.get("subscriptionId")) {
+								&nbsp;return "value";
+							}
+						</code>
+					</pre>
+				</div>
+				<p>*Where subscription is an integer value representing the same value as subscriptionId.</p>
 			</section>
 			<section class="js-section">
 				<a name="8.3">
