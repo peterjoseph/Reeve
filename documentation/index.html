@@ -2184,7 +2184,23 @@
 				<a name="8.3">
 					<h3 class="section__title">8.3 User Roles</h3>
 				</a>
-				<p>Contents</p>
+				<p>Every user within Reeve can be assigned one or many roles. A role is a way of defining what an individual user is capable of doing when they interact with the application.</p>
+				<p>Typically, there may be an owner level role who can do everything, a financial role who can only update the billing system, and general users who can make changes to specific items at a restricted level.</p>
+				<p>The roles can be defined and modified within the <i>roles</i> table in the database.</p>
+				<p>Roles are mapped to users in a separate table called <i>userRoles</i>. As the mappings are based on user id and a role, it is possible to have many roles mapped to a single user. An individual user can assume the identity and perform the actions of many roles if needed.<p>
+				<p>Once again, the user roles are passed to the user object in Redux in an array.</p>
+				<p><img src="images/userroles.png"></p>
+				<p>You can easily take this information and display or hide elements based on the type of role a user has.</p>
+				<div class="code__block code__block--notabs">
+					<pre class="code code--block">
+						<code>
+							if ((user.get("subscriptionId") && user.get("subscriptionId").contains(subscription)) {
+								&nbsp;return "value";
+							}
+						</code>
+					</pre>
+				</div>
+				<p>To delete a role, you simply have to remove the mapping from the <i>userRoles</i> table.</p>
 			</section>
 			<section class="js-section">
 				<a name="8.4">
