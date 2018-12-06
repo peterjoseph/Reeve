@@ -2206,7 +2206,22 @@
 				<a name="8.4">
 					<h3 class="section__title">8.4 Features</h3>
 				</a>
-				<p>Contents</p>
+				<p>A feature is unique application functionality that can be enabled and disabled independently without the whole application breaking.</p>
+				<p>The value of this type of architectural structure includes; hiding functionality from the wider public until it is ready for mass adoption, and restricting functionality to a unique or priviledged group of users.</p>
+				<p>If one client is paying for a premium subscription compared to other clients, it is possible to offer more "features" to the greater paying client.</p>
+				<p>Features are defined in the table called <i>features</i> in the database. A feature is mapped to a subscription in the <i>subscriptionFeatures</i> table, in a many-to-many relationship. This means that you can restrict the availability of certain features to clients based on the subscription type they are currently paying for.</p>
+				<p>Features are passed to the user object in Redux in an array.</p>
+				<p><img src="images/features.png"></p>
+				<p>You can display or hide elements based on if a client has a feature, because of their subscription type.</p>
+				<div class="code__block code__block--notabs">
+					<pre class="code code--block">
+						<code>
+							if ((user.get("clientFeatures") && user.get("clientFeatures").contains(feature)) {
+								&nbsp;return "value";
+							}
+						</code>
+					</pre>
+				</div>
 			</section>
 			<section class="js-section">
 				<a name="8.5">
