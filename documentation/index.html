@@ -2227,7 +2227,68 @@
 				<a name="8.5">
 					<h3 class="section__title">8.5 Translations</h3>
 				</a>
-				<p>Contents</p>
+				<p>Expanding a product to support a global market can be a very complex process. One way we have focused on making this experience easier is the introduction of translation strings.</p>
+				<p>Rather than a mixture of english throughout the application that prevents it from being accessible worldwide; the entire Reeve application has full translation support to handle any language you supply.</p>
+				<p>This has been made possible by abstracting text away from the pages themselves, and into JSON documents contained in the directory <i>./shared/translations/</i></p>
+				<p>Rather than hard-code a text value into a page. Call a function that references a value in the JSON documents, which translates the text on page render. Here's how it works:</p>
+				<p>The <i>translations</i> directory, contains 4 other directories. Languages, links, currencies and countries.</p>
+				<p>Each of these directories contain JSON language files in the structure - en.json, it.json etc.</p>
+				<div class="code__block code__block--notabs">
+					<pre class="code code--block">
+						<code>
+							"label": {
+								&nbsp;"firstName": "First Name",
+								&nbsp;"lastName": "Last Name",
+								&nbsp;"emailAddress": "Email Address",
+								&nbsp;"password": "Password"
+							}
+						</code>
+					</pre>
+				</div>
+				<p>To start displaying this string on either the front-end or the back-end, import the translation functions like so.</p>
+				<div class="code__block code__block--notabs">
+					<pre class="code code--block">
+						<code>
+							import { t } from "shared/translations/i18n";
+
+							t("components.authentication.workspaceName") // Example pointing to the JSON object string
+
+							>> The function will output "workspacename"
+						</code>
+					</pre>
+				</div>
+				<p>When a user changes their language, the t() function will automatically pull the correct version of the language from the corresponding directory.</p>
+				<p>Language files are defined inside <i>./shared/translations/i18n.js</i></p>
+				<div class="code__block code__block--notabs">
+					<pre class="code code--block">
+						<code>
+							en: {
+								&nbsp;translation: require("./languages/en.json"),
+								&nbsp;links: require("./links/en.json"),
+								&nbsp;countries: require("./countries/en.json"),
+								&nbsp;currencies: require("./currencies/en.json")
+							},
+						</code>
+					</pre>
+				</div>
+				<p>There are a few other directories for different types of translation strings. These include links, countries, and currencies. They can all be imported and called using a different set of functions.</p>
+				<div class="code__block code__block--notabs">
+					<pre class="code code--block">
+						<code>
+							import { l } from "shared/translations/i18n"; // Link
+							import { co } from "shared/translations/i18n"; // Country
+							import { cu } from "shared/translations/i18n"; // Currency
+						</code>
+					</pre>
+				</div>
+				<p>By default strings are pure text only. At times, you may want to render text on a page while also including html formatting. You can do so by appending the following post processor to your translation string like so.</p>
+				<div class="code__block code__block--notabs">
+					<pre class="code code--block">
+						<code>
+							t("components.authentication.workspaceModal.body", { postProcess: "markdown-jsx" })
+						</code>
+					</pre>
+				</div>
 			</section>
 			<section class="js-section">
 				<a name="9.0">
