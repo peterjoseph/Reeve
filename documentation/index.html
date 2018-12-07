@@ -2294,7 +2294,52 @@
 				<a name="9.0">
 					<h2 class="section__title">9.0 Testing</h2>
 				</a>
-				<p>Contents</p>
+				<p>Integration testing is a level of testing where components are combined together and tested as a group. Reeve provides inbuilt integration tests using the <a href="https://github.com/avajs/ava">Ava testing framework</a>.</p>
+				<p>To run the tests, make sure that the server is disabled, and simply run</p>
+				<div class="code__block code__block--notabs">
+					<pre class="code code--block">
+						<code>
+							npm run test
+						</code>
+					</pre>
+				</div>
+				<p>When ava is started, it puts the environment into a 'test' state where a limited server starts up. The front-end is not built.</p>
+				<p>At this point, a number of tests are performed against each of the endpoints defined in the router. The endpoints are called, and a response is returned and analyzed for accuracy.</p>
+				<p>All tests should pass successfully without fail. You may notice that in your database there are new clients and users that have been created; this is necessary to successfully perform the tests, as the database is not "mocked".</p>
+				<p>While some people could have an argument all day about the value of unit testing or integration testing. We've decided to leave it up to the user to define how their tests should work.</p>
+				<p>To build a basic test, do the following:</p>
+				<p>Create a new file in the directory <i>./tests_integration/</i> like so 02_xxxxxx_test_name_xxxxx.js</p>
+				<p>Import standard configuration properties to launch the server on test start.</p>
+				<div class="code__block code__block--notabs">
+					<pre class="code code--block">
+						<code>
+							const test = require("ava");
+							const uniqid = require("uniqid");
+							const app = require("../server/server.js");
+							const config = require("../config");
+							
+							let request = require("supertest");
+							
+							// Launch Server
+							const server = app.listen();
+							
+							// Define default server path
+							request = request(config.build.publicPath);
+						</code>
+					</pre>
+				</div>
+				<p>Create a new test with the 'test' function.</p>
+				<div class="code__block code__block--notabs">
+					<pre class="code code--block">
+						<code>
+							test("New test name", async t => {
+								&nbsp;const response = await request.get("internal/endpoint_url/");
+								&nbsp;t.is(response.status, 403); // Check the response
+							});
+						</code>
+					</pre>
+				</div>
+				<p>We recommend reading the following two pieces of documentation. The first is the <a href="https://github.com/avajs/ava">Ava test runner documentation</a>, and the second is the <a href="https://github.com/visionmedia/supertest">Supertest documentation</a>, a utility for testing node HTTP servers.</p>
 			</section>
 			<section class="js-section">
 				<a name="10.0">
