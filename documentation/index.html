@@ -2372,7 +2372,21 @@
 				<a name="11.0">
 					<h2 class="section__title">11.0 Database Updates</h2>
 				</a>
-				<p>Contents</p>
+				<p>We believe it important to establish good database management and development practices. A big part of this process involves knowing what changes have been made to the database and the impact of these changes.</p>
+				<p>In the directory <i>./database/scripts/</i> every new database change script is stored in a new sql file. When the script with the change is run, a record is stored in the <i>executedScripts</i> table in the database.</p>
+				<div class="code__block code__block--notabs">
+					<pre class="code code--block">
+						<code>
+							INSERT INTO
+							&nbsp;`executedScripts` (`name`, `description`, `createdDate`, `executedDate`)
+							VALUES
+							&nbsp;('180601_01', 'Create new client styling table', NOW(), NOW());
+						</code>
+					</pre>
+				</div>
+				<p>The purpose of doing this is to keep a record of the changes so that if any database problems start occuring, you have a potential focus area to investigate.</p>
+				<p>This is a significantly safer option than changing the database with no proper record of the changes that have been made.</p>
+				<p>We recommend following similar practices when building your own application.</p>
 			</section>
 			<section class="js-section">
 				<a name="12.0">
