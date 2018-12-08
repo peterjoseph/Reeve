@@ -31,3 +31,4 @@ This file is a record of notable changes made to Reeve.
 -   Sentry error reporting on front-end
 -   Papertrail logging
 -   API Rate Limiting
+-   Developer Documentation
