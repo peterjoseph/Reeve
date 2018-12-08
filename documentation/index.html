@@ -2345,7 +2345,28 @@
 				<a name="10.0">
 					<h2 class="section__title">10.0 Deployment</h2>
 				</a>
-				<p>Contents</p>
+				<p>Reeve is a very simple node.js package that has been extensively tested on the major cloud application hosting providers.</p>
+				<p>If you understand their managed services at a basic level, you won't have any issues with deploying Reeve. We've focused on making the process as smooth and generic as possible, to work with each of the major providers.</p>
+				<p><a href="https://aws.amazon.com/getting-started/projects/deploy-nodejs-web-app/">Deploying node.js packages on Amazon Web Services</a></p>
+				<p><a href="https://docs.microsoft.com/en-us/azure/app-service/app-service-web-get-started-nodejs">Deploying node.js packages on Azure</a></p>
+				<p><a href="https://console.bluemix.net/docs/runtimes/nodejs/getting-started.html">Deploying node.js packages on IBM CloudFoundry</a></p>
+				<p>This section will cover a basic deployment setup on <a href="https://www.heroku.com/">Heroku</a>.</p>
+				<p><b>Deploying to Heroku [Basic Guide]</b></p>
+				<p>Following opening an account on Heroku, select the 'Create new app' option from the drop-down menu.</p>
+				<p><img src="images/heroku-deploy-1.png"></p>
+				<p>Enter a name for your project, and select a region you would like your application to be deployed to.</p>
+				<p><img src="images/heroku-deploy-2.png"></p>
+				<p>Once the new project has been created, select the 'Settings' tab at the top of the page.</p>
+				<p><img src="images/heroku-deploy-3.png"></p>
+				<p>Scroll down to the section called 'Config Vars,' and click the button 'Reveal Config Vars.' In this section, you want to populate the fields with all of the environmental variables specified in the <i>config.env</i> file in the root directory of the application.</p>
+				<p><img src="images/heroku-deploy-4.png"></p>
+				<p>Click the 'Deploy' tab at the top of the page.</p>
+				<p><img src="images/heroku-deploy-5.png"></p>
+				<p>Under the 'Deployment method' section. Connect to your repository using one of the available methods. In this instance, our application files are stored on GitHub.</p>
+				<p><img src="images/heroku-deploy-6.png"></p>
+				<p>Click the 'Deploy Branch' button in the 'Manual Deploy' section at the bottom of the page.</p>
+				<p><img src="images/heroku-deploy-7.png"></p>
+				<p>Heroku will fetch the application files from the repository, automatically pull the packages, install the application and launch the server. <b>Easy!</b></p>
 			</section>
 			<section class="js-section">
 				<a name="11.0">
