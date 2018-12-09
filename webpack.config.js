@@ -1,7 +1,7 @@
 let path = require("path");
 let webpack = require("webpack");
 let config = require("./config");
-let UglifyJsPlugin = require("uglifyjs-webpack-plugin");
+let TerserPlugin = require("terser-webpack-plugin");
 let BundleAnalyzerPlugin = require("webpack-bundle-analyzer").BundleAnalyzerPlugin;
 let postcssPresetEnv = require("postcss-preset-env");
 let CaseSensitivePathsPlugin = require("case-sensitive-paths-webpack-plugin");
@@ -56,8 +56,8 @@ module.exports = {
 	},
 	optimization: {
 		minimizer: [
-			new UglifyJsPlugin({
-				uglifyOptions: {
+			new TerserPlugin({
+				terserOptions: {
 					warnings: false,
 					compress: true,
 					mangle: true,
