@@ -2,9 +2,17 @@
 
 This file is a record of notable changes made to Reeve.
 
+## [Upcoming]
+
+### Fixed
+
+-   Replaced UglifyJS with Terser to provide ES6 support
+-   Missing Bootstrap "Burger Menu Icon" replaced with SVG
+
 ## 1.0.1
 
 ### Fixed
+
 -   Event-stream security vulnerability
 -   Incorrect integration url pathways
 -   Updated key packages to resolve event-stream issue

@@ -19,6 +19,7 @@ import NavProfileMenu from "./components/NavProfileMenu";
 import NavDropdownLink from "./components/NavDropdownLink";
 import ActiveTrial from "./components/ActiveTrial";
 
+import BurgerMenu from "common/media/icons/BurgerMenu";
 import ProfileIcon from "common/media/icons/Profile";
 import CreditCardIcon from "common/media/icons/CreditCard";
 import SettingsIcon from "common/media/icons/Settings";
@@ -108,7 +109,7 @@ class Header extends Component {
 						</NavProfileMenu>
 					</ul>
 					<button className="navbar-toggler border-0 ml-2" type="button" aria-expanded="false" onClick={this.showMenu}>
-						<span className="navbar-toggler-icon" />
+						<BurgerMenu width="16px" height="16px" />
 					</button>
 					{user.get("subscriptionActive") && (
 						<Fragment>
