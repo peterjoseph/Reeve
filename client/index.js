@@ -8,10 +8,10 @@ import Raven from "raven-js";
 import { Provider } from "react-redux";
 import { I18nextProvider } from "react-i18next";
 
+import "./common/styles/entry.scss";
+
 import App from "./App";
 import store from "./common/store/store";
-
-import "./common/styles/entry.scss";
 
 // Load Sentry error reporting
 /* eslint-disable */
