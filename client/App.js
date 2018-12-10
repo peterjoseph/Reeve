@@ -10,7 +10,6 @@ import { MINIMUM_BROWSER_VERSIONS, REDUX_STATE } from "shared/constants";
 import { variableExists } from "shared/utilities/filters";
 
 import Router from "./Router";
-import GlobalStyling from "common/components/GlobalStyling";
 import Loading from "common/components/Loading";
 
 import { AUTHENTICATION, LOGIN_REJECTED, LOAD_USER_REJECTED, loginUser, loadUser } from "./common/store/reducers/authentication";
@@ -108,18 +107,7 @@ class App extends Component {
 	}
 
 	render() {
-		const { activeLanguage } = this.props;
-		return (
-			<Fragment>
-				{this.state.loading ? (
-					<Loading />
-				) : (
-					<GlobalStyling key={activeLanguage}>
-						<Router {...this.props} />
-					</GlobalStyling>
-				)}
-			</Fragment>
-		);
+		return <Fragment>{this.state.loading ? <Loading /> : <Router {...this.props} />}</Fragment>;
 	}
 }
 

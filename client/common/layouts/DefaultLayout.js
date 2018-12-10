@@ -1,16 +1,19 @@
 import React, { Component, Fragment } from "react";
 import PropTypes from "prop-types";
 import Header from "client/modules/header";
+import GlobalStyling from "common/components/GlobalStyling";
 
 class DefaultLayout extends Component {
 	render() {
 		const { children } = this.props;
 
 		return (
-			<Fragment>
-				<Header />
-				{children}
-			</Fragment>
+			<GlobalStyling>
+				<Fragment>
+					<Header />
+					{children}
+				</Fragment>
+			</GlobalStyling>
 		);
 	}
 }
