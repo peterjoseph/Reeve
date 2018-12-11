@@ -4,10 +4,15 @@ This file is a record of notable changes made to Reeve.
 
 ## [Upcoming]
 
+### Added
+
+-   Gif spinner on bundle.js loading
+
 ### Fixed
 
 -   Replaced UglifyJS with Terser to provide ES6 support
 -   Missing Bootstrap "Burger Menu Icon" replaced with SVG
+-   Client styling not visible on user dashboard
 
 ## 1.0.1
 
