@@ -1,4 +1,10 @@
 {
+	"supportArticles": {
+		"dashboard": "#",
+		"profile": "#",
+		"billing": "#",
+		"settings": "#"
+	},
 	"termsAndConditions": "#",
 	"privacyPolicy": "#"
 }

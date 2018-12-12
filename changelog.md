@@ -6,6 +6,7 @@ This file is a record of notable changes made to Reeve.
 
 ### Added
 
+-   Help bubble on navigation header
 -   Gif spinner on bundle.js loading
 
 ### Fixed

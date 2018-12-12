@@ -18,6 +18,7 @@ import NavMenuLink from "./components/NavMenuLink";
 import NavProfileMenu from "./components/NavProfileMenu";
 import NavDropdownLink from "./components/NavDropdownLink";
 import ActiveTrial from "./components/ActiveTrial";
+import HelpCaller from "./components/HelpCaller";
 
 import BurgerMenu from "common/media/icons/BurgerMenu";
 import ProfileIcon from "common/media/icons/Profile";
@@ -87,6 +88,7 @@ class Header extends Component {
 					<NavLogo />
 					<ul className="navbar-nav bd-navbar-nav flex-row ml-auto d-flex order-md-1">
 						<ActiveTrial />
+						<HelpCaller />
 						<NavProfileMenu>
 							{user.get("subscriptionActive") && (
 								<Fragment>
