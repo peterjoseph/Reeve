@@ -16,6 +16,7 @@ import VerifyEmail from "./components/VerifyEmail";
 import NavLogo from "./components/NavLogo";
 import NavMenuLink from "./components/NavMenuLink";
 import NavProfileMenu from "./components/NavProfileMenu";
+import NavProfileMenuLogo from "./components/NavProfileMenuLogo";
 import NavDropdownLink from "./components/NavDropdownLink";
 import ActiveTrial from "./components/ActiveTrial";
 import HelpCaller from "./components/HelpCaller";
@@ -90,6 +91,7 @@ class Header extends Component {
 						<ActiveTrial />
 						<HelpCaller />
 						<NavProfileMenu>
+							<NavProfileMenuLogo />
 							{user.get("subscriptionActive") && (
 								<Fragment>
 									<NavDropdownLink title={t("label.profile")} route={"/profile"} icon={<ProfileIcon width="16px" height="16px" />} />

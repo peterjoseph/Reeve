@@ -166,7 +166,7 @@ class ResetPassword extends Component {
 						<div className="p-3 p-sm-5 align-vertical justify-content-center">
 							<form className="w-100">
 								<div className="w-100 text-center mt-4 mb-4">
-									<span className="logo">{!workspaceURLPending && <img src={(clientStyle && clientStyle.get("logoImage")) || require("distribution/images/logo_small.png")} />}</span>
+									<span className="logo">{!workspaceURLPending && <img src={(clientStyle && clientStyle.get("logoImage")) || require("distribution/images/logo_dark.png")} />}</span>
 								</div>
 								{successMessage && <ServerSuccess path={{ reset: "success" }} message={t("success.resetPassword")} />}
 								<ServerError error={serverError} />
