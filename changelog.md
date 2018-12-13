@@ -6,6 +6,8 @@ This file is a record of notable changes made to Reeve.
 
 ### Added
 
+-   Reeve project icon returned to navigation header
+-   Client logo in profile dropdown menu
 -   Help bubble on navigation header
 -   Gif spinner on bundle.js loading
 
