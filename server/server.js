@@ -153,7 +153,9 @@ app.use(function noCache(req, res, next) {
 });
 
 // Initialise Email Service
-nodemailer.initialize();
+if (config.email.enabled) {
+	nodemailer.initialize();
+}
 
 // Initialise Stripe payment service
 if (config.stripe.enabled) {

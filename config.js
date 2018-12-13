@@ -33,6 +33,7 @@ let config = {
 		idle: parseInt(process.env.DB_POOL_IDLE)
 	},
 	email: {
+		enabled: process.env.EMAIL_ENABLED,
 		senderAddress: process.env.EMAIL_SENDER_ADDRESS,
 		host: process.env.EMAIL_HOST,
 		port: process.env.EMAIL_PORT,

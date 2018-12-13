@@ -6,16 +6,19 @@ This file is a record of notable changes made to Reeve.
 
 ### Added
 
+-   EMAIL_ENABLED environmental variable to enable/disable email sending
 -   Reeve project icon returned to navigation header
 -   Client logo in profile dropdown menu
 -   Help bubble on navigation header
 -   Gif spinner on bundle.js loading
+-   Safe regex checking when validating subdomains
 
 ### Fixed
 
 -   Replaced UglifyJS with Terser to provide ES6 support
 -   Missing Bootstrap "Burger Menu Icon" replaced with SVG
 -   Client styling not visible on user dashboard
+-   Deprecated updateAttributes sequelize function updated
 
 ## 1.0.1
 
