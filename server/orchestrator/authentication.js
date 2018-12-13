@@ -192,7 +192,7 @@ export function authenticateWithToken(req, res, next, browserLng) {
 						if (userObject === null) {
 							throw new ServerResponseError(403, t("validation.tokenInvalidOrExpired", { lng: browserLng }), { token: [t("validation.tokenInvalidOrExpired", { lng: browserLng })] });
 						}
-						userObject.updateAttributes({
+						userObject.update({
 							lastLoginDate: currentTime
 						});
 					} catch (error) {
@@ -244,7 +244,7 @@ export function authenticateWithoutToken(received, browserLng) {
 
 			// Update lastLoginDate in database
 			const currentTime = moment(new Date()).format("YYYY-MM-DD HH:mm:ss");
-			user.updateAttributes({
+			user.update({
 				lastLoginDate: currentTime
 			});
 
@@ -708,12 +708,12 @@ export function resetUserPassword(received, browserLng) {
 			const password = await bcrypt.hash(received.password, 10);
 
 			// store new password in user object
-			user.updateAttributes({
+			user.update({
 				password: password
 			});
 
 			// Update password reset code set activated to true
-			reset.updateAttributes({
+			reset.update({
 				activated: true
 			});
 
@@ -793,12 +793,12 @@ export function verifyUserEmail(received, browserLng) {
 			}
 
 			// Change email verified column to true
-			user.updateAttributes({
+			user.update({
 				emailVerified: true
 			});
 
 			// Update verify email code set activated to true
-			emailVerificationCode.updateAttributes({
+			emailVerificationCode.update({
 				activated: true
 			});
 
