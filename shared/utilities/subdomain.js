@@ -1,3 +1,5 @@
+const safe = require("safe-regex");
+
 // Extract a complete subdomain from a href url
 export function extractSubdomain(href) {
 	let regex = /(?:http[s]*\:\/\/)*(.*?)\.(?=[^\/]*\..{2,4})/;
@@ -7,10 +9,13 @@ export function extractSubdomain(href) {
 		regex = /(?:http[s]*\:\/\/)*(.*?)\.(?=[^\/]*)/;
 	}
 
-	// Determine subdomain using regex
-	const projectedDomain = href.match(regex);
-	if (projectedDomain && projectedDomain[1]) {
-		return projectedDomain[1];
+	// Validate regex expression and determine if subdomain is valid
+	if (safe(href.match(regex))) {
+		const validDomain = href.match(regex);
+		if (validDomain && validDomain[1]) {
+			return validDomain[1];
+		}
+		
 	}
 	return "";
 }
