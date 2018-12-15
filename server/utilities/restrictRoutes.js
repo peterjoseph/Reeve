@@ -51,7 +51,13 @@ export default function(properties = {}) {
 				return next(errorMsg);
 			}
 
-			return next();
+			// Continue if all requirements are passed
+			if (req.user !== null) {
+				return next();
+			}
+
+			// Default deny policy
+			return next(errorMsg);
 		})(req, res, next);
 	};
 }
