@@ -66,7 +66,10 @@ module.exports = {
 						beautify: false
 					},
 					toplevel: false,
-					keep_fnames: false
+					keep_fnames: false,
+					ie8: false,
+					keep_classnames: undefined,
+					safari10: false
 				}
 			})
 		],
