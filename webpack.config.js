@@ -5,6 +5,7 @@ let TerserPlugin = require("terser-webpack-plugin");
 let BundleAnalyzerPlugin = require("webpack-bundle-analyzer").BundleAnalyzerPlugin;
 let postcssPresetEnv = require("postcss-preset-env");
 let CaseSensitivePathsPlugin = require("case-sensitive-paths-webpack-plugin");
+let CompressionPlugin = require("compression-webpack-plugin");
 
 function loadPlugins() {
 	var plugins = [];
@@ -14,7 +15,14 @@ function loadPlugins() {
 			Promise: "imports-loader?this=>global!exports-loader?global.Promise!es6-promise",
 			fetch: "imports-loader?this=>global!exports-loader?global.fetch!whatwg-fetch"
 		}),
-		new webpack.ContextReplacementPlugin(/moment[/\\]locale$/, /en|it/)
+		new webpack.ContextReplacementPlugin(/moment[/\\]locale$/, /en|it/),
+		new CompressionPlugin({
+			filename: "[path].gz[query]",
+			algorithm: "gzip",
+			test: /\.js$|\.css$|\.html$|\.eot?.+$|\.ttf?.+$|\.woff?.+$|\.svg?.+$/,
+			threshold: 10240,
+			minRatio: 0.8
+		})
 	);
 	if (config.build.environment === "development") {
 		plugins.push(new webpack.HotModuleReplacementPlugin());
