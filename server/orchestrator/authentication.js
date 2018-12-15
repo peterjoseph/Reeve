@@ -238,7 +238,7 @@ export function authenticateWithoutToken(received, browserLng) {
 			}
 
 			// Create the JSON Web Token for the User
-			const token = jwt.sign({ userId: user.get("id"), clientId: client.get("id"), workspaceURL: client.get("workspaceURL") }, config.authentication.jwtSecret, {
+			const token = await jwt.sign({ userId: user.get("id"), clientId: client.get("id"), workspaceURL: client.get("workspaceURL") }, config.authentication.jwtSecret, {
 				expiresIn: config.authentication.expiry
 			});
 
