@@ -6,12 +6,13 @@ This file is a record of notable changes made to Reeve.
 
 ### Added
 
+-   Gzip compression to bundle.js files
 -   EMAIL_ENABLED environmental variable to enable/disable email sending
 -   Reeve project icon returned to navigation header
 -   Client logo in profile dropdown menu
 -   Help bubble on navigation header
--   Gif spinner on bundle.js loading
--   Safe regex checking when validating subdomains
+-   Gif image on bundle.js loading
+-   Safe regex confirmation when validating subdomains
 
 ### Fixed
 
