@@ -53,7 +53,6 @@
 		"body-parser": "^1.13.0",
 		"bootstrap": "^4.1.1",
 		"bowser": "^1.9.4",
-		"case-sensitive-paths-webpack-plugin": "^2.1.2",
 		"compression": "^1.7.3",
 		"compression-webpack-plugin": "^2.0.0",
 		"connect-redis": "^3.4.0",
@@ -128,7 +127,6 @@
 		"url-loader": "^1.1.2",
 		"validate.js": "^0.12.0",
 		"webpack": "^4.27.1",
-		"webpack-bundle-analyzer": "^3.0.3",
 		"webpack-dev-middleware": "^3.4.0",
 		"webpack-hot-middleware": "^2.24.3",
 		"whatwg-fetch": "^2.0.4",
@@ -136,6 +134,7 @@
 		"winston-papertrail": "^1.0.5"
 	},
 	"devDependencies": {
+		"case-sensitive-paths-webpack-plugin": "^2.1.2",
 		"eslint": "^5.10.0",
 		"eslint-config-standard": "^12.0.0",
 		"eslint-plugin-class-property": "^1.1.0",
@@ -148,6 +147,7 @@
 		"prettier": "1.15.3",
 		"react-hot-loader": "^4.3.12",
 		"webpack-cli": "^3.1.2",
+		"webpack-bundle-analyzer": "^3.0.3",
 		"webpack-dev-server": "^3.1.10"
 	}
 }

@@ -1,37 +1,11 @@
 let path = require("path");
 let webpack = require("webpack");
 let config = require("./config");
-let TerserPlugin = require("terser-webpack-plugin");
-let BundleAnalyzerPlugin = require("webpack-bundle-analyzer").BundleAnalyzerPlugin;
-let postcssPresetEnv = require("postcss-preset-env");
-let CaseSensitivePathsPlugin = require("case-sensitive-paths-webpack-plugin");
-let CompressionPlugin = require("compression-webpack-plugin");
 
 function loadPlugins() {
 	var plugins = [];
 	plugins.push(
-		new CaseSensitivePathsPlugin(),
-		new webpack.ProvidePlugin({
-			Promise: "imports-loader?this=>global!exports-loader?global.Promise!es6-promise",
-			fetch: "imports-loader?this=>global!exports-loader?global.fetch!whatwg-fetch"
-		}),
-		new webpack.ContextReplacementPlugin(/moment[/\\]locale$/, /en|it/),
-		new CompressionPlugin({
-			filename: "[path].gz[query]",
-			algorithm: "gzip",
-			test: /\.js$|\.css$|\.html$|\.eot?.+$|\.ttf?.+$|\.woff?.+$|\.svg?.+$/,
-			threshold: 10240,
-			minRatio: 0.8
-		})
-	);
-	if (config.build.environment === "development") {
-		plugins.push(new webpack.HotModuleReplacementPlugin());
-	}
-	if (config.development.analyzeBundle === true) {
-		plugins.push(new BundleAnalyzerPlugin());
-	}
-	// Define sentry environmental variables for client
-	plugins.push(
+		// Define sentry environmental variables for client
 		new webpack.DefinePlugin({
 			SENTRY_ENABLED: JSON.stringify(config.sentry.enabled),
 			SENTRY_DSN: JSON.stringify(config.sentry.dns),
@@ -39,31 +13,18 @@ function loadPlugins() {
 			BUILD_RELEASE: JSON.stringify(config.build.release),
 			BUILD_PROTOCOL: JSON.stringify(config.build.protocol),
 			BUILD_DOMAINPATH: JSON.stringify(config.build.domainPath)
-		})
+		}),
+		new webpack.ProvidePlugin({
+			Promise: "imports-loader?this=>global!exports-loader?global.Promise!es6-promise",
+			fetch: "imports-loader?this=>global!exports-loader?global.fetch!whatwg-fetch"
+		}),
+		new webpack.ContextReplacementPlugin(/moment[/\\]locale$/, /en|it/)
 	);
-	return plugins;
-}
 
-function loadEntryFile() {
-	if (config.build.environment === "development") {
-		return ["babel-polyfill", "whatwg-fetch", "./client/index.js", "webpack-hot-middleware/client", "webpack/hot/dev-server"];
-	} else {
-		return ["babel-polyfill", "whatwg-fetch", "./client/index.js"];
-	}
-}
-
-module.exports = {
-	mode: config.build.environment !== "test" ? config.build.environment : "none",
-	entry: loadEntryFile(),
-	output: {
-		path: path.join(__dirname, "distribution"),
-		filename: "bundle.js",
-		publicPath: config.build.publicPath,
-		hotUpdateChunkFilename: "hot/[id].[hash].hot-update.js",
-		hotUpdateMainFilename: "hot/[hash].hot-update.json"
-	},
-	optimization: {
-		minimizer: [
+	if (config.build.environment === "production") {
+		let TerserPlugin = require("terser-webpack-plugin");
+		let CompressionPlugin = require("compression-webpack-plugin");
+		plugins.push(
 			new TerserPlugin({
 				terserOptions: {
 					warnings: false,
@@ -79,9 +40,44 @@ module.exports = {
 					keep_classnames: undefined,
 					safari10: false
 				}
+			}),
+			new CompressionPlugin({
+				filename: "[path].gz[query]",
+				algorithm: "gzip",
+				test: /\.js$|\.css$|\.html$|\.eot?.+$|\.ttf?.+$|\.woff?.+$|\.svg?.+$/,
+				threshold: 10240,
+				minRatio: 0.8
 			})
-		],
-		mangleWasmImports: true
+		);
+	}
+	if (config.build.environment === "development") {
+		let CaseSensitivePathsPlugin = require("case-sensitive-paths-webpack-plugin");
+		plugins.push(new CaseSensitivePathsPlugin(), new webpack.HotModuleReplacementPlugin());
+
+		// Import BundleAnalyzer Plugin
+		if (config.development.analyzeBundle === true) {
+			let BundleAnalyzerPlugin = require("webpack-bundle-analyzer").BundleAnalyzerPlugin;
+			plugins.push(new BundleAnalyzerPlugin());
+		}
+	}
+	return plugins;
+}
+
+module.exports = {
+	mode: config.build.environment !== "test" ? config.build.environment : "none",
+	entry: () => {
+		if (config.build.environment === "development") {
+			return ["babel-polyfill", "whatwg-fetch", "./client/index.js", "webpack-hot-middleware/client", "webpack/hot/dev-server"];
+		} else {
+			return ["babel-polyfill", "whatwg-fetch", "./client/index.js"];
+		}
+	},
+	output: {
+		path: path.join(__dirname, "distribution"),
+		filename: "bundle.js",
+		publicPath: config.build.publicPath,
+		hotUpdateChunkFilename: "hot/[id].[hash].hot-update.js",
+		hotUpdateMainFilename: "hot/[hash].hot-update.json"
 	},
 	module: {
 		rules: [
@@ -110,7 +106,10 @@ module.exports = {
 						loader: "postcss-loader",
 						options: {
 							ident: "postcss",
-							plugins: () => [postcssPresetEnv()]
+							plugins: () => {
+								let postcssPresetEnv = require("postcss-preset-env");
+								return [postcssPresetEnv()];
+							}
 						}
 					},
 					{
