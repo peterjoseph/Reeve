@@ -9,7 +9,11 @@ const config = require("../../config");
 
 let transporter = null;
 
-function initialize() {
+function initialize(app) {
+	if (!config.email.enabled) {
+		return;
+	}
+
 	transporter = nodemailer.createTransport({
 		host: config.email.host,
 		port: config.email.port,

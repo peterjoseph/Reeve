@@ -1,79 +1,39 @@
 require("babel-register")({ presets: ["env"] }); // Transpile server code to support ES6
 
-let express = require("express"), // Express Server
-	helmet = require("helmet"),
-	path = require("path"),
-	fs = require("fs"),
-	https = require("https"),
-	cookieParser = require("cookie-parser"),
-	uniqid = require("uniqid"),
-	bodyParser = require("body-parser"),
-	favicon = require("serve-favicon"),
-	loadWebpack = require("./server.dev"),
-	routes = require("./services/router"), // Server Routes
-	winston = require("winston"),
-	expressWinston = require("express-winston"),
-	lusca = require("lusca"),
-	cors = require("cors"),
-	compression = require("compression"),
-	app = express(),
-	passport = require("./services/passport"),
-	redis = require("./services/redis"),
-	database = require("./services/sequelize"),
-	nodemailer = require("./services/nodemailer"),
-	i18n = require("../shared/translations/i18n"),
-	config = require("../config");
+let express = require("express");
+let path = require("path");
+let fs = require("fs");
+let https = require("https");
+let helmet = require("helmet");
+let cookieParser = require("cookie-parser");
+let uniqid = require("uniqid");
+let bodyParser = require("body-parser");
+let favicon = require("serve-favicon");
+let lusca = require("lusca");
+let cors = require("cors");
+let compression = require("compression");
 
-// Set up Sentry Error Reporting
-if (config.sentry.enabled && config.build.environment === "production") {
-	let raven = require("raven");
-	raven.config(config.sentry.dns).install();
-	app.use(raven.requestHandler());
-	app.use(raven.errorHandler());
-}
+let routes = require("./services/router");
+let devmiddleware = require("./services/devmiddleware");
+let sentry = require("./services/sentry");
+let papertrail = require("./services/papertrail");
+let passport = require("./services/passport");
+let redis = require("./services/redis");
+let database = require("./services/sequelize");
+let nodemailer = require("./services/nodemailer");
+let stripe = require("./services/stripe");
+let i18n = require("../shared/translations/i18n");
+let config = require("../config");
 
-// Set up Papertrail Logging
-let logger = null;
-if (config.papertrail.enabled) {
-	let WinstonPapertrail = require("winston-papertrail").Papertrail;
-	const PTtransport = new WinstonPapertrail({
-		host: config.papertrail.host,
-		port: config.papertrail.port,
-		hostname: config.papertrail.hostname,
-		level: config.papertrail.level,
-		handleExceptions: true,
-		logFormat: function(level, message) {
-			return "[" + level + "] " + message;
-		}
-	});
+let app = express();
 
-	// Connect express to Papertrail Logging
-	app.use(
-		expressWinston.logger({
-			transports: [PTtransport],
-			meta: false,
-			msg:
-				"{{req.ip}} - {{res.statusCode}} - {{req.method}} - {{res.responseTime}}ms - URL: {{req.url}} - ORIGINAL URL: {{req.originalUrl}} - HOST: {{req.headers['host']}} - ORIGIN: {{req.headers['origin']}} - REFERER: {{req.headers['referer']}} - USER AGENT: {{req.headers['user-agent']}}",
-			expressFormat: false,
-			colorize: true,
-			ignoreRoute: function(req, res) {
-				return false;
-			}
-		})
-	);
-
-	logger = new winston.Logger({
-		transports: [PTtransport]
-	});
-
-	PTtransport.on("error", function(err) {
-		logger && logger.error(err);
-	});
-
-	PTtransport.on("connect", function(message) {
-		logger && logger.info(message);
-	});
-}
+sentry.initialize(app); // Sentry Error Reporting
+papertrail.initialize(app); // Papertrail Logging
+redis.initialize(app); // Redis Session Store
+devmiddleware.initialize(app); // Webpack Development Middleware
+nodemailer.initialize(app); // Nodemailer Email Service
+stripe.initialize(app); // Stripe Payment Gateway
+passport.initialize(app); // Passport user authentication
 
 // Fetch Favicon
 app.use(favicon(path.join(__dirname, "../favicon.ico")));
@@ -83,9 +43,6 @@ app.set("view engine", "html");
 app.engine("html", function(path, options, callback) {
 	fs.readFile(path, "utf-8", callback);
 });
-
-// Load Redis Session Store
-redis.initialize(app);
 
 // Enable compression on Routes
 app.use(compression());
@@ -109,16 +66,8 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cookieParser());
 
-// Handle reloading server in development mode
-if (config.build.environment === "development") {
-	loadWebpack(app);
-}
-
 // Load static files from client directory
 app.use(express.static(path.join(__dirname, "../distribution")));
-
-// Initialise user authentication with passport
-passport.initialize(app);
 
 // Enable CORS for Routes
 app.use(
@@ -152,16 +101,6 @@ app.use(function noCache(req, res, next) {
 	next();
 });
 
-// Initialise Email Service
-if (config.email.enabled) {
-	nodemailer.initialize();
-}
-
-// Initialise Stripe payment service
-if (config.stripe.enabled) {
-	require("./services/stripe");
-}
-
 // Handle server errors
 app.use(function errorHandler(err, req, res, next) {
 	const status = err.status != null ? err.status : 500;
@@ -185,12 +124,12 @@ app.use(function errorHandler(err, req, res, next) {
 		err.uniqueErrorCode = code;
 
 		// Report full trace to Papertrail
-		logger && logger.error(err);
+		papertrail.logging() && papertrail.logging().error(err);
 
 		res.status(500).send({ status: 500, message: i18n.t("error.internalServerError", { code: code }) });
 	} else {
 		// Report basic error to Papertrail
-		logger && logger.error(response);
+		papertrail.logging() && papertrail.logging().error(response);
 
 		// Send response to client
 		res.status(status).send(response);

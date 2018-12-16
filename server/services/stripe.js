@@ -1,4 +1,12 @@
-const config = require("../../config");
+let config = require("../../config");
 const stripe = require("stripe")(config.stripe.secretKey);
 
-module.exports = {};
+function initialize(app) {
+	if (!config.stripe.enabled) {
+		return;
+	}
+}
+
+module.exports = {
+	initialize: initialize
+};

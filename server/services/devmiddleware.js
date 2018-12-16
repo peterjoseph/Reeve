@@ -1,10 +1,15 @@
 let webpack = require("webpack");
 let webpackDevMiddleware = require("webpack-dev-middleware");
 let webpackHotMiddleware = require("webpack-hot-middleware");
-let webpackConfig = require("../webpack.config.js");
+let webpackConfig = require("../../webpack.config.js");
 let webpackcompiler = webpack(webpackConfig);
+let config = require("../../config");
 
-function loadWebpack(app) {
+function initialize(app) {
+	if (config.build.environment !== "development") {
+		return;
+	}
+
 	app.use(
 		webpackDevMiddleware(webpackcompiler, {
 			publicPath: webpackConfig.output.publicPath,
@@ -18,4 +23,6 @@ function loadWebpack(app) {
 	return app;
 }
 
-module.exports = loadWebpack;
+module.exports = {
+	initialize: initialize
+};
