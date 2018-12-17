@@ -181,7 +181,7 @@ class SignIn extends Component {
 								<form className="w-100">
 									<div className="w-100 text-center mb-4">
 										<span className="logo">
-											{!workspaceURLPending && <img src={(clientStyle && clientStyle.get("logoImage")) || require("distribution/images/logo_dark.png")} />}
+											{!workspaceURLPending && <img src={(clientStyle && clientStyle.get("logoImage")) || require("distribution/images/logo_dark.svg")} />}
 										</span>
 									</div>
 									{workspaceURLStatus == REDUX_STATE.REJECTED && (

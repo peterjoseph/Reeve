@@ -20,6 +20,8 @@ import ServerSuccess from "common/components/ServerSuccess";
 import ServerError from "common/components/ServerError";
 import InputField from "common/components/inputs/InputField";
 
+import LogoIcon from "common/media/icons/Logo";
+
 class Forgot extends Component {
 	constructor(props) {
 		super(props);
@@ -139,7 +141,7 @@ class Forgot extends Component {
 						<div className="p-3 p-sm-5 align-vertical justify-content-center">
 							<form className="w-100">
 								<div className="w-100 text-center mt-4 mb-4">
-									<span className="logo">{!workspaceURLPending && <img src={(clientStyle && clientStyle.get("logoImage")) || require("distribution/images/logo_dark.png")} />}</span>
+									<span className="logo">{!workspaceURLPending && <img src={(clientStyle && clientStyle.get("logoImage")) || require("distribution/images/logo_dark.svg")} />}</span>
 								</div>
 								{successMessage && <ServerSuccess path={{ email: "success" }} message={t("success.forgotPasswordEmail")} />}
 								<ServerError error={serverError} />
