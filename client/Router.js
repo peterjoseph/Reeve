@@ -6,6 +6,7 @@ import { ROLE_TYPE, FEATURES, SUBSCRIPTION_TYPE } from "shared/constants";
 import User from "common/components/User";
 import RedirectComponent from "common/components/RedirectComponent";
 import AsyncComponent from "common/components/AsyncComponent";
+import GoogleAnalytics from "common/components/GoogleAnalytics";
 
 import DefaultLayout from "common/layouts/DefaultLayout";
 
@@ -23,6 +24,7 @@ class Router extends Component {
 		return (
 			<BrowserRouter>
 				<Fragment>
+					{<GoogleAnalytics.tracker />}
 					<Switch>
 						<RedirectComponent
 							exact

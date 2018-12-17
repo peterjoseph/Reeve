@@ -6,6 +6,7 @@ This file is a record of notable changes made to Reeve.
 
 ### Added
 
+-   Google Analytics Support
 -   Gzip compression to bundle.js files
 -   EMAIL_ENABLED environmental variable to enable/disable email sending
 -   Reeve project icon returned to navigation header

@@ -7,12 +7,14 @@ function loadPlugins() {
 	plugins.push(
 		// Define sentry environmental variables for client
 		new webpack.DefinePlugin({
-			SENTRY_ENABLED: JSON.stringify(config.sentry.enabled),
-			SENTRY_DSN: JSON.stringify(config.sentry.dns),
 			BUILD_ENVIRONMENT: JSON.stringify(config.build.environment),
 			BUILD_RELEASE: JSON.stringify(config.build.release),
 			BUILD_PROTOCOL: JSON.stringify(config.build.protocol),
-			BUILD_DOMAINPATH: JSON.stringify(config.build.domainPath)
+			BUILD_DOMAINPATH: JSON.stringify(config.build.domainPath),
+			GOOGLE_ANALYTICS_ENABLED: JSON.stringify(config.googleAnalytics.enabled),
+			GOOGLE_ANALYTICS_TRACKING: JSON.stringify(config.googleAnalytics.tracking),
+			SENTRY_ENABLED: JSON.stringify(config.sentry.enabled),
+			SENTRY_DSN: JSON.stringify(config.sentry.dns)
 		}),
 		new webpack.ProvidePlugin({
 			Promise: "imports-loader?this=>global!exports-loader?global.Promise!es6-promise",

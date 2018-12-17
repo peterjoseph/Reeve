@@ -32,8 +32,18 @@ let config = {
 		acquire: parseInt(process.env.DB_POOL_ACQUIRE),
 		idle: parseInt(process.env.DB_POOL_IDLE)
 	},
+	redis: {
+		host: process.env.R_HOST,
+		port: process.env.R_PORT,
+		pass: process.env.R_PASS,
+		proxy: String(process.env.R_PROXY) === "true",
+		secret: process.env.R_SECRET,
+		resave: String(process.env.R_RESAVE) === "true",
+		saveUninitialized: String(process.env.R_SAVE_UNINITIALIZED) === "true",
+		ttl: process.env.R_TTL
+	},
 	email: {
-		enabled: process.env.EMAIL_ENABLED,
+		enabled: String(process.env.EMAIL_ENABLED) === "true",
 		senderAddress: process.env.EMAIL_SENDER_ADDRESS,
 		host: process.env.EMAIL_HOST,
 		port: process.env.EMAIL_PORT,
@@ -44,18 +54,12 @@ let config = {
 		}
 	},
 	stripe: {
-		enabled: process.env.STRIPE_ENABLED,
+		enabled: String(process.env.STRIPE_ENABLED) === "true",
 		secretKey: process.env.STRIPE_SECRET_KEY
 	},
-	redis: {
-		host: process.env.R_HOST,
-		port: process.env.R_PORT,
-		pass: process.env.R_PASS,
-		proxy: String(process.env.R_PROXY) === "true",
-		secret: process.env.R_SECRET,
-		resave: String(process.env.R_RESAVE) === "true",
-		saveUninitialized: String(process.env.R_SAVE_UNINITIALIZED) === "true",
-		ttl: process.env.R_TTL
+	googleAnalytics: {
+		enabled: String(process.env.GOOGLE_ANALYTICS_ENABLED) === "true",
+		tracking: process.env.GOOGLE_ANALYTICS_TRACKING
 	},
 	sentry: {
 		enabled: String(process.env.SENTRY_ENABLED) === "true",

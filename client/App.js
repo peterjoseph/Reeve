@@ -10,6 +10,7 @@ import { MINIMUM_BROWSER_VERSIONS, REDUX_STATE } from "shared/constants";
 import { variableExists } from "shared/utilities/filters";
 
 import Router from "./Router";
+import GoogleAnalytics from "common/components/GoogleAnalytics";
 import Loading from "common/components/Loading";
 
 import { AUTHENTICATION, LOGIN_REJECTED, LOAD_USER_REJECTED, loginUser, loadUser } from "./common/store/reducers/authentication";
@@ -90,6 +91,9 @@ class App extends Component {
 						window.location.reload;
 						return;
 					}
+
+					// Set Google Analytics User
+					GoogleAnalytics.setUser(result.payload.userId);
 
 					// Load client specific default language
 					const lng = result.payload.language;
