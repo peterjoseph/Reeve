@@ -39,7 +39,7 @@ class NavProfileMenu extends Component {
 				<Link to="/" className={`nav-link m-1 ${menuVisible ? "active" : ""}`} aria-haspopup="true" aria-expanded={menuVisible ? "true" : "false"} onClick={this.showMenu}>
 					<span className="mr-2 text-capitalize dropdown-toggle d-none d-md-inline-block">{`${user.get("firstName")} ${user.get("lastName")}`}</span>
 					<div className="header-profile-icon rounded-circle d-inline-block">
-						<img src={user.get("profilePhoto") || require("distribution/images/avatar.png")} className="rounded-circle" />
+						<img src={user.get("profilePhoto") || require("distribution/images/avatar.svg")} className="rounded-circle" />
 					</div>
 				</Link>
 				<div className={`dropdown-menu dropdown-menu-right position-absolute ${menuVisible ? "d-block" : ""}`} data-no-collapse="true">
