@@ -5,9 +5,7 @@ let path = require("path");
 let fs = require("fs");
 let https = require("https");
 let helmet = require("helmet");
-let cookieParser = require("cookie-parser");
 let uniqid = require("uniqid");
-let bodyParser = require("body-parser");
 let favicon = require("serve-favicon");
 let lusca = require("lusca");
 let cors = require("cors");
@@ -27,6 +25,7 @@ let config = require("../config");
 
 let app = express();
 
+// Load application service dependencies
 sentry.initialize(app); // Sentry Error Reporting
 papertrail.initialize(app); // Papertrail Logging
 redis.initialize(app); // Redis Session Store
@@ -34,9 +33,6 @@ devmiddleware.initialize(app); // Webpack Development Middleware
 nodemailer.initialize(app); // Nodemailer Email Service
 stripe.initialize(app); // Stripe Payment Gateway
 passport.initialize(app); // Passport user authentication
-
-// Fetch Favicon
-app.use(favicon(path.join(__dirname, "../favicon.ico")));
 
 // Set up view engine
 app.set("view engine", "html");
@@ -61,14 +57,6 @@ app.use(
 // Enable Helmet for improved endpoint security
 app.use(helmet());
 
-// Handle HTTP Post body data
-app.use(bodyParser.json());
-app.use(bodyParser.urlencoded({ extended: false }));
-app.use(cookieParser());
-
-// Load static files from client directory
-app.use(express.static(path.join(__dirname, "../distribution")));
-
 // Enable CORS for Routes
 app.use(
 	cors({
@@ -77,6 +65,12 @@ app.use(
 		methods: "GET,PUT,POST"
 	})
 );
+
+// Fetch Favicon
+app.use(favicon(path.join(__dirname, "../favicon.ico")));
+
+// Load static files from client directory
+app.use(express.static(path.join(__dirname, "../distribution")));
 
 // Force redirect on routes if HTTPS enabled
 if (config.build.protocol === "https") {

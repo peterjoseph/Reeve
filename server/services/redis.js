@@ -3,6 +3,7 @@ let SessionRedisStore = require("connect-redis")(session);
 let RateLimit = require("express-rate-limit");
 let RateLimitRedisStore = require("rate-limit-redis");
 let redisClient = require("redis");
+let bodyParser = require("body-parser");
 let config = require("../../config");
 
 let redisInterface = redisClient.createClient({
@@ -15,6 +16,10 @@ let redisSessionStore = null;
 let redisRateLimitStore = null;
 
 function initialize(app) {
+	// Handle HTTP Post body data
+	app.use(bodyParser.json());
+	app.use(bodyParser.urlencoded({ extended: false }));
+
 	// Create Session Store
 	redisSessionStore = new SessionRedisStore({ client: redisInterface });
 
