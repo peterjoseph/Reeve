@@ -2,7 +2,7 @@
 
 This file is a record of notable changes made to Reeve.
 
-## [Upcoming]
+## 1.1.0
 
 ### Added
 
