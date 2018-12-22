@@ -9,8 +9,8 @@ import { t } from "shared/translations/i18n";
 
 import User from "common/components/User";
 
-// import SubscriptionList from "./components/SubscriptionList";
-import PaymentForm from "./components/PaymentForm";
+import SubscriptionList from "./components/SubscriptionList";
+// import PaymentForm from "./components/PaymentForm";
 
 class Billing extends Component {
 	render() {
@@ -20,7 +20,7 @@ class Billing extends Component {
 					<title>{t("headers.billing.title")}</title>
 					<meta name="description" content={t("headers.billing.description")} />
 				</Helmet>
-				<PaymentForm />
+				<SubscriptionList />
 			</Fragment>
 		);
 	}
