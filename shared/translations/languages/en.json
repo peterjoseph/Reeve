@@ -36,7 +36,13 @@
 		"settings": "Settings",
 		"billing": "Billing",
 		"oops": "Oops!",
-		"errorField": "Error:"
+		"errorField": "Error:",
+		"basic": "Basic",
+		"standard": "Standard",
+		"professional": "Professional",
+		"day": "Day",
+		"month": "Month",
+		"year": "Year"
 	},
 	"numbers": {
 		"1": "1",
@@ -84,7 +90,11 @@
 			"trialExpired": "Your trial has expired",
 			"trialDaysLeft": "{{ count }} day left on trial",
 			"trialDaysLeft_plural": "{{ count }} days left on trial",
-			"subscriptionExpired": "Your subscription has expired. The page you are looking for might have been disabled. Please contact your administrator."
+			"subscriptionExpired": "Your subscription has expired. The page you are looking for might have been disabled. Please contact your administrator.",
+			"timeRemaining": "$t(site.name) is free for {{ count }} day",
+			"timeRemaining_plural": "$t(site.name) is free for {{ count }} days",
+			"selectPlan": "Select a plan below to continue using $t(site.name) once your trial expires",
+			"chooseThisPlan": "Choose this Plan"
 		}
 	},
 	"headers": {
