@@ -42,7 +42,10 @@
 		"professional": "Professional",
 		"day": "Day",
 		"month": "Month",
-		"year": "Year"
+		"year": "Year",
+		"monthly": "Monthly",
+		"annually": "Annually",
+		"currency": "Currency"
 	},
 	"numbers": {
 		"1": "1",
@@ -95,7 +98,27 @@
 			"timeRemaining_plural": "$t(site.name) is free for {{ count }} days",
 			"selectPlan": "Select a plan below to continue using $t(site.name) once your trial expires",
 			"chooseThisPlan": "Choose this Plan",
-			"billingPeriod": "Billed {{ bp }} in {{ cu }}"
+			"billingPeriod": "Billed {{ bp }} in {{ cu }}",
+			"cardFeatures": {
+				"cardOne": {
+					"1": "Basic Feature 1",
+					"2": "Basic Feature 2",
+					"3": "Basic Feature 3",
+					"4": "Basic Feature 4"
+				},
+				"cardTwo": {
+					"1": "Standard Feature 1",
+					"2": "Standard Feature 2",
+					"3": "Standard Feature 3",
+					"4": "Standard Feature 4"
+				},
+				"cardThree": {
+					"1": "Professional Feature 1",
+					"2": "Professional Feature 2",
+					"3": "Professional Feature 3",
+					"4": "Professional Feature 4"
+				}
+			}
 		}
 	},
 	"headers": {

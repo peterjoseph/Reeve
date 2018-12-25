@@ -7,7 +7,7 @@ import moment from "moment";
 
 // import { } from "common/store/reducers/billing.js";
 import { SUBSCRIPTION_TYPE } from "shared/constants";
-import { t } from "shared/translations/i18n";
+import { t, cu } from "shared/translations/i18n";
 import User from "common/components/User";
 
 class SubscriptionList extends Component {
@@ -26,14 +26,17 @@ class SubscriptionList extends Component {
 
 		const billingPeriod = (
 			<select className="bg-white border-0 p-2">
-				<option>Monthly</option>
-				<option>Annually</option>
+				<option>{t("label.monthly")}</option>
+				<option>{t("label.annually")}</option>
 			</select>
 		);
 
 		const currency = (
 			<select className="bg-white border-0 p-2">
 				<option>USD</option>
+				<option>EUR</option>
+				<option>GBP</option>
+				<option>JPY</option>
 				<option>AUD</option>
 			</select>
 		);
@@ -45,7 +48,7 @@ class SubscriptionList extends Component {
 					<p className="lead">{t("components.billing.selectPlan")}</p>
 				</div>
 				<div className="card-deck mb-3 text-center">
-					<div className="card mb-4 shadow-sm">
+					<div className="card mb-4 rounded-0">
 						<div className="card-header">
 							<h4 className="my-0 font-weight-normal">{t("label.basic")}</h4>
 						</div>
@@ -54,17 +57,17 @@ class SubscriptionList extends Component {
 								$9 <small className="text-muted text-lowercase">/ {t("label.month")}</small>
 							</h1>
 							<ul className="list-unstyled mt-3 mb-4">
-								<li>Unique Feature 1</li>
-								<li>Unique Feature 2</li>
-								<li>Unique Feature 3</li>
-								<li>Unique Feature 4</li>
+								<li>{t("components.billing.cardFeatures.cardOne.1")}</li>
+								<li>{t("components.billing.cardFeatures.cardOne.2")}</li>
+								<li>{t("components.billing.cardFeatures.cardOne.3")}</li>
+								<li>{t("components.billing.cardFeatures.cardOne.4")}</li>
 							</ul>
 							<button type="button" className="btn btn-block btn-primary">
 								{t("components.billing.chooseThisPlan")}
 							</button>
 						</div>
 					</div>
-					<div className="card mb-4 shadow-sm">
+					<div className="card mb-4 rounded-0">
 						<div className="card-header">
 							<h4 className="my-0 font-weight-normal">{t("label.standard")}</h4>
 						</div>
@@ -73,17 +76,17 @@ class SubscriptionList extends Component {
 								$15 <small className="text-muted text-lowercase">/ {t("label.month")}</small>
 							</h1>
 							<ul className="list-unstyled mt-3 mb-4">
-								<li>Unique Feature 1</li>
-								<li>Unique Feature 2</li>
-								<li>Unique Feature 3</li>
-								<li>Unique Feature 4</li>
+								<li>{t("components.billing.cardFeatures.cardTwo.1")}</li>
+								<li>{t("components.billing.cardFeatures.cardTwo.2")}</li>
+								<li>{t("components.billing.cardFeatures.cardTwo.3")}</li>
+								<li>{t("components.billing.cardFeatures.cardTwo.4")}</li>
 							</ul>
 							<button type="button" className="btn btn-block btn-primary">
 								{t("components.billing.chooseThisPlan")}
 							</button>
 						</div>
 					</div>
-					<div className="card mb-4 shadow-sm">
+					<div className="card mb-4 rounded-0">
 						<div className="card-header">
 							<h4 className="my-0 font-weight-normal">{t("label.professional")}</h4>
 						</div>
@@ -92,10 +95,10 @@ class SubscriptionList extends Component {
 								$29 <small className="text-muted text-lowercase">/ {t("label.month")}</small>
 							</h1>
 							<ul className="list-unstyled mt-3 mb-4">
-								<li>Unique Feature 1</li>
-								<li>Unique Feature 2</li>
-								<li>Unique Feature 3</li>
-								<li>Unique Feature 4</li>
+								<li>{t("components.billing.cardFeatures.cardThree.1")}</li>
+								<li>{t("components.billing.cardFeatures.cardThree.2")}</li>
+								<li>{t("components.billing.cardFeatures.cardThree.3")}</li>
+								<li>{t("components.billing.cardFeatures.cardThree.4")}</li>
 							</ul>
 							<button type="button" className="btn btn-block btn-primary">
 								{t("components.billing.chooseThisPlan")}
@@ -105,7 +108,7 @@ class SubscriptionList extends Component {
 				</div>
 				<div className="text-center">
 					<span className="lead">
-						Billed {billingPeriod} in {currency}
+						{t("label.billing")}: {billingPeriod} &nbsp; &nbsp; {t("label.currency")}: {currency}
 					</span>
 				</div>
 			</div>
