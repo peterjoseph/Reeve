@@ -94,7 +94,8 @@
 			"timeRemaining": "$t(site.name) is free for {{ count }} day",
 			"timeRemaining_plural": "$t(site.name) is free for {{ count }} days",
 			"selectPlan": "Select a plan below to continue using $t(site.name) once your trial expires",
-			"chooseThisPlan": "Choose this Plan"
+			"chooseThisPlan": "Choose this Plan",
+			"billingPeriod": "Billed {{ bp }} in {{ cu }}"
 		}
 	},
 	"headers": {

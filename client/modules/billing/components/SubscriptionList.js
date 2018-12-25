@@ -24,6 +24,20 @@ class SubscriptionList extends Component {
 	render() {
 		const trialDaysLeft = this.trialDays(); // Calculate days left in trial
 
+		const billingPeriod = (
+			<select className="bg-white border-0 p-2">
+				<option>Monthly</option>
+				<option>Annually</option>
+			</select>
+		);
+
+		const currency = (
+			<select className="bg-white border-0 p-2">
+				<option>USD</option>
+				<option>AUD</option>
+			</select>
+		);
+
 		return (
 			<div className="container">
 				<div className="pricing-header px-3 py-3 pt-md-5 pb-md-4 mx-auto text-center">
@@ -88,6 +102,11 @@ class SubscriptionList extends Component {
 							</button>
 						</div>
 					</div>
+				</div>
+				<div className="text-center">
+					<span className="lead">
+						Billed {billingPeriod} in {currency}
+					</span>
 				</div>
 			</div>
 		);
