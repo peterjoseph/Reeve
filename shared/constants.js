@@ -47,6 +47,13 @@ module.exports = Object.freeze({
 		FULFILLED: "FULFILLED",
 		REJECTED: "REJECTED"
 	},
+	VALID_CURRENCIES: {
+		usd: "USD",
+		eur: "EUR",
+		gbp: "GBP",
+		jpy: "JPY",
+		aud: "AUD"
+	},
 	RESTRICTED_LANGUAGES: ["en", "it"],
 	RESTRICTED_DOMAINS: [
 		"domain",

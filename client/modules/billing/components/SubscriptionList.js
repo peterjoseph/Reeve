@@ -6,8 +6,8 @@ import { withRouter } from "react-router-dom";
 import moment from "moment";
 
 // import { } from "common/store/reducers/billing.js";
-import { SUBSCRIPTION_TYPE } from "shared/constants";
-import { t, cu } from "shared/translations/i18n";
+import { SUBSCRIPTION_TYPE, VALID_CURRENCIES } from "shared/constants";
+import { t } from "shared/translations/i18n";
 import User from "common/components/User";
 
 class SubscriptionList extends Component {
@@ -22,6 +22,7 @@ class SubscriptionList extends Component {
 	}
 
 	render() {
+		const subscriptionActive = this.props.user.get("subscriptionActive"); // Is subscription still active?
 		const trialDaysLeft = this.trialDays(); // Calculate days left in trial
 
 		const billingPeriod = (
@@ -33,19 +34,25 @@ class SubscriptionList extends Component {
 
 		const currency = (
 			<select className="bg-white border-0 p-2">
-				<option>USD</option>
-				<option>EUR</option>
-				<option>GBP</option>
-				<option>JPY</option>
-				<option>AUD</option>
+				<option>{VALID_CURRENCIES.usd}</option>
+				<option>{VALID_CURRENCIES.eur}</option>
+				<option>{VALID_CURRENCIES.gbp}</option>
+				<option>{VALID_CURRENCIES.jpy}</option>
+				<option>{VALID_CURRENCIES.aud}</option>
 			</select>
 		);
 
 		return (
 			<div className="container">
 				<div className="pricing-header px-3 py-3 pt-md-5 pb-md-4 mx-auto text-center">
-					<h1>{t("components.billing.timeRemaining", { count: trialDaysLeft })}</h1>
-					<p className="lead">{t("components.billing.selectPlan")}</p>
+					<h1>
+						{subscriptionActive
+							? trialDaysLeft > 0
+								? t("components.billing.timeRemaining", { count: trialDaysLeft })
+								: t("components.billing.timeRemaining<1")
+							: t("components.billing.timeRemaining_expired")}
+					</h1>
+					<p className="lead">{subscriptionActive ? t("components.billing.selectPlan") : t("components.billing.selectPlan_expired")}</p>
 				</div>
 				<div className="card-deck mb-3 text-center">
 					<div className="card mb-4 rounded-0">

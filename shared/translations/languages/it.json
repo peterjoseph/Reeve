@@ -84,6 +84,7 @@
 			"trialExpired": "Il tuo processo è scaduto",
 			"trialDaysLeft": "{{ count }} giorno rimasto in prova",
 			"trialDaysLeft_plural": "{{ count }} giorni rimasti in prova",
+			"trialDays<1": "Meno di 1 giorno rimasto in prova",
 			"subscriptionExpired": "Il tuo abbonamento è scaduto. La pagina che stai cercando potrebbe essere stata disabilitata. Si prega di contattare l'amministratore."
 		}
 	},
