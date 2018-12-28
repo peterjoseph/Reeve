@@ -5,6 +5,16 @@ import { withRouter } from "react-router-dom";
 import SubscriptionList from "./components/SubscriptionList";
 
 class NewSubscription extends Component {
+	constructor(props) {
+		super(props);
+
+		this.state = {
+			productId: "",
+			interval: "",
+			currency: ""
+		};
+	}
+
 	render() {
 		return (
 			<Fragment>

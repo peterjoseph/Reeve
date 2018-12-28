@@ -101,8 +101,8 @@
 			"timeRemaining_expired": "Simple and transparent pricing",
 			"selectPlan": "Select a plan below to continue using $t(site.name) once your trial expires",
 			"selectPlan_expired": "Select a plan below to continue using $t(site.name)",
+			"selectBillingFrequency": "Choose a billing frequency that best suits your needs",
 			"chooseThisPlan": "Choose this Plan",
-			"billingPeriod": "Billed {{ bp }} in {{ cu }}",
 			"cardFeatures": {
 				"cardOne": {
 					"1": "Basic Feature 1",

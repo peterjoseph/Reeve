@@ -7,7 +7,7 @@ import moment from "moment";
 
 // import { } from "common/store/reducers/billing.js";
 import { SUBSCRIPTION_TYPE, VALID_CURRENCIES } from "shared/constants";
-import { t } from "shared/translations/i18n";
+import { t, cu } from "shared/translations/i18n";
 import User from "common/components/User";
 
 class SubscriptionList extends Component {
@@ -26,19 +26,9 @@ class SubscriptionList extends Component {
 		const trialDaysLeft = this.trialDays(); // Calculate days left in trial
 
 		const billingPeriod = (
-			<select className="bg-white border-0 p-2">
+			<select className="bg-white border-1 p-2">
 				<option>{t("label.monthly")}</option>
 				<option>{t("label.annually")}</option>
-			</select>
-		);
-
-		const currency = (
-			<select className="bg-white border-0 p-2">
-				<option>{VALID_CURRENCIES.usd}</option>
-				<option>{VALID_CURRENCIES.eur}</option>
-				<option>{VALID_CURRENCIES.gbp}</option>
-				<option>{VALID_CURRENCIES.jpy}</option>
-				<option>{VALID_CURRENCIES.aud}</option>
 			</select>
 		);
 
@@ -61,7 +51,7 @@ class SubscriptionList extends Component {
 						</div>
 						<div className="card-body">
 							<h1 className="card-title pricing-card-title">
-								$9 <small className="text-muted text-lowercase">/ {t("label.month")}</small>
+								$9<sub className="h6">{cu("AU")}</sub> <small className="text-muted text-lowercase">/ {t("label.month")}</small>
 							</h1>
 							<ul className="list-unstyled mt-3 mb-4">
 								<li>{t("components.billing.cardFeatures.cardOne.1")}</li>
@@ -80,7 +70,7 @@ class SubscriptionList extends Component {
 						</div>
 						<div className="card-body">
 							<h1 className="card-title pricing-card-title">
-								$15 <small className="text-muted text-lowercase">/ {t("label.month")}</small>
+								$15<sub className="h6">{cu("AU")}</sub> <small className="text-muted text-lowercase">/ {t("label.month")}</small>
 							</h1>
 							<ul className="list-unstyled mt-3 mb-4">
 								<li>{t("components.billing.cardFeatures.cardTwo.1")}</li>
@@ -99,7 +89,7 @@ class SubscriptionList extends Component {
 						</div>
 						<div className="card-body">
 							<h1 className="card-title pricing-card-title">
-								$29 <small className="text-muted text-lowercase">/ {t("label.month")}</small>
+								$29<sub className="h6">{cu("AU")}</sub> <small className="text-muted text-lowercase">/ {t("label.month")}</small>
 							</h1>
 							<ul className="list-unstyled mt-3 mb-4">
 								<li>{t("components.billing.cardFeatures.cardThree.1")}</li>
@@ -113,9 +103,9 @@ class SubscriptionList extends Component {
 						</div>
 					</div>
 				</div>
-				<div className="text-center">
+				<div className="mb-4 text-center">
 					<span className="lead">
-						{t("label.billing")}: {billingPeriod} &nbsp; &nbsp; {t("label.currency")}: {currency}
+						{t("components.billing.selectBillingFrequency")} {billingPeriod}
 					</span>
 				</div>
 			</div>
