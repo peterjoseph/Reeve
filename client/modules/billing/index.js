@@ -10,8 +10,7 @@ import { BILLING, LOAD_CLIENT_SUBSCRIPTION_DETAILS_REJECTED, loadSubscriptionDet
 
 import User from "common/components/User";
 
-import SubscriptionList from "./components/SubscriptionList";
-// import PaymentForm from "./components/PaymentForm";
+import NewSubscription from "./components/NewSubscription";
 
 class Billing extends Component {
 	componentDidMount() {
@@ -31,7 +30,7 @@ class Billing extends Component {
 					<title>{t("headers.billing.title")}</title>
 					<meta name="description" content={t("headers.billing.description")} />
 				</Helmet>
-				<SubscriptionList />
+				<NewSubscription />
 			</Fragment>
 		);
 	}
