@@ -29,7 +29,7 @@ class ActiveTrial extends Component {
 		return (
 			<li className="nav-item mx-2 d-none d-md-inline-block">
 				<Link to={{ pathname: "/billing" }} className={"nav-link m-1"}>
-					<span className="badge badge-pill badge-secondary p-2">
+					<span className="badge badge-pill badge-secondary font-weight-normal p-2">
 						{subscriptionActive
 							? trialDaysLeft > 0
 								? t("components.billing.trialDaysLeft", { count: trialDaysLeft })
