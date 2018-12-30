@@ -6,3 +6,10 @@ export function clientSubscriptionDetails() {
 		method: "GET"
 	});
 }
+
+// Load List of available subscriptions
+export function availableSubscriptions() {
+	return fetch.perform("/api/available_subscriptions/", {
+		method: "GET"
+	});
+}
