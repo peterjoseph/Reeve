@@ -34,7 +34,13 @@ export default function language(state = DEFAULT_STATE, action) {
 		case LOAD_SUBSCRIPTION_LIST_PENDING:
 			return state.setIn(["subscriptionList", "status"], REDUX_STATE.PENDING);
 		case LOAD_SUBSCRIPTION_LIST_FULFILLED:
-			return state.setIn(["subscriptionList", "status"], REDUX_STATE.FULFILLED);
+			return state.set(
+				"subscriptionList",
+				fromJS({
+					status: REDUX_STATE.FULFILLED,
+					payload: action.payload.subscriptions
+				})
+			);
 		case LOAD_SUBSCRIPTION_LIST_REJECTED:
 			return state.set(
 				"subscriptionList",
