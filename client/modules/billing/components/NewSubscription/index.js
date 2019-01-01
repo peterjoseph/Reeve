@@ -29,6 +29,16 @@ class NewSubscription extends Component {
 		}
 	}
 
+	componentWillReceiveProps(nextProps) {
+		if (nextProps.loadSubscriptionList !== this.props.loadSubscriptionList) {
+			this.props.loadSubscriptionList().then(result => {
+				if (result.type === LOAD_SUBSCRIPTION_LIST_REJECTED) {
+					return;
+				}
+			});
+		}
+	}
+
 	render() {
 		return (
 			<Fragment>
