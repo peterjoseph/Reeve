@@ -3,7 +3,7 @@ import PropTypes from "prop-types";
 import { connect } from "react-redux";
 import { bindActionCreators } from "redux";
 import { withRouter } from "react-router-dom";
-import { REDUX_STATE } from "shared/constants";
+import { REDUX_STATE, PAYMENT_INTERVALS, PAYMENT_CURRENCY } from "shared/constants";
 import { BILLING, LOAD_SUBSCRIPTION_LIST_REJECTED, loadSubscriptionList } from "common/store/reducers/billing.js";
 
 import SubscriptionList from "./components/SubscriptionList";
@@ -14,9 +14,11 @@ class NewSubscription extends Component {
 
 		this.state = {
 			productId: "",
-			interval: "",
-			currency: ""
+			interval: PAYMENT_INTERVALS.MONTH,
+			currency: PAYMENT_CURRENCY.AUD
 		};
+
+		this.changeInterval = this.changeInterval.bind(this);
 	}
 
 	componentDidMount() {
@@ -29,10 +31,20 @@ class NewSubscription extends Component {
 		}
 	}
 
+	changeInterval(evt) {
+		if (evt.target.value == PAYMENT_INTERVALS.MONTH || evt.target.value == PAYMENT_INTERVALS.YEAR) {
+			this.setState({ interval: evt.target.value });
+		} else {
+			return;
+		}
+	}
+
 	render() {
+		const { interval } = this.state;
+
 		return (
 			<Fragment>
-				<SubscriptionList />
+				<SubscriptionList interval={interval} changeInterval={this.changeInterval} />
 			</Fragment>
 		);
 	}

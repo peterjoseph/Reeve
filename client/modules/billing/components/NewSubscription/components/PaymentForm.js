@@ -30,7 +30,7 @@ class PaymentPlan extends Component {
 					<div className="col-6">
 						<div className="p-4">
 							<div className="row p-3">
-								<div className="float-left">Billed Annually</div>
+								<div className="float-left">Billed Yearly</div>
 								<div className="float-right">$49.95</div>
 							</div>
 							<div className="my-4 py-2">
@@ -223,4 +223,11 @@ function mapDispatchToProps(dispatch) {
 	};
 }
 
-export default withRouter(User(connect(null, mapDispatchToProps)(PaymentPlan)));
+export default withRouter(
+	User(
+		connect(
+			null,
+			mapDispatchToProps
+		)(PaymentPlan)
+	)
+);

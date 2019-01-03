@@ -6,7 +6,7 @@ import { withRouter } from "react-router-dom";
 import moment from "moment";
 
 // import { } from "common/store/reducers/billing.js";
-import { SUBSCRIPTION_TYPE, VALID_CURRENCIES } from "shared/constants";
+import { SUBSCRIPTION_TYPE, PAYMENT_INTERVALS } from "shared/constants";
 import { t, cu } from "shared/translations/i18n";
 import User from "common/components/User";
 
@@ -22,13 +22,15 @@ class SubscriptionList extends Component {
 	}
 
 	render() {
-		const subscriptionActive = this.props.user.get("subscriptionActive"); // Is subscription still active?
+		const { user, interval, changeInterval } = this.props;
+
+		const subscriptionActive = user.get("subscriptionActive"); // Is subscription still active?
 		const trialDaysLeft = this.trialDays(); // Calculate days left in trial
 
 		const billingPeriod = (
-			<select className="bg-white border-1 p-2">
-				<option>{t("label.monthly")}</option>
-				<option>{t("label.annually")}</option>
+			<select className="bg-white border-1 p-2" value={interval} onChange={changeInterval}>
+				<option value={PAYMENT_INTERVALS.MONTH}>{t("label.monthly")}</option>
+				<option value={PAYMENT_INTERVALS.YEAR}>{t("label.yearly")}</option>
 			</select>
 		);
 
@@ -51,7 +53,8 @@ class SubscriptionList extends Component {
 						</div>
 						<div className="card-body">
 							<h1 className="card-title pricing-card-title">
-								$9<sub className="h6">{cu("AU")}</sub> <small className="text-muted text-lowercase">/ {t("label.month")}</small>
+								$9<sub className="h6">{cu("AU")}</sub>{" "}
+								<small className="text-muted text-lowercase">/ {interval === PAYMENT_INTERVALS.MONTH ? t("label.monthly") : t("label.yearly")}</small>
 							</h1>
 							<ul className="list-unstyled mt-3 mb-4">
 								<li>{t("components.billing.cardFeatures.cardOne.1")}</li>
@@ -70,7 +73,8 @@ class SubscriptionList extends Component {
 						</div>
 						<div className="card-body">
 							<h1 className="card-title pricing-card-title">
-								$15<sub className="h6">{cu("AU")}</sub> <small className="text-muted text-lowercase">/ {t("label.month")}</small>
+								$15<sub className="h6">{cu("AU")}</sub>{" "}
+								<small className="text-muted text-lowercase">/ {interval === PAYMENT_INTERVALS.MONTH ? t("label.monthly") : t("label.yearly")}</small>
 							</h1>
 							<ul className="list-unstyled mt-3 mb-4">
 								<li>{t("components.billing.cardFeatures.cardTwo.1")}</li>
@@ -89,7 +93,8 @@ class SubscriptionList extends Component {
 						</div>
 						<div className="card-body">
 							<h1 className="card-title pricing-card-title">
-								$29<sub className="h6">{cu("AU")}</sub> <small className="text-muted text-lowercase">/ {t("label.month")}</small>
+								$29<sub className="h6">{cu("AU")}</sub>{" "}
+								<small className="text-muted text-lowercase">/ {interval === PAYMENT_INTERVALS.MONTH ? t("label.monthly") : t("label.yearly")}</small>
 							</h1>
 							<ul className="list-unstyled mt-3 mb-4">
 								<li>{t("components.billing.cardFeatures.cardThree.1")}</li>
@@ -115,7 +120,9 @@ class SubscriptionList extends Component {
 
 SubscriptionList.propTypes = {
 	history: PropTypes.object,
-	user: PropTypes.object
+	user: PropTypes.object,
+	interval: PropTypes.string,
+	changeInterval: PropTypes.func
 };
 
 function mapDispatchToProps(dispatch) {
