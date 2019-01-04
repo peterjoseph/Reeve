@@ -15,7 +15,8 @@ class NewSubscription extends Component {
 		this.state = {
 			productId: "",
 			interval: PAYMENT_INTERVALS.MONTH,
-			currency: PAYMENT_CURRENCY.AUD
+			currency: PAYMENT_CURRENCY.AUD,
+			planSelected: false,
 		};
 
 		this.changeInterval = this.changeInterval.bind(this);

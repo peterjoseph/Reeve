@@ -53,8 +53,7 @@ class SubscriptionList extends Component {
 						</div>
 						<div className="card-body">
 							<h1 className="card-title pricing-card-title">
-								$9<sub className="h6">{cu("AU")}</sub>{" "}
-								<small className="text-muted text-lowercase">/ {interval === PAYMENT_INTERVALS.MONTH ? t("label.monthly") : t("label.yearly")}</small>
+								$9<sub className="h6">{cu("AU")}</sub> <small className="h5 text-muted"> / {interval === PAYMENT_INTERVALS.MONTH ? t("label.monthly") : t("label.yearly")}</small>
 							</h1>
 							<ul className="list-unstyled mt-3 mb-4">
 								<li>{t("components.billing.cardFeatures.cardOne.1")}</li>
@@ -73,8 +72,7 @@ class SubscriptionList extends Component {
 						</div>
 						<div className="card-body">
 							<h1 className="card-title pricing-card-title">
-								$15<sub className="h6">{cu("AU")}</sub>{" "}
-								<small className="text-muted text-lowercase">/ {interval === PAYMENT_INTERVALS.MONTH ? t("label.monthly") : t("label.yearly")}</small>
+								$15<sub className="h6">{cu("AU")}</sub> <small className="h5 text-muted"> / {interval === PAYMENT_INTERVALS.MONTH ? t("label.monthly") : t("label.yearly")}</small>
 							</h1>
 							<ul className="list-unstyled mt-3 mb-4">
 								<li>{t("components.billing.cardFeatures.cardTwo.1")}</li>
@@ -93,8 +91,7 @@ class SubscriptionList extends Component {
 						</div>
 						<div className="card-body">
 							<h1 className="card-title pricing-card-title">
-								$29<sub className="h6">{cu("AU")}</sub>{" "}
-								<small className="text-muted text-lowercase">/ {interval === PAYMENT_INTERVALS.MONTH ? t("label.monthly") : t("label.yearly")}</small>
+								$29<sub className="h6">{cu("AU")}</sub> <small className="h5 text-muted"> / {interval === PAYMENT_INTERVALS.MONTH ? t("label.monthly") : t("label.yearly")}</small>
 							</h1>
 							<ul className="list-unstyled mt-3 mb-4">
 								<li>{t("components.billing.cardFeatures.cardThree.1")}</li>
