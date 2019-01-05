@@ -5,6 +5,7 @@ import { bindActionCreators } from "redux";
 import { withRouter } from "react-router-dom";
 import { REDUX_STATE, PAYMENT_INTERVALS, PAYMENT_CURRENCY } from "shared/constants";
 import { BILLING, LOAD_SUBSCRIPTION_LIST_REJECTED, loadSubscriptionList } from "common/store/reducers/billing.js";
+import Loading from "common/components/Loading";
 
 import SubscriptionList from "./components/SubscriptionList";
 
@@ -16,7 +17,7 @@ class NewSubscription extends Component {
 			productId: "",
 			interval: PAYMENT_INTERVALS.MONTH,
 			currency: PAYMENT_CURRENCY.AUD,
-			planSelected: false,
+			planSelected: false
 		};
 
 		this.changeInterval = this.changeInterval.bind(this);
@@ -43,23 +44,21 @@ class NewSubscription extends Component {
 	render() {
 		const { interval } = this.state;
 
-		return (
-			<Fragment>
-				<SubscriptionList interval={interval} changeInterval={this.changeInterval} />
-			</Fragment>
-		);
+		return <Fragment>{this.props.loadSubscriptionListStatus !== REDUX_STATE.FULFILLED ? <Loading /> : <SubscriptionList interval={interval} changeInterval={this.changeInterval} />}</Fragment>;
 	}
 }
 
 NewSubscription.propTypes = {
 	history: PropTypes.object,
 	loadSubscriptionList: PropTypes.func,
-	loadSubscriptionListStatus: PropTypes.string
+	loadSubscriptionListStatus: PropTypes.oneOfType(["func", "string"]),
+	subscriptionList: PropTypes.array
 };
 
 function mapStateToProps(state) {
 	return {
-		loadSubscriptionListStatus: state.getIn([BILLING, "subscriptionList", "status"])
+		loadSubscriptionListStatus: state.getIn([BILLING, "subscriptionList", "status"]),
+		subscriptionList: state.getIn([BILLING, "subscriptionList", "payload"])
 	};
 }
 

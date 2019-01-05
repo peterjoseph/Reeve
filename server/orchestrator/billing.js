@@ -23,7 +23,10 @@ export function loadAvailableSubscriptions(browserLng) {
 		try {
 			// Load a list of available stripe plans
 			const loadPlans = await models().plans.findAll(
-				{ where: { newSubscriptionsAllowed: true, active: true }, attributes: { exclude: ["createdAt", "updatedAt", "newSubscriptionsAllowed", "active"] } },
+				{
+					where: { newSubscriptionsAllowed: true, active: true },
+					attributes: { exclude: ["name", "description", "stripeProductId", "createdAt", "updatedAt", "newSubscriptionsAllowed", "active"] }
+				},
 				{ transaction: transaction }
 			);
 
