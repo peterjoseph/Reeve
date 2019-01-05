@@ -21,6 +21,28 @@ class SubscriptionList extends Component {
 		return trialDaysLeft;
 	}
 
+	selectPricing(id, interval) {
+		const price = this.props.subscriptionList.find(row => {
+			return row.get("id") == id;
+		});
+		if (price !== null) {
+			if (interval == PAYMENT_INTERVALS.MONTH) {
+				const priceNum = price.get("monthlyPrice");
+				if (priceNum.indexOf(".") > -1 && priceNum.substring(priceNum.indexOf("."), priceNum.length) == ".00") {
+					return priceNum.substring(0, priceNum.indexOf("."));
+				}
+				return price.get("monthlyPrice");
+			} else {
+				const priceNum = price.get("yearlyPrice");
+				if (priceNum.indexOf(".") > -1 && priceNum.substring(priceNum.indexOf("."), priceNum.length) == ".00") {
+					return priceNum.substring(0, priceNum.indexOf("."));
+				}
+				return price.get("yearlyPrice");
+			}
+		}
+		return null;
+	}
+
 	render() {
 		const { user, interval, changeInterval } = this.props;
 
@@ -53,7 +75,8 @@ class SubscriptionList extends Component {
 						</div>
 						<div className="card-body">
 							<h1 className="card-title pricing-card-title">
-								$9<sub className="h6">{cu("AU")}</sub> <small className="h5 text-muted"> / {interval === PAYMENT_INTERVALS.MONTH ? t("label.monthly") : t("label.yearly")}</small>
+								${this.selectPricing(1, interval)}
+								<sub className="h6">{cu("AU")}</sub> <small className="h5 text-muted"> / {interval === PAYMENT_INTERVALS.MONTH ? t("label.monthly") : t("label.yearly")}</small>
 							</h1>
 							<ul className="list-unstyled mt-3 mb-4">
 								<li>{t("components.billing.cardFeatures.cardOne.1")}</li>
@@ -72,7 +95,8 @@ class SubscriptionList extends Component {
 						</div>
 						<div className="card-body">
 							<h1 className="card-title pricing-card-title">
-								$15<sub className="h6">{cu("AU")}</sub> <small className="h5 text-muted"> / {interval === PAYMENT_INTERVALS.MONTH ? t("label.monthly") : t("label.yearly")}</small>
+								${this.selectPricing(2, interval)}
+								<sub className="h6">{cu("AU")}</sub> <small className="h5 text-muted"> / {interval === PAYMENT_INTERVALS.MONTH ? t("label.monthly") : t("label.yearly")}</small>
 							</h1>
 							<ul className="list-unstyled mt-3 mb-4">
 								<li>{t("components.billing.cardFeatures.cardTwo.1")}</li>
@@ -91,7 +115,8 @@ class SubscriptionList extends Component {
 						</div>
 						<div className="card-body">
 							<h1 className="card-title pricing-card-title">
-								$29<sub className="h6">{cu("AU")}</sub> <small className="h5 text-muted"> / {interval === PAYMENT_INTERVALS.MONTH ? t("label.monthly") : t("label.yearly")}</small>
+								${this.selectPricing(3, interval)}
+								<sub className="h6">{cu("AU")}</sub> <small className="h5 text-muted"> / {interval === PAYMENT_INTERVALS.MONTH ? t("label.monthly") : t("label.yearly")}</small>
 							</h1>
 							<ul className="list-unstyled mt-3 mb-4">
 								<li>{t("components.billing.cardFeatures.cardThree.1")}</li>
@@ -119,7 +144,9 @@ SubscriptionList.propTypes = {
 	history: PropTypes.object,
 	user: PropTypes.object,
 	interval: PropTypes.string,
-	changeInterval: PropTypes.func
+	changeInterval: PropTypes.func,
+	subscriptionListStatus: PropTypes.string,
+	subscriptionList: PropTypes.object
 };
 
 function mapDispatchToProps(dispatch) {

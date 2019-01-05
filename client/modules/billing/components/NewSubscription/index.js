@@ -43,16 +43,25 @@ class NewSubscription extends Component {
 
 	render() {
 		const { interval } = this.state;
+		const { loadSubscriptionListStatus, subscriptionList } = this.props;
 
-		return <Fragment>{this.props.loadSubscriptionListStatus !== REDUX_STATE.FULFILLED ? <Loading /> : <SubscriptionList interval={interval} changeInterval={this.changeInterval} />}</Fragment>;
+		return (
+			<Fragment>
+				{this.props.loadSubscriptionListStatus !== REDUX_STATE.FULFILLED ? (
+					<Loading />
+				) : (
+					<SubscriptionList interval={interval} subscriptionListStatus={loadSubscriptionListStatus} subscriptionList={subscriptionList} changeInterval={this.changeInterval} />
+				)}
+			</Fragment>
+		);
 	}
 }
 
 NewSubscription.propTypes = {
 	history: PropTypes.object,
 	loadSubscriptionList: PropTypes.func,
-	loadSubscriptionListStatus: PropTypes.oneOfType(["func", "string"]),
-	subscriptionList: PropTypes.array
+	loadSubscriptionListStatus: PropTypes.string,
+	subscriptionList: PropTypes.object
 };
 
 function mapStateToProps(state) {
