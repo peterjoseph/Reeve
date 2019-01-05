@@ -1,11 +1,9 @@
 import React, { Component } from "react";
 import PropTypes from "prop-types";
 import { connect } from "react-redux";
-// import { bindActionCreators } from "redux";
 import { withRouter } from "react-router-dom";
 import moment from "moment";
 
-// import { } from "common/store/reducers/billing.js";
 import { SUBSCRIPTION_TYPE, PAYMENT_INTERVALS } from "shared/constants";
 import { t, cu } from "shared/translations/i18n";
 import User from "common/components/User";
@@ -44,7 +42,11 @@ class SubscriptionList extends Component {
 	}
 
 	render() {
-		const { user, interval, changeInterval } = this.props;
+		const { user, interval, changeInterval, selectPlan } = this.props;
+
+		const pricingBox1Id = 1;
+		const pricingBox2Id = 2;
+		const pricingBox3Id = 3;
 
 		const subscriptionActive = user.get("subscriptionActive"); // Is subscription still active?
 		const trialDaysLeft = this.trialDays(); // Calculate days left in trial
@@ -75,7 +77,7 @@ class SubscriptionList extends Component {
 						</div>
 						<div className="card-body">
 							<h1 className="card-title pricing-card-title">
-								${this.selectPricing(1, interval)}
+								${this.selectPricing(pricingBox1Id, interval)}
 								<sub className="h6">{cu("AU")}</sub> <small className="h5 text-muted"> / {interval === PAYMENT_INTERVALS.MONTH ? t("label.monthly") : t("label.yearly")}</small>
 							</h1>
 							<ul className="list-unstyled mt-3 mb-4">
@@ -84,7 +86,7 @@ class SubscriptionList extends Component {
 								<li>{t("components.billing.cardFeatures.cardOne.3")}</li>
 								<li>{t("components.billing.cardFeatures.cardOne.4")}</li>
 							</ul>
-							<button type="button" className="btn btn-block btn-primary">
+							<button type="button" value={pricingBox1Id} className="btn btn-block btn-primary" onClick={selectPlan}>
 								{t("components.billing.chooseThisPlan")}
 							</button>
 						</div>
@@ -95,7 +97,7 @@ class SubscriptionList extends Component {
 						</div>
 						<div className="card-body">
 							<h1 className="card-title pricing-card-title">
-								${this.selectPricing(2, interval)}
+								${this.selectPricing(pricingBox2Id, interval)}
 								<sub className="h6">{cu("AU")}</sub> <small className="h5 text-muted"> / {interval === PAYMENT_INTERVALS.MONTH ? t("label.monthly") : t("label.yearly")}</small>
 							</h1>
 							<ul className="list-unstyled mt-3 mb-4">
@@ -104,7 +106,7 @@ class SubscriptionList extends Component {
 								<li>{t("components.billing.cardFeatures.cardTwo.3")}</li>
 								<li>{t("components.billing.cardFeatures.cardTwo.4")}</li>
 							</ul>
-							<button type="button" className="btn btn-block btn-primary">
+							<button type="button" value={pricingBox2Id} className="btn btn-block btn-primary" onClick={selectPlan}>
 								{t("components.billing.chooseThisPlan")}
 							</button>
 						</div>
@@ -115,7 +117,7 @@ class SubscriptionList extends Component {
 						</div>
 						<div className="card-body">
 							<h1 className="card-title pricing-card-title">
-								${this.selectPricing(3, interval)}
+								${this.selectPricing(pricingBox3Id, interval)}
 								<sub className="h6">{cu("AU")}</sub> <small className="h5 text-muted"> / {interval === PAYMENT_INTERVALS.MONTH ? t("label.monthly") : t("label.yearly")}</small>
 							</h1>
 							<ul className="list-unstyled mt-3 mb-4">
@@ -124,7 +126,7 @@ class SubscriptionList extends Component {
 								<li>{t("components.billing.cardFeatures.cardThree.3")}</li>
 								<li>{t("components.billing.cardFeatures.cardThree.4")}</li>
 							</ul>
-							<button type="button" className="btn btn-block btn-primary">
+							<button type="button" value={pricingBox3Id} className="btn btn-block btn-primary" onClick={selectPlan}>
 								{t("components.billing.chooseThisPlan")}
 							</button>
 						</div>
@@ -145,21 +147,8 @@ SubscriptionList.propTypes = {
 	user: PropTypes.object,
 	interval: PropTypes.string,
 	changeInterval: PropTypes.func,
-	subscriptionListStatus: PropTypes.string,
+	selectPlan: PropTypes.func,
 	subscriptionList: PropTypes.object
 };
 
-function mapDispatchToProps(dispatch) {
-	return {
-		// billing: bindActionCreators(billingFunction, dispatch),
-	};
-}
-
-export default withRouter(
-	User(
-		connect(
-			null,
-			mapDispatchToProps
-		)(SubscriptionList)
-	)
-);
+export default withRouter(User(SubscriptionList));

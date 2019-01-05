@@ -21,6 +21,7 @@ class NewSubscription extends Component {
 		};
 
 		this.changeInterval = this.changeInterval.bind(this);
+		this.selectPlan = this.selectPlan.bind(this);
 	}
 
 	componentDidMount() {
@@ -41,16 +42,21 @@ class NewSubscription extends Component {
 		}
 	}
 
+	selectPlan(evt) {
+		evt.preventDefault();
+		// evt.target.value
+	}
+
 	render() {
 		const { interval } = this.state;
-		const { loadSubscriptionListStatus, subscriptionList } = this.props;
+		const { subscriptionList } = this.props;
 
 		return (
 			<Fragment>
 				{this.props.loadSubscriptionListStatus !== REDUX_STATE.FULFILLED ? (
 					<Loading />
 				) : (
-					<SubscriptionList interval={interval} subscriptionListStatus={loadSubscriptionListStatus} subscriptionList={subscriptionList} changeInterval={this.changeInterval} />
+					<SubscriptionList interval={interval} subscriptionList={subscriptionList} changeInterval={this.changeInterval} selectPlan={this.selectPlan} />
 				)}
 			</Fragment>
 		);
