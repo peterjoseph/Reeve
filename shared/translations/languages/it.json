@@ -36,7 +36,16 @@
 		"settings": "impostazioni",
 		"billing": "Fatturazione",
 		"oops": "Oops!",
-		"errorField": "Errore:"
+		"errorField": "Errore:",
+		"basic": "Di base",
+		"standard": "Standard",
+		"professional": "Professionale",
+		"day": "Giorno",
+		"month": "Mese",
+		"year": "Anno",
+		"monthly": "Mensile",
+		"yearly": "Annuale",
+		"currency": "Moneta"
 	},
 	"numbers": {
 		"1": "1",
@@ -85,7 +94,35 @@
 			"trialDaysLeft": "{{ count }} giorno rimasto in prova",
 			"trialDaysLeft_plural": "{{ count }} giorni rimasti in prova",
 			"trialDays<1": "Meno di 1 giorno rimasto in prova",
-			"subscriptionExpired": "Il tuo abbonamento è scaduto. La pagina che stai cercando potrebbe essere stata disabilitata. Si prega di contattare l'amministratore."
+			"subscriptionExpired": "Il tuo abbonamento è scaduto. La pagina che stai cercando potrebbe essere stata disabilitata. Si prega di contattare l'amministratore.",
+			"timeRemaining": "$t(site.name) è gratuito per {{ count }} giorno",
+			"timeRemaining<1": "$t(site.name) è ancora gratuito per meno di un giorno",
+			"timeRemaining_plural": "$t(site.name) è gratuito per {{ count }} giorni",
+			"timeRemaining_expired": "Prezzi semplici e trasparenti",
+			"selectPlan": "Seleziona un piano di seguito per continuare a utilizzare $t(site.name) una volta scaduto il periodo di prova",
+			"selectPlan_expired": "Seleziona un piano qui sotto per continuare a utilizzare $t(site.name)",
+			"selectBillingFrequency": "Scegli una frequenza di fatturazione più adatta alle tue esigenze",
+			"chooseThisPlan": "Scegli questo piano",
+			"cardFeatures": {
+				"cardOne": {
+					"1": "Funzionalità di base 1",
+					"2": "Funzionalità di base 2",
+					"3": "Funzionalità di base 3",
+					"4": "Funzionalità di base 4"
+				},
+				"cardTwo": {
+					"1": "Caratteristica standard 1",
+					"2": "Caratteristica standard 2",
+					"3": "Caratteristica standard 3",
+					"4": "Caratteristica standard 4"
+				},
+				"cardThree": {
+					"1": "Caratteristica professionale 1",
+					"2": "Caratteristica professionale 2",
+					"3": "Caratteristica professionale 3",
+					"4": "Caratteristica professionale 4"
+				}
+			}
 		}
 	},
 	"headers": {
