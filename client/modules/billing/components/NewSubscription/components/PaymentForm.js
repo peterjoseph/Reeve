@@ -12,16 +12,18 @@ import User from "common/components/User";
 
 class PaymentPlan extends Component {
 	render() {
+		const { deselectPlan } = this.props;
+
 		return (
 			<div className="container">
 				<div className="subscription-header px-3 py-3 pt-md-5 pb-md-4 mx-auto">
 					<div className="mb-3 text-center">
-						<button type="button" className="btn btn-secondary btn-sm float-left">
-							Back
-						</button>
-						<h1 className="display-6 font-weight-light">Subscription details</h1>
+						<h1 className="display-6">Subscription details</h1>
 						<p className="lead">
-							Start your <strong>Basic</strong> plan today. Pay securely with a credit card.
+							Start your <strong>Basic</strong> plan today. Pay securely with a credit card.{" "}
+							<button type="button" className="btn btn-secondary btn-sm" onClick={deselectPlan}>
+								Choose a different Plan
+							</button>
 						</p>
 					</div>
 				</div>
@@ -214,7 +216,8 @@ class PaymentPlan extends Component {
 
 PaymentPlan.propTypes = {
 	history: PropTypes.object,
-	user: PropTypes.object
+	user: PropTypes.object,
+	deselectPlan: PropTypes.func
 };
 
 function mapDispatchToProps(dispatch) {

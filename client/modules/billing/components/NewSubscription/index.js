@@ -8,13 +8,14 @@ import { BILLING, LOAD_SUBSCRIPTION_LIST_REJECTED, loadSubscriptionList } from "
 import Loading from "common/components/Loading";
 
 import SubscriptionList from "./components/SubscriptionList";
+import PaymentForm from "./components/PaymentForm";
 
 class NewSubscription extends Component {
 	constructor(props) {
 		super(props);
 
 		this.state = {
-			productId: "",
+			productId: null,
 			interval: PAYMENT_INTERVALS.MONTH,
 			currency: PAYMENT_CURRENCY.AUD,
 			planSelected: false
@@ -22,6 +23,7 @@ class NewSubscription extends Component {
 
 		this.changeInterval = this.changeInterval.bind(this);
 		this.selectPlan = this.selectPlan.bind(this);
+		this.deselectPlan = this.deselectPlan.bind(this);
 	}
 
 	componentDidMount() {
@@ -37,29 +39,31 @@ class NewSubscription extends Component {
 	changeInterval(evt) {
 		if (evt.target.value == PAYMENT_INTERVALS.MONTH || evt.target.value == PAYMENT_INTERVALS.YEAR) {
 			this.setState({ interval: evt.target.value });
-		} else {
-			return;
 		}
 	}
 
 	selectPlan(evt) {
 		evt.preventDefault();
-		// evt.target.value
+		this.setState({ productId: evt.target.value, planSelected: true });
+	}
+
+	deselectPlan() {
+		this.setState({ productId: null, planSelected: false });
 	}
 
 	render() {
-		const { interval } = this.state;
+		const { productId, interval, planSelected } = this.state;
 		const { subscriptionList } = this.props;
 
-		return (
-			<Fragment>
-				{this.props.loadSubscriptionListStatus !== REDUX_STATE.FULFILLED ? (
-					<Loading />
-				) : (
-					<SubscriptionList interval={interval} subscriptionList={subscriptionList} changeInterval={this.changeInterval} selectPlan={this.selectPlan} />
-				)}
-			</Fragment>
-		);
+		if (this.props.loadSubscriptionListStatus !== REDUX_STATE.FULFILLED) {
+			return <Loading />;
+		}
+
+		if (productId !== null && planSelected === true) {
+			return <PaymentForm deselectPlan={this.deselectPlan} />;
+		} else {
+			return <SubscriptionList interval={interval} subscriptionList={subscriptionList} changeInterval={this.changeInterval} selectPlan={this.selectPlan} />;
+		}
 	}
 }
 
