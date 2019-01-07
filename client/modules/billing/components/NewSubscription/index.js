@@ -5,8 +5,9 @@ import { bindActionCreators } from "redux";
 import { withRouter } from "react-router-dom";
 import { REDUX_STATE, PAYMENT_INTERVALS, PAYMENT_CURRENCY } from "shared/constants";
 import { BILLING, LOAD_SUBSCRIPTION_LIST_REJECTED, loadSubscriptionList } from "common/store/reducers/billing.js";
-import Loading from "common/components/Loading";
 
+import Loading from "common/components/Loading";
+import ServerError from "common/components/ServerError";
 import SubscriptionList from "./components/SubscriptionList";
 import PaymentForm from "./components/PaymentForm";
 
@@ -18,7 +19,9 @@ class NewSubscription extends Component {
 			productId: null,
 			interval: PAYMENT_INTERVALS.MONTH,
 			currency: PAYMENT_CURRENCY.AUD,
-			planSelected: false
+			planSelected: false,
+			loading: true,
+			serverError: null
 		};
 
 		this.changeInterval = this.changeInterval.bind(this);
@@ -27,13 +30,19 @@ class NewSubscription extends Component {
 	}
 
 	componentDidMount() {
-		if (this.props.loadSubscriptionListStatus !== REDUX_STATE.FULFILLED) {
-			this.props.loadSubscriptionList().then(result => {
-				if (result.type === LOAD_SUBSCRIPTION_LIST_REJECTED) {
-					return;
-				}
-			});
-		}
+		this.props.loadSubscriptionList().then(result => {
+			if (result.type === LOAD_SUBSCRIPTION_LIST_REJECTED) {
+				this.setState({
+					loading: false,
+					serverError: result.payload
+				});
+			} else {
+				this.setState({
+					loading: false,
+					serverError: null
+				});
+			}
+		});
 	}
 
 	changeInterval(evt) {
@@ -52,13 +61,20 @@ class NewSubscription extends Component {
 	}
 
 	render() {
-		const { productId, interval, planSelected } = this.state;
+		const { loading, productId, interval, planSelected, serverError } = this.state;
 		const { subscriptionList } = this.props;
 
-		if (this.props.loadSubscriptionListStatus !== REDUX_STATE.FULFILLED) {
+		// Display alert and redirect if there is a server error
+		if (serverError !== null) {
+			return <ServerError error={serverError} />;
+		}
+
+		// Show loading panel when subscriptions have not loaded
+		if (loading !== false) {
 			return <Loading />;
 		}
 
+		// Change panel if plan has been selected
 		if (productId !== null && planSelected === true) {
 			return <PaymentForm deselectPlan={this.deselectPlan} />;
 		} else {

@@ -32,7 +32,7 @@ export function loadAvailableSubscriptions(browserLng) {
 
 			// Throw an error if no stripe plans are available
 			if (loadPlans === null) {
-				throw new ServerResponseError(403, t("error.somethingWentWrong", { lng: browserLng }), null);
+				throw new ServerResponseError(500, t("error.somethingWentWrong", { lng: browserLng }), null);
 			}
 
 			const plans = JSON.parse(JSON.stringify(loadPlans));
