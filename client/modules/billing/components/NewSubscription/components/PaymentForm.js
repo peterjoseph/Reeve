@@ -6,6 +6,7 @@ import { withRouter } from "react-router-dom";
 
 // import { } from "common/store/reducers/billing.js";
 
+import Progress from "./Progress";
 import InputField from "common/components/inputs/InputField";
 import Checkbox from "common/components/inputs/Checkbox";
 import User from "common/components/User";
@@ -16,6 +17,7 @@ class PaymentPlan extends Component {
 
 		return (
 			<div className="container">
+				<Progress step={2} />
 				<div className="subscription-header px-3 py-3 pt-md-5 pb-md-4 mx-auto">
 					<div className="mb-3 text-center">
 						<h1 className="display-6">Subscription details</h1>

@@ -45,7 +45,8 @@
 		"year": "Year",
 		"monthly": "Monthly",
 		"yearly": "Yearly",
-		"currency": "Currency"
+		"currency": "Currency",
+		"finish": "Finish"
 	},
 	"numbers": {
 		"1": "1",
@@ -101,7 +102,9 @@
 			"timeRemaining_expired": "Simple and transparent pricing",
 			"selectPlan": "Select a plan below to continue using $t(site.name) once your trial expires",
 			"selectPlan_expired": "Select a plan below to continue using $t(site.name)",
-			"selectBillingFrequency": "Choose a billing frequency that best suits your needs",
+			"selectBillingFrequency": "You can also change the billing frequency to best suit your needs.",
+			"selectAPlan": "Select a Plan",
+			"billingDetails": "Billing Details",
 			"chooseThisPlan": "Choose this Plan",
 			"cardFeatures": {
 				"cardOne": {

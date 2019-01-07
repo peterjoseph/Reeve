@@ -45,7 +45,8 @@
 		"year": "Anno",
 		"monthly": "Mensile",
 		"yearly": "Annuale",
-		"currency": "Moneta"
+		"currency": "Moneta",
+		"finish": "Finire"
 	},
 	"numbers": {
 		"1": "1",
@@ -102,6 +103,8 @@
 			"selectPlan": "Seleziona un piano di seguito per continuare a utilizzare $t(site.name) una volta scaduto il periodo di prova",
 			"selectPlan_expired": "Seleziona un piano qui sotto per continuare a utilizzare $t(site.name)",
 			"selectBillingFrequency": "Scegli una frequenza di fatturazione più adatta alle tue esigenze",
+			"selectAPlan": "Seleziona un piano",
+			"billingDetails": "Dettagli di fatturazione",
 			"chooseThisPlan": "Scegli questo piano",
 			"cardFeatures": {
 				"cardOne": {

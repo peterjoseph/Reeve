@@ -6,6 +6,7 @@ import moment from "moment";
 import { SUBSCRIPTION_TYPE, PAYMENT_INTERVALS } from "shared/constants";
 import { t, cu } from "shared/translations/i18n";
 import User from "common/components/User";
+import Progress from "./Progress";
 
 class SubscriptionList extends Component {
 	trialDays() {
@@ -59,7 +60,8 @@ class SubscriptionList extends Component {
 
 		return (
 			<div className="container">
-				<div className="pricing-header px-3 py-3 pt-md-5 pb-md-4 mx-auto text-center">
+				<Progress step={1} />
+				<div className="pricing-header px-3 py-4 pt-md-5 pb-md-5 mx-auto text-center">
 					<h1>
 						{subscriptionActive
 							? trialDaysLeft > 0
@@ -69,8 +71,8 @@ class SubscriptionList extends Component {
 					</h1>
 					<p className="lead">{subscriptionActive ? t("components.billing.selectPlan") : t("components.billing.selectPlan_expired")}</p>
 				</div>
-				<div className="card-deck mb-3 text-center">
-					<div className="card mb-4 rounded-0">
+				<div className="card-deck py-3 px-2 text-center bg-light border">
+					<div className="card rounded-0">
 						<div className="card-header">
 							<h4 className="my-0 font-weight-normal">{t("label.basic")}</h4>
 						</div>
@@ -90,7 +92,7 @@ class SubscriptionList extends Component {
 							</button>
 						</div>
 					</div>
-					<div className="card mb-4 rounded-0">
+					<div className="card rounded-0">
 						<div className="card-header">
 							<h4 className="my-0 font-weight-normal">{t("label.standard")}</h4>
 						</div>
@@ -110,7 +112,7 @@ class SubscriptionList extends Component {
 							</button>
 						</div>
 					</div>
-					<div className="card mb-4 rounded-0">
+					<div className="card rounded-0">
 						<div className="card-header">
 							<h4 className="my-0 font-weight-normal">{t("label.professional")}</h4>
 						</div>
@@ -131,7 +133,7 @@ class SubscriptionList extends Component {
 						</div>
 					</div>
 				</div>
-				<div className="mb-4 text-center">
+				<div className="my-5 text-center">
 					<span className="lead">
 						{t("components.billing.selectBillingFrequency")} {billingPeriod}
 					</span>
