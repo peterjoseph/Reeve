@@ -71,9 +71,9 @@ class SubscriptionList extends Component {
 					</h1>
 					<p className="lead">{subscriptionActive ? t("components.billing.selectPlan") : t("components.billing.selectPlan_expired")}</p>
 				</div>
-				<div className="card-deck py-3 px-2 text-center bg-light border">
+				<div className="card-deck py-3 text-center">
 					<div className="card rounded-0">
-						<div className="card-header">
+						<div className="card-header bg-white">
 							<h4 className="my-0 font-weight-normal">{t("label.basic")}</h4>
 						</div>
 						<div className="card-body">
@@ -93,7 +93,7 @@ class SubscriptionList extends Component {
 						</div>
 					</div>
 					<div className="card rounded-0">
-						<div className="card-header">
+						<div className="card-header bg-white">
 							<h4 className="my-0 font-weight-normal">{t("label.standard")}</h4>
 						</div>
 						<div className="card-body">
@@ -113,7 +113,7 @@ class SubscriptionList extends Component {
 						</div>
 					</div>
 					<div className="card rounded-0">
-						<div className="card-header">
+						<div className="card-header bg-white">
 							<h4 className="my-0 font-weight-normal">{t("label.professional")}</h4>
 						</div>
 						<div className="card-body">

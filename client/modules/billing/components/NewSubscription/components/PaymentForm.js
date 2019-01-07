@@ -20,7 +20,7 @@ class PaymentPlan extends Component {
 				<Progress step={2} />
 				<div className="subscription-header px-3 py-3 pt-md-5 pb-md-4 mx-auto">
 					<div className="mb-3 text-center">
-						<h1 className="display-6">Subscription details</h1>
+						<h1 className="display-6">Billing Details</h1>
 						<p className="lead">
 							Start your <strong>Basic</strong> plan today. Pay securely with a credit card.{" "}
 							<button type="button" className="btn btn-secondary btn-sm" onClick={deselectPlan}>
