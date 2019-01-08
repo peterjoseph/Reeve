@@ -25,23 +25,22 @@ module.exports = function(sequelize, DataTypes) {
 				allowNull: true,
 				field: "stripeProductId"
 			},
+			billingInterval: {
+				type: DataTypes.INTEGER(16).UNSIGNED,
+				allowNull: true,
+				field: "billingInterval"
+			},
 			currency: {
 				type: DataTypes.CHAR(3),
 				allowNull: false,
 				defaultValue: "aud",
 				field: "currency"
 			},
-			monthlyPrice: {
+			price: {
 				type: DataTypes.DECIMAL(6,2),
 				allowNull: false,
 				defaultValue: "0.00",
-				field: "monthlyPrice"
-			},
-			yearlyPrice: {
-				type: DataTypes.DECIMAL(6,2),
-				allowNull: false,
-				defaultValue: "0.00",
-				field: "yearlyPrice"
+				field: "price"
 			},
 			newSubscriptionsAllowed: {
 				type: DataTypes.INTEGER(1),
