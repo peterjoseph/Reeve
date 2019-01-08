@@ -1,4 +1,4 @@
-import React, { Component } from "react";
+import React, { Component, Fragment } from "react";
 import PropTypes from "prop-types";
 import { withRouter } from "react-router-dom";
 import moment from "moment";
@@ -59,86 +59,88 @@ class SubscriptionList extends Component {
 		);
 
 		return (
-			<div className="container">
+			<Fragment>
 				<Progress step={1} />
-				<div className="pricing-header px-3 py-4 pt-md-5 pb-md-5 mx-auto text-center">
-					<h1>
-						{subscriptionActive
-							? trialDaysLeft > 0
-								? t("components.billing.timeRemaining", { count: trialDaysLeft })
-								: t("components.billing.timeRemaining<1")
-							: t("components.billing.timeRemaining_expired")}
-					</h1>
-					<p className="lead">{subscriptionActive ? t("components.billing.selectPlan") : t("components.billing.selectPlan_expired")}</p>
-				</div>
-				<div className="card-deck py-3 text-center">
-					<div className="card rounded-0">
-						<div className="card-header bg-white">
-							<h4 className="my-0 font-weight-normal">{t("label.basic")}</h4>
+				<div className="container py-3">
+					<div className="pricing-header px-3 py-4 pt-md-5 pb-md-5 mx-auto text-center">
+						<h1>
+							{subscriptionActive
+								? trialDaysLeft > 0
+									? t("components.billing.timeRemaining", { count: trialDaysLeft })
+									: t("components.billing.timeRemaining<1")
+								: t("components.billing.timeRemaining_expired")}
+						</h1>
+						<p className="lead">{subscriptionActive ? t("components.billing.selectPlan") : t("components.billing.selectPlan_expired")}</p>
+					</div>
+					<div className="card-deck py-3 text-center">
+						<div className="card rounded-0">
+							<div className="card-header bg-white">
+								<h4 className="my-0 font-weight-normal">{t("label.basic")}</h4>
+							</div>
+							<div className="card-body">
+								<h1 className="card-title pricing-card-title">
+									${this.selectPricing(pricingBox1Id, interval)}
+									<sub className="h6">{cu("AU")}</sub> <small className="h5 text-muted"> / {interval === PAYMENT_INTERVALS.MONTH ? t("label.monthly") : t("label.yearly")}</small>
+								</h1>
+								<ul className="list-unstyled mt-3 mb-4">
+									<li>{t("components.billing.cardFeatures.cardOne.1")}</li>
+									<li>{t("components.billing.cardFeatures.cardOne.2")}</li>
+									<li>{t("components.billing.cardFeatures.cardOne.3")}</li>
+									<li>{t("components.billing.cardFeatures.cardOne.4")}</li>
+								</ul>
+								<button type="button" value={pricingBox1Id} className="btn btn-block btn-primary" onClick={selectPlan}>
+									{t("components.billing.chooseThisPlan")}
+								</button>
+							</div>
 						</div>
-						<div className="card-body">
-							<h1 className="card-title pricing-card-title">
-								${this.selectPricing(pricingBox1Id, interval)}
-								<sub className="h6">{cu("AU")}</sub> <small className="h5 text-muted"> / {interval === PAYMENT_INTERVALS.MONTH ? t("label.monthly") : t("label.yearly")}</small>
-							</h1>
-							<ul className="list-unstyled mt-3 mb-4">
-								<li>{t("components.billing.cardFeatures.cardOne.1")}</li>
-								<li>{t("components.billing.cardFeatures.cardOne.2")}</li>
-								<li>{t("components.billing.cardFeatures.cardOne.3")}</li>
-								<li>{t("components.billing.cardFeatures.cardOne.4")}</li>
-							</ul>
-							<button type="button" value={pricingBox1Id} className="btn btn-block btn-primary" onClick={selectPlan}>
-								{t("components.billing.chooseThisPlan")}
-							</button>
+						<div className="card rounded-0">
+							<div className="card-header bg-white">
+								<h4 className="my-0 font-weight-normal">{t("label.standard")}</h4>
+							</div>
+							<div className="card-body">
+								<h1 className="card-title pricing-card-title">
+									${this.selectPricing(pricingBox2Id, interval)}
+									<sub className="h6">{cu("AU")}</sub> <small className="h5 text-muted"> / {interval === PAYMENT_INTERVALS.MONTH ? t("label.monthly") : t("label.yearly")}</small>
+								</h1>
+								<ul className="list-unstyled mt-3 mb-4">
+									<li>{t("components.billing.cardFeatures.cardTwo.1")}</li>
+									<li>{t("components.billing.cardFeatures.cardTwo.2")}</li>
+									<li>{t("components.billing.cardFeatures.cardTwo.3")}</li>
+									<li>{t("components.billing.cardFeatures.cardTwo.4")}</li>
+								</ul>
+								<button type="button" value={pricingBox2Id} className="btn btn-block btn-primary" onClick={selectPlan}>
+									{t("components.billing.chooseThisPlan")}
+								</button>
+							</div>
+						</div>
+						<div className="card rounded-0">
+							<div className="card-header bg-white">
+								<h4 className="my-0 font-weight-normal">{t("label.professional")}</h4>
+							</div>
+							<div className="card-body">
+								<h1 className="card-title pricing-card-title">
+									${this.selectPricing(pricingBox3Id, interval)}
+									<sub className="h6">{cu("AU")}</sub> <small className="h5 text-muted"> / {interval === PAYMENT_INTERVALS.MONTH ? t("label.monthly") : t("label.yearly")}</small>
+								</h1>
+								<ul className="list-unstyled mt-3 mb-4">
+									<li>{t("components.billing.cardFeatures.cardThree.1")}</li>
+									<li>{t("components.billing.cardFeatures.cardThree.2")}</li>
+									<li>{t("components.billing.cardFeatures.cardThree.3")}</li>
+									<li>{t("components.billing.cardFeatures.cardThree.4")}</li>
+								</ul>
+								<button type="button" value={pricingBox3Id} className="btn btn-block btn-primary" onClick={selectPlan}>
+									{t("components.billing.chooseThisPlan")}
+								</button>
+							</div>
 						</div>
 					</div>
-					<div className="card rounded-0">
-						<div className="card-header bg-white">
-							<h4 className="my-0 font-weight-normal">{t("label.standard")}</h4>
-						</div>
-						<div className="card-body">
-							<h1 className="card-title pricing-card-title">
-								${this.selectPricing(pricingBox2Id, interval)}
-								<sub className="h6">{cu("AU")}</sub> <small className="h5 text-muted"> / {interval === PAYMENT_INTERVALS.MONTH ? t("label.monthly") : t("label.yearly")}</small>
-							</h1>
-							<ul className="list-unstyled mt-3 mb-4">
-								<li>{t("components.billing.cardFeatures.cardTwo.1")}</li>
-								<li>{t("components.billing.cardFeatures.cardTwo.2")}</li>
-								<li>{t("components.billing.cardFeatures.cardTwo.3")}</li>
-								<li>{t("components.billing.cardFeatures.cardTwo.4")}</li>
-							</ul>
-							<button type="button" value={pricingBox2Id} className="btn btn-block btn-primary" onClick={selectPlan}>
-								{t("components.billing.chooseThisPlan")}
-							</button>
-						</div>
-					</div>
-					<div className="card rounded-0">
-						<div className="card-header bg-white">
-							<h4 className="my-0 font-weight-normal">{t("label.professional")}</h4>
-						</div>
-						<div className="card-body">
-							<h1 className="card-title pricing-card-title">
-								${this.selectPricing(pricingBox3Id, interval)}
-								<sub className="h6">{cu("AU")}</sub> <small className="h5 text-muted"> / {interval === PAYMENT_INTERVALS.MONTH ? t("label.monthly") : t("label.yearly")}</small>
-							</h1>
-							<ul className="list-unstyled mt-3 mb-4">
-								<li>{t("components.billing.cardFeatures.cardThree.1")}</li>
-								<li>{t("components.billing.cardFeatures.cardThree.2")}</li>
-								<li>{t("components.billing.cardFeatures.cardThree.3")}</li>
-								<li>{t("components.billing.cardFeatures.cardThree.4")}</li>
-							</ul>
-							<button type="button" value={pricingBox3Id} className="btn btn-block btn-primary" onClick={selectPlan}>
-								{t("components.billing.chooseThisPlan")}
-							</button>
-						</div>
+					<div className="my-5 text-center">
+						<span className="lead">
+							{t("components.billing.selectBillingFrequency")} {billingPeriod}
+						</span>
 					</div>
 				</div>
-				<div className="my-5 text-center">
-					<span className="lead">
-						{t("components.billing.selectBillingFrequency")} {billingPeriod}
-					</span>
-				</div>
-			</div>
+			</Fragment>
 		);
 	}
 }
