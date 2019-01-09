@@ -66,7 +66,7 @@ class SubscriptionList extends Component {
 					</div>
 					<div className="card-deck py-3 text-center">
 						<div className="card rounded-0">
-							<div className="card-header bg-white">
+							<div className="card-header bg-white border-bottom-0">
 								<h4 className="my-0 font-weight-normal">{t("label.basic")}</h4>
 							</div>
 							<div className="card-body">
@@ -74,7 +74,7 @@ class SubscriptionList extends Component {
 									${this.selectPricing(pricingBox1Id)}
 									<small className="h5 text-muted"> / {interval === PAYMENT_INTERVALS.MONTH ? t("label.month") : t("label.year")}</small>
 								</h1>
-								<ul className="list-unstyled mt-3 mb-4">
+								<ul className="list-unstyled my-4">
 									<li>{t("components.billing.cardFeatures.cardOne.1")}</li>
 									<li>{t("components.billing.cardFeatures.cardOne.2")}</li>
 									<li>{t("components.billing.cardFeatures.cardOne.3")}</li>
@@ -86,7 +86,7 @@ class SubscriptionList extends Component {
 							</div>
 						</div>
 						<div className="card rounded-0">
-							<div className="card-header bg-white">
+							<div className="card-header bg-white border-bottom-0">
 								<h4 className="my-0 font-weight-normal">{t("label.standard")}</h4>
 							</div>
 							<div className="card-body">
@@ -94,7 +94,7 @@ class SubscriptionList extends Component {
 									${this.selectPricing(pricingBox2Id)}
 									<small className="h5 text-muted"> / {interval === PAYMENT_INTERVALS.MONTH ? t("label.month") : t("label.year")}</small>
 								</h1>
-								<ul className="list-unstyled mt-3 mb-4">
+								<ul className="list-unstyled my-4">
 									<li>{t("components.billing.cardFeatures.cardTwo.1")}</li>
 									<li>{t("components.billing.cardFeatures.cardTwo.2")}</li>
 									<li>{t("components.billing.cardFeatures.cardTwo.3")}</li>
@@ -106,7 +106,7 @@ class SubscriptionList extends Component {
 							</div>
 						</div>
 						<div className="card rounded-0">
-							<div className="card-header bg-white">
+							<div className="card-header bg-white border-bottom-0">
 								<h4 className="my-0 font-weight-normal">{t("label.professional")}</h4>
 							</div>
 							<div className="card-body">
@@ -114,7 +114,7 @@ class SubscriptionList extends Component {
 									${this.selectPricing(pricingBox3Id)}
 									<small className="h5 text-muted"> / {interval === PAYMENT_INTERVALS.MONTH ? t("label.month") : t("label.year")}</small>
 								</h1>
-								<ul className="list-unstyled mt-3 mb-4">
+								<ul className="list-unstyled my-4">
 									<li>{t("components.billing.cardFeatures.cardThree.1")}</li>
 									<li>{t("components.billing.cardFeatures.cardThree.2")}</li>
 									<li>{t("components.billing.cardFeatures.cardThree.3")}</li>
