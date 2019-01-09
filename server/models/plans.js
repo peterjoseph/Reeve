@@ -31,13 +31,13 @@ module.exports = function(sequelize, DataTypes) {
 				field: "billingInterval"
 			},
 			currency: {
-				type: DataTypes.CHAR(3),
+				type: DataTypes.INTEGER(11).UNSIGNED,
 				allowNull: false,
-				defaultValue: "aud",
+				defaultValue: "1",
 				field: "currency"
 			},
 			price: {
-				type: DataTypes.DECIMAL(6,2),
+				type: DataTypes.DECIMAL,
 				allowNull: false,
 				defaultValue: "0.00",
 				field: "price"
