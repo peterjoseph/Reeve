@@ -51,8 +51,12 @@ module.exports = Object.freeze({
 		AUD: "aud"
 	},
 	PAYMENT_INTERVALS: {
-		MONTH: "month",
-		YEAR: "year"
+		MONTH: 1,
+		YEAR: 2
+	},
+	PAYMENT_INTERVALS_CODES: {
+		1: "month",
+		2: "year"
 	},
 	RESTRICTED_LANGUAGES: ["en", "it"],
 	RESTRICTED_DOMAINS: [

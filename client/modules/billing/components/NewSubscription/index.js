@@ -47,7 +47,7 @@ class NewSubscription extends Component {
 
 	changeInterval(evt) {
 		if (evt.target.value == PAYMENT_INTERVALS.MONTH || evt.target.value == PAYMENT_INTERVALS.YEAR) {
-			this.setState({ interval: evt.target.value });
+			this.setState({ interval: parseInt(evt.target.value) });
 		}
 	}
 

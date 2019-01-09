@@ -19,24 +19,16 @@ class SubscriptionList extends Component {
 		return trialDaysLeft;
 	}
 
-	selectPricing(id, interval) {
+	selectPricing(id) {
 		const price = this.props.subscriptionList.find(row => {
 			return row.get("id") == id;
 		});
 		if (price !== null) {
-			if (interval == PAYMENT_INTERVALS.MONTH) {
-				const priceNum = price.get("monthlyPrice");
-				if (priceNum.indexOf(".") > -1 && priceNum.substring(priceNum.indexOf("."), priceNum.length) == ".00") {
-					return priceNum.substring(0, priceNum.indexOf("."));
-				}
-				return price.get("monthlyPrice");
-			} else {
-				const priceNum = price.get("yearlyPrice");
-				if (priceNum.indexOf(".") > -1 && priceNum.substring(priceNum.indexOf("."), priceNum.length) == ".00") {
-					return priceNum.substring(0, priceNum.indexOf("."));
-				}
-				return price.get("yearlyPrice");
+			const priceNum = price.get("price");
+			if (priceNum.indexOf(".") > -1 && priceNum.substring(priceNum.indexOf("."), priceNum.length) == ".00") {
+				return priceNum.substring(0, priceNum.indexOf("."));
 			}
+			return price.get("price");
 		}
 		return null;
 	}
@@ -44,9 +36,10 @@ class SubscriptionList extends Component {
 	render() {
 		const { user, interval, changeInterval, selectPlan } = this.props;
 
-		const pricingBox1Id = 1;
-		const pricingBox2Id = 2;
-		const pricingBox3Id = 3;
+		// Id of plan to show depending on selected interval
+		const pricingBox1Id = interval === PAYMENT_INTERVALS.MONTH ? 1 : 4;
+		const pricingBox2Id = interval === PAYMENT_INTERVALS.MONTH ? 2 : 5;
+		const pricingBox3Id = interval === PAYMENT_INTERVALS.MONTH ? 3 : 6;
 
 		const subscriptionActive = user.get("subscriptionActive"); // Is subscription still active?
 		const trialDaysLeft = this.trialDays(); // Calculate days left in trial
@@ -79,7 +72,7 @@ class SubscriptionList extends Component {
 							</div>
 							<div className="card-body">
 								<h1 className="card-title pricing-card-title">
-									${this.selectPricing(pricingBox1Id, interval)}
+									${this.selectPricing(pricingBox1Id)}
 									<sub className="h6">{cu("AU")}</sub> <small className="h5 text-muted"> / {interval === PAYMENT_INTERVALS.MONTH ? t("label.monthly") : t("label.yearly")}</small>
 								</h1>
 								<ul className="list-unstyled mt-3 mb-4">
@@ -99,7 +92,7 @@ class SubscriptionList extends Component {
 							</div>
 							<div className="card-body">
 								<h1 className="card-title pricing-card-title">
-									${this.selectPricing(pricingBox2Id, interval)}
+									${this.selectPricing(pricingBox2Id)}
 									<sub className="h6">{cu("AU")}</sub> <small className="h5 text-muted"> / {interval === PAYMENT_INTERVALS.MONTH ? t("label.monthly") : t("label.yearly")}</small>
 								</h1>
 								<ul className="list-unstyled mt-3 mb-4">
@@ -119,7 +112,7 @@ class SubscriptionList extends Component {
 							</div>
 							<div className="card-body">
 								<h1 className="card-title pricing-card-title">
-									${this.selectPricing(pricingBox3Id, interval)}
+									${this.selectPricing(pricingBox3Id)}
 									<sub className="h6">{cu("AU")}</sub> <small className="h5 text-muted"> / {interval === PAYMENT_INTERVALS.MONTH ? t("label.monthly") : t("label.yearly")}</small>
 								</h1>
 								<ul className="list-unstyled mt-3 mb-4">
@@ -148,7 +141,7 @@ class SubscriptionList extends Component {
 SubscriptionList.propTypes = {
 	history: PropTypes.object,
 	user: PropTypes.object,
-	interval: PropTypes.string,
+	interval: PropTypes.number,
 	changeInterval: PropTypes.func,
 	selectPlan: PropTypes.func,
 	subscriptionList: PropTypes.object
