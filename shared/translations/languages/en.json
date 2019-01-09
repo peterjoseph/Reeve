@@ -100,12 +100,13 @@
 			"timeRemaining<1": "$t(site.name) is still free for less than a day",
 			"timeRemaining_plural": "$t(site.name) is free for {{ count }} days",
 			"timeRemaining_expired": "Simple and transparent pricing",
-			"selectPlan": "Select a plan below to continue using $t(site.name) once your trial expires",
-			"selectPlan_expired": "Select a plan below to continue using $t(site.name)",
+			"selectPlan": "Select a plan below to continue using $t(site.name) once your trial expires.",
+			"selectPlan_expired": "Select a plan below to continue using $t(site.name).",
 			"selectBillingFrequency": "Billing Frequency",
 			"selectAPlan": "Select a Plan",
 			"billingDetails": "Billing Details",
 			"chooseThisPlan": "Choose this Plan",
+			"save20%": "Save 20%",
 			"cardFeatures": {
 				"cardOne": {
 					"1": "Basic Feature 1",

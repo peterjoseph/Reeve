@@ -2,11 +2,11 @@ import React, { Component, Fragment } from "react";
 import PropTypes from "prop-types";
 import { withRouter } from "react-router-dom";
 import moment from "moment";
+import Switch from "rc-switch";
 
 import { SUBSCRIPTION_TYPE, PAYMENT_INTERVALS } from "shared/constants";
 import { t, cu } from "shared/translations/i18n";
 import User from "common/components/User";
-import Progress from "./Progress";
 
 class SubscriptionList extends Component {
 	trialDays() {
@@ -44,16 +44,8 @@ class SubscriptionList extends Component {
 		const subscriptionActive = user.get("subscriptionActive"); // Is subscription still active?
 		const trialDaysLeft = this.trialDays(); // Calculate days left in trial
 
-		const billingPeriod = (
-			<select className="bg-white border-1 p-2" value={interval} onChange={changeInterval}>
-				<option value={PAYMENT_INTERVALS.MONTH}>{t("label.monthly")}</option>
-				<option value={PAYMENT_INTERVALS.YEAR}>{t("label.yearly")}</option>
-			</select>
-		);
-
 		return (
 			<Fragment>
-				<Progress step={1} />
 				<div className="container py-3">
 					<div className="pricing-header px-3 py-4 pt-md-5 pb-md-5 mx-auto text-center">
 						<h1>
@@ -64,6 +56,13 @@ class SubscriptionList extends Component {
 								: t("components.billing.timeRemaining_expired")}
 						</h1>
 						<p className="lead">{subscriptionActive ? t("components.billing.selectPlan") : t("components.billing.selectPlan_expired")}</p>
+						<div className="mt-4">
+							<span className={interval === PAYMENT_INTERVALS.MONTH ? "font-weight-normal" : "font-weight-light"}>{t("label.monthly")}</span>
+							<Switch className="mx-4" checked={interval == PAYMENT_INTERVALS.YEAR ? true : false} onChange={changeInterval} />
+							<span className={interval === PAYMENT_INTERVALS.YEAR ? "text-success font-weight-normal" : "font-weight-light"}>
+								{t("label.yearly")} ({t("components.billing.save20%")})
+							</span>
+						</div>
 					</div>
 					<div className="card-deck py-3 text-center">
 						<div className="card rounded-0">
@@ -73,7 +72,7 @@ class SubscriptionList extends Component {
 							<div className="card-body">
 								<h1 className="card-title pricing-card-title">
 									${this.selectPricing(pricingBox1Id)}
-									<sub className="h6">{cu("AU")}</sub> <small className="h5 text-muted"> / {interval === PAYMENT_INTERVALS.MONTH ? t("label.monthly") : t("label.yearly")}</small>
+									<small className="h5 text-muted"> / {interval === PAYMENT_INTERVALS.MONTH ? t("label.month") : t("label.year")}</small>
 								</h1>
 								<ul className="list-unstyled mt-3 mb-4">
 									<li>{t("components.billing.cardFeatures.cardOne.1")}</li>
@@ -93,7 +92,7 @@ class SubscriptionList extends Component {
 							<div className="card-body">
 								<h1 className="card-title pricing-card-title">
 									${this.selectPricing(pricingBox2Id)}
-									<sub className="h6">{cu("AU")}</sub> <small className="h5 text-muted"> / {interval === PAYMENT_INTERVALS.MONTH ? t("label.monthly") : t("label.yearly")}</small>
+									<small className="h5 text-muted"> / {interval === PAYMENT_INTERVALS.MONTH ? t("label.month") : t("label.year")}</small>
 								</h1>
 								<ul className="list-unstyled mt-3 mb-4">
 									<li>{t("components.billing.cardFeatures.cardTwo.1")}</li>
@@ -113,7 +112,7 @@ class SubscriptionList extends Component {
 							<div className="card-body">
 								<h1 className="card-title pricing-card-title">
 									${this.selectPricing(pricingBox3Id)}
-									<sub className="h6">{cu("AU")}</sub> <small className="h5 text-muted"> / {interval === PAYMENT_INTERVALS.MONTH ? t("label.monthly") : t("label.yearly")}</small>
+									<small className="h5 text-muted"> / {interval === PAYMENT_INTERVALS.MONTH ? t("label.month") : t("label.year")}</small>
 								</h1>
 								<ul className="list-unstyled mt-3 mb-4">
 									<li>{t("components.billing.cardFeatures.cardThree.1")}</li>
@@ -126,11 +125,6 @@ class SubscriptionList extends Component {
 								</button>
 							</div>
 						</div>
-					</div>
-					<div className="my-5 text-center">
-						<span className="lead">
-							{t("components.billing.selectBillingFrequency")} {billingPeriod}
-						</span>
 					</div>
 				</div>
 			</Fragment>

@@ -3,7 +3,7 @@ import PropTypes from "prop-types";
 import { connect } from "react-redux";
 import { bindActionCreators } from "redux";
 import { withRouter } from "react-router-dom";
-import { REDUX_STATE, PAYMENT_INTERVALS, PAYMENT_CURRENCY } from "shared/constants";
+import { PAYMENT_INTERVALS, PAYMENT_CURRENCY } from "shared/constants";
 import { BILLING, LOAD_SUBSCRIPTION_LIST_REJECTED, loadSubscriptionList } from "common/store/reducers/billing.js";
 
 import Loading from "common/components/Loading";
@@ -46,8 +46,10 @@ class NewSubscription extends Component {
 	}
 
 	changeInterval(evt) {
-		if (evt.target.value == PAYMENT_INTERVALS.MONTH || evt.target.value == PAYMENT_INTERVALS.YEAR) {
-			this.setState({ interval: parseInt(evt.target.value) });
+		if (evt == false) {
+			this.setState({ interval: PAYMENT_INTERVALS.MONTH });
+		} else {
+			this.setState({ interval: PAYMENT_INTERVALS.YEAR });
 		}
 	}
 
