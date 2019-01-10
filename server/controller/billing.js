@@ -43,8 +43,11 @@ module.exports = function(router) {
 			// Load browser language from header
 			const browserLng = browserResponseLng(req);
 
+			// Check for Query strings
+			const options = { currency: req.query.currency, interval: req.query.interval };
+
 			// Retrieve client subscription details and return response
-			loadAvailableSubscriptions(browserLng).then(
+			loadAvailableSubscriptions(options, browserLng).then(
 				result => {
 					return res.status(200).send(result);
 				},

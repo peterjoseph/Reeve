@@ -1,6 +1,8 @@
 import { database, models } from "services/sequelize";
 import { t } from "shared/translations/i18n";
 import { ServerResponseError } from "utilities/errors/serverResponseError";
+import { PAYMENT_CURRENCY, PAYMENT_INTERVALS } from "shared/constants";
+import { variableExists } from "shared/utilities/filters";
 
 // Load client subscription details
 export function loadClientSubscriptionDetails(browserLng) {
@@ -18,13 +20,26 @@ export function loadClientSubscriptionDetails(browserLng) {
 }
 
 // Load list of available subscriptions
-export function loadAvailableSubscriptions(browserLng) {
+export function loadAvailableSubscriptions(options, browserLng) {
 	return database().transaction(async function(transaction) {
 		try {
+			// Filter subscriptions based on parameters
+			const filterAttributes = { newSubscriptionsAllowed: true, active: true };
+
+			// Filter by currency
+			if (variableExists(options.currency)) {
+				filterAttributes.currency = PAYMENT_CURRENCY[options.currency.toUpperCase()] || null;
+			}
+
+			// Filter by payment interval
+			if (variableExists(options.interval)) {
+				filterAttributes.billingInterval = PAYMENT_INTERVALS[options.interval.toUpperCase()] || null;
+			}
+
 			// Load a list of available stripe plans
 			const loadPlans = await models().plans.findAll(
 				{
-					where: { newSubscriptionsAllowed: true, active: true },
+					where: filterAttributes,
 					attributes: { exclude: ["name", "description", "stripeProductId", "createdAt", "updatedAt", "newSubscriptionsAllowed", "active"] }
 				},
 				{ transaction: transaction }

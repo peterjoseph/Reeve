@@ -48,7 +48,10 @@ module.exports = Object.freeze({
 		REJECTED: "REJECTED"
 	},
 	PAYMENT_CURRENCY: {
-		AUD: "aud"
+		AUD: 1
+	},
+	PAYMENT_CURRENCY_CODES: {
+		1: "aud"
 	},
 	PAYMENT_INTERVALS: {
 		MONTH: 1,
