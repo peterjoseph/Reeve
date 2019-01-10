@@ -13,7 +13,7 @@ class NavProfileMenuLogo extends Component {
 
 		return (
 			<Fragment>
-				<h6 className="dropdown-header text-capitalize text-center">
+				<h6 className="dropdown-header text-capitalize">
 					{clientLogo ? <img src={user.get("logoImage")} height="32" /> : <span className="text-capitalize">{`${user.get("clientName")}`}</span>}
 				</h6>
 				<div className="dropdown-divider" />

@@ -94,21 +94,20 @@ class Header extends Component {
 							<NavProfileMenuLogo />
 							{user.get("subscriptionActive") && (
 								<Fragment>
-									<NavDropdownLink title={t("label.profile")} route={"/profile"} icon={<ProfileIcon width="16px" height="16px" />} />
+									<NavDropdownLink title={t("label.profile")} route={"/profile"} />
 									<NavDropdownLink
 										title={t("label.billing")}
 										route={"/billing"}
 										role={[ROLE_TYPE.OWNER, ROLE_TYPE.FINANCE]}
 										feature={[FEATURES.BILLING]}
 										subscription={[SUBSCRIPTION_TYPE.TRIAL, SUBSCRIPTION_TYPE.BASIC]}
-										icon={<CreditCardIcon width="16px" height="16px" />}
 									/>
-									<NavDropdownLink title={t("label.settings")} route={"/settings"} icon={<SettingsIcon width="16px" height="16px" />} />
+									<NavDropdownLink title={t("label.settings")} route={"/settings"} />
 									<div className="dropdown-divider" />
 								</Fragment>
 							)}
-							<button className={"btn btn-link dropdown-item text-danger"} onClick={this.logout}>
-								<span className="mr-1">{<LogoutIcon width="16px" height="16px" />}</span> {t("action.logout")}
+							<button className={"btn btn-link dropdown-item"} onClick={this.logout}>
+								{t("action.logout")}
 							</button>
 						</NavProfileMenu>
 					</ul>
