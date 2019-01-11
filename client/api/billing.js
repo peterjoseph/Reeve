@@ -9,7 +9,7 @@ export function clientSubscriptionDetails() {
 
 // Load List of available subscriptions
 export function availableSubscriptions() {
-	return fetch.perform("/api/available_subscriptions/", {
+	return fetch.perform("/api/available_subscriptions", {
 		method: "GET"
 	});
 }

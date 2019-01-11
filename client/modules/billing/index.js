@@ -8,28 +8,45 @@ import { t } from "shared/translations/i18n";
 import { REDUX_STATE } from "shared/constants";
 import { BILLING, LOAD_CLIENT_SUBSCRIPTION_DETAILS_REJECTED, loadSubscriptionDetails } from "common/store/reducers/billing.js";
 
+import Loading from "common/components/Loading";
 import User from "common/components/User";
 
 import NewSubscription from "./components/NewSubscription";
 
 class Billing extends Component {
 	componentDidMount() {
-		if (this.props.loadSubscriptionDetailsStatus !== REDUX_STATE.FULFILLED) {
-			this.props.loadSubscriptionDetails().then(result => {
-				if (result.type === LOAD_CLIENT_SUBSCRIPTION_DETAILS_REJECTED) {
-					return;
-				}
-			});
-		}
+		this.props.loadSubscriptionDetails().then(result => {
+			if (result.type === LOAD_CLIENT_SUBSCRIPTION_DETAILS_REJECTED) {
+				return;
+			}
+		});
 	}
 
 	render() {
+		const { loadSubscriptionDetailsStatus } = this.props;
+
+		const helmet = (
+			<Helmet>
+				<title>{t("headers.billing.title")}</title>
+				<meta name="description" content={t("headers.billing.description")} />
+			</Helmet>
+		);
+
+		const loading = loadSubscriptionDetailsStatus !== REDUX_STATE.FULFILLED;
+
+		// Show loading panel when subscription state has not loaded
+		if (loading) {
+			return (
+				<Fragment>
+					{helmet}
+					<Loading />
+				</Fragment>
+			);
+		}
+
 		return (
 			<Fragment>
-				<Helmet>
-					<title>{t("headers.billing.title")}</title>
-					<meta name="description" content={t("headers.billing.description")} />
-				</Helmet>
+				{helmet}
 				<NewSubscription />
 			</Fragment>
 		);

@@ -221,7 +221,8 @@ class PaymentPlan extends Component {
 PaymentPlan.propTypes = {
 	history: PropTypes.object,
 	user: PropTypes.object,
-	deselectPlan: PropTypes.func
+	deselectPlan: PropTypes.func,
+	loading: PropTypes.bool
 };
 
 function mapDispatchToProps(dispatch) {

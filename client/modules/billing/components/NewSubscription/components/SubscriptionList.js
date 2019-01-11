@@ -5,7 +5,7 @@ import moment from "moment";
 import Switch from "rc-switch";
 
 import { SUBSCRIPTION_TYPE, PAYMENT_INTERVALS } from "shared/constants";
-import { t, cu } from "shared/translations/i18n";
+import { t } from "shared/translations/i18n";
 import User from "common/components/User";
 
 class SubscriptionList extends Component {
@@ -24,8 +24,8 @@ class SubscriptionList extends Component {
 			return row.get("id") == id;
 		});
 		if (price !== null) {
-			const priceNum = price.get("price");
-			if (priceNum.indexOf(".") > -1 && priceNum.substring(priceNum.indexOf("."), priceNum.length) == ".00") {
+			const priceNum = price.get("price") || null;
+			if (priceNum !== null && priceNum.indexOf(".") > -1 && priceNum.substring(priceNum.indexOf("."), priceNum.length) == ".00") {
 				return priceNum.substring(0, priceNum.indexOf("."));
 			}
 			return price.get("price");
@@ -34,7 +34,7 @@ class SubscriptionList extends Component {
 	}
 
 	render() {
-		const { user, interval, changeInterval, selectPlan } = this.props;
+		const { user, interval, changeInterval, selectPlan, loading } = this.props;
 
 		// Id of plan to show depending on selected interval
 		const pricingBox1Id = interval === PAYMENT_INTERVALS.MONTH ? 1 : 4;
@@ -70,17 +70,19 @@ class SubscriptionList extends Component {
 								<h4 className="my-0 font-weight-normal">{t("label.basic")}</h4>
 							</div>
 							<div className="card-body">
-								<h1 className="card-title pricing-card-title">
-									${this.selectPricing(pricingBox1Id)}
-									<small className="h5 text-muted"> / {interval === PAYMENT_INTERVALS.MONTH ? t("label.month") : t("label.year")}</small>
-								</h1>
+								{!loading && (
+									<h1 className="card-title pricing-card-title">
+										${this.selectPricing(pricingBox1Id)}
+										<small className="h5 text-muted"> / {interval === PAYMENT_INTERVALS.MONTH ? t("label.month") : t("label.year")}</small>
+									</h1>
+								)}
 								<ul className="list-unstyled my-4">
 									<li>{t("components.billing.cardFeatures.cardOne.1")}</li>
 									<li>{t("components.billing.cardFeatures.cardOne.2")}</li>
 									<li>{t("components.billing.cardFeatures.cardOne.3")}</li>
 									<li>{t("components.billing.cardFeatures.cardOne.4")}</li>
 								</ul>
-								<button type="button" value={pricingBox1Id} className="btn btn-block btn-primary" onClick={selectPlan}>
+								<button type="button" value={pricingBox1Id} className="btn btn-block btn-primary" onClick={selectPlan} disabled={loading}>
 									{t("components.billing.chooseThisPlan")}
 								</button>
 							</div>
@@ -90,17 +92,19 @@ class SubscriptionList extends Component {
 								<h4 className="my-0 font-weight-normal">{t("label.standard")}</h4>
 							</div>
 							<div className="card-body">
-								<h1 className="card-title pricing-card-title">
-									${this.selectPricing(pricingBox2Id)}
-									<small className="h5 text-muted"> / {interval === PAYMENT_INTERVALS.MONTH ? t("label.month") : t("label.year")}</small>
-								</h1>
+								{!loading && (
+									<h1 className="card-title pricing-card-title">
+										${this.selectPricing(pricingBox2Id)}
+										<small className="h5 text-muted"> / {interval === PAYMENT_INTERVALS.MONTH ? t("label.month") : t("label.year")}</small>
+									</h1>
+								)}
 								<ul className="list-unstyled my-4">
 									<li>{t("components.billing.cardFeatures.cardTwo.1")}</li>
 									<li>{t("components.billing.cardFeatures.cardTwo.2")}</li>
 									<li>{t("components.billing.cardFeatures.cardTwo.3")}</li>
 									<li>{t("components.billing.cardFeatures.cardTwo.4")}</li>
 								</ul>
-								<button type="button" value={pricingBox2Id} className="btn btn-block btn-primary" onClick={selectPlan}>
+								<button type="button" value={pricingBox2Id} className="btn btn-block btn-primary" onClick={selectPlan} disabled={loading}>
 									{t("components.billing.chooseThisPlan")}
 								</button>
 							</div>
@@ -110,17 +114,19 @@ class SubscriptionList extends Component {
 								<h4 className="my-0 font-weight-normal">{t("label.professional")}</h4>
 							</div>
 							<div className="card-body">
-								<h1 className="card-title pricing-card-title">
-									${this.selectPricing(pricingBox3Id)}
-									<small className="h5 text-muted"> / {interval === PAYMENT_INTERVALS.MONTH ? t("label.month") : t("label.year")}</small>
-								</h1>
+								{!loading && (
+									<h1 className="card-title pricing-card-title">
+										${this.selectPricing(pricingBox3Id)}
+										<small className="h5 text-muted"> / {interval === PAYMENT_INTERVALS.MONTH ? t("label.month") : t("label.year")}</small>
+									</h1>
+								)}
 								<ul className="list-unstyled my-4">
 									<li>{t("components.billing.cardFeatures.cardThree.1")}</li>
 									<li>{t("components.billing.cardFeatures.cardThree.2")}</li>
 									<li>{t("components.billing.cardFeatures.cardThree.3")}</li>
 									<li>{t("components.billing.cardFeatures.cardThree.4")}</li>
 								</ul>
-								<button type="button" value={pricingBox3Id} className="btn btn-block btn-primary" onClick={selectPlan}>
+								<button type="button" value={pricingBox3Id} className="btn btn-block btn-primary" onClick={selectPlan} disabled={loading}>
 									{t("components.billing.chooseThisPlan")}
 								</button>
 							</div>
@@ -138,7 +144,8 @@ SubscriptionList.propTypes = {
 	interval: PropTypes.number,
 	changeInterval: PropTypes.func,
 	selectPlan: PropTypes.func,
-	subscriptionList: PropTypes.object
+	subscriptionList: PropTypes.object,
+	loading: PropTypes.bool
 };
 
 export default withRouter(User(SubscriptionList));
