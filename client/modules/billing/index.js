@@ -41,34 +41,21 @@ class Billing extends Component {
 		const { loadSubscriptionDetailsStatus } = this.props;
 		const { serverError } = this.state;
 
-		const helmet = (
-			<Helmet>
-				<title>{t("headers.billing.title")}</title>
-				<meta name="description" content={t("headers.billing.description")} />
-			</Helmet>
-		);
-
 		// Display alert and redirect if there is a server error
 		if (serverError !== null) {
 			return <ServerError error={serverError} />;
 		}
 
-		const loading = loadSubscriptionDetailsStatus !== REDUX_STATE.FULFILLED;
-
 		// Show loading panel when subscription state has not loaded
-		if (loading) {
-			return (
-				<Fragment>
-					{helmet}
-					<Loading />
-				</Fragment>
-			);
-		}
+		const loading = loadSubscriptionDetailsStatus !== REDUX_STATE.FULFILLED;
 
 		return (
 			<Fragment>
-				{helmet}
-				<NewSubscription />
+				<Helmet>
+					<title>{t("headers.billing.title")}</title>
+					<meta name="description" content={t("headers.billing.description")} />
+				</Helmet>
+				{loading ? <Loading /> : <NewSubscription />}
 			</Fragment>
 		);
 	}
