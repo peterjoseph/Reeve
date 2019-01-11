@@ -71,11 +71,13 @@ class SubscriptionList extends Component {
 								<h4 className="my-0 font-weight-normal">{t("label.basic")}</h4>
 							</div>
 							<div className="card-body">
-								{!loading && (
+								{!loading ? (
 									<h1 className="card-title pricing-card-title">
 										${this.selectPricing(pricingBox1Id)}
 										<small className="h5 text-muted"> / {interval === PAYMENT_INTERVALS.MONTH ? t("label.month") : t("label.year")}</small>
 									</h1>
+								) : (
+									<img src={require("distribution/images/loading_spinner_small.gif")} />
 								)}
 								<ul className="list-unstyled my-4">
 									<li>{t("components.billing.cardFeatures.cardOne.1")}</li>
@@ -93,11 +95,13 @@ class SubscriptionList extends Component {
 								<h4 className="my-0 font-weight-normal">{t("label.standard")}</h4>
 							</div>
 							<div className="card-body">
-								{!loading && (
+								{!loading ? (
 									<h1 className="card-title pricing-card-title">
 										${this.selectPricing(pricingBox2Id)}
 										<small className="h5 text-muted"> / {interval === PAYMENT_INTERVALS.MONTH ? t("label.month") : t("label.year")}</small>
 									</h1>
+								) : (
+									<img src={require("distribution/images/loading_spinner_small.gif")} />
 								)}
 								<ul className="list-unstyled my-4">
 									<li>{t("components.billing.cardFeatures.cardTwo.1")}</li>
@@ -115,11 +119,13 @@ class SubscriptionList extends Component {
 								<h4 className="my-0 font-weight-normal">{t("label.professional")}</h4>
 							</div>
 							<div className="card-body">
-								{!loading && (
+								{!loading ? (
 									<h1 className="card-title pricing-card-title">
 										${this.selectPricing(pricingBox3Id)}
 										<small className="h5 text-muted"> / {interval === PAYMENT_INTERVALS.MONTH ? t("label.month") : t("label.year")}</small>
 									</h1>
+								) : (
+									<img src={require("distribution/images/loading_spinner_small.gif")} />
 								)}
 								<ul className="list-unstyled my-4">
 									<li>{t("components.billing.cardFeatures.cardThree.1")}</li>
