@@ -28,3 +28,13 @@ export function variableExists(value) {
 	}
 	return true;
 }
+
+// Check if an input object exists, returns undefined if the object cannot be found
+export function parameterIsSafe(fn) {
+	try {
+		fn();
+		return true;
+	} catch (e) {
+		return false;
+	}
+}

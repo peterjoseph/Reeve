@@ -4,6 +4,7 @@ import { withRouter } from "react-router-dom";
 import moment from "moment";
 import Switch from "rc-switch";
 
+import { parameterIsSafe } from "shared/utilities/filters";
 import { SUBSCRIPTION_TYPE, PAYMENT_INTERVALS } from "shared/constants";
 import { t } from "shared/translations/i18n";
 import User from "common/components/User";
@@ -23,8 +24,8 @@ class SubscriptionList extends Component {
 		const price = this.props.subscriptionList.find(row => {
 			return row.get("id") == id;
 		});
-		if (price !== null) {
-			const priceNum = price.get("price") || null;
+		if (this.props.loading == false && parameterIsSafe(() => price.get("price"))) {
+			const priceNum = price.get("price");
 			if (priceNum !== null && priceNum.indexOf(".") > -1 && priceNum.substring(priceNum.indexOf("."), priceNum.length) == ".00") {
 				return priceNum.substring(0, priceNum.indexOf("."));
 			}

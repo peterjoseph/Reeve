@@ -77,13 +77,13 @@ export function loadSubscriptionDetails() {
 	};
 }
 
-export function loadSubscriptionList() {
+export function loadSubscriptionList(parameters) {
 	return dispatch => {
 		dispatch({
 			type: LOAD_SUBSCRIPTION_LIST_PENDING
 		});
 
-		return availableSubscriptions().then(
+		return availableSubscriptions(parameters).then(
 			result => {
 				return dispatch({
 					type: LOAD_SUBSCRIPTION_LIST_FULFILLED,

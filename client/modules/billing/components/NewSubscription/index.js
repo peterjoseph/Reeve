@@ -3,7 +3,7 @@ import PropTypes from "prop-types";
 import { connect } from "react-redux";
 import { bindActionCreators } from "redux";
 import { withRouter } from "react-router-dom";
-import { REDUX_STATE, PAYMENT_INTERVALS, PAYMENT_CURRENCY } from "shared/constants";
+import { REDUX_STATE, PAYMENT_INTERVALS, PAYMENT_INTERVALS_CODES, PAYMENT_CURRENCY, PAYMENT_CURRENCY_CODES } from "shared/constants";
 import { BILLING, LOAD_SUBSCRIPTION_LIST_REJECTED, loadSubscriptionList } from "common/store/reducers/billing.js";
 
 import ServerError from "common/components/ServerError";
@@ -28,7 +28,7 @@ class NewSubscription extends Component {
 	}
 
 	componentDidMount() {
-		this.props.loadSubscriptionList().then(result => {
+		this.props.loadSubscriptionList({ currency: PAYMENT_CURRENCY_CODES[1], interval: PAYMENT_INTERVALS_CODES[1] }).then(result => {
 			if (result.type === LOAD_SUBSCRIPTION_LIST_REJECTED) {
 				this.setState({
 					serverError: result.payload
@@ -42,11 +42,29 @@ class NewSubscription extends Component {
 	}
 
 	changeInterval(evt) {
+		let interval = PAYMENT_INTERVALS.MONTH;
+
+		// Adjust interval based on toggle
 		if (evt == false) {
-			this.setState({ interval: PAYMENT_INTERVALS.MONTH });
+			interval = PAYMENT_INTERVALS.MONTH;
 		} else {
-			this.setState({ interval: PAYMENT_INTERVALS.YEAR });
+			interval = PAYMENT_INTERVALS.YEAR;
 		}
+
+		// Load subscription list with new interval
+		this.props.loadSubscriptionList({ currency: PAYMENT_CURRENCY_CODES[1], interval: PAYMENT_INTERVALS_CODES[interval] }).then(result => {
+			if (result.type === LOAD_SUBSCRIPTION_LIST_REJECTED) {
+				this.setState({
+					interval: interval,
+					serverError: result.payload
+				});
+			} else {
+				this.setState({
+					interval: interval,
+					serverError: null
+				});
+			}
+		});
 	}
 
 	selectPlan(evt) {
