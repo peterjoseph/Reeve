@@ -77,7 +77,7 @@ class NewSubscription extends Component {
 	}
 
 	render() {
-		const { productId, interval, planSelected, serverError } = this.state;
+		const { productId, interval, currency, planSelected, serverError } = this.state;
 		const { loadSubscriptionListStatus, subscriptionList } = this.props;
 
 		// Display alert and redirect if there is a server error
@@ -90,7 +90,7 @@ class NewSubscription extends Component {
 
 		// Change panel if plan has been selected
 		if (productId !== null && planSelected === true) {
-			return <PaymentForm deselectPlan={this.deselectPlan} loading={loading} />;
+			return <PaymentForm productId={productId} currency={currency} interval={interval} deselectPlan={this.deselectPlan} loading={loading} />;
 		} else {
 			return <SubscriptionList interval={interval} subscriptionList={subscriptionList} changeInterval={this.changeInterval} selectPlan={this.selectPlan} loading={loading} />;
 		}

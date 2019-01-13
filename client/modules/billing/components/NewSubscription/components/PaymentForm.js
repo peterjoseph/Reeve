@@ -17,7 +17,6 @@ class PaymentPlan extends Component {
 
 		return (
 			<Fragment>
-				<Progress step={2} />
 				<div className="container">
 					<div className="subscription-header px-3 py-3 pt-md-5 pb-md-4 mx-auto">
 						<div className="mb-3 text-center">
@@ -205,7 +204,6 @@ class PaymentPlan extends Component {
 									/>
 								</div>
 								<div className="row p-3 text-right">Total billed today ------------ $49.95</div>
-
 								<button type="button" className="btn btn-primary btn-block">
 									Subscribe
 								</button>
@@ -213,6 +211,7 @@ class PaymentPlan extends Component {
 						</div>
 					</div>
 				</div>
+				<Progress step={2} />
 			</Fragment>
 		);
 	}
@@ -221,6 +220,9 @@ class PaymentPlan extends Component {
 PaymentPlan.propTypes = {
 	history: PropTypes.object,
 	user: PropTypes.object,
+	productId: PropTypes.string,
+	currency: PropTypes.number,
+	interval: PropTypes.number,
 	deselectPlan: PropTypes.func,
 	loading: PropTypes.bool
 };

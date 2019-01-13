@@ -8,7 +8,7 @@ class Progress extends Component {
 		const { step } = this.props;
 
 		return (
-			<div className="progress-panel py-4 border-bottom">
+			<div className="progress-panel py-4 border-top">
 				<li className={step == 1 ? "is-active" : null}>{t("components.billing.selectAPlan")}</li>
 				<li className={step == 2 ? "is-active" : null}>{t("components.billing.billingDetails")}</li>
 				<li className={step == 3 ? "is-active" : null}>{t("label.finish")}</li>
