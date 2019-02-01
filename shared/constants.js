@@ -21,7 +21,9 @@ module.exports = Object.freeze({
 	},
 	SUBSCRIPTION_TYPE: {
 		TRIAL: 1,
-		BASIC: 2
+		BASIC: 2,
+		STANDARD: 3,
+		PROFESSIONAL: 4
 	},
 	BILLING_CYCLE: {
 		TRIAL: 14,
