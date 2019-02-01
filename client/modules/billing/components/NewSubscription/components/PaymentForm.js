@@ -22,18 +22,15 @@ class PaymentPlan extends Component {
 						<div className="mb-3 text-center">
 							<h1 className="display-6">Billing Details</h1>
 							<p className="lead">
-								Start your <strong>Basic</strong> plan today. Pay securely with a credit card.{" "}
-								<button type="button" className="btn btn-secondary btn-sm" onClick={deselectPlan}>
-									Choose a different Plan
-								</button>
+								Start your <strong>Basic</strong> plan today. Pay securely with a credit card.
 							</p>
 						</div>
 					</div>
 					<div className="row mb-5">
-						<div className="col-6">
+						<div className="col-5">
 							<div className="card rounded-0">
 								<div className="card-header bg-white border-bottom-0">
-									<h4 className="my-0 font-weight-normal">{t("label.basic")}</h4>
+									<h4 className="my-0 mt-2">{t("label.basic")}</h4>
 								</div>
 								<div className="card-body">
 									<ul className="list-unstyled my-4">
@@ -43,10 +40,15 @@ class PaymentPlan extends Component {
 										<li>{t("components.billing.cardFeatures.cardOne.4")}</li>
 									</ul>
 								</div>
+								<div className="card-footer text-center">
+									<button type="button" className="btn btn-light btn-sm" onClick={deselectPlan}>
+										Choose a different Plan
+									</button>
+								</div>
 							</div>
 						</div>
-						<div className="col-6">
-							<div>
+						<div className="col-7">
+							<div className="border p-3">
 								<div>
 									<h4>Card Information</h4>
 									<hr />
