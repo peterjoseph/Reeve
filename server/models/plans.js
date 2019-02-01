@@ -42,6 +42,11 @@ module.exports = function(sequelize, DataTypes) {
 				defaultValue: "0.00",
 				field: "price"
 			},
+			subscriptionId: {
+				type: DataTypes.INTEGER(11).UNSIGNED,
+				allowNull: true,
+				field: "subscriptionId"
+			},
 			newSubscriptionsAllowed: {
 				type: DataTypes.INTEGER(1),
 				allowNull: false,
