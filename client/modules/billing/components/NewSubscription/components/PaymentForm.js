@@ -234,9 +234,11 @@ class PaymentPlan extends Component {
 PaymentPlan.propTypes = {
 	history: PropTypes.object,
 	user: PropTypes.object,
-	productId: PropTypes.string,
+	productId: PropTypes.number,
+	subscriptionId: PropTypes.number,
 	currency: PropTypes.number,
 	interval: PropTypes.number,
+	price: PropTypes.string,
 	deselectPlan: PropTypes.func,
 	loading: PropTypes.bool
 };

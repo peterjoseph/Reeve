@@ -19,6 +19,7 @@ class NewSubscription extends Component {
 			subscriptionId: null,
 			interval: PAYMENT_INTERVALS.MONTH,
 			currency: PAYMENT_CURRENCY.AUD,
+			price: null,
 			planSelected: false,
 			serverError: null
 		};
@@ -73,15 +74,15 @@ class NewSubscription extends Component {
 		const plan = this.props.subscriptionList.find(row => {
 			return row.get("id") == evt.target.value;
 		});
-		this.setState({ productId: plan.get("id"), subscriptionId: plan.get("subscriptionId"), planSelected: true });
+		this.setState({ productId: plan.get("id"), subscriptionId: plan.get("subscriptionId"), price: plan.get("price"), planSelected: true });
 	}
 
 	deselectPlan() {
-		this.setState({ productId: null, subscriptionId: null, planSelected: false });
+		this.setState({ productId: null, subscriptionId: null, price: null, planSelected: false });
 	}
 
 	render() {
-		const { productId, subscriptionId, interval, currency, planSelected, serverError } = this.state;
+		const { productId, subscriptionId, interval, currency, price, planSelected, serverError } = this.state;
 		const { loadSubscriptionListStatus, subscriptionList } = this.props;
 
 		// Display alert and redirect if there is a server error
@@ -94,7 +95,7 @@ class NewSubscription extends Component {
 
 		// Change panel if plan has been selected
 		if (productId !== null && planSelected === true) {
-			return <PaymentForm productId={productId} subscriptionId={subscriptionId} currency={currency} interval={interval} deselectPlan={this.deselectPlan} loading={loading} />;
+			return <PaymentForm productId={productId} subscriptionId={subscriptionId} currency={currency} price={price} interval={interval} deselectPlan={this.deselectPlan} loading={loading} />;
 		} else {
 			return <SubscriptionList interval={interval} subscriptionList={subscriptionList} changeInterval={this.changeInterval} selectPlan={this.selectPlan} loading={loading} />;
 		}
