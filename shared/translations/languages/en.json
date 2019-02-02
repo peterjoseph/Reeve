@@ -37,9 +37,6 @@
 		"billing": "Billing",
 		"oops": "Oops!",
 		"errorField": "Error:",
-		"basic": "Basic",
-		"standard": "Standard",
-		"professional": "Professional",
 		"day": "Day",
 		"month": "Month",
 		"year": "Year",
@@ -107,6 +104,12 @@
 			"billingDetails": "Billing Details",
 			"chooseThisPlan": "Choose this Plan",
 			"save20%": "Save 20%",
+			"subscriptionType": {
+				"1": "Trial",
+				"2": "Basic",
+				"3": "Standard",
+				"4": "Professional"
+			},
 			"cardFeatures": {
 				"cardOne": {
 					"1": "Basic Feature 1",

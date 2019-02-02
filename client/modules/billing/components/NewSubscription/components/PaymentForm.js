@@ -5,6 +5,8 @@ import { connect } from "react-redux";
 import { withRouter } from "react-router-dom";
 import { t } from "shared/translations/i18n";
 
+import { SUBSCRIPTION_TYPE } from "shared/constants";
+
 // import { } from "common/store/reducers/billing.js";
 
 import InputField from "common/components/inputs/InputField";
@@ -13,7 +15,10 @@ import User from "common/components/User";
 
 class PaymentPlan extends Component {
 	render() {
-		const { deselectPlan } = this.props;
+		const { subscriptionId, deselectPlan } = this.props;
+
+		// Load the plan name from our translation file
+		const subscriptionType = t(`components.billing.subscriptionType.${subscriptionId}`);
 
 		return (
 			<Fragment>
@@ -22,7 +27,7 @@ class PaymentPlan extends Component {
 						<div className="mb-3 text-center">
 							<h1 className="display-6">Billing Details</h1>
 							<p className="lead">
-								Start your <strong>Basic</strong> plan today. Pay securely with a credit card.
+								Start your <strong>{subscriptionType}</strong> plan today. Pay securely with a credit card.
 							</p>
 						</div>
 					</div>
@@ -30,7 +35,9 @@ class PaymentPlan extends Component {
 						<div className="col-5">
 							<div className="card rounded-0">
 								<div className="card-header bg-white border-bottom-0">
-									<h4 className="my-0 mt-2">{t("label.basic")}</h4>
+									<h4 className="my-0 mt-2">
+										{subscriptionType} <span className="font-weight-light">plan features</span>
+									</h4>
 								</div>
 								<div className="card-body">
 									<ul className="list-unstyled my-4">
