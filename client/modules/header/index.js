@@ -22,10 +22,6 @@ import ActiveTrial from "./components/ActiveTrial";
 import HelpCaller from "./components/HelpCaller";
 
 import BurgerMenu from "common/media/icons/BurgerMenu";
-import ProfileIcon from "common/media/icons/Profile";
-import CreditCardIcon from "common/media/icons/CreditCard";
-import SettingsIcon from "common/media/icons/Settings";
-import LogoutIcon from "common/media/icons/Logout";
 
 class Header extends Component {
 	constructor(props) {
@@ -106,7 +102,7 @@ class Header extends Component {
 									<div className="dropdown-divider" />
 								</Fragment>
 							)}
-							<button className={"btn btn-link dropdown-item"} onClick={this.logout}>
+							<button className={"btn btn-link dropdown-item rounded-0"} onClick={this.logout}>
 								{t("action.logout")}
 							</button>
 						</NavProfileMenu>
