@@ -1,6 +1,8 @@
 import React, { Component, Fragment } from "react";
+import ScriptLoader from "react-script-loader-hoc";
 import PropTypes from "prop-types";
 import { connect } from "react-redux";
+import { StripeProvider, Elements } from "react-stripe-elements";
 // import { bindActionCreators } from "redux";
 import { withRouter } from "react-router-dom";
 import { t } from "shared/translations/i18n";
@@ -12,13 +14,19 @@ import { SUBSCRIPTION_TYPE, PAYMENT_INTERVALS } from "shared/constants";
 import InputField from "common/components/inputs/InputField";
 import Checkbox from "common/components/inputs/Checkbox";
 import User from "common/components/User";
+import Loading from "common/components/Loading";
 
 class PaymentPlan extends Component {
 	render() {
-		const { subscriptionId, deselectPlan, price, interval } = this.props;
+		const { subscriptionId, deselectPlan, price, interval, scriptsLoadedSuccessfully } = this.props;
 
 		// Load the plan name from our translation file
 		const subscriptionType = t(`components.billing.subscriptionType.${subscriptionId}`);
+
+		// Display loading bar while stripe js is fetched from remote location
+		if (!scriptsLoadedSuccessfully) {
+			return <Loading />;
+		}
 
 		return (
 			<Fragment>
@@ -273,7 +281,8 @@ PaymentPlan.propTypes = {
 	interval: PropTypes.number,
 	price: PropTypes.string,
 	deselectPlan: PropTypes.func,
-	loading: PropTypes.bool
+	loading: PropTypes.bool,
+	scriptsLoadedSuccessfully: PropTypes.bool
 };
 
 function mapDispatchToProps(dispatch) {
@@ -287,6 +296,6 @@ export default withRouter(
 		connect(
 			null,
 			mapDispatchToProps
-		)(PaymentPlan)
+		)(ScriptLoader("https://js.stripe.com/v3/")(PaymentPlan))
 	)
 );
