@@ -35,7 +35,8 @@ class PaymentPlan extends Component {
 						<div className="mb-3 text-center">
 							<h1 className="display-6">Billing Details</h1>
 							<p className="lead">
-								Start your <strong>{subscriptionType}</strong> plan today. Pay securely with a credit card.
+								Start your <strong>{subscriptionType}</strong> plan today. Pay securely with a credit card. Billed{" "}
+								{interval === PAYMENT_INTERVALS.MONTH ? t("label.monthly") : t("label.yearly")}.
 							</p>
 						</div>
 					</div>
@@ -89,7 +90,7 @@ class PaymentPlan extends Component {
 							</div>
 						</div>
 						<div className="col-8">
-							<div className="border p-3">
+							<div className="p-3">
 								<div>
 									<h4>Card Information</h4>
 									<hr />

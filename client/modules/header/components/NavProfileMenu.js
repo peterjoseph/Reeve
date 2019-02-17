@@ -37,7 +37,7 @@ class NavProfileMenu extends Component {
 		return (
 			<li className="nav-item dropdown">
 				<Link to="/" className={`nav-link m-1 ${menuVisible ? "active" : ""}`} aria-haspopup="true" aria-expanded={menuVisible ? "true" : "false"} onClick={this.showMenu}>
-					<span className="mr-2 text-capitalize dropdown-toggle d-none d-md-inline-block">{`${user.get("firstName")} ${user.get("lastName")}`}</span>
+					<span className="mr-2 align-middle text-capitalize dropdown-toggle d-none d-md-inline-block">{`${user.get("firstName")} ${user.get("lastName")}`}</span>
 					<div className="header-profile-icon rounded-circle d-inline-block">
 						<img src={user.get("profilePhoto") || require("distribution/images/avatar.svg")} className="rounded-circle" />
 					</div>

@@ -1,85 +1,17 @@
 // Header Profile Icon Button
 .header-profile-icon {
-	width: 26px;
-	height: 26px;
+	width: 1.5rem;
+	height: 1.5rem;
 
 	img {
-		max-width: 26px;
-		max-height: 26px;
+		max-width: 1.5rem;
+		max-height: 1.5rem;
 	}
 }
 
 // Bootstrap Header Dropdown Menus
 .dropdown-menu {
 	border-radius: 0px;
-}
-
-// Progress panel on billing page
-%steps-remaining {
-	&:before {
-		content: counter(stepNum);
-	}
-	&:after {
-		background-color: #ededed;
-	}
-}
-.progress-panel {
-	display: table;
-	table-layout: fixed;
-	width: 100%;
-	> li {
-		counter-increment: stepNum;
-		text-align: center;
-		display: table-cell;
-		position: relative;
-		color: #333;
-
-		&:before {
-			display: block;
-			margin: 0 auto 4px;
-			background-color: #fff;
-			width: 36px;
-			height: 36px;
-			line-height: 32px;
-			text-align: center;
-			font-weight: bold;
-			content: "\f00c";
-			content: "\2713;";
-			content: "\10003";
-			content: "\10004";
-			content: "\2713";
-		}
-		&:after {
-			content: "";
-			height: 2px;
-			width: 100%;
-			background-color: #4bbf73;
-			position: absolute;
-			top: 16px;
-			left: 50%;
-			z-index: -1;
-		}
-		&:last-child {
-			&:after {
-				display: none;
-			}
-		}
-
-		&.is-active {
-			@extend %steps-remaining;
-			&:before {
-				background-color: #fff;
-			}
-
-			~ li {
-				color: #808080;
-				@extend %steps-remaining;
-				&:before {
-					border-color: #ededed;
-				}
-			}
-		}
-	}
 }
 
 // Switch Toggle Component

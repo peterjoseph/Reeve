@@ -25,7 +25,7 @@ class NavMenuLink extends Component {
 		}
 
 		return (
-			<li className="nav-item">
+			<li className="nav-item px-1">
 				<NavLink to={route} className={"nav-link"} activeClassName="active" exact={isExact}>
 					{title}
 				</NavLink>
