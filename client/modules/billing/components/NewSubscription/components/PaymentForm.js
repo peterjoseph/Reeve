@@ -5,7 +5,7 @@ import { connect } from "react-redux";
 import { withRouter } from "react-router-dom";
 import { t } from "shared/translations/i18n";
 
-import { SUBSCRIPTION_TYPE } from "shared/constants";
+import { SUBSCRIPTION_TYPE, PAYMENT_INTERVALS } from "shared/constants";
 
 // import { } from "common/store/reducers/billing.js";
 
@@ -15,7 +15,7 @@ import User from "common/components/User";
 
 class PaymentPlan extends Component {
 	render() {
-		const { subscriptionId, deselectPlan } = this.props;
+		const { subscriptionId, deselectPlan, price, interval } = this.props;
 
 		// Load the plan name from our translation file
 		const subscriptionType = t(`components.billing.subscriptionType.${subscriptionId}`);
@@ -32,19 +32,45 @@ class PaymentPlan extends Component {
 						</div>
 					</div>
 					<div className="row mb-5">
-						<div className="col-5">
+						<div className="col-4">
 							<div className="card rounded-0">
-								<div className="card-header bg-white border-bottom-0">
-									<h4 className="my-0 mt-2">
+								<div className="card-header bg-white border-bottom-0 text-center">
+									<h4 className="my-0 mt-1">
 										{subscriptionType} <span className="font-weight-light">plan features</span>
 									</h4>
 								</div>
-								<div className="card-body">
-									<ul className="list-unstyled my-4">
-										<li>{t("components.billing.cardFeatures.cardOne.1")}</li>
-										<li>{t("components.billing.cardFeatures.cardOne.2")}</li>
-										<li>{t("components.billing.cardFeatures.cardOne.3")}</li>
-										<li>{t("components.billing.cardFeatures.cardOne.4")}</li>
+								<div className="text-center">
+									<h1 className="card-title pricing-card-title pt-3">
+										${price}
+										<small className="h5 text-muted"> / {interval === PAYMENT_INTERVALS.MONTH ? t("label.month") : t("label.year")}</small>
+									</h1>
+								</div>
+								<div className="card-body py-2 mb-2">
+									<ul className="list-unstyled my-2 text-center">
+										{subscriptionId == SUBSCRIPTION_TYPE.BASIC && (
+											<div>
+												<li>{t("components.billing.cardFeatures.cardOne.1")}</li>
+												<li>{t("components.billing.cardFeatures.cardOne.2")}</li>
+												<li>{t("components.billing.cardFeatures.cardOne.3")}</li>
+												<li>{t("components.billing.cardFeatures.cardOne.4")}</li>
+											</div>
+										)}
+										{subscriptionId == SUBSCRIPTION_TYPE.STANDARD && (
+											<div>
+												<li>{t("components.billing.cardFeatures.cardTwo.1")}</li>
+												<li>{t("components.billing.cardFeatures.cardTwo.2")}</li>
+												<li>{t("components.billing.cardFeatures.cardTwo.3")}</li>
+												<li>{t("components.billing.cardFeatures.cardTwo.4")}</li>
+											</div>
+										)}
+										{subscriptionId == SUBSCRIPTION_TYPE.PROFESSIONAL && (
+											<div>
+												<li>{t("components.billing.cardFeatures.cardThree.1")}</li>
+												<li>{t("components.billing.cardFeatures.cardThree.2")}</li>
+												<li>{t("components.billing.cardFeatures.cardThree.3")}</li>
+												<li>{t("components.billing.cardFeatures.cardThree.4")}</li>
+											</div>
+										)}
 									</ul>
 								</div>
 								<div className="card-footer text-center">
@@ -54,7 +80,7 @@ class PaymentPlan extends Component {
 								</div>
 							</div>
 						</div>
-						<div className="col-7">
+						<div className="col-8">
 							<div className="border p-3">
 								<div>
 									<h4>Card Information</h4>
