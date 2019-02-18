@@ -67,7 +67,7 @@ class SubscriptionList extends Component {
 					</div>
 					<div className="card-deck py-3 text-center">
 						<div className="card rounded-0">
-							<div className="card-header bg-white border-bottom-0">
+							<div className="card-header bg-white mt-1 border-bottom-0">
 								<h4 className="my-0 font-weight-normal">{t("components.billing.subscriptionType.2")}</h4>
 							</div>
 							<div className="card-body">
@@ -91,7 +91,7 @@ class SubscriptionList extends Component {
 							</div>
 						</div>
 						<div className="card rounded-0">
-							<div className="card-header bg-white border-bottom-0">
+							<div className="card-header bg-white mt-1 border-bottom-0">
 								<h4 className="my-0 font-weight-normal">{t("components.billing.subscriptionType.3")}</h4>
 							</div>
 							<div className="card-body">
@@ -115,7 +115,7 @@ class SubscriptionList extends Component {
 							</div>
 						</div>
 						<div className="card rounded-0">
-							<div className="card-header bg-white border-bottom-0">
+							<div className="card-header bg-white mt-1 border-bottom-0">
 								<h4 className="my-0 font-weight-normal">{t("components.billing.subscriptionType.4")}</h4>
 							</div>
 							<div className="card-body">

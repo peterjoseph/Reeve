@@ -90,79 +90,80 @@ class PaymentPlan extends Component {
 							</div>
 						</div>
 						<div className="col-8">
-							<div className="p-3">
-								<div>
-									<h4>Card Information</h4>
-									<hr />
-									<InputField
-										label={"Name on Card"}
-										name={"nameOnCard"}
-										id={"name-on-card"}
-										value={""}
-										type={"textField"}
-										placeholder={"JOHN SMITH"}
-										ariaLabel={"nameOnCard"}
-										onChange={this.changeField}
-										disabled={false}
-										error={null}
-									/>
-									<InputField
-										label={"Card Number"}
-										name={"cardNumber"}
-										id={"card-number"}
-										value={""}
-										type={"textField"}
-										placeholder={"0000 0000 0000 0000"}
-										ariaLabel={"cardNumber"}
-										onChange={this.changeField}
-										disabled={false}
-										error={null}
-									/>
-									<div className="row">
-										<div className="col-4">
-											<InputField
-												label={"Expiry Date (MM)"}
-												name={"expiryMonth"}
-												id={"expiry-month"}
-												value={""}
-												type={"textField"}
-												placeholder={"MM"}
-												ariaLabel={"expiryMonth"}
-												onChange={this.changeField}
-												disabled={false}
-												error={null}
-											/>
+							<div className="p-3 bg-white border-light">
+								<h4 class="text-center">Card Information</h4>
+								<div className="pl-4 pr-4 pt-4 pb-0">
+									<div>
+										<InputField
+											label={"Name on Card"}
+											name={"nameOnCard"}
+											id={"name-on-card"}
+											value={""}
+											type={"textField"}
+											placeholder={"JOHN SMITH"}
+											ariaLabel={"nameOnCard"}
+											onChange={this.changeField}
+											disabled={false}
+											error={null}
+										/>
+										<InputField
+											label={"Card Number"}
+											name={"cardNumber"}
+											id={"card-number"}
+											value={""}
+											type={"textField"}
+											placeholder={"0000 0000 0000 0000"}
+											ariaLabel={"cardNumber"}
+											onChange={this.changeField}
+											disabled={false}
+											error={null}
+										/>
+										<div className="row">
+											<div className="col-4">
+												<InputField
+													label={"Expiry Date (MM)"}
+													name={"expiryMonth"}
+													id={"expiry-month"}
+													value={""}
+													type={"textField"}
+													placeholder={"MM"}
+													ariaLabel={"expiryMonth"}
+													onChange={this.changeField}
+													disabled={false}
+													error={null}
+												/>
+											</div>
+											<div className="col-4">
+												<InputField
+													label={"(YYYY)"}
+													name={"expiryYear"}
+													id={"expiry-year"}
+													value={""}
+													type={"textField"}
+													placeholder={"YYYY"}
+													ariaLabel={"expiryYear"}
+													onChange={this.changeField}
+													disabled={false}
+													error={null}
+												/>
+											</div>
+											<div className="col-4">
+												<InputField
+													label={"CVC / CVV"}
+													name={"ccv"}
+													id={"ccv"}
+													value={""}
+													type={"textField"}
+													ariaLabel={"ccv"}
+													placeholder={"3 or 4 Digits"}
+													onChange={this.changeField}
+													disabled={false}
+													error={null}
+												/>
+											</div>
 										</div>
-										<div className="col-4">
-											<InputField
-												label={"(YYYY)"}
-												name={"expiryYear"}
-												id={"expiry-year"}
-												value={""}
-												type={"textField"}
-												placeholder={"YYYY"}
-												ariaLabel={"expiryYear"}
-												onChange={this.changeField}
-												disabled={false}
-												error={null}
-											/>
-										</div>
-										<div className="col-4">
-											<InputField
-												label={"CVC / CVV"}
-												name={"ccv"}
-												id={"ccv"}
-												value={""}
-												type={"textField"}
-												ariaLabel={"ccv"}
-												placeholder={"3 or 4 Digits"}
-												onChange={this.changeField}
-												disabled={false}
-												error={null}
-											/>
-										</div>
+										<Checkbox id="billingInfo" name="enableBillingInfo" value={null} onClick={null} disabled={false} label={"Enter optional billing address"} />
 									</div>
-									<Checkbox id="billingInfo" name="enableBillingInfo" value={null} onClick={null} disabled={false} label={"Enter optional billing address"} />
 								</div>
 								{false ==
 								(
@@ -260,10 +261,12 @@ class PaymentPlan extends Component {
 										/>
 									</div>
 								)}
-								<div className="row p-3 text-right">Total billed today ------------ $49.95</div>
-								<button type="button" className="btn btn-primary btn-block">
-									Subscribe
-								</button>
+								<div className="p-4 pt-0">
+									<div className="row p-3 text-right">Total billed today ------------ $49.95</div>
+									<button type="button" className="btn btn-primary btn-block">
+										Subscribe
+									</button>
+								</div>
 							</div>
 						</div>
 					</div>

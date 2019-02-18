@@ -15,13 +15,15 @@
 }
 
 // Bootstrap Navigation Link Styling
-.navbar-dark .navbar-nav {
-	.nav-link {
-		color: rgba(255, 255, 255, 0.9);
-	}
+.navbar-dark {
+	.navbar-nav {
+		.nav-link {
+			color: rgba(255, 255, 255, 0.9);
+		}
 
-	.active {
-		box-shadow: inset 0px -0.2rem 0px 0px rgba(255, 255, 255, 0.4);
+		.active {
+			box-shadow: inset 0px -0.2rem 0px 0px rgba(255, 255, 255, 0.4);
+		}
 	}
 }
 

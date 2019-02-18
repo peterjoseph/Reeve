@@ -117,6 +117,8 @@ class Header extends Component {
 									<ul className="navbar-nav bd-navbar-nav flex-md-row">
 										<NavMenuLink title={t("label.dashboard")} route={"/"} isExact={true} />
 										<NavMenuLink title={t("label.profile")} route={"/profile"} isExact={true} />
+										<NavMenuLink title={t("label.billing")} route={"/billing"} isExact={true} />
+										<NavMenuLink title={t("label.settings")} route={"/settings"} isExact={true} />
 									</ul>
 								</div>
 							</div>
