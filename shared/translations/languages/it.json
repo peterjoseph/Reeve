@@ -194,6 +194,7 @@
 		"verifyEmailInvalidProperties": "Verifica che l'oggetto di posta elettronica contenga proprietà non valide.",
 		"invalidPasswordSupplied": "Password errata fornita Per cortesia inserire una password valida.",
 		"invalidUserId": "UserId errato fornito",
+		"incorrectLoginDetailsSupplied": "Abbiamo problemi a firmarti. Controlla il tuo indirizzo email e la password e riprova.",
 		"userDoesNotExist": "Un utente con questo indirizzo email non esiste.",
 		"loadUserPropertiesFailed": "Le proprietà dell'utente non possono essere caricate correttamente.",
 		"loadClientFailed": "Carica client non riuscito.",

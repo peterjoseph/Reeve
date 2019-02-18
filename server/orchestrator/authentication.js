@@ -228,13 +228,13 @@ export function authenticateWithoutToken(received, browserLng) {
 
 			// Throw an error if the user does not exist
 			if (user === null) {
-				throw new ServerResponseError(403, t("validation.userInvalidProperties", { lng: browserLng }), { emailAddress: [t("validation.userDoesNotExist", { lng: browserLng })] });
+				throw new ServerResponseError(403, t("validation.userInvalidProperties", { lng: browserLng }), { emailAddress: [t("validation.incorrectLoginDetailsSupplied", { lng: browserLng })] });
 			}
 
 			// Validate the supplied user password
 			const valid = await bcrypt.compare(received.password, user.get("password"));
 			if (valid === false) {
-				throw new ServerResponseError(403, t("validation.userInvalidProperties", { lng: browserLng }), { password: [t("validation.invalidPasswordSupplied", { lng: browserLng })] });
+				throw new ServerResponseError(403, t("validation.userInvalidProperties", { lng: browserLng }), { password: [t("validation.incorrectLoginDetailsSupplied", { lng: browserLng })] });
 			}
 
 			// Create the JSON Web Token for the User

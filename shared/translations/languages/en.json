@@ -197,6 +197,7 @@
 		"verifyEmailInvalidProperties": "Verify email object contains invalid properties.",
 		"invalidPasswordSupplied": "Incorrect password supplied. Please enter a valid password.",
 		"invalidUserId": "Incorrect userId supplied",
+		"incorrectLoginDetailsSupplied": "We are having trouble signing you in. Please check your email address and password, and try again.",
 		"userDoesNotExist": "A user with this email address does not exist.",
 		"loadUserPropertiesFailed": "User properties could not be successfully loaded.",
 		"loadClientFailed": "Load client failed.",
