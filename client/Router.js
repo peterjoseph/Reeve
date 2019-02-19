@@ -43,19 +43,21 @@ class Router extends Component {
 						<RedirectComponent exact path="/forgot" role={[ROLE_TYPE.UNREGISTERED]} user={user} render={() => <Authentication />} />
 						<RedirectComponent exact path="/reset" role={[ROLE_TYPE.UNREGISTERED]} user={user} render={() => <Authentication />} />
 						<RedirectComponent exact path="/verify" role={[ROLE_TYPE.UNREGISTERED, ROLE_TYPE.OWNER]} user={user} render={() => <Authentication />} />
-						<RedirectComponent
-							exact
-							path="/billing"
-							role={[ROLE_TYPE.OWNER, ROLE_TYPE.FINANCE]}
-							feature={[FEATURES.BILLING]}
-							subscription={[SUBSCRIPTION_TYPE.TRIAL, SUBSCRIPTION_TYPE.BASIC]}
-							user={user}
-							render={() => (
-								<DefaultLayout key="/billing">
-									<Billing />
-								</DefaultLayout>
-							)}
-						/>
+						{STRIPE_ENABLED && (user && user.get("subscriptionEndDate") !== null) && (
+							<RedirectComponent
+								exact
+								path="/billing"
+								role={[ROLE_TYPE.OWNER, ROLE_TYPE.FINANCE]}
+								feature={[FEATURES.BILLING]}
+								subscription={[SUBSCRIPTION_TYPE.TRIAL, SUBSCRIPTION_TYPE.BASIC]}
+								user={user}
+								render={() => (
+									<DefaultLayout key="/billing">
+										<Billing />
+									</DefaultLayout>
+								)}
+							/>
+						)}
 						<RedirectComponent
 							exact
 							path="/profile"

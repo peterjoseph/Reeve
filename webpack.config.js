@@ -13,6 +13,8 @@ function loadPlugins() {
 			BUILD_DOMAINPATH: JSON.stringify(config.build.domainPath),
 			GOOGLE_ANALYTICS_ENABLED: JSON.stringify(config.googleAnalytics.enabled),
 			GOOGLE_ANALYTICS_TRACKING: JSON.stringify(config.googleAnalytics.tracking),
+			STRIPE_ENABLED: JSON.stringify(config.stripe.enabled),
+			STRIPE_API_KEY: JSON.stringify(config.stripe.apiKey),
 			SENTRY_ENABLED: JSON.stringify(config.sentry.enabled),
 			SENTRY_DSN: JSON.stringify(config.sentry.dns)
 		}),

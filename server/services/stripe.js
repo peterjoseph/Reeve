@@ -1,5 +1,5 @@
 let config = require("../../config");
-const stripe = require("stripe")(config.stripe.secretKey);
+const stripe = require("stripe")(config.stripe.apiKey);
 
 function initialize(app) {
 	if (!config.stripe.enabled) {

@@ -55,7 +55,7 @@ let config = {
 	},
 	stripe: {
 		enabled: String(process.env.STRIPE_ENABLED) === "true",
-		secretKey: process.env.STRIPE_SECRET_KEY
+		apiKey: process.env.STRIPE_API_KEY
 	},
 	googleAnalytics: {
 		enabled: String(process.env.GOOGLE_ANALYTICS_ENABLED) === "true",

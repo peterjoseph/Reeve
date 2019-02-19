@@ -84,20 +84,22 @@ class Header extends Component {
 				<nav className="navbar sticky-top navbar-expand-md bg-primary navbar-dark px-2 py-1">
 					<NavLogo />
 					<ul className="navbar-nav bd-navbar-nav flex-row ml-auto d-flex order-md-1">
-						<ActiveTrial />
+						{STRIPE_ENABLED && user.get("subscriptionEndDate") !== null && <ActiveTrial />}
 						<HelpCaller />
 						<NavProfileMenu>
 							<NavProfileMenuLogo />
 							{user.get("subscriptionActive") && (
 								<Fragment>
 									<NavDropdownLink title={t("label.profile")} route={"/profile"} />
-									<NavDropdownLink
-										title={t("label.billing")}
-										route={"/billing"}
-										role={[ROLE_TYPE.OWNER, ROLE_TYPE.FINANCE]}
-										feature={[FEATURES.BILLING]}
-										subscription={[SUBSCRIPTION_TYPE.TRIAL, SUBSCRIPTION_TYPE.BASIC]}
-									/>
+									{STRIPE_ENABLED && user.get("subscriptionEndDate") !== null && (
+										<NavDropdownLink
+											title={t("label.billing")}
+											route={"/billing"}
+											role={[ROLE_TYPE.OWNER, ROLE_TYPE.FINANCE]}
+											feature={[FEATURES.BILLING]}
+											subscription={[SUBSCRIPTION_TYPE.TRIAL, SUBSCRIPTION_TYPE.BASIC]}
+										/>
+									)}
 									<NavDropdownLink title={t("label.settings")} route={"/settings"} />
 									<div className="dropdown-divider" />
 								</Fragment>
@@ -117,7 +119,7 @@ class Header extends Component {
 									<ul className="navbar-nav bd-navbar-nav flex-md-row">
 										<NavMenuLink title={t("label.dashboard")} route={"/"} isExact={true} />
 										<NavMenuLink title={t("label.profile")} route={"/profile"} isExact={true} />
-										<NavMenuLink title={t("label.billing")} route={"/billing"} isExact={true} />
+										{STRIPE_ENABLED && user.get("subscriptionEndDate") !== null && <NavMenuLink title={t("label.billing")} route={"/billing"} isExact={true} />}
 										<NavMenuLink title={t("label.settings")} route={"/settings"} isExact={true} />
 									</ul>
 								</div>

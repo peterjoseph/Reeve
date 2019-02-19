@@ -98,25 +98,32 @@ export function registerNewClient(received, browserLng) {
 				throw new ServerResponseError(403, t("validation.clientInvalidProperties", { lng: browserLng }), { workspaceURL: [t("validation.registeredWorkspaceURL", { lng: browserLng })] });
 			}
 
-			// Calculate trial start and end times
-			const startDate = moment(new Date()).format("YYYY-MM-DD HH:mm:ss");
-			const endDate = moment(startDate, "YYYY-MM-DD HH:mm:ss").add(BILLING_CYCLE.TRIAL, "days");
-
 			// Load active language numerical value from constants object
 			const activeLanguage = Object.keys(LANGUAGE_CODES).find(key => LANGUAGE_CODES[key] === received.language);
 
-			// Create new client and save to database
-			const clientInstance = await models().client.create(
-				{
-					name: received.workspaceURL,
-					workspaceURL: received.workspaceURL,
-					subscriptionId: SUBSCRIPTION_TYPE.TRIAL,
-					subscriptionStartDate: startDate,
-					subscriptionEndDate: endDate,
-					defaultLanguage: activeLanguage
-				},
-				{ transaction: transaction }
-			);
+			// Create new client object
+			const clientObject = {
+				name: received.workspaceURL,
+				workspaceURL: received.workspaceURL,
+				subscriptionId: SUBSCRIPTION_TYPE.TRIAL,
+				defaultLanguage: activeLanguage
+			};
+
+			// Calculate start time of new client account
+			const startDate = moment(new Date()).format("YYYY-MM-DD HH:mm:ss");
+
+			// Add time to clientObject
+			clientObject.subscriptionStartDate = startDate;
+
+			// If stripe enabled we need to create a trial end time
+			if (config.stripe.enabled) {
+				const endDate = moment(startDate, "YYYY-MM-DD HH:mm:ss").add(BILLING_CYCLE.TRIAL, "days");
+				// Add subscription end date to the client object
+				clientObject.subscriptionEndDate = endDate;
+			}
+
+			// Save client object to database
+			const clientInstance = await models().client.create(clientObject, { transaction: transaction });
 
 			// Encrypt and salt user password
 			const password = await bcrypt.hash(received.password, 10);
@@ -302,9 +309,11 @@ export function loadUser(received, browserLng) {
 
 			// Determine if client subscription is active
 			let subscriptionActive = true;
-			if (client.get("subscriptionEndDate") !== null) {
-				if (moment(client.get("subscriptionEndDate")).diff(time, "minutes") <= 0) {
-					subscriptionActive = false;
+			if (config.stripe.enabled) {
+				if (client.get("subscriptionEndDate") !== null) {
+					if (moment(client.get("subscriptionEndDate")).diff(time, "minutes") <= 0) {
+						subscriptionActive = false;
+					}
 				}
 			}
 

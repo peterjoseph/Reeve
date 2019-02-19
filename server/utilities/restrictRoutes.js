@@ -35,10 +35,12 @@ export default function(properties = {}) {
 				req.user = user;
 			}
 
-			// If subscription not active, redirect to billing page
-			if (properties.activeSubscription === true && req.user && req.user.subscriptionActive !== true) {
-				const url = `${config.build.protocol}://${req.user.workspaceURL}.${config.build.domainPath}/billing`;
-				return res.redirect(url);
+			// If stripe enabled and subscription not active, redirect to billing page
+			if (config.stripe.enabled) {
+				if (properties.activeSubscription === true && req.user && req.user.subscriptionActive !== true) {
+					const url = `${config.build.protocol}://${req.user.workspaceURL}.${config.build.domainPath}/billing`;
+					return res.redirect(url);
+				}
 			}
 
 			// Error if user is missing correct role
