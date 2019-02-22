@@ -23,7 +23,7 @@ npm install && npm start
 ![](https://i.imgur.com/662XXKg.png)
 \*Subject to change as new services are implemented
 
-## Key Features
+## Key Integrations
 
 -   [x] Server Configuration & Environment Store
 -   [x] Express Server
@@ -51,3 +51,18 @@ npm install && npm start
 -   [x] Papertrail logging
 -   [x] API Rate Limiting
 -   [ ] Stripe Payment & Subscription Gateway
+
+## Boilerplate Pages
+
+-   [x] Enter Subdomain
+-   [x] Log-In
+-   [x] Sign-Up
+-   [x] Forgot Password
+-   [ ] Billing
+-   [ ] Change Password
+-   [ ] User Profile
+-   [ ] Application Settings
+
+## Documentation
+
+Further documentation can be found in the ./documentation directory
