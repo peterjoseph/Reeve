@@ -1,4 +1,4 @@
-# ![](https://i.imgur.com/IWcsBRG.png)
+# ![](https://i.imgur.com/KnxoW1c.png)
 
 ### Web application scaffolding for production environments.
 
