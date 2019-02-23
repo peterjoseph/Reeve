@@ -20,7 +20,7 @@ class Alert extends Component {
 						<div className="modal-body">{children}</div>
 						<div className="modal-footer">
 							{closeModal && (
-								<button type="button" className="btn btn-secondary" onClick={closeModal} data-dismiss="modal">
+								<button type="button" className="btn btn-secondary btn-sm" onClick={closeModal} data-dismiss="modal">
 									{t("action.close")}
 								</button>
 							)}

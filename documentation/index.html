@@ -367,7 +367,7 @@
 							|____|____|____|____ components
 							|____|____|____ billing
 							|____|____|____|____ components
-							|____|____|____ dashboard
+							|____|____|____ overview
 							|____|____|____ header
 							|____|____|____|____ components
 							|____|____|____ profile
@@ -421,7 +421,7 @@
 						<p><b>/client/modules/authentication/components/: </b>Shared components that are used in a particular page or group of pages, but are unlikely to be required across the whole application, should be stored in a 'components' directory.</p>
 						<p><b>/client/modules/billing/: </b>Pages and components for presenting billing and subscription management to the end user.</p>
 						<p><b>/client/modules/billing/components/: </b>Shared components that are used in a particular page or group of pages, but are unlikely to be required across the whole application, should be stored in a 'components' directory.</p>
-						<p><b>/client/modules/dashboard/: </b>The first page that is presented to a user when they sign-in to an account.</p>
+						<p><b>/client/modules/overview/: </b>The first page that is presented to a user when they sign-in to an account.</p>
 						<p><b>/client/modules/header/: </b>A navigation header that is shared across multiple pages throughout the app. The visibility of the header is determined by its use in the layouts directory '<i>client/common/layouts</i>'.</p>
 						<p><b>/client/modules/header/components/: </b>Shared components that are used in a particular page or group of pages, but are unlikely to be required across the whole application, should be stored in a 'components' directory.</p>
 						<p><b>/client/modules/profile/: </b>A directory containing pages where users can update their personal information and add a profile picture.</p>
@@ -831,7 +831,7 @@
 				<div class="code__block code__block--notabs">
 					<pre class="code code--block">
 						<code>
-							const Dashboard = AsyncComponent(() => import("./modules/dashboard"));
+							const overview = AsyncComponent(() => import("./modules/overview"));
 						</code>
 					</pre>
 				</div>

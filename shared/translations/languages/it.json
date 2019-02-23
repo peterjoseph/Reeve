@@ -29,7 +29,7 @@
 		"accountDetails": "Dettagli account",
 		"resetPassword": "Resetta la password",
 		"error": "Errore",
-		"dashboard": "Cruscotto",
+		"overview": "Panoramica",
 		"activity": "Attività",
 		"contacts": "Contatti",
 		"profile": "Profilo",
@@ -149,8 +149,8 @@
 			"title": "Reimposta password account | $t(site.name)",
 			"description": "Reimposta la password sul tuo account."
 		},
-		"dashboard": {
-			"title": "Cruscotto | $t(site.name)",
+		"overview": {
+			"title": "Panoramica | $t(site.name)",
 			"description": "Panoramica dello spazio di lavoro"
 		},
 		"billing": {

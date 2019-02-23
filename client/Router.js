@@ -10,7 +10,7 @@ import GoogleAnalytics from "common/components/GoogleAnalytics";
 
 import DefaultLayout from "common/layouts/DefaultLayout";
 
-const Dashboard = AsyncComponent(() => import("./modules/dashboard"));
+const Overview = AsyncComponent(() => import("./modules/overview"));
 const Authentication = AsyncComponent(() => import("./modules/authentication"));
 const Profile = AsyncComponent(() => import("./modules/profile"));
 const Billing = AsyncComponent(() => import("./modules/billing"));
@@ -33,7 +33,7 @@ class Router extends Component {
 							user={user}
 							render={() => (
 								<DefaultLayout key="/">
-									<Dashboard />
+									<Overview />
 								</DefaultLayout>
 							)}
 						/>

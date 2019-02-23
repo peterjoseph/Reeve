@@ -12,7 +12,7 @@ class HelpCaller extends Component {
 		let articleLink = null;
 		switch (history.location.pathname) {
 			case "/":
-				articleLink = l("supportArticles.dashboard");
+				articleLink = l("supportArticles.overview");
 				break;
 			case "/profile":
 				articleLink = l("supportArticles.profile");

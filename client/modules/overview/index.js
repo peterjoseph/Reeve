@@ -4,22 +4,22 @@ import { Helmet } from "react-helmet";
 
 import { t } from "shared/translations/i18n";
 
-import DashboardIcon from "common/media/icons/Dashboard";
+import OverviewIcon from "common/media/icons/Overview";
 import User from "common/components/User";
 
-class Dashboard extends Component {
+class Overview extends Component {
 	render() {
 		return (
 			<Fragment>
 				<Helmet>
-					<title>{t("headers.dashboard.title")}</title>
-					<meta name="description" content={t("headers.dashboard.description")} />
+					<title>{t("headers.overview.title")}</title>
+					<meta name="description" content={t("headers.overview.description")} />
 				</Helmet>
 				<div className="container">
 					<div className="px-3 py-3 pt-md-5 pb-md-4 mx-auto">
 						<div className="mb-3 text-center">
 							<div>
-								<DashboardIcon width="48px" height="48px" color="#CCCCCC" />
+								<OverviewIcon width="48px" height="48px" color="#CCCCCC" />
 							</div>
 						</div>
 					</div>
@@ -29,8 +29,8 @@ class Dashboard extends Component {
 	}
 }
 
-Dashboard.propTypes = {
+Overview.propTypes = {
 	user: PropTypes.object
 };
 
-export default User(Dashboard);
+export default User(Overview);

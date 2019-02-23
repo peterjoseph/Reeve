@@ -29,7 +29,7 @@
 		"accountDetails": "Account Details",
 		"resetPassword": "Reset Password",
 		"error": "Error",
-		"dashboard": "Dashboard",
+		"overview": "Overview",
 		"activity": "Activity",
 		"contacts": "Contacts",
 		"profile": "Profile",
@@ -152,8 +152,8 @@
 			"title": "Reset Account Password | $t(site.name)",
 			"description": "Reset the password to your account."
 		},
-		"dashboard": {
-			"title": "Dashboard | $t(site.name)",
+		"overview": {
+			"title": "Overview | $t(site.name)",
 			"description": "Workspace overview"
 		},
 		"billing": {

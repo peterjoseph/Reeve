@@ -37,6 +37,7 @@ npm install && npm start
 -   [x] Dropdown Alerts
 -   [x] AVA Test System
 -   [x] JS Validation
+-   [x] Google Analytics
 -   [x] Redis
 -   [x] MySQL Server
 -   [x] Subdomains

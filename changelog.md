@@ -19,7 +19,7 @@ This file is a record of notable changes made to Reeve.
 
 -   Replaced UglifyJS with Terser to provide ES6 support
 -   Missing Bootstrap "Burger Menu Icon" replaced with SVG
--   Client styling not visible on user dashboard
+-   Client styling not visible on user overview page
 -   Deprecated updateAttributes sequelize function updated
 
 ## 1.0.1
