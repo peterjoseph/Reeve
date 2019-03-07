@@ -90,6 +90,29 @@
 				"clickLink": "Fai clic sul link nell'e-mail per verificare il tuo indirizzo email."
 			}
 		},
+		"overview": {
+			"title": "Panoramica",
+			"leadDescription": "Reeve è un framework Node.js che aiuta gli sviluppatori a ridurre i tempi di installazione necessari per creare applicazioni web scalabili pronte per la produzione. Il framework include alcune pagine predefinite che si trovano comunemente in molte applicazioni Web.",
+			"cards": {
+				"profile": {
+					"title": "Pagina profilo",
+					"listOne": "Visualizza e modifica il profilo utente",
+					"listTwo": "Cambia la password",
+					"listThree": "Cambia la lingua predefinita preferita"
+				},
+				"billing": {
+					"title": "Pagina di fatturazione",
+					"listOne": "Abbonamenti mensili e annuali a livelli",
+					"listTwo": "Gestione dei pagamenti a strisce",
+					"listThree": "Gestione delle fatture"
+				},
+				"settings": {
+					"title": "Pagina Impostazioni",
+					"listOne": "Branding del cliente e personalizzazione del colore",
+					"listTwo": "Impostazioni della lingua predefinite"
+				}
+			}
+		},
 		"billing": {
 			"trialExpired": "Il tuo processo è scaduto",
 			"trialDaysLeft": "{{ count }} giorno rimasto in prova",

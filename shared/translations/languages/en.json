@@ -87,6 +87,29 @@
 				"clickLink": "Please click the link in the email to verify your email address."
 			}
 		},
+		"overview": {
+			"title": "Overview",
+			"leadDescription": "Reeve is a Node.js boilerplate framework that assists developers in reducing the setup time required to build production-ready scalable web applications. This framework includes some pre-built pages that are commonly found in many web applications.",
+			"cards": {
+				"profile": {
+					"title": "Profile Page",
+					"listOne": "View and edit user profile",
+					"listTwo": "Change password",
+					"listThree": "Change preferred default language"
+				},
+				"billing": {
+					"title": "Billing Page",
+					"listOne": "Tiered monthly and yearly subscriptions",
+					"listTwo": "Stripe payment handling",
+					"listThree": "Invoice management"
+				},
+				"settings": {
+					"title": "Settings Page",
+					"listOne": "Client branding and color customization",
+					"listTwo": "Default language settings"
+				}
+			}
+		},
 		"billing": {
 			"trialExpired": "Your trial has expired",
 			"trialDaysLeft": "{{ count }} day left on trial",
