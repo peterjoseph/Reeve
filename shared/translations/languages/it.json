@@ -46,7 +46,8 @@
 		"monthly": "Mensile",
 		"yearly": "Annuale",
 		"currency": "Moneta",
-		"finish": "Finire"
+		"finish": "Finire",
+		"languageSettings": "Impostazioni della lingua"
 	},
 	"numbers": {
 		"1": "1",
@@ -112,6 +113,12 @@
 					"listTwo": "Impostazioni della lingua predefinite"
 				}
 			}
+		},
+		"profile": {
+			"changePassword": "Cambia La Password",
+			"currentPassword": "Password Attuale",
+			"newPassword": "Nuova Password",
+			"confirmNewPassword": "Conferma La Nuova Password"
 		},
 		"billing": {
 			"trialExpired": "Il tuo processo è scaduto",

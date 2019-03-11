@@ -43,7 +43,8 @@
 		"monthly": "Monthly",
 		"yearly": "Yearly",
 		"currency": "Currency",
-		"finish": "Finish"
+		"finish": "Finish",
+		"languageSettings": "Language Settings"
 	},
 	"numbers": {
 		"1": "1",
@@ -89,7 +90,7 @@
 		},
 		"overview": {
 			"title": "Overview",
-			"leadDescription": "Reeve is a Node.js boilerplate framework that assists developers in reducing the setup time required to build production-ready scalable web applications. This framework includes some pre-built pages that are commonly found in many web applications.",
+			"leadDescription": "Reeve is a Node.js boilerplate framework that assists developers in reducing the setup time required to build production-ready scalable web applications. This framework includes pre-built pages that are commonly found in many web applications.",
 			"cards": {
 				"profile": {
 					"title": "Profile Page",
@@ -99,7 +100,7 @@
 				},
 				"billing": {
 					"title": "Billing Page",
-					"listOne": "Tiered monthly and yearly subscriptions",
+					"listOne": "Tiered subscription types",
 					"listTwo": "Stripe payment handling",
 					"listThree": "Invoice management"
 				},
@@ -109,6 +110,12 @@
 					"listTwo": "Default language settings"
 				}
 			}
+		},
+		"profile": {
+			"changePassword": "Change Password",
+			"currentPassword": "Current Password",
+			"newPassword": "New Password",
+			"confirmNewPassword": "Confirm New Password"
 		},
 		"billing": {
 			"trialExpired": "Your trial has expired",

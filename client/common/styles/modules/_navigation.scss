@@ -9,6 +9,16 @@
 	}
 }
 
+.profile-icon {
+	width: 8rem;
+	height: 8rem;
+
+	img {
+		max-width: 8rem;
+		max-height: 8rem;
+	}
+}
+
 // Bootstrap Header Dropdown Menus
 .dropdown-menu {
 	border-radius: 0px;
