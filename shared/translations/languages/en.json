@@ -115,7 +115,8 @@
 			"changePassword": "Change Password",
 			"currentPassword": "Current Password",
 			"newPassword": "New Password",
-			"confirmNewPassword": "Confirm New Password"
+			"confirmNewPassword": "Confirm New Password",
+			"passwordLengthRequirement": "Please ensure your new password is longer than 6 characters."
 		},
 		"billing": {
 			"trialExpired": "Your trial has expired",
@@ -206,6 +207,7 @@
 	"success": {
 		"clientRegistration": "Success! Your account has been created.",
 		"forgotPasswordEmail": "Success! If an account is associated with this email address, you will receive a message with instructions on how to login or reset the password to your account.",
+		"changePassword": "Success! The password to your account has been changed.",
 		"resetPassword": "Success! The password to your account has been reset.",
 		"verifyEmail": "Success! Your email address has been verified."
 	},
@@ -224,8 +226,10 @@
 		"userInvalidProperties": "User object contains invalid properties.",
 		"clientInvalidProperties": "Client object contains invalid properties.",
 		"resetPasswordInvalidProperties": "Reset password code contains invalid properties.",
+		"changePasswordInvalidProperties": "Change password object contains invalid properties.",
 		"verifyEmailInvalidProperties": "Verify email object contains invalid properties.",
 		"invalidPasswordSupplied": "Incorrect password supplied. Please enter a valid password.",
+		"incorrectCurrentPasswordSupplied": "Incorrect current password supplied. Please enter the correct password.",
 		"invalidUserId": "Incorrect userId supplied",
 		"incorrectLoginDetailsSupplied": "We are having trouble signing you in. Please check your email address and password, and try again.",
 		"userDoesNotExist": "A user with this email address does not exist.",
@@ -250,7 +254,7 @@
 		"validators": {
 			"validDate": "$t(label.errorField) Must be a valid date.",
 			"invalidEmail": "$t(label.errorField) Not a valid email.",
-			"notEqual": "$t(label.errorField) Not Equal.",
+			"notEqual": "$t(label.errorField) Fields are not equal.",
 			"restricted": "$t(label.errorField) Restricted.",
 			"invalid": "$t(label.errorField) Invalid.",
 			"notIncluded": "$t(label.errorField) Is not included in the list.",
@@ -258,7 +262,9 @@
 			"missingConsent": "$t(label.errorField) Must be accepted to continue.",
 			"cannotBeBlank": "$t(label.errorField) Field cannot be blank.",
 			"validCharactersAZ09": "$t(label.errorField) Field can only contain characters from a-z and 0-9, and no spaces.",
-			"invalidURL": "$t(label.errorField) Not a valid URL."
+			"invalidURL": "$t(label.errorField) Not a valid URL.",
+			"invalidPasswordLength": "$t(label.errorField) Password field must be greater than 6 characters.",
+			"unmatchedPasswords": "$t(label.errorField) Confirm Password should match New Password."
 		}
 	}
 }

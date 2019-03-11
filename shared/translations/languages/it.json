@@ -118,7 +118,8 @@
 			"changePassword": "Cambia La Password",
 			"currentPassword": "Password Attuale",
 			"newPassword": "Nuova Password",
-			"confirmNewPassword": "Conferma La Nuova Password"
+			"confirmNewPassword": "Conferma La Nuova Password",
+			"passwordLengthRequirement": "Assicurati che la tua nuova password sia più lunga di 6 caratteri."
 		},
 		"billing": {
 			"trialExpired": "Il tuo processo è scaduto",
@@ -203,6 +204,7 @@
 	"success": {
 		"clientRegistration": "Successo! Il tuo account è stato creato.",
 		"forgotPasswordEmail": "Successo! Se un account è associato a questo indirizzo email, riceverai un messaggio con le istruzioni su come accedere o reimpostare la password sul tuo account.",
+		"changePassword": "Successo! La password del tuo account è stata cambiata.",
 		"resetPassword": "Successo! La password del tuo account è stata ripristinata.",
 		"verifyEmail": "Successo! Il tuo indirizzo email è stato verificato"
 	},
@@ -221,8 +223,10 @@
 		"userInvalidProperties": "L'oggetto utente contiene proprietà non valide.",
 		"clientInvalidProperties": "L'oggetto client contiene proprietà non valide.",
 		"resetPasswordInvalidProperties": "Il codice di reimpostazione della password contiene proprietà non valide.",
+		"changePasswordInvalidProperties": "L'oggetto Cambia password contiene proprietà non valide.",
 		"verifyEmailInvalidProperties": "Verifica che l'oggetto di posta elettronica contenga proprietà non valide.",
 		"invalidPasswordSupplied": "Password errata fornita Per cortesia inserire una password valida.",
+		"incorrectCurrentPasswordSupplied": "Password corrente errata fornita. Si prega di inserire la password corretta.",
 		"invalidUserId": "UserId errato fornito",
 		"incorrectLoginDetailsSupplied": "Abbiamo problemi a firmarti. Controlla il tuo indirizzo email e la password e riprova.",
 		"userDoesNotExist": "Un utente con questo indirizzo email non esiste.",
@@ -247,7 +251,7 @@
 		"validators": {
 			"validDate": "$t(label.errorField) Deve essere una data valida.",
 			"invalidEmail": "$t(label.errorField) Non è un'e-mail valida.",
-			"notEqual": "$t(label.errorField) Non uguale.",
+			"notEqual": "$t(label.errorField) I campi non sono uguali.",
 			"restricted": "$t(label.errorField) Limitato.",
 			"invalid": "$t(label.errorField) Non valido.",
 			"notIncluded": "$t(label.errorField) Non è incluso nella lista.",
@@ -255,7 +259,9 @@
 			"missingConsent": "$t(label.errorField) Deve essere accettato per continuare.",
 			"cannotBeBlank": "$t(label.errorField) Non può essere vuoto.",
 			"validCharactersAZ09": "$t(label.errorField) Può contenere solo caratteri da a-z e 0-9 e nessuno spazio.",
-			"invalidURL": "$t(label.errorField) Non è un URL valido."
+			"invalidURL": "$t(label.errorField) Non è un URL valido.",
+			"invalidPasswordLength": "$t(label.errorField) Il campo della password deve essere maggiore di 6 caratteri.",
+			"unmatchedPasswords": "$t(label.errorField) Conferma password deve corrispondere alla nuova password."
 		}
 	}
 }

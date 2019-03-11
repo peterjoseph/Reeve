@@ -72,7 +72,9 @@ const register = () => {
 				allowEmpty: false
 			},
 			length: {
-				minimum: 6
+				minimum: 6,
+				maximum: 66,
+				message: t("validation.validators.invalidPasswordLength")
 			}
 		},
 		workspaceURL: {
@@ -190,7 +192,8 @@ const resetPassword = () => {
 			},
 			length: {
 				minimum: 6,
-				maximum: 66
+				maximum: 66,
+				message: t("validation.validators.invalidPasswordLength")
 			}
 		},
 		verifyPassword: {
@@ -199,7 +202,8 @@ const resetPassword = () => {
 			},
 			length: {
 				minimum: 6,
-				maximum: 66
+				maximum: 66,
+				message: t("validation.validators.invalidPasswordLength")
 			},
 			equality: {
 				attribute: "password",

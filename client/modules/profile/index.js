@@ -1,6 +1,7 @@
 import React, { Component, Fragment } from "react";
 import PropTypes from "prop-types";
 import { Helmet } from "react-helmet";
+import { withRouter } from "react-router-dom";
 
 import { t } from "shared/translations/i18n";
 
@@ -10,7 +11,7 @@ import ChangePassword from "./components/ChangePassword";
 
 class Profile extends Component {
 	render() {
-		const { user } = this.props;
+		const { user, history } = this.props;
 
 		return (
 			<Fragment>
@@ -46,7 +47,7 @@ class Profile extends Component {
 									<h5>{t("components.profile.changePassword")}</h5>
 									<div className="card rounded-0 mb-3 text-left">
 										<div className="card-body">
-											<ChangePassword />
+											<ChangePassword location={history.location} />
 										</div>
 									</div>
 								</div>
@@ -60,7 +61,8 @@ class Profile extends Component {
 }
 
 Profile.propTypes = {
+	history: PropTypes.object,
 	user: PropTypes.object
 };
 
-export default User(Profile);
+export default withRouter(User(Profile));

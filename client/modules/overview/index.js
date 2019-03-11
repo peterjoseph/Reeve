@@ -25,7 +25,7 @@ class Overview extends Component {
 							<h1>{t("components.overview.title")}</h1>
 							<p className="lead mb-4">{t("components.overview.leadDescription")}</p>
 							<div className="row py-3">
-								<div class="col-md-4">
+								<div className="col-md-4">
 									<div className="card rounded-0 mb-3 text-left">
 										<div className="card-body">
 											<Link to={{ pathname: "/profile" }}>
@@ -46,7 +46,7 @@ class Overview extends Component {
 										</div>
 									</div>
 								</div>
-								<div class="col-md-4">
+								<div className="col-md-4">
 									<div className="card rounded-0 mb-3 text-left">
 										<div className="card-body">
 											<Link to={{ pathname: "/billing" }}>
@@ -67,7 +67,7 @@ class Overview extends Component {
 										</div>
 									</div>
 								</div>
-								<div class="col-md-4">
+								<div className="col-md-4">
 									<div className="card rounded-0 text-left">
 										<div className="card-body">
 											<Link to={{ pathname: "/settings" }}>
