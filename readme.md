@@ -18,6 +18,14 @@ cd Reeve
 npm install && npm start
 ```
 
+## Application Screenshots
+
+![](https://i.imgur.com/c6cYmSl.png)
+
+![](https://i.imgur.com/naX75BZ.png)
+
+![](https://i.imgur.com/BtDKKmH.png)
+
 ## Server Architecture
 
 ![](https://i.imgur.com/662XXKg.png)
@@ -60,7 +68,7 @@ npm install && npm start
 -   [x] Sign-Up
 -   [x] Forgot Password
 -   [ ] Billing
--   [ ] Change Password
+-   [x] Change Password
 -   [ ] User Profile
 -   [ ] Application Settings
 
