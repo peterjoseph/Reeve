@@ -4,13 +4,20 @@ body {
 	background-color: #f5f5f6;
 }
 
-.toast-notification {
-	position: initial !important;
-	width: 100% !important;
-	transition: none !important;
+#notification-wrapper {
+	position: fixed;
+	right: 0;
+	bottom: 0;
+	z-index: 1020;
 
-	span {
+	.toast-notification {
+		position: initial !important;
 		width: 100% !important;
-		border-radius: 0 !important;
+		transition: none !important;
+
+		span {
+			width: 100% !important;
+			border-radius: 0 !important;
+		}
 	}
 }
