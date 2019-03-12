@@ -1,6 +1,7 @@
 import { fromJS } from "immutable";
 import { REDUX_STATE } from "shared/constants";
 import i18next, { saveLNGToken } from "shared/translations/i18n";
+import { changeUserLanguage } from "client/api/language.js";
 
 import "./root";
 
@@ -62,5 +63,27 @@ export function changeLanguage(language) {
 				payload: { language: i18next.language }
 			});
 		});
+	};
+}
+
+export function saveUserLanguage(body) {
+	return dispatch => {
+		dispatch({
+			type: CHANGE_LANGUAGE_PENDING
+		});
+
+		return changeUserLanguage(body).then(
+			result => {
+				return dispatch({
+					type: CHANGE_LANGUAGE_FULFILLED,
+					payload: result
+				});
+			},
+			error =>
+				dispatch({
+					type: CHANGE_LANGUAGE_REJECTED,
+					payload: error
+				})
+		);
 	};
 }

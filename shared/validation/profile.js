@@ -1,4 +1,5 @@
 import { t } from "shared/translations/i18n";
+import { RESTRICTED_LANGUAGES } from "shared/constants";
 
 const changeUserPassword = () => {
 	return {
@@ -42,6 +43,20 @@ const changeUserPassword = () => {
 	};
 };
 
+const changeSavedLanguage = () => {
+	return {
+		language: {
+			presence: {
+				allowEmpty: false
+			},
+			inclusion: {
+				within: RESTRICTED_LANGUAGES
+			}
+		}
+	};
+};
+
 module.exports = {
-	changeUserPassword: changeUserPassword
+	changeUserPassword: changeUserPassword,
+	changeSavedLanguage: changeSavedLanguage
 };

@@ -33,7 +33,7 @@
 		"activity": "Attività",
 		"contacts": "Contatti",
 		"profile": "Profilo",
-		"settings": "impostazioni",
+		"settings": "Impostazioni",
 		"billing": "Fatturazione",
 		"oops": "Oops!",
 		"errorField": "Errore:",
@@ -115,6 +115,8 @@
 			}
 		},
 		"profile": {
+			"whichLanguage?": "Quale lingua dovrebbe usare $t(site.name)?",
+			"changeLanguage": "Cambia lingua",
 			"changePassword": "Cambia La Password",
 			"currentPassword": "Password Attuale",
 			"newPassword": "Nuova Password",
@@ -206,7 +208,8 @@
 		"forgotPasswordEmail": "Successo! Se un account è associato a questo indirizzo email, riceverai un messaggio con le istruzioni su come accedere o reimpostare la password sul tuo account.",
 		"changePassword": "Successo! La password del tuo account è stata cambiata.",
 		"resetPassword": "Successo! La password del tuo account è stata ripristinata.",
-		"verifyEmail": "Successo! Il tuo indirizzo email è stato verificato"
+		"verifyEmail": "Successo! Il tuo indirizzo email è stato verificato",
+		"changeLanguage": "Successo! La lingua utilizzata da $t(site.name) è stata aggiornata."
 	},
 	"error": {
 		"code": {
@@ -230,6 +233,7 @@
 		"invalidUserId": "UserId errato fornito",
 		"incorrectLoginDetailsSupplied": "Abbiamo problemi a firmarti. Controlla il tuo indirizzo email e la password e riprova.",
 		"userDoesNotExist": "Un utente con questo indirizzo email non esiste.",
+		"changeLanguageInvalidProperties": "L'oggetto linguaggio contiene una selezione lingua non valida.",
 		"loadUserPropertiesFailed": "Le proprietà dell'utente non possono essere caricate correttamente.",
 		"loadClientFailed": "Carica client non riuscito.",
 		"loadClientFeaturesFailed": "Carica le funzionalità del client non riuscite.",

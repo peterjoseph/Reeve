@@ -112,6 +112,8 @@
 			}
 		},
 		"profile": {
+			"whichLanguage?": "Which language should $t(site.name) use?",
+			"changeLanguage": "Change Language",
 			"changePassword": "Change Password",
 			"currentPassword": "Current Password",
 			"newPassword": "New Password",
@@ -209,7 +211,8 @@
 		"forgotPasswordEmail": "Success! If an account is associated with this email address, you will receive a message with instructions on how to login or reset the password to your account.",
 		"changePassword": "Success! The password to your account has been changed.",
 		"resetPassword": "Success! The password to your account has been reset.",
-		"verifyEmail": "Success! Your email address has been verified."
+		"verifyEmail": "Success! Your email address has been verified.",
+		"changeLanguage": "Success! The language $t(site.name) will use has been updated."
 	},
 	"error": {
 		"code": {
@@ -233,6 +236,7 @@
 		"invalidUserId": "Incorrect userId supplied",
 		"incorrectLoginDetailsSupplied": "We are having trouble signing you in. Please check your email address and password, and try again.",
 		"userDoesNotExist": "A user with this email address does not exist.",
+		"changeLanguageInvalidProperties": "Language object contains an invalid language selection.",
 		"loadUserPropertiesFailed": "User properties could not be successfully loaded.",
 		"loadClientFailed": "Load client failed.",
 		"loadClientFeaturesFailed": "Load client features failed.",

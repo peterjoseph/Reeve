@@ -125,17 +125,18 @@ class SignIn extends Component {
 								loginPending: false,
 								serverError: result.payload
 							});
+							return;
+						}
+
+						// Set Google Analytics User
+						GoogleAnalytics.setUser(result.payload.userId);
+
+						// Load client specific default language
+						const lng = result.payload.language;
+						if (variableExists(lng) && activeLanguage() !== lng) {
+							this.props.changeLanguage(lng);
 						}
 					});
-
-					// Set Google Analytics User
-					GoogleAnalytics.setUser(result.payload.userId);
-
-					// Load client specific default language
-					const lng = result.payload.language;
-					if (variableExists(lng) && activeLanguage() !== lng) {
-						this.props.changeLanguage(lng);
-					}
 				}
 			});
 		}
