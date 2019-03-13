@@ -68,6 +68,21 @@ module.exports = function(sequelize, DataTypes) {
 				},
 				field: "language"
 			},
+			bio: {
+				type: DataTypes.STRING(255),
+				allowNull: true,
+				field: "bio"
+			},
+			location: {
+				type: DataTypes.STRING(255),
+				allowNull: true,
+				field: "location"
+			},
+			website: {
+				type: DataTypes.STRING(255),
+				allowNull: true,
+				field: "website"
+			},
 			active: {
 				type: DataTypes.INTEGER(1),
 				allowNull: false,

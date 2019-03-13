@@ -9,7 +9,7 @@ import validate from "shared/validation/validate";
 import { t } from "shared/translations/i18n";
 import { updateUserProfile } from "shared/validation/profile";
 
-import { PROFILE, UPDATE_PROFILE_REJECTED, updateProfile } from "common/store/reducers/profile.js";
+import { PROFILE, UPDATE_PROFILE_REJECTED, LOAD_PROFILE_REJECTED, loadProfile, updateProfile } from "common/store/reducers/profile.js";
 import { LOAD_USER_REJECTED, loadUser } from "common/store/reducers/authentication";
 
 import User from "common/components/User";
@@ -25,23 +25,61 @@ class EditProfile extends Component {
 			firstName: "",
 			lastName: "",
 			emailAddress: "",
+			bio: "",
+			location: "",
+			website: "",
 			loading: false,
 			validationErrors: null,
 			serverError: null
 		};
 
 		this.updateProfile = this.updateProfile.bind(this);
+		this.setProfileFields = this.setProfileFields.bind(this);
 		this.changeField = this.changeField.bind(this);
 	}
 
 	componentDidMount() {
-		if (this.props.user) {
-			this.setState({
-				firstName: this.props.user.get("firstName"),
-				lastName: this.props.user.get("lastName"),
-				emailAddress: this.props.user.get("emailAddress")
-			});
+		this.setState({
+			loading: true,
+			validationErrors: null,
+			serverError: null
+		});
+
+		this.props.loadProfile().then(result => {
+			if (result.type === LOAD_PROFILE_REJECTED) {
+				this.setState({
+					serverError: result.payload
+				});
+				return;
+			} else {
+				this.setProfileFields(result.payload.user);
+			}
+		});
+	}
+
+	static getDerivedStateFromProps(nextProps, prevState) {
+		if (nextProps.loadProfileStatus === prevState.loadProfileStatus) {
+			return null;
 		}
+		// Store properties in state if valid
+		if (nextProps.loadProfileStatus === REDUX_STATE.FULFILLED) {
+			return {
+				loadProfileStatus: REDUX_STATE.FULFILLED
+			};
+		}
+		return null;
+	}
+
+	setProfileFields(field) {
+		this.setState({
+			firstName: field.firstName,
+			lastName: field.lastName,
+			emailAddress: field.emailAddress,
+			bio: field.bio,
+			location: field.location,
+			website: field.website,
+			loading: false
+		});
 	}
 
 	changeField(evt) {
@@ -62,7 +100,10 @@ class EditProfile extends Component {
 		const body = {
 			firstName: this.state.firstName,
 			lastName: this.state.lastName,
-			emailAddress: this.state.emailAddress
+			emailAddress: this.state.emailAddress,
+			bio: this.state.bio,
+			location: this.state.location,
+			website: this.state.website
 		};
 
 		// Validate input parameters
@@ -102,7 +143,7 @@ class EditProfile extends Component {
 	}
 
 	render() {
-		const { firstName, lastName, emailAddress, loading, validationErrors, serverError } = this.state;
+		const { firstName, lastName, emailAddress, bio, location, website, loading, validationErrors, serverError } = this.state;
 		const { updateProfileStatus } = this.props;
 
 		const successMessage = updateProfileStatus === REDUX_STATE.FULFILLED && !serverError && !validationErrors;
@@ -153,6 +194,45 @@ class EditProfile extends Component {
 					disabled={loading}
 					error={validationErrors}
 				/>
+				<InputField
+					label={t("label.aboutMe")}
+					name={"bio"}
+					id={"bio-input"}
+					value={bio}
+					type={"textField"}
+					ariaLabel={"bio"}
+					onChange={this.changeField}
+					disabled={loading}
+					error={validationErrors}
+				/>
+				<div className="form-row">
+					<div className="col">
+						<InputField
+							label={t("label.location")}
+							name={"location"}
+							id={"location-input"}
+							value={location}
+							type={"textField"}
+							ariaLabel={"location"}
+							onChange={this.changeField}
+							disabled={loading}
+							error={validationErrors}
+						/>
+					</div>
+					<div className="col">
+						<InputField
+							label={t("label.website")}
+							name={"website"}
+							id={"website-input"}
+							value={website}
+							type={"textField"}
+							ariaLabel={"website"}
+							onChange={this.changeField}
+							disabled={loading}
+							error={validationErrors}
+						/>
+					</div>
+				</div>
 				<button type="submit" className={"btn btn-primary btn-sm btn-block mt-4 p-3"} onClick={this.updateProfile} disabled={loading}>
 					{t("components.profile.updateProfile")}
 				</button>
@@ -164,13 +244,18 @@ class EditProfile extends Component {
 EditProfile.propTypes = {
 	history: PropTypes.object,
 	user: PropTypes.object,
+	userProfile: PropTypes.object,
 	loadUser: PropTypes.func,
+	loadProfile: PropTypes.func,
+	loadProfileStatus: PropTypes.string,
 	updateProfile: PropTypes.func,
 	updateProfileStatus: PropTypes.string
 };
 
 function mapStateToProps(state) {
 	return {
+		userProfile: state.getIn([PROFILE, "loadProfile", "payload", "user"]),
+		loadProfileStatus: state.getIn([PROFILE, "loadProfile", "status"]),
 		updateProfileStatus: state.getIn([PROFILE, "updateProfile", "status"])
 	};
 }
@@ -178,6 +263,7 @@ function mapStateToProps(state) {
 function mapDispatchToProps(dispatch) {
 	return {
 		loadUser: bindActionCreators(loadUser, dispatch),
+		loadProfile: bindActionCreators(loadProfile, dispatch),
 		updateProfile: bindActionCreators(updateProfile, dispatch)
 	};
 }

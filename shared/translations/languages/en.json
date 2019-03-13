@@ -44,7 +44,10 @@
 		"yearly": "Yearly",
 		"currency": "Currency",
 		"finish": "Finish",
-		"languageSettings": "Language Settings"
+		"languageSettings": "Language Settings",
+		"aboutMe": "About Me",
+		"location": "Location",
+		"website": "Website"
 	},
 	"numbers": {
 		"1": "1",

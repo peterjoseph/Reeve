@@ -19,11 +19,7 @@ CREATE TABLE `passwordReset` (
   `gracePeriod` int(2) unsigned NOT NULL,
   `createdAt` datetime NOT NULL,
   `updatedAt` datetime NOT NULL,
-  PRIMARY KEY (`id`),
-  KEY `FK_evc_userId` (`userId`),
-  KEY `FK_evc_clientId` (`clientId`),
-  CONSTRAINT `passwordreset_ibfk_1` FOREIGN KEY (`clientId`) REFERENCES `client` (`id`),
-  CONSTRAINT `passwordreset_ibfk_2` FOREIGN KEY (`userId`) REFERENCES `user` (`id`)
+  PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 INSERT INTO `emailTemplates` (`id`, `type`, `language`, `name`, `description`, `subject`, `html`, `createdAt`, `updatedAt`)

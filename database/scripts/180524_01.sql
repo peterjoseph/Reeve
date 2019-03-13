@@ -22,9 +22,5 @@ CREATE TABLE `userRoles` (
   `active` tinyint(1) NOT NULL DEFAULT '1',
   `createdDate` datetime NOT NULL,
   `modifiedDate` datetime NOT NULL,
-  PRIMARY KEY (`id`),
-  KEY `FK_userId` (`userId`),
-  KEY `FK_roleId` (`roleId`),
-  CONSTRAINT `FK_roleId` FOREIGN KEY (`roleId`) REFERENCES `roles` (`id`),
-  CONSTRAINT `FK_userId` FOREIGN KEY (`userId`) REFERENCES `user` (`id`)
+  PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;

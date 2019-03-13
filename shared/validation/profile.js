@@ -27,7 +27,31 @@ const updateUserProfile = () => {
 			length: {
 				maximum: 255
 			}
-		}
+		},
+		bio: {
+			presence: {
+				allowEmpty: true
+			},
+			length: {
+				maximum: 255
+			}
+		},
+		location: {
+			presence: {
+				allowEmpty: true
+			},
+			length: {
+				maximum: 255
+			}
+		},
+		website: {
+			presence: {
+				allowEmpty: true
+			},
+			length: {
+				maximum: 255
+			}
+		},
 	};
 };
 

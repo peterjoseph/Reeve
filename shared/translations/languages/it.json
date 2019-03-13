@@ -47,7 +47,10 @@
 		"yearly": "Annuale",
 		"currency": "Moneta",
 		"finish": "Finire",
-		"languageSettings": "Impostazioni della lingua"
+		"languageSettings": "Impostazioni della lingua",
+		"aboutMe": "Riguardo a me",
+		"location": "Posizione",
+		"website": "Sito web"
 	},
 	"numbers": {
 		"1": "1",

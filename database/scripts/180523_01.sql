@@ -12,7 +12,5 @@ CREATE TABLE `user` (
   `active` tinyint(1) NOT NULL DEFAULT '1',
   `createdDate` datetime NOT NULL,
   `ModifiedDate` datetime NOT NULL,
-  PRIMARY KEY (`id`),
-  KEY `FK_ClientId` (`clientId`),
-  CONSTRAINT `FK_ClientId` FOREIGN KEY (`clientId`) REFERENCES `client` (`id`)
+  PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;

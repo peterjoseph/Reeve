@@ -1,5 +1,12 @@
 import fetch from "common/fetch";
 
+// Load User Personal Profile Details
+export function loadPersonalProfile() {
+	return fetch.perform("/api/profile/", {
+		method: "GET",
+	});
+}
+
 // Update User Personal Profile
 export function updatePersonalProfile(body) {
 	return fetch.perform("/api/update_profile/", {
@@ -7,7 +14,10 @@ export function updatePersonalProfile(body) {
 		body: JSON.stringify({
 			firstName: body.firstName,
 			lastName: body.lastName,
-			emailAddress: body.emailAddress
+			emailAddress: body.emailAddress,
+			bio: body.bio,
+			location: body.location,
+			website: body.website
 		})
 	});
 }

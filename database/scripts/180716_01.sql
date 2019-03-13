@@ -37,11 +37,7 @@ CREATE TABLE `emailTemplates` (
   `html` text NOT NULL,
   `createdAt` datetime DEFAULT NULL,
   `updatedAt` datetime DEFAULT NULL,
-  PRIMARY KEY (`id`),
-  KEY `FK_Email_Type` (`type`),
-  KEY `FK_Email_Language` (`language`),
-  CONSTRAINT `FK_Email_Language` FOREIGN KEY (`language`) REFERENCES `languages` (`id`),
-  CONSTRAINT `FK_Email_Type` FOREIGN KEY (`type`) REFERENCES `emailTypes` (`id`)
+  PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 CREATE TABLE `sentEmails` (
@@ -56,15 +52,7 @@ CREATE TABLE `sentEmails` (
   `contents` text NOT NULL,
   `createdAt` datetime NOT NULL,
   `updatedAt` datetime NOT NULL,
-  PRIMARY KEY (`id`),
-  KEY `FK_se_clientId` (`clientId`),
-  KEY `FK_se_userId` (`userId`),
-  KEY `FK_se_emailType` (`emailType`),
-  KEY `FK_se_language` (`emailLanguage`),
-  CONSTRAINT `FK_se_clientId` FOREIGN KEY (`clientId`) REFERENCES `client` (`id`),
-  CONSTRAINT `FK_se_emailType` FOREIGN KEY (`emailType`) REFERENCES `emailTypes` (`id`),
-  CONSTRAINT `FK_se_language` FOREIGN KEY (`emailLanguage`) REFERENCES `languages` (`id`),
-  CONSTRAINT `FK_se_userId` FOREIGN KEY (`userId`) REFERENCES `user` (`id`)
+  PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 CREATE TABLE `failedEmails` (
@@ -80,13 +68,5 @@ CREATE TABLE `failedEmails` (
   `reason` text NOT NULL,
   `createdAt` datetime NOT NULL,
   `updatedAt` datetime NOT NULL,
-  PRIMARY KEY (`id`),
-  KEY `FK_fe_userId` (`userId`),
-  KEY `FK_fe_clientId` (`clientId`),
-  KEY `FK_fe_emailType` (`emailType`),
-  KEY `FK_fe_language` (`emailLanguage`),
-  CONSTRAINT `FK_fe_clientId` FOREIGN KEY (`clientId`) REFERENCES `client` (`id`),
-  CONSTRAINT `FK_fe_emailType` FOREIGN KEY (`emailType`) REFERENCES `emailTypes` (`id`),
-  CONSTRAINT `FK_fe_language` FOREIGN KEY (`emailLanguage`) REFERENCES `languages` (`id`),
-  CONSTRAINT `FK_fe_userId` FOREIGN KEY (`userId`) REFERENCES `user` (`id`)
+  PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;

@@ -1,4 +1,20 @@
-DROP TABLE IF EXISTS `client`;
+CREATE TABLE `billingIntervals` (
+  `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
+  `name` varchar(11) DEFAULT NULL,
+  `description` varchar(255) DEFAULT NULL,
+  `createdAt` datetime DEFAULT NULL,
+  `updatedAt` datetime DEFAULT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+LOCK TABLES `billingIntervals` WRITE;
+
+INSERT INTO `billingIntervals` (`id`, `name`, `description`, `createdAt`, `updatedAt`)
+VALUES
+	(1,'month','Clients are billed on a monthly basis (on the same day of each month)','2019-01-09 07:05:47','2019-01-09 07:05:47'),
+	(2,'year','Clients are billed on a yearly basis','2019-01-09 07:05:47','2019-01-09 07:05:47');
+
+UNLOCK TABLES;
 
 CREATE TABLE `client` (
   `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
@@ -12,12 +28,8 @@ CREATE TABLE `client` (
   `active` tinyint(1) NOT NULL DEFAULT '1',
   `createdAt` datetime DEFAULT NULL,
   `updatedAt` datetime DEFAULT NULL,
-  PRIMARY KEY (`id`),
-  KEY `FK_default_language_id` (`defaultLanguage`),
-  CONSTRAINT `FK_default_language_id` FOREIGN KEY (`defaultLanguage`) REFERENCES `languages` (`id`)
+  PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
-
-DROP TABLE IF EXISTS `clientStyling`;
 
 CREATE TABLE `clientStyling` (
   `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
@@ -29,12 +41,25 @@ CREATE TABLE `clientStyling` (
   `secondaryColor` varchar(32) DEFAULT NULL,
   `createdAt` datetime DEFAULT NULL,
   `updatedAt` datetime DEFAULT NULL,
-  PRIMARY KEY (`id`),
-  KEY `FK_clientId_style` (`clientId`),
-  CONSTRAINT `FK_clientId_style` FOREIGN KEY (`clientId`) REFERENCES `client` (`id`)
+  PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
-DROP TABLE IF EXISTS `emailTemplates`;
+CREATE TABLE `currencies` (
+  `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
+  `identifier` char(3) NOT NULL DEFAULT '',
+  `description` varchar(255) DEFAULT NULL,
+  `createdAt` datetime NOT NULL,
+  `updatedAt` datetime NOT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+LOCK TABLES `currencies` WRITE;
+
+INSERT INTO `currencies` (`id`, `identifier`, `description`, `createdAt`, `updatedAt`)
+VALUES
+	(1,'aud','Australian Dollar','2019-01-10 04:56:47','2019-01-10 04:56:47');
+
+UNLOCK TABLES;
 
 CREATE TABLE `emailTemplates` (
   `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
@@ -46,15 +71,10 @@ CREATE TABLE `emailTemplates` (
   `html` text NOT NULL,
   `createdAt` datetime DEFAULT NULL,
   `updatedAt` datetime DEFAULT NULL,
-  PRIMARY KEY (`id`),
-  KEY `FK_Email_Type` (`type`),
-  KEY `FK_Email_Language` (`language`),
-  CONSTRAINT `FK_Email_Language` FOREIGN KEY (`language`) REFERENCES `languages` (`id`),
-  CONSTRAINT `FK_Email_Type` FOREIGN KEY (`type`) REFERENCES `emailTypes` (`id`)
+  PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 LOCK TABLES `emailTemplates` WRITE;
-/*!40000 ALTER TABLE `emailTemplates` DISABLE KEYS */;
 
 INSERT INTO `emailTemplates` (`id`, `type`, `language`, `name`, `description`, `subject`, `html`, `createdAt`, `updatedAt`)
 VALUES
@@ -67,12 +87,11 @@ VALUES
 	(7,2,2,'Verifica Email','Email del link di verifica email utente','Per favore verifica il tuo indirizzo email | Reeve','<!DOCTYPE html PUBLIC \"-//W3C//DTD XHTML 1.0 Strict//EN\" \"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd\">\n<html xmlns=\"http://www.w3.org/1999/xhtml\">\n    <head>\n        <meta name=\"viewport\" content=\"width=device-width\">\n        <meta http-equiv=\"X-UA-Compatible\" content=\"IE=edge\">\n        <meta http-equiv=\"Content-Type\" content=\"text/html; charset=UTF-8\">\n        <title>Per cortesia verifichi il suo indirizzo email | Reeve</title>\n        <style>\n            img {max-width: 100%; height: auto;}\n        </style>\n</head>\n    <body>\n        <div id=\"content\">\n		<p>Caro <%= firstName %>,</p>\n		<p>Fare clic sul seguente collegamento per verificare il proprio indirizzo email con Reeve <a href=\"<%= validationLink %>\"><%= validationLink %></a>.</p>\n		<p>Un indirizzo email verificato consente di ricevere notifiche sull\'account e garantisce di ricevere aggiornamenti relativi al nostro prodotto.</p>\n 		<p>Si prega di rispondere a questa e-mail se avete qualche suggerimento.</p>\n		<p>I migliori saluti,<br>Reeve Servizio Clienti</p>\n	</div>\n	<br><br>\n        <div id=\"footer\">\n	&copy; Copyright 2018 Reeve. Tutti i diritti riservati.\n        </div>\n    </body>\n</html>','2018-10-06 10:07:59','2018-10-06 10:07:59'),
 	(8,3,2,'Hai dimenticato i dettagli dell\'account','Email contenente i dettagli dell\'account associati a un indirizzo email per tutti i client','Hai dimenticato i dettagli del conto | Reeve','<!DOCTYPE html PUBLIC \"-//W3C//DTD XHTML 1.0 Strict//EN\" \"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd\">\n<html xmlns=\"http://www.w3.org/1999/xhtml\">\n    <head>\n        <meta name=\"viewport\" content=\"width=device-width\">\n        <meta http-equiv=\"X-UA-Compatible\" content=\"IE=edge\">\n        <meta http-equiv=\"Content-Type\" content=\"text/html; charset=UTF-8\">\n        <title>Hai dimenticato i dettagli dell\'account | Reeve</title>\n        <style>\n            img {max-width: 100%; height: auto;}\n        </style>\n</head>\n    <body>\n        <div id=\"content\">\n		<p>Ciao!</p>\n		<p>Di recente hai inserito il tuo indirizzo email nella pagina dei dettagli dell\'account dimenticata su Reeve. Vogliamo aiutarti a tornare nel tuo account.</p>\n		<p>Gli account collegati a questo indirizzo email includono:</p>\n		<div>\n			<% accounts.forEach(function(account){ %>\n				<p>\n					<b>Cliente:</b> <%= account.clientName %><br>\n					<b>Nome di battesimo:</b> <%= account.firstName %><br>\n					<b>Cognome:</b> <%= account.lastName %><br>\n					<b>Link di accesso:</b> <a href=\"<%= account.workspaceLink %>\"><%= account.workspaceLink %></a><br>\n					<b>Reimposta collegamento password:</b> <a href=\"<%= account.resetPasswordLink %>\"><%= account.resetPasswordLink %></a>\n				</p>\n  			<% }); %>\n		</div>\n		<p>I migliori saluti,<br>Reeve Servizio Clienti</p>\n	</div>\n	<br><br>\n        <div id=\"footer\">\n	&copy; Copyright 2018 Reeve. Tutti i diritti riservati.\n        </div>\n    </body>\n</html>','2018-10-06 10:07:59','2018-10-06 10:07:59'),
 	(9,4,2,'Resetta la password','Email con link per reimpostare la password dell\'account','Reimposta password | Reeve','<!DOCTYPE html PUBLIC \"-//W3C//DTD XHTML 1.0 Strict//EN\" \"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd\">\n<html xmlns=\"http://www.w3.org/1999/xhtml\">\n    <head>\n        <meta name=\"viewport\" content=\"width=device-width\">\n        <meta http-equiv=\"X-UA-Compatible\" content=\"IE=edge\">\n        <meta http-equiv=\"Content-Type\" content=\"text/html; charset=UTF-8\">\n        <title>Resetta la password | Reeve</title>\n        <style>\n            img {max-width: 100%; height: auto;}\n        </style>\n</head>\n    <body>\n        <div id=\"content\">\n		<p>Caro <%= firstName %>,</p>\n		<p>Di recente hai inserito il tuo indirizzo email nella pagina dei dettagli dell\'account dimenticata dello spazio di lavoro <b><%= clientName %></b>. Vogliamo aiutarti a tornare nel tuo account.</p>\n		<p>Puoi utilizzare il seguente link qui sotto per reimpostare la password sul tuo account:</p>\n		<div><a href=\"<%= resetPasswordLink %>\"><%= resetPasswordLink %></a></div>\n		<p>I migliori saluti,<br> Reeve Servizio Clienti</p>\n	</div>\n	<br><br>\n        <div id=\"footer\">\n	&copy; Copyright 2018 Reeve. Tutti i diritti riservati.\n        </div>\n    </body>\n</html>','2018-10-06 10:07:59','2018-10-06 10:07:59'),
-	(10,5,2,'Password reimpostata con successo','Email di successo quando un utente reimposta la propria password','La password del tuo account è cambiata | Reeve','<!DOCTYPE html PUBLIC \"-//W3C//DTD XHTML 1.0 Strict//EN\" \"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd\">\n<html xmlns=\"http://www.w3.org/1999/xhtml\">\n    <head>\n        <meta name=\"viewport\" content=\"width=device-width\">\n        <meta http-equiv=\"X-UA-Compatible\" content=\"IE=edge\">\n        <meta http-equiv=\"Content-Type\" content=\"text/html; charset=UTF-8\">\n        <title>Resetta la password | Reeve</title>\n        <style>\n            img {max-width: 100%; height: auto;}\n        </style>\n</head>\n    <body>\n        <div id=\"content\">\n		<p>Caro <%= firstName %>,</p>\n		<p>Ti stiamo inviando questa email per confermare la password del tuo account nell\'area di lavoro <%= workspaceName %> è stato recentemente aggiornato.</p>\n		<p>Se non hai fatto questo cambiamento. Contatta immediatamente l\'assistenza rispondendo a questa email.</p>\n		<p>I migliori saluti,<br>Reeve Servizio Clienti</p>\n	</div>\n	<br><br>\n        <div id=\"footer\">\n	&copy; Copyright 2018 Reeve. Tutti i diritti riservati.\n        </div>\n    </body>\n</html>','2018-10-06 10:07:59','2018-10-06 10:07:59');
+	(10,5,2,'Password reimpostata con successo','Email di successo quando un utente reimposta la propria password','La password del tuo account è cambiata | Reeve','<!DOCTYPE html PUBLIC \"-//W3C//DTD XHTML 1.0 Strict//EN\" \"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd\">\n<html xmlns=\"http://www.w3.org/1999/xhtml\">\n    <head>\n        <meta name=\"viewport\" content=\"width=device-width\">\n        <meta http-equiv=\"X-UA-Compatible\" content=\"IE=edge\">\n        <meta http-equiv=\"Content-Type\" content=\"text/html; charset=UTF-8\">\n        <title>Resetta la password | Reeve</title>\n        <style>\n            img {max-width: 100%; height: auto;}\n        </style>\n</head>\n    <body>\n        <div id=\"content\">\n		<p>Caro <%= firstName %>,</p>\n		<p>Ti stiamo inviando questa email per confermare la password del tuo account nell\'area di lavoro <%= workspaceName %> è stato recentemente aggiornato.</p>\n		<p>Se non hai fatto questo cambiamento. Contatta immediatamente l\'assistenza rispondendo a questa email.</p>\n		<p>I migliori saluti,<br>Reeve Servizio Clienti</p>\n	</div>\n	<br><br>\n        <div id=\"footer\">\n	&copy; Copyright 2018 Reeve. Tutti i diritti riservati.\n        </div>\n    </body>\n</html>','2018-10-06 10:07:59','2018-10-06 10:07:59'),
+	(11,6,1,'Change Password Success','Email confirmation on password change','Your account password has changed | Reeve','<!DOCTYPE html PUBLIC \"-//W3C//DTD XHTML 1.0 Strict//EN\" \"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd\">\n<html xmlns=\"http://www.w3.org/1999/xhtml\">\n    <head>\n        <meta name=\"viewport\" content=\"width=device-width\">\n        <meta http-equiv=\"X-UA-Compatible\" content=\"IE=edge\">\n        <meta http-equiv=\"Content-Type\" content=\"text/html; charset=UTF-8\">\n        <title>Change Password | Reeve</title>\n        <style>\n            img {max-width: 100%; height: auto;}\n        </style>\n</head>\n    <body>\n        <div id=\"content\">\n		<p>Dear <%= firstName %>,</p>\n		<p>We are sending you this email to confirm that the password to your account on the workspace <%= workspaceName %> has successfully been changed.</p>\n		<p>If you did not make this change. Please contact support immediately by replying to this email.</p>\n		<p>Best Regards,<br>Reeve Customer Support</p>\n	</div>\n	<br><br>\n        <div id=\"footer\">\n	&copy; Copyright 2018 Reeve. All Rights Reserved.\n        </div>\n    </body>\n</html>','2019-03-11 19:23:25','2019-03-11 19:23:25'),
+	(12,6,2,'Cambia password successo','Conferma e-mail al cambio della password','La password del tuo account è cambiata | Reeve','<!DOCTYPE html PUBLIC \"-//W3C//DTD XHTML 1.0 Strict//EN\" \"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd\">\n<html xmlns=\"http://www.w3.org/1999/xhtml\">\n    <head>\n        <meta name=\"viewport\" content=\"width=device-width\">\n        <meta http-equiv=\"X-UA-Compatible\" content=\"IE=edge\">\n        <meta http-equiv=\"Content-Type\" content=\"text/html; charset=UTF-8\">\n        <title>Cambia la password | Reeve</title>\n        <style>\n            img {max-width: 100%; height: auto;}\n        </style>\n</head>\n    <body>\n        <div id=\"content\">\n		<p>Caro <%= firstName %>,</p>\n		<p>Ti stiamo inviando questa email per confermare che la password del tuo account nello spazio di lavoro <%= workspaceName %> è stata modificata correttamente.</p>\n		<p>Se non hai fatto questo cambiamento. Contatta immediatamente l\'assistenza rispondendo a questa email.</p>\n		<p>I migliori saluti,<br>Reeve Servizio Clienti</p>\n	</div>\n	<br><br>\n        <div id=\"footer\">\n	&copy; Copyright 2018 Reeve. Tutti i diritti riservati.\n        </div>\n    </body>\n</html>','2019-03-11 19:23:25','2019-03-11 19:23:25');
 
-/*!40000 ALTER TABLE `emailTemplates` ENABLE KEYS */;
 UNLOCK TABLES;
-
-DROP TABLE IF EXISTS `emailTypes`;
 
 CREATE TABLE `emailTypes` (
   `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
@@ -84,7 +103,6 @@ CREATE TABLE `emailTypes` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 LOCK TABLES `emailTypes` WRITE;
-/*!40000 ALTER TABLE `emailTypes` DISABLE KEYS */;
 
 INSERT INTO `emailTypes` (`id`, `name`, `description`, `createdAt`, `updatedAt`)
 VALUES
@@ -92,12 +110,10 @@ VALUES
 	(2,'Verify Email','Contains validation link to verify user email (Can be sent multiple times)','2018-08-01 21:41:23','2018-08-01 21:41:26'),
 	(3,'Forgot Account Details','Email with workspace url and reset account links for all users associated with an email address','2018-08-04 08:34:34','2018-08-04 08:34:38'),
 	(4,'Forgot Password','Email with link to reset account password','2018-08-05 19:48:26','2018-08-05 19:48:26'),
-	(5,'Reset Password Success','When a users password is reset, send an email notifying the user','2018-08-11 18:27:44','2018-08-11 18:27:46');
+	(5,'Reset Password Success','When a users password is reset, send an email notifying the user','2018-08-11 18:27:44','2018-08-11 18:27:46'),
+	(6,'Change Password Success','When a logged in user changes their password, send an email notifying of the change','2019-03-11 19:14:46','2019-03-11 19:14:46');
 
-/*!40000 ALTER TABLE `emailTypes` ENABLE KEYS */;
 UNLOCK TABLES;
-
-DROP TABLE IF EXISTS `emailVerificationCode`;
 
 CREATE TABLE `emailVerificationCode` (
   `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
@@ -108,14 +124,8 @@ CREATE TABLE `emailVerificationCode` (
   `gracePeriod` int(2) unsigned NOT NULL,
   `createdAt` datetime NOT NULL,
   `updatedAt` datetime NOT NULL,
-  PRIMARY KEY (`id`),
-  KEY `FK_evc_userId` (`userId`),
-  KEY `FK_evc_clientId` (`clientId`),
-  CONSTRAINT `FK_evc_clientId` FOREIGN KEY (`clientId`) REFERENCES `client` (`id`),
-  CONSTRAINT `FK_evc_userId` FOREIGN KEY (`userId`) REFERENCES `user` (`id`)
+  PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
-
-DROP TABLE IF EXISTS `executedScripts`;
 
 CREATE TABLE `executedScripts` (
   `name` varchar(255) NOT NULL DEFAULT '',
@@ -125,42 +135,46 @@ CREATE TABLE `executedScripts` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 LOCK TABLES `executedScripts` WRITE;
-/*!40000 ALTER TABLE `executedScripts` DISABLE KEYS */;
 
 INSERT INTO `executedScripts` (`name`, `description`, `createdDate`, `executedDate`)
 VALUES
-	('180420_01','Create and populate executed_scripts table','2018-11-24 12:42:16','2018-11-24 12:42:16'),
-	('180517_01','Create new client and subscription tables','2018-11-24 12:42:16','2018-11-24 12:42:16'),
-	('180523_01','Create new user table','2018-11-24 12:42:17','2018-11-24 12:42:17'),
-	('180524_01','Create new role tables and foreign keys','2018-11-24 12:42:17','2018-11-24 12:42:17'),
-	('180601_01','Create new client styling table','2018-11-24 12:42:17','2018-11-24 12:42:17'),
-	('180601_02','Create new features table','2018-11-24 12:42:18','2018-11-24 12:42:18'),
-	('180601_03','Link features to subscriptionFeatures table','2018-11-24 12:42:18','2018-11-24 12:42:18'),
-	('180602_01','Clean up client table and organize subscriptions','2018-11-24 12:42:18','2018-11-24 12:42:18'),
-	('180603_01','Set subscription id as required','2018-11-24 12:42:19','2018-11-24 12:42:19'),
-	('180708_01','Add createdAt and updatedAt columns','2018-11-24 12:42:19','2018-11-24 12:42:19'),
-	('180708_01','Added createdAt and updatedAt columns to subscriptionFeatures','2018-11-24 12:42:19','2018-11-24 12:42:19'),
-	('180716_01','New Email and Languages tables','2018-11-24 12:42:20','2018-11-24 12:42:20'),
-	('180716_02','Added language column to client and user tables','2018-11-24 12:42:20','2018-11-24 12:42:20'),
-	('180716_03','Updated created at table columns','2018-11-24 12:42:20','2018-11-24 12:42:20'),
-	('180720_01','Created Client Welcome Email template','2018-11-24 12:42:20','2018-11-24 12:42:20'),
-	('180720_02','Created email verification code table','2018-11-24 12:42:21','2018-11-24 12:42:21'),
-	('180722_01','Added emailVerified column to user table','2018-11-24 12:42:21','2018-11-24 12:42:21'),
-	('180801_01','Verify email template','2018-11-24 12:42:21','2018-11-24 12:42:21'),
-	('180804_01','Forgot Account Details Email','2018-11-24 12:42:22','2018-11-24 12:42:22'),
-	('180804_02','Create password reset table and add null to clientId, UserId in sentEmail table','2018-11-24 12:42:22','2018-11-24 12:42:22'),
-	('180805_01','Email with link to reset user password','2018-11-24 12:42:22','2018-11-24 12:42:22'),
-	('180811_01','Reset password success notification email','2018-11-24 12:42:22','2018-11-24 12:42:22'),
-	('180816_01','Profile photo table column','2018-11-24 12:42:23','2018-11-24 12:42:23'),
-	('180821_01','New billing features and subscriptions','2018-11-24 12:42:23','2018-11-24 12:42:23'),
-	('180825_01','Swap subscription start and end dates to dateTime','2018-11-24 12:42:23','2018-11-24 12:42:23'),
-	('181003_01','Add italian language to default language set','2018-11-24 12:42:24','2018-11-24 12:42:24'),
-	('181006_01','Translate emails to italian','2018-11-24 12:42:24','2018-11-24 12:42:24');
+	('180420_01','Create and populate executed_scripts table','2019-03-13 10:59:54','2019-03-13 10:59:54'),
+	('180517_01','Create new client and subscription tables','2019-03-13 10:59:54','2019-03-13 10:59:54'),
+	('180523_01','Create new user table','2019-03-13 10:59:54','2019-03-13 10:59:54'),
+	('180524_01','Create new role tables and foreign keys','2019-03-13 10:59:54','2019-03-13 10:59:54'),
+	('180601_01','Create new client styling table','2019-03-13 10:59:54','2019-03-13 10:59:54'),
+	('180601_02','Create new features table','2019-03-13 10:59:54','2019-03-13 10:59:54'),
+	('180601_03','Link features to subscriptionFeatures table','2019-03-13 10:59:54','2019-03-13 10:59:54'),
+	('180602_01','Clean up client table and organize subscriptions','2019-03-13 10:59:54','2019-03-13 10:59:54'),
+	('180603_01','Set subscription id as required','2019-03-13 10:59:54','2019-03-13 10:59:54'),
+	('180708_01','Add createdAt and updatedAt columns','2019-03-13 10:59:54','2019-03-13 10:59:54'),
+	('180708_01','Added createdAt and updatedAt columns to subscriptionFeatures','2019-03-13 10:59:54','2019-03-13 10:59:54'),
+	('180716_01','New Email and Languages tables','2019-03-13 10:59:54','2019-03-13 10:59:54'),
+	('180716_02','Added language column to client and user tables','2019-03-13 10:59:54','2019-03-13 10:59:54'),
+	('180716_03','Updated created at table columns','2019-03-13 10:59:54','2019-03-13 10:59:54'),
+	('180720_01','Created Client Welcome Email template','2019-03-13 10:59:54','2019-03-13 10:59:54'),
+	('180720_02','Created email verification code table','2019-03-13 10:59:54','2019-03-13 10:59:54'),
+	('180722_01','Added emailVerified column to user table','2019-03-13 10:59:54','2019-03-13 10:59:54'),
+	('180801_01','Verify email template','2019-03-13 10:59:54','2019-03-13 10:59:54'),
+	('180804_01','Forgot Account Details Email','2019-03-13 10:59:54','2019-03-13 10:59:54'),
+	('180804_02','Create password reset table and add null to clientId, UserId in sentEmail table','2019-03-13 10:59:54','2019-03-13 10:59:54'),
+	('180805_01','Email with link to reset user password','2019-03-13 10:59:54','2019-03-13 10:59:54'),
+	('180811_01','Reset password success notification email','2019-03-13 10:59:54','2019-03-13 10:59:54'),
+	('180816_01','Profile photo table column','2019-03-13 10:59:54','2019-03-13 10:59:54'),
+	('180821_01','New billing features and subscriptions','2019-03-13 10:59:54','2019-03-13 10:59:54'),
+	('180825_01','Swap subscription start and end dates to dateTime','2019-03-13 10:59:54','2019-03-13 10:59:54'),
+	('181003_01','Add italian language to default language set','2019-03-13 10:59:54','2019-03-13 10:59:54'),
+	('181006_01','Translate emails to italian','2019-03-13 10:59:54','2019-03-13 10:59:54'),
+	('181228_01','New stripe plans table','2019-03-13 10:59:54','2019-03-13 10:59:54'),
+	('190104_01','Insert 3 new columns in the plans table','2019-03-13 10:59:54','2019-03-13 10:59:54'),
+	('190109_01','Removed redundant columns from database','2019-03-13 10:59:54','2019-03-13 10:59:54'),
+	('190109_02','Added 6 plans to plans table','2019-03-13 10:59:54','2019-03-13 10:59:54'),
+	('190110_01','Created currencies table','2019-03-13 10:59:54','2019-03-13 10:59:54'),
+	('190201_01','Add new subscriptionID column to plans table','2019-03-13 10:59:54','2019-03-13 10:59:54'),
+	('190311_01','Change password success email','2019-03-13 10:59:54','2019-03-13 10:59:54'),
+	('190313_01','New user profile columns','2019-03-13 10:59:54','2019-03-13 10:59:54');
 
-/*!40000 ALTER TABLE `executedScripts` ENABLE KEYS */;
 UNLOCK TABLES;
-
-DROP TABLE IF EXISTS `failedEmails`;
 
 CREATE TABLE `failedEmails` (
   `id` bigint(20) unsigned NOT NULL AUTO_INCREMENT,
@@ -175,18 +189,8 @@ CREATE TABLE `failedEmails` (
   `reason` text NOT NULL,
   `createdAt` datetime NOT NULL,
   `updatedAt` datetime NOT NULL,
-  PRIMARY KEY (`id`),
-  KEY `FK_fe_userId` (`userId`),
-  KEY `FK_fe_clientId` (`clientId`),
-  KEY `FK_fe_emailType` (`emailType`),
-  KEY `FK_fe_language` (`emailLanguage`),
-  CONSTRAINT `FK_fe_clientId` FOREIGN KEY (`clientId`) REFERENCES `client` (`id`),
-  CONSTRAINT `FK_fe_emailType` FOREIGN KEY (`emailType`) REFERENCES `emailTypes` (`id`),
-  CONSTRAINT `FK_fe_language` FOREIGN KEY (`emailLanguage`) REFERENCES `languages` (`id`),
-  CONSTRAINT `FK_fe_userId` FOREIGN KEY (`userId`) REFERENCES `user` (`id`)
+  PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
-
-DROP TABLE IF EXISTS `features`;
 
 CREATE TABLE `features` (
   `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
@@ -198,17 +202,13 @@ CREATE TABLE `features` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 LOCK TABLES `features` WRITE;
-/*!40000 ALTER TABLE `features` DISABLE KEYS */;
 
 INSERT INTO `features` (`id`, `name`, `description`, `createdAt`, `updatedAt`)
 VALUES
-	(1,'Styling','Client can specify their own unique styling, logo image, background, primary and secondary colors',NULL,NULL),
-	(2,'Billing','Client can pay an ongoing fee and receive access to the platform',NULL,NULL);
+	(1,'Styling','Client can specify their own unique styling, logo image, background, primary and secondary colors','2019-03-13 11:01:15','2019-03-13 11:01:15'),
+	(2,'Billing','Client can pay an ongoing fee and receive access to the platform','2019-03-13 11:01:15','2019-03-13 11:01:15');
 
-/*!40000 ALTER TABLE `features` ENABLE KEYS */;
 UNLOCK TABLES;
-
-DROP TABLE IF EXISTS `languages`;
 
 CREATE TABLE `languages` (
   `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
@@ -219,17 +219,13 @@ CREATE TABLE `languages` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 LOCK TABLES `languages` WRITE;
-/*!40000 ALTER TABLE `languages` DISABLE KEYS */;
 
 INSERT INTO `languages` (`id`, `language`, `createdAt`, `updatedAt`)
 VALUES
 	(1,'english','2018-08-04 08:35:59','2018-08-04 08:35:59'),
 	(2,'italian','2018-10-03 05:46:52','2018-10-03 05:46:52');
 
-/*!40000 ALTER TABLE `languages` ENABLE KEYS */;
 UNLOCK TABLES;
-
-DROP TABLE IF EXISTS `passwordReset`;
 
 CREATE TABLE `passwordReset` (
   `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
@@ -240,14 +236,37 @@ CREATE TABLE `passwordReset` (
   `gracePeriod` int(2) unsigned NOT NULL,
   `createdAt` datetime NOT NULL,
   `updatedAt` datetime NOT NULL,
-  PRIMARY KEY (`id`),
-  KEY `FK_evc_userId` (`userId`),
-  KEY `FK_evc_clientId` (`clientId`),
-  CONSTRAINT `passwordreset_ibfk_1` FOREIGN KEY (`clientId`) REFERENCES `client` (`id`),
-  CONSTRAINT `passwordreset_ibfk_2` FOREIGN KEY (`userId`) REFERENCES `user` (`id`)
+  PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
-DROP TABLE IF EXISTS `roles`;
+CREATE TABLE `plans` (
+  `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
+  `name` varchar(128) NOT NULL DEFAULT '',
+  `description` varchar(255) DEFAULT NULL,
+  `stripeProductId` varchar(128) DEFAULT NULL,
+  `billingInterval` tinyint(16) unsigned DEFAULT NULL,
+  `currency` int(11) unsigned NOT NULL DEFAULT '1',
+  `price` decimal(6,2) NOT NULL DEFAULT '0.00',
+  `subscriptionId` int(11) unsigned DEFAULT NULL,
+  `newSubscriptionsAllowed` tinyint(1) NOT NULL,
+  `active` tinyint(1) NOT NULL DEFAULT '1',
+  `createdAt` datetime DEFAULT NULL,
+  `updatedAt` datetime DEFAULT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+LOCK TABLES `plans` WRITE;
+
+INSERT INTO `plans` (`id`, `name`, `description`, `stripeProductId`, `billingInterval`, `currency`, `price`, `subscriptionId`, `newSubscriptionsAllowed`, `active`, `createdAt`, `updatedAt`)
+VALUES
+	(1,'Basic Plan Monthly','Description of stripe basic plan','xxxxxxxxx_stripe',1,1,9.95,2,1,1,'2019-01-09 17:57:14','2019-01-09 17:57:14'),
+	(2,'Standard Plan Monthly','Description of stripe standard plan','xxxxxxxxx_stripe',1,1,29.95,3,1,1,'2019-01-09 17:57:14','2019-01-09 17:57:14'),
+	(3,'Professional Plan Monthly','Description of stripe professional plan','xxxxxxxxx_stripe',1,1,99.95,4,1,1,'2019-01-09 17:57:14','2019-01-09 17:57:14'),
+	(4,'Basic Plan Yearly','Description of stripe basic plan','xxxxxxxxx_stripe',2,1,119.00,2,1,1,'2019-01-09 17:57:14','2019-01-09 17:57:14'),
+	(5,'Standard Plan Yearly','Description of stripe strandard plan','xxxxxxxxx_stripe',2,1,350.00,3,1,1,'2019-01-09 17:57:14','2019-01-09 17:57:14'),
+	(6,'Professional Plan Yearly','Description of stripe professional plan','xxxxxxxxx_stripe',2,1,1100.00,4,1,1,'2019-01-09 17:57:14','2019-01-09 17:57:14');
+
+UNLOCK TABLES;
 
 CREATE TABLE `roles` (
   `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
@@ -259,7 +278,6 @@ CREATE TABLE `roles` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 LOCK TABLES `roles` WRITE;
-/*!40000 ALTER TABLE `roles` DISABLE KEYS */;
 
 INSERT INTO `roles` (`id`, `name`, `description`, `createdAt`, `updatedAt`)
 VALUES
@@ -267,10 +285,7 @@ VALUES
 	(2,'Administrator','Access to secondary management functions throughout the app','2018-08-21 07:54:16','2018-08-21 07:54:16'),
 	(3,'Finance','Finance and payment specific parts of the app','2018-08-21 07:54:37','2018-08-21 07:54:37');
 
-/*!40000 ALTER TABLE `roles` ENABLE KEYS */;
 UNLOCK TABLES;
-
-DROP TABLE IF EXISTS `sentEmails`;
 
 CREATE TABLE `sentEmails` (
   `id` bigint(20) unsigned NOT NULL AUTO_INCREMENT,
@@ -284,18 +299,8 @@ CREATE TABLE `sentEmails` (
   `contents` text NOT NULL,
   `createdAt` datetime NOT NULL,
   `updatedAt` datetime NOT NULL,
-  PRIMARY KEY (`id`),
-  KEY `FK_se_clientId` (`clientId`),
-  KEY `FK_se_userId` (`userId`),
-  KEY `FK_se_emailType` (`emailType`),
-  KEY `FK_se_language` (`emailLanguage`),
-  CONSTRAINT `FK_se_clientId` FOREIGN KEY (`clientId`) REFERENCES `client` (`id`),
-  CONSTRAINT `FK_se_emailType` FOREIGN KEY (`emailType`) REFERENCES `emailTypes` (`id`),
-  CONSTRAINT `FK_se_language` FOREIGN KEY (`emailLanguage`) REFERENCES `languages` (`id`),
-  CONSTRAINT `FK_se_userId` FOREIGN KEY (`userId`) REFERENCES `user` (`id`)
+  PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
-
-DROP TABLE IF EXISTS `subscriptionFeatures`;
 
 CREATE TABLE `subscriptionFeatures` (
   `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
@@ -303,26 +308,18 @@ CREATE TABLE `subscriptionFeatures` (
   `featureId` int(11) unsigned NOT NULL,
   `createdAt` datetime DEFAULT NULL,
   `updatedAt` datetime DEFAULT NULL,
-  PRIMARY KEY (`id`),
-  KEY `FK_SubscriptionId` (`subscriptionId`),
-  KEY `FK_featureId` (`featureId`),
-  CONSTRAINT `FK_SubscriptionId` FOREIGN KEY (`subscriptionId`) REFERENCES `subscriptions` (`id`),
-  CONSTRAINT `FK_featureId` FOREIGN KEY (`featureId`) REFERENCES `features` (`id`)
+  PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 LOCK TABLES `subscriptionFeatures` WRITE;
-/*!40000 ALTER TABLE `subscriptionFeatures` DISABLE KEYS */;
 
 INSERT INTO `subscriptionFeatures` (`id`, `subscriptionId`, `featureId`, `createdAt`, `updatedAt`)
 VALUES
-	(1,1,1,NULL,NULL),
+	(1,1,1,'2018-08-21 08:04:30','2018-08-21 08:04:30'),
 	(2,1,2,'2018-08-21 08:04:30','2018-08-21 08:04:35'),
 	(3,2,2,'2018-08-21 08:04:32','2018-08-21 08:04:37');
 
-/*!40000 ALTER TABLE `subscriptionFeatures` ENABLE KEYS */;
 UNLOCK TABLES;
-
-DROP TABLE IF EXISTS `subscriptions`;
 
 CREATE TABLE `subscriptions` (
   `id` int(3) unsigned NOT NULL AUTO_INCREMENT,
@@ -335,17 +332,15 @@ CREATE TABLE `subscriptions` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 LOCK TABLES `subscriptions` WRITE;
-/*!40000 ALTER TABLE `subscriptions` DISABLE KEYS */;
 
 INSERT INTO `subscriptions` (`id`, `name`, `description`, `active`, `createdAt`, `updatedAt`)
 VALUES
-	(1,'Trial','Default Trial account when a new client is created',1,NULL,NULL),
-	(2,'Basic','Basic paying customer',1,NULL,NULL);
+	(1,'Trial','Default Trial account when a new client is created',1,'2019-03-13 11:01:55','2019-03-13 11:01:55'),
+	(2,'Basic','Basic paying customer',1,'2019-03-13 11:01:55','2019-03-13 11:01:55'),
+	(3,'Standard','Standard plan paying customer',1,'2019-03-13 11:01:55','2019-03-13 11:01:55'),
+	(4,'Professional','Professional plan paying customer',1,'2019-03-13 11:01:55','2019-03-13 11:01:55');
 
-/*!40000 ALTER TABLE `subscriptions` ENABLE KEYS */;
 UNLOCK TABLES;
-
-DROP TABLE IF EXISTS `user`;
 
 CREATE TABLE `user` (
   `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
@@ -361,14 +356,11 @@ CREATE TABLE `user` (
   `active` tinyint(1) NOT NULL DEFAULT '1',
   `createdAt` datetime DEFAULT NULL,
   `updatedAt` datetime DEFAULT NULL,
-  PRIMARY KEY (`id`),
-  KEY `FK_ClientId` (`clientId`),
-  KEY `FK_language_id` (`language`),
-  CONSTRAINT `FK_ClientId` FOREIGN KEY (`clientId`) REFERENCES `client` (`id`),
-  CONSTRAINT `FK_language_id` FOREIGN KEY (`language`) REFERENCES `languages` (`id`)
+  `bio` varchar(255) DEFAULT NULL,
+  `location` varchar(255) DEFAULT NULL,
+  `website` varchar(255) DEFAULT NULL,
+  PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
-
-DROP TABLE IF EXISTS `userRoles`;
 
 CREATE TABLE `userRoles` (
   `id` int(21) unsigned NOT NULL AUTO_INCREMENT,
@@ -377,124 +369,14 @@ CREATE TABLE `userRoles` (
   `active` tinyint(1) NOT NULL DEFAULT '1',
   `createdAt` datetime DEFAULT NULL,
   `updatedAt` datetime DEFAULT NULL,
-  PRIMARY KEY (`id`),
-  KEY `FK_userId` (`userId`),
-  KEY `FK_roleId` (`roleId`),
-  CONSTRAINT `FK_roleId` FOREIGN KEY (`roleId`) REFERENCES `roles` (`id`),
-  CONSTRAINT `FK_userId` FOREIGN KEY (`userId`) REFERENCES `user` (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
-
-INSERT INTO `executedScripts` (`name`, `description`, `createdDate`, `executedDate`)
-VALUES
-	('181228_01', 'New stripe plans table', NOW(), NOW());
-
-CREATE TABLE `plans` (
-  `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
-  `name` varchar(128) NOT NULL DEFAULT '',
-  `description` varchar(255) DEFAULT NULL,
-  `stripeProductId` varchar(128) DEFAULT NULL,
-  `newSubscriptionsAllowed` tinyint(1) NOT NULL,
-  `active` tinyint(1) NOT NULL DEFAULT '1',
-  `createdAt` datetime DEFAULT NULL,
-  `updatedAt` datetime DEFAULT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
-INSERT INTO `executedScripts` (`name`, `description`, `createdDate`, `executedDate`)
+INSERT INTO `subscriptionFeatures` (`id`, `subscriptionId`, `featureId`, `createdAt`, `updatedAt`)
 VALUES
-	('190109_01', 'Removed redundant columns from database', NOW(), NOW());
+	(4, 2, 1, '2019-03-13 11:25:33', '2019-03-13 11:25:33'),
+	(5, 3, 1, '2019-03-13 11:25:33', '2019-03-13 11:25:33'),
+	(6, 3, 2, '2019-03-13 11:25:33', '2019-03-13 11:25:33'),
+	(7, 4, 1, '2019-03-13 11:25:33', '2019-03-13 11:25:33'),
+	(8, 4, 2, '2019-03-13 11:25:33', '2019-03-13 11:25:33');
 
-ALTER TABLE `plans` DROP `monthlyPrice`;
-ALTER TABLE `plans` DROP `yearlyPrice`;
-
-ALTER TABLE `plans`
-ADD COLUMN `billingInterval` TINYINT(16) UNSIGNED;
-
-CREATE TABLE `billingIntervals` (
-  `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
-  `name` varchar(11) DEFAULT NULL,
-  `description` varchar(255) DEFAULT NULL,
-  `createdAt` datetime DEFAULT NULL,
-  `updatedAt` datetime DEFAULT NULL,
-  PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8mb4;
-
-INSERT INTO `billingIntervals` (`id`, `name`, `description`, `createdAt`, `updatedAt`)
-VALUES
-	(1, 'month', 'Clients are billed on a monthly basis (on the same day of each month)', NOW(), NOW()),
-	(2, 'year', 'Clients are billed on a yearly basis', NOW(), NOW());
-
-ALTER TABLE `plans`
-ADD COLUMN `price` decimal(6,2) NOT NULL DEFAULT '0.0';
-
-INSERT INTO `executedScripts` (`name`, `description`, `createdDate`, `executedDate`)
-VALUES
-	('190109_02', 'Added 6 plans to plans table', NOW(), NOW());
-
-INSERT INTO `plans` (`id`, `name`, `description`, `stripeProductId`, `billingInterval`, `currency`, `price`, `newSubscriptionsAllowed`, `active`, `createdAt`, `updatedAt`)
-VALUES
-	(1, 'Basic Plan Monthly', 'Description of stripe basic plan', 'xxxxxxxxx_stripe', 1, 'aud', 0.00, 1, 1, NOW(), NOW()),
-	(2, 'Standard Plan Monthly', 'Description of stripe standard plan', 'xxxxxxxxx_stripe', 1, 'aud', 0.00, 1, 1, NOW(), NOW()),
-	(3, 'Professional Plan Monthly', 'Description of stripe professional plan', 'xxxxxxxxx_stripe', 1, 'aud', 0.00, 1, 1, NOW(), NOW()),
-	(4, 'Basic Plan Yearly', 'Description of stripe basic plan', 'xxxxxxxxx_stripe', 2, 'aud', 0.00, 1, 1, NOW(), NOW()),
-	(5, 'Standard Plan Yearly', 'Description of stripe strandard plan', 'xxxxxxxxx_stripe', 2, 'aud', 0.00, 1, 1, NOW(), NOW()),
-	(6, 'Professional Plan Yearly', 'Description of stripe professional plan', 'xxxxxxxxx_stripe', 2, 'aud', 0.00, 1, 1, NOW(), NOW());
-
-INSERT INTO `executedScripts` (`name`, `description`, `createdDate`, `executedDate`)
-VALUES
-	('190110_01', 'Created currencies table', NOW(), NOW());
-
-CREATE TABLE `currencies` (
-  `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
-  `identifier` char(3) NOT NULL DEFAULT '',
-  `description` varchar(255) DEFAULT NULL,
-  `createdAt` datetime NOT NULL,
-  `updatedAt` datetime NOT NULL,
-  PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
-
-INSERT INTO `currencies` (`id`, `identifier`, `description`, `createdAt`, `updatedAt`)
-VALUES
-	(1, 'aud', 'Australian Dollar', NOW(), NOW());
-
-UPDATE `plans` SET `currency` = '1' WHERE `id` = 1;
-UPDATE `plans` SET `currency` = '1' WHERE `id` = 2;
-UPDATE `plans` SET `currency` = '1' WHERE `id` = 3;
-UPDATE `plans` SET `currency` = '1' WHERE `id` = 4;
-UPDATE `plans` SET `currency` = '1' WHERE `id` = 5;
-UPDATE `plans` SET `currency` = '1' WHERE `id` = 6;
-
-ALTER TABLE `plans` MODIFY `currency` int(11) unsigned NOT NULL DEFAULT 1;
-
-INSERT INTO `executedScripts` (`name`, `description`, `createdDate`, `executedDate`)
-VALUES
-	('190201_01', 'Add new subscriptionID column to plans table', NOW(), NOW());
-
-ALTER TABLE `plans`
-ADD COLUMN `subscriptionId` INT(11) UNSIGNED;
-
-INSERT INTO `subscriptions` (`id`, `name`, `description`, `active`, `createdAt`, `updatedAt`)
-VALUES
-	(2, 'Basic', 'Basic paying customer', 1, NOW(), NOW()),
-	(3, 'Standard', 'Standard plan paying customer', 1, NOW(), NOW()),
-	(4, 'Professional', 'Professional plan paying customer', 1, NOW(), NOW());
-
-UPDATE `plans` SET `subscriptionId` = '2' WHERE `id` = 1;
-UPDATE `plans` SET `subscriptionId` = '3' WHERE `id` = 2;
-UPDATE `plans` SET `subscriptionId` = '4' WHERE `id` = 3;
-UPDATE `plans` SET `subscriptionId` = '2' WHERE `id` = 4;
-UPDATE `plans` SET `subscriptionId` = '3' WHERE `id` = 5;
-UPDATE `plans` SET `subscriptionId` = '4' WHERE `id` = 6;
-
-INSERT INTO `executedScripts` (`name`, `description`, `createdDate`, `executedDate`)
-VALUES
-	('190311_01', 'Change password success email', NOW(), NOW());
-
-INSERT INTO `emailTypes` (`id`, `name`, `description`, `createdAt`, `updatedAt`)
-VALUES
-	(6, 'Change Password Success', 'When a logged in user changes their password, send an email notifying of the change', NOW(), NOW());
-
-INSERT INTO `emailTemplates` (`id`, `type`, `language`, `name`, `description`, `subject`, `html`, `createdAt`, `updatedAt`)
-VALUES
-	(11, 6, 1, 'Change Password Success', 'Email confirmation on password change', 'Your account password has changed | Reeve', '<!DOCTYPE html PUBLIC \"-//W3C//DTD XHTML 1.0 Strict//EN\" \"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd\">\n<html xmlns=\"http://www.w3.org/1999/xhtml\">\n    <head>\n        <meta name=\"viewport\" content=\"width=device-width\">\n        <meta http-equiv=\"X-UA-Compatible\" content=\"IE=edge\">\n        <meta http-equiv=\"Content-Type\" content=\"text/html; charset=UTF-8\">\n        <title>Change Password | Reeve</title>\n        <style>\n            img {max-width: 100%; height: auto;}\n        </style>\n</head>\n    <body>\n        <div id=\"content\">\n		<p>Dear <%= firstName %>,</p>\n		<p>We are sending you this email to confirm that the password to your account on the workspace <%= workspaceName %> has successfully been changed.</p>\n		<p>If you did not make this change. Please contact support immediately by replying to this email.</p>\n		<p>Best Regards,<br>Reeve Customer Support</p>\n	</div>\n	<br><br>\n        <div id=\"footer\">\n	&copy; Copyright 2018 Reeve. All Rights Reserved.\n        </div>\n    </body>\n</html>', NOW(), NOW()),
-	(12, 6, 2, 'Cambia password successo', 'Conferma e-mail al cambio della password', 'La password del tuo account è cambiata | Reeve', '<!DOCTYPE html PUBLIC \"-//W3C//DTD XHTML 1.0 Strict//EN\" \"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd\">\n<html xmlns=\"http://www.w3.org/1999/xhtml\">\n    <head>\n        <meta name=\"viewport\" content=\"width=device-width\">\n        <meta http-equiv=\"X-UA-Compatible\" content=\"IE=edge\">\n        <meta http-equiv=\"Content-Type\" content=\"text/html; charset=UTF-8\">\n        <title>Cambia la password | Reeve</title>\n        <style>\n            img {max-width: 100%; height: auto;}\n        </style>\n</head>\n    <body>\n        <div id=\"content\">\n		<p>Caro <%= firstName %>,</p>\n		<p>Ti stiamo inviando questa email per confermare che la password del tuo account nello spazio di lavoro <%= workspaceName %> è stata modificata correttamente.</p>\n		<p>Se non hai fatto questo cambiamento. Contatta immediatamente l\'assistenza rispondendo a questa email.</p>\n		<p>I migliori saluti,<br>Reeve Servizio Clienti</p>\n	</div>\n	<br><br>\n        <div id=\"footer\">\n	&copy; Copyright 2018 Reeve. Tutti i diritti riservati.\n        </div>\n    </body>\n</html>', NOW(), NOW());

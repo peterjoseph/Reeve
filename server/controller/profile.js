@@ -6,9 +6,39 @@ import validate from "shared/validation/validate";
 import { t } from "shared/translations/i18n";
 import { updateUserProfile, changeSavedLanguage, changeUserPassword } from "shared/validation/profile";
 
-import { updateProfile, changeLanguage, changePassword } from "../orchestrator/profile";
+import { loadProfile, updateProfile, changeLanguage, changePassword } from "../orchestrator/profile";
 
 module.exports = function(router) {
+
+	// Load personal profile details
+	router.get(
+		"/api/profile/",
+		restrict({
+			registered: true,
+			unregistered: false,
+		}),
+		function(req, res, next) {
+			// Load browser language from header
+			const browserLng = browserResponseLng(req);
+
+			// Create object with authenticated user information
+			const body = {
+				userId: req.user.userId,
+				clientId: req.user.clientId
+			}
+
+			// Retrieve user profile details and return response
+			loadProfile(body, browserLng).then(
+				result => {
+					return res.status(200).send(result);
+				},
+				error => {
+					return next(error);
+				}
+			);
+		}
+	);
+
 	// Update user profile
 	router.post(
 		"/api/update_profile/",
@@ -21,7 +51,10 @@ module.exports = function(router) {
 			const body = {
 				firstName: req.body.firstName,
 				lastName: req.body.lastName,
-				emailAddress: req.body.emailAddress
+				emailAddress: req.body.emailAddress,
+				bio: req.body.bio,
+				location: req.body.location,
+				website: req.body.website
 			};
 
 			// Load browser language from header

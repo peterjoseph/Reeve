@@ -11,9 +11,5 @@ CREATE TABLE `emailVerificationCode` (
   `gracePeriod` int(2) unsigned NOT NULL,
   `createdAt` datetime NOT NULL,
   `updatedAt` datetime NOT NULL,
-  PRIMARY KEY (`id`),
-  KEY `FK_evc_userId` (`userId`),
-  KEY `FK_evc_clientId` (`clientId`),
-  CONSTRAINT `FK_evc_clientId` FOREIGN KEY (`clientId`) REFERENCES `client` (`id`),
-  CONSTRAINT `FK_evc_userId` FOREIGN KEY (`userId`) REFERENCES `user` (`id`)
+  PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;

@@ -10,7 +10,5 @@ CREATE TABLE `clientStyling` (
   `backgroundColor` varchar(32) DEFAULT NULL,
   `primaryColor` varchar(32) DEFAULT NULL,
   `secondaryColor` varchar(32) DEFAULT NULL,
-  PRIMARY KEY (`id`),
-  KEY `FK_clientId_style` (`clientId`),
-  CONSTRAINT `FK_clientId_style` FOREIGN KEY (`clientId`) REFERENCES `client` (`id`)
+  PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
