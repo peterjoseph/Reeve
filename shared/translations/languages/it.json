@@ -255,6 +255,7 @@
 		"resetCodeExpired": "Questo codice di reimpostazione della password è scaduto. Potrebbe essere utilizzato entro un periodo di {{ gracePeriod }} ore. $t(validation.sendNewReset)",
 		"verifyCodeAlreadyUsed": "Questo codice email di verifica è già stato utilizzato. $t(validation.sendNewVerify)",
 		"verifyCodeExpired": "Questo codice email di verifica è scaduto. Potrebbe essere utilizzato entro un periodo di {{ gracePeriod }} ore. $t(validation.sendNewVerify)",
+		"verifyEmail": "Verifica il tuo indirizzo email prima di selezionare un piano.",
 		"emailAlreadyVerified": "Questo indirizzo email è già stato verificato. Si prega di ricaricare la pagina per continuare.",
 		"tokenInvalidOrExpired": "Token non valido o scaduto.",
 		"emailTemplateNotFound": "Errore durante il caricamento del modello di email.",

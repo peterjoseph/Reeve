@@ -258,6 +258,7 @@
 		"resetCodeExpired": "This password reset code has expired. It could be used within a {{ gracePeriod }} hour period. $t(validation.sendNewReset)",
 		"verifyCodeAlreadyUsed": "This verify email code has already been used. $t(validation.sendNewVerify)",
 		"verifyCodeExpired": "This verify email code has expired. It could be used within a {{ gracePeriod }} hour period. $t(validation.sendNewVerify)",
+		"verifyEmail": "Please verify your email address before selecting a plan.",
 		"emailAlreadyVerified": "This email address has already been verified. Please reload the page to continue.",
 		"tokenInvalidOrExpired": "Token invalid or expired.",
 		"emailTemplateNotFound": "Error loading email template.",

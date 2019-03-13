@@ -45,6 +45,8 @@ class SubscriptionList extends Component {
 		const subscriptionActive = user.get("subscriptionActive"); // Is subscription still active?
 		const trialDaysLeft = this.trialDays(); // Calculate days left in trial
 
+		const emailVerified = user.get("emailVerified"); // Check if user email is verified
+
 		return (
 			<Fragment>
 				<div className="container py-3">
@@ -85,7 +87,7 @@ class SubscriptionList extends Component {
 									<li>{t("components.billing.cardFeatures.cardOne.3")}</li>
 									<li>{t("components.billing.cardFeatures.cardOne.4")}</li>
 								</ul>
-								<button type="button" value={pricingBox1Id} className="btn btn-block btn-primary" onClick={selectPlan} disabled={loading}>
+								<button type="button" value={pricingBox1Id} className="btn btn-block btn-primary" onClick={selectPlan} disabled={loading || !emailVerified}>
 									{t("components.billing.chooseThisPlan")}
 								</button>
 							</div>
@@ -109,7 +111,7 @@ class SubscriptionList extends Component {
 									<li>{t("components.billing.cardFeatures.cardTwo.3")}</li>
 									<li>{t("components.billing.cardFeatures.cardTwo.4")}</li>
 								</ul>
-								<button type="button" value={pricingBox2Id} className="btn btn-block btn-primary" onClick={selectPlan} disabled={loading}>
+								<button type="button" value={pricingBox2Id} className="btn btn-block btn-primary" onClick={selectPlan} disabled={loading || !emailVerified}>
 									{t("components.billing.chooseThisPlan")}
 								</button>
 							</div>
@@ -133,12 +135,13 @@ class SubscriptionList extends Component {
 									<li>{t("components.billing.cardFeatures.cardThree.3")}</li>
 									<li>{t("components.billing.cardFeatures.cardThree.4")}</li>
 								</ul>
-								<button type="button" value={pricingBox3Id} className="btn btn-block btn-primary" onClick={selectPlan} disabled={loading}>
+								<button type="button" value={pricingBox3Id} className="btn btn-block btn-primary" onClick={selectPlan} disabled={loading || !emailVerified}>
 									{t("components.billing.chooseThisPlan")}
 								</button>
 							</div>
 						</div>
 					</div>
+					{!emailVerified && <div className="alert alert-danger rounded-0 text-center">{t("validation.verifyEmail")}</div>}
 				</div>
 			</Fragment>
 		);
