@@ -4,18 +4,17 @@ import { ServerResponseError } from "utilities/errors/serverResponseError";
 
 import validate from "shared/validation/validate";
 import { t } from "shared/translations/i18n";
-import { updateUserProfile, changeSavedLanguage, changeUserPassword } from "shared/validation/profile";
+import { updateUserProfile, verifyEmail, changeSavedLanguage, changeUserPassword } from "shared/validation/profile";
 
-import { loadProfile, updateProfile, changeLanguage, changePassword } from "../orchestrator/profile";
+import { loadProfile, updateProfile, verifyUserEmailChange, changeLanguage, changePassword } from "../orchestrator/profile";
 
 module.exports = function(router) {
-
 	// Load personal profile details
 	router.get(
 		"/api/profile/",
 		restrict({
 			registered: true,
-			unregistered: false,
+			unregistered: false
 		}),
 		function(req, res, next) {
 			// Load browser language from header
@@ -25,7 +24,7 @@ module.exports = function(router) {
 			const body = {
 				userId: req.user.userId,
 				clientId: req.user.clientId
-			}
+			};
 
 			// Retrieve user profile details and return response
 			loadProfile(body, browserLng).then(
@@ -41,7 +40,7 @@ module.exports = function(router) {
 
 	// Update user profile
 	router.post(
-		"/api/update_profile/",
+		"/api/profile/update/",
 		restrict({
 			registered: true,
 			unregistered: false
@@ -82,6 +81,36 @@ module.exports = function(router) {
 			);
 		}
 	);
+
+	// Verify User Email Change
+	router.post("/api/verify/email_change/", restrict({ registered: true, unregistered: true }), function(req, res, next) {
+		// Store received object properties
+		const body = {
+			code: req.body.code,
+			userId: req.body.userId,
+			workspaceURL: req.body.workspaceURL
+		};
+
+		// Load browser language from header
+		const browserLng = browserResponseLng(req);
+
+		// Validate properties in received object
+		const valid = validate(body, verifyEmail());
+		if (valid != null) {
+			const errorMsg = new ServerResponseError(403, t("validation.verifyChangeEmailInvalidProperties", { lng: browserLng }), valid);
+			return next(errorMsg);
+		}
+
+		// Validate change email code and return response
+		verifyUserEmailChange(body, browserLng).then(
+			result => {
+				return res.status(200).send(result);
+			},
+			error => {
+				return next(error);
+			}
+		);
+	});
 
 	// Change User Language
 	router.post(

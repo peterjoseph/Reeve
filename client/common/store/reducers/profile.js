@@ -1,6 +1,6 @@
 import { fromJS } from "immutable";
 import { REDUX_STATE } from "shared/constants";
-import { loadPersonalProfile, updatePersonalProfile, changeUserPassword } from "client/api/profile.js";
+import { loadPersonalProfile, updatePersonalProfile, changeUserPassword, verifyEmailChange } from "client/api/profile.js";
 
 import "./root";
 
@@ -17,6 +17,10 @@ export const UPDATE_PROFILE_REJECTED = PROFILE + "/UPDATE_PROFILE_REJECTED";
 export const CHANGE_PASSWORD_PENDING = PROFILE + "/CHANGE_PASSWORD_PENDING";
 export const CHANGE_PASSWORD_FULFILLED = PROFILE + "/CHANGE_PASSWORD_FULFILLED";
 export const CHANGE_PASSWORD_REJECTED = PROFILE + "/CHANGE_PASSWORD_REJECTED";
+
+export const VERIFY_EMAIL_CHANGE_PENDING = PROFILE + "/VERIFY_EMAIL_CHANGE_PENDING";
+export const VERIFY_EMAIL_CHANGE_FULFILLED = PROFILE + "/VERIFY_EMAIL_CHANGE_FULFILLED";
+export const VERIFY_EMAIL_CHANGE_REJECTED = PROFILE + "/VERIFY_EMAIL_CHANGE_REJECTED";
 
 const DEFAULT_STATE = fromJS({});
 
@@ -79,6 +83,12 @@ export default function language(state = DEFAULT_STATE, action) {
 					error: action.payload
 				})
 			);
+		case VERIFY_EMAIL_CHANGE_PENDING:
+			return state.setIn(["verifyEmailChange", "status"], REDUX_STATE.PENDING);
+		case VERIFY_EMAIL_CHANGE_FULFILLED:
+			return state.setIn(["verifyEmailChange", "status"], REDUX_STATE.FULFILLED);
+		case VERIFY_EMAIL_CHANGE_REJECTED:
+			return state.setIn(["verifyEmailChange", "status"], REDUX_STATE.REJECTED);
 		default:
 			return state;
 	}
@@ -144,6 +154,28 @@ export function changePassword(body) {
 			error =>
 				dispatch({
 					type: CHANGE_PASSWORD_REJECTED,
+					payload: error
+				})
+		);
+	};
+}
+
+export function verifyUserEmailChange(body) {
+	return dispatch => {
+		dispatch({
+			type: VERIFY_EMAIL_CHANGE_PENDING
+		});
+
+		return verifyEmailChange(body).then(
+			result => {
+				return dispatch({
+					type: VERIFY_EMAIL_CHANGE_FULFILLED,
+					payload: result
+				});
+			},
+			error =>
+				dispatch({
+					type: VERIFY_EMAIL_CHANGE_REJECTED,
 					payload: error
 				})
 		);

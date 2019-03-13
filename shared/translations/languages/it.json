@@ -120,6 +120,7 @@
 		"profile": {
 			"updateProfile": "Aggiorna il profilo",
 			"whichLanguage?": "Quale lingua dovrebbe usare $t(site.name)?",
+			"changeEmailWarning": "Prima di poter modificare il tuo indirizzo email, verrà inviata un'email di conferma al tuo nuovo indirizzo email. Fare clic sul collegamento di verifica nell'e-mail per la modifica da applicare.",
 			"changeLanguage": "Cambia lingua",
 			"changePassword": "Cambia La Password",
 			"currentPassword": "Password Attuale",
@@ -213,6 +214,7 @@
 		"changePassword": "Successo! La password del tuo account è stata cambiata.",
 		"resetPassword": "Successo! La password del tuo account è stata ripristinata.",
 		"verifyEmail": "Successo! Il tuo indirizzo email è stato verificato",
+		"verifyEmailChange": "Successo! Il tuo indirizzo email è stato aggiornato con successo.",
 		"updatePersonalProfile": "Successo! Il tuo profilo è stato aggiornato.",
 		"changeLanguage": "Successo! La lingua utilizzata da $t(site.name) è stata aggiornata."
 	},
@@ -225,6 +227,7 @@
 		"somethingWentWrong": "Qualcosa è andato storto!",
 		"outdatedBrowser": "Hey! Stai utilizzando una versione del browser Web non aggiornata. Ciò potrebbe causare problemi di compatibilità con il nostro servizio. Si prega di considerare l'aggiornamento del browser.",
 		"verifyEmail": "Errore: il tuo indirizzo email non può essere verificato con successo. Perfavore ricarica la pagina e riprova.",
+		"verifyEmailChange": "Errore: il tuo indirizzo email non può essere cambiato con successo. Perfavore ricarica la pagina e riprova.",
 		"logout": "Errore: non siamo riusciti a disconnettere il tuo account. Perfavore ricarica la pagina e riprova."
 	},
 	"validation": {
@@ -233,6 +236,7 @@
 		"resetPasswordInvalidProperties": "Il codice di reimpostazione della password contiene proprietà non valide.",
 		"changePasswordInvalidProperties": "L'oggetto Cambia password contiene proprietà non valide.",
 		"verifyEmailInvalidProperties": "Verifica che l'oggetto di posta elettronica contenga proprietà non valide.",
+		"verifyChangeEmailInvalidProperties": "Verifica che l'oggetto di modifica della posta contenga proprietà non valide.",
 		"invalidPasswordSupplied": "Password errata fornita Per cortesia inserire una password valida.",
 		"incorrectCurrentPasswordSupplied": "Password corrente errata fornita. Si prega di inserire la password corretta.",
 		"invalidUserId": "UserId errato fornito",
@@ -259,6 +263,9 @@
 		"emailAlreadyVerified": "Questo indirizzo email è già stato verificato. Si prega di ricaricare la pagina per continuare.",
 		"tokenInvalidOrExpired": "Token non valido o scaduto.",
 		"emailTemplateNotFound": "Errore durante il caricamento del modello di email.",
+		"emptyChangeEmailCode": "Il codice email di modifica non esiste o non è valido.",
+		"changeEmailCodeAlreadyUsed": "Questo codice email di modifica è già stato utilizzato. Per favore cambia il tuo indirizzo email sulla pagina del profilo per inviare una nuova email.",
+		"changeEmailCodeExpired": "Questo codice email di modifica è scaduto. Potrebbe essere utilizzato entro un periodo di {{ gracePeriod }} ore.",
 		"validators": {
 			"validDate": "$t(label.errorField) Deve essere una data valida.",
 			"invalidEmail": "$t(label.errorField) Non è un'e-mail valida.",

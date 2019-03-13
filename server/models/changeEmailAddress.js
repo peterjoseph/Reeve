@@ -1,53 +1,55 @@
 module.exports = function(sequelize, DataTypes) {
 	return sequelize.define(
-		"emailVerificationCode",
+		"changeEmailAddress",
 		{
 			id: {
 				type: DataTypes.INTEGER(11).UNSIGNED,
 				allowNull: false,
 				primaryKey: true,
-				autoIncrement: true,
-				field: "id"
+				autoIncrement: true
 			},
-			verificationCode: {
+			emailCode: {
 				type: DataTypes.STRING(255),
 				allowNull: false,
-				defaultValue: "",
-				field: "verificationCode"
+				defaultValue: ""
 			},
 			activated: {
 				type: DataTypes.INTEGER(1),
-				allowNull: false,
-				field: "activated"
+				allowNull: false
 			},
 			userId: {
 				type: DataTypes.INTEGER(11).UNSIGNED,
 				allowNull: false,
-				field: "userId"
 			},
 			clientId: {
 				type: DataTypes.INTEGER(11).UNSIGNED,
 				allowNull: false,
-				field: "clientId"
 			},
 			gracePeriod: {
 				type: DataTypes.INTEGER(2).UNSIGNED,
+				allowNull: false
+			},
+			oldEmailAddress: {
+				type: DataTypes.STRING(255),
 				allowNull: false,
-				field: "gracePeriod"
+				defaultValue: ""
+			},
+			newEmailAddress: {
+				type: DataTypes.STRING(255),
+				allowNull: false,
+				defaultValue: ""
 			},
 			createdAt: {
 				type: DataTypes.DATE,
-				allowNull: false,
-				field: "createdAt"
+				allowNull: false
 			},
 			updatedAt: {
 				type: DataTypes.DATE,
-				allowNull: false,
-				field: "updatedAt"
+				allowNull: false
 			}
 		},
 		{
-			tableName: "emailVerificationCode"
+			tableName: "changeEmailAddress"
 		}
 	);
 };

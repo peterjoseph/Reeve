@@ -7,7 +7,7 @@ import { database, models } from "services/sequelize";
 import passport from "services/passport";
 import { sendEmail } from "services/nodemailer";
 import config from "../../config";
-import { arrayContains } from "shared/utilities/filters";
+import { variableExists, arrayContains } from "shared/utilities/filters";
 import { ServerResponseError } from "utilities/errors/serverResponseError";
 import { t } from "shared/translations/i18n";
 import { FEATURES, SUBSCRIPTION_TYPE, ROLE_TYPE, EMAIL_TYPE, BILLING_CYCLE, LANGUAGE_CODES } from "shared/constants";
@@ -759,7 +759,7 @@ export function verifyUserEmail(received, browserLng) {
 			const where = {
 				verificationCode: received.code
 			};
-			if (received.userId !== null) {
+			if (variableExists(received.userId)) {
 				where.userId = received.userId;
 			}
 

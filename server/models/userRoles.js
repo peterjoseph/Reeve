@@ -12,19 +12,11 @@ module.exports = function(sequelize, DataTypes) {
 			userId: {
 				type: DataTypes.INTEGER(11).UNSIGNED,
 				allowNull: false,
-				references: {
-					model: "user",
-					key: "id"
-				},
 				field: "userId"
 			},
 			roleId: {
 				type: DataTypes.INTEGER(11).UNSIGNED,
 				allowNull: false,
-				references: {
-					model: "roles",
-					key: "id"
-				},
 				field: "roleId"
 			},
 			active: {

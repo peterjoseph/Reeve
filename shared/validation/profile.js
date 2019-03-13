@@ -1,5 +1,5 @@
 import { t } from "shared/translations/i18n";
-import { RESTRICTED_LANGUAGES } from "shared/constants";
+import { RESTRICTED_LANGUAGES, RESTRICTED_DOMAINS } from "shared/constants";
 
 const updateUserProfile = () => {
 	return {
@@ -51,7 +51,38 @@ const updateUserProfile = () => {
 			length: {
 				maximum: 255
 			}
+		}
+	};
+};
+
+const verifyEmail = () => {
+	return {
+		code: {
+			presence: {
+				allowEmpty: false
+			},
+			length: {
+				maximum: 255
+			}
 		},
+		workspaceURL: {
+			presence: {
+				allowEmpty: false
+			},
+			format: {
+				pattern: "[a-z0-9]+",
+				flags: "i",
+				message: t("validation.validators.validCharactersAZ09")
+			},
+			exclusion: {
+				within: RESTRICTED_DOMAINS,
+				message: t("validation.validators.validWorkspaceURL")
+			},
+			length: {
+				minimum: 4,
+				maximum: 255
+			}
+		}
 	};
 };
 
@@ -112,6 +143,7 @@ const changeSavedLanguage = () => {
 
 module.exports = {
 	updateUserProfile: updateUserProfile,
+	verifyEmail: verifyEmail,
 	changeUserPassword: changeUserPassword,
 	changeSavedLanguage: changeSavedLanguage
 };

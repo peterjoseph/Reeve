@@ -117,6 +117,7 @@
 		"profile": {
 			"updateProfile": "Update Profile",
 			"whichLanguage?": "Which language should $t(site.name) use?",
+			"changeEmailWarning": "Before we can change your email address, a confirmation email will be sent to your new email address. Please click the verification link in the email for the change to be applied.",
 			"changeLanguage": "Change Language",
 			"changePassword": "Change Password",
 			"currentPassword": "Current Password",
@@ -216,6 +217,7 @@
 		"changePassword": "Success! The password to your account has been changed.",
 		"resetPassword": "Success! The password to your account has been reset.",
 		"verifyEmail": "Success! Your email address has been verified.",
+		"verifyEmailChange": "Success! Your email address has been successfully updated.",
 		"updatePersonalProfile": "Success! Your profile has been updated.",
 		"changeLanguage": "Success! The language $t(site.name) will use has been updated."
 	},
@@ -228,6 +230,7 @@
 		"somethingWentWrong": "Something went wrong!",
 		"outdatedBrowser": "Hey! You are using an out-of-date web browser version. This might cause compatibility issues with our service. Please consider upgrading your browser.",
 		"verifyEmail": "Error: Your email address could not be successfully verified. Please refresh the page and try again.",
+		"verifyEmailChange": "Error: Your email address could not be successfully changed. Please refresh the page and try again.",
 		"logout": "Error: We were unable to logout of your account. Please refresh the page and try again."
 	},
 	"validation": {
@@ -236,6 +239,7 @@
 		"resetPasswordInvalidProperties": "Reset password code contains invalid properties.",
 		"changePasswordInvalidProperties": "Change password object contains invalid properties.",
 		"verifyEmailInvalidProperties": "Verify email object contains invalid properties.",
+		"verifyChangeEmailInvalidProperties": "Verify change email object contains invalid properties.",
 		"invalidPasswordSupplied": "Incorrect password supplied. Please enter a valid password.",
 		"incorrectCurrentPasswordSupplied": "Incorrect current password supplied. Please enter the correct password.",
 		"invalidUserId": "Incorrect userId supplied",
@@ -262,6 +266,9 @@
 		"emailAlreadyVerified": "This email address has already been verified. Please reload the page to continue.",
 		"tokenInvalidOrExpired": "Token invalid or expired.",
 		"emailTemplateNotFound": "Error loading email template.",
+		"emptyChangeEmailCode": "Change email code does not exist or is invalid.",
+		"changeEmailCodeAlreadyUsed": "This change email code has already been used. Please change your email address on the profile page to send a new email.",
+		"changeEmailCodeExpired": "This change email code has expired. It could be used within a {{ gracePeriod }} hour period.",
 		"validators": {
 			"validDate": "$t(label.errorField) Must be a valid date.",
 			"invalidEmail": "$t(label.errorField) Not a valid email.",

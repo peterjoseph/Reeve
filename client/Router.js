@@ -42,7 +42,8 @@ class Router extends Component {
 						<RedirectComponent exact path="/register" role={[ROLE_TYPE.UNREGISTERED]} user={user} render={() => <Authentication />} />
 						<RedirectComponent exact path="/forgot" role={[ROLE_TYPE.UNREGISTERED]} user={user} render={() => <Authentication />} />
 						<RedirectComponent exact path="/reset" role={[ROLE_TYPE.UNREGISTERED]} user={user} render={() => <Authentication />} />
-						<RedirectComponent exact path="/verify" role={[ROLE_TYPE.UNREGISTERED, ROLE_TYPE.OWNER]} user={user} render={() => <Authentication />} />
+						<RedirectComponent exact path="/verify" user={user} render={() => <Authentication />} />
+						<RedirectComponent exact path="/verify/email_change" user={user} render={() => <Authentication />} />
 						{STRIPE_ENABLED && (user && user.get("subscriptionEndDate") !== null) && (
 							<RedirectComponent
 								exact

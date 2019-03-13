@@ -302,7 +302,7 @@ module.exports = function(router) {
 			return next(errorMsg);
 		}
 
-		// Validate reset password code and return response
+		// Validate verify email code and return response
 		verifyUserEmail(body, browserLng).then(
 			result => {
 				return res.status(200).send(result);

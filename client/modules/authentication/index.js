@@ -7,6 +7,7 @@ import Register from "./Register";
 import Forgot from "./Forgot";
 import ResetPassword from "./ResetPassword";
 import VerifyEmail from "./VerifyEmail";
+import VerifyEmailChange from "./VerifyEmailChange";
 
 class Authentication extends Component {
 	render() {
@@ -19,8 +20,9 @@ class Authentication extends Component {
 							<Route path="/signin/help" render={() => <SignIn />} />
 							<Route path="/register" render={() => <Register />} />
 							<Route path="/forgot" render={() => <Forgot />} />
-							<Route path="/reset" render={() => <ResetPassword />} />
-							<Route path="/verify" render={() => <VerifyEmail />} />
+							<Route exact path="/reset" render={() => <ResetPassword />} />
+							<Route exact path="/verify" render={() => <VerifyEmail />} />
+							<Route exact path="/verify/email_change" render={() => <VerifyEmailChange />} />
 						</Switch>
 					</div>
 				</div>

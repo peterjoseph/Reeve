@@ -46,10 +46,6 @@ module.exports = function(sequelize, DataTypes) {
 				type: DataTypes.INTEGER(11).UNSIGNED,
 				allowNull: false,
 				defaultValue: "1",
-				references: {
-					model: "languages",
-					key: "id"
-				},
 				field: "defaultLanguage"
 			},
 			active: {

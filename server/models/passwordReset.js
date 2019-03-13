@@ -19,19 +19,11 @@ module.exports = function(sequelize, DataTypes) {
 			},
 			userId: {
 				type: DataTypes.INTEGER(11).UNSIGNED,
-				allowNull: false,
-				references: {
-					model: "user",
-					key: "id"
-				}
+				allowNull: false
 			},
 			clientId: {
 				type: DataTypes.INTEGER(11).UNSIGNED,
-				allowNull: false,
-				references: {
-					model: "client",
-					key: "id"
-				}
+				allowNull: false
 			},
 			gracePeriod: {
 				type: DataTypes.INTEGER(2).UNSIGNED,

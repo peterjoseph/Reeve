@@ -12,37 +12,21 @@ module.exports = function(sequelize, DataTypes) {
 			clientId: {
 				type: DataTypes.INTEGER(11).UNSIGNED,
 				allowNull: true,
-				references: {
-					model: "client",
-					key: "id"
-				},
 				field: "clientId"
 			},
 			userId: {
 				type: DataTypes.INTEGER(11).UNSIGNED,
 				allowNull: true,
-				references: {
-					model: "user",
-					key: "id"
-				},
 				field: "userId"
 			},
 			emailType: {
 				type: DataTypes.INTEGER(11).UNSIGNED,
 				allowNull: false,
-				references: {
-					model: "emailTypes",
-					key: "id"
-				},
 				field: "emailType"
 			},
 			emailLanguage: {
 				type: DataTypes.INTEGER(11).UNSIGNED,
 				allowNull: false,
-				references: {
-					model: "languages",
-					key: "id"
-				},
 				field: "emailLanguage"
 			},
 			to: {

@@ -133,6 +133,7 @@ class EditProfile extends Component {
 
 						// Loading is complete
 						this.setState({
+							emailAddress: this.props.user.get("emailAddress"),
 							loading: false
 						});
 						this.props.history.push("/profile?updateprofile=success");
@@ -144,9 +145,10 @@ class EditProfile extends Component {
 
 	render() {
 		const { firstName, lastName, emailAddress, bio, location, website, loading, validationErrors, serverError } = this.state;
-		const { updateProfileStatus } = this.props;
+		const { loadProfileStatus, updateProfileStatus, user } = this.props;
 
 		const successMessage = updateProfileStatus === REDUX_STATE.FULFILLED && !serverError && !validationErrors;
+		const emailWarning = loadProfileStatus === REDUX_STATE.FULFILLED && user.get("emailAddress") !== emailAddress;
 
 		return (
 			<div>
@@ -194,6 +196,7 @@ class EditProfile extends Component {
 					disabled={loading}
 					error={validationErrors}
 				/>
+				{emailWarning && <div className="alert alert-warning rounded-0">{t("components.profile.changeEmailWarning")}</div>}
 				<InputField
 					label={t("label.aboutMe")}
 					name={"bio"}
