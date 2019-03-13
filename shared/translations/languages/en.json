@@ -112,6 +112,7 @@
 			}
 		},
 		"profile": {
+			"updateProfile": "Update Profile",
 			"whichLanguage?": "Which language should $t(site.name) use?",
 			"changeLanguage": "Change Language",
 			"changePassword": "Change Password",
@@ -212,6 +213,7 @@
 		"changePassword": "Success! The password to your account has been changed.",
 		"resetPassword": "Success! The password to your account has been reset.",
 		"verifyEmail": "Success! Your email address has been verified.",
+		"updatePersonalProfile": "Success! Your profile has been updated.",
 		"changeLanguage": "Success! The language $t(site.name) will use has been updated."
 	},
 	"error": {
@@ -242,6 +244,7 @@
 		"loadClientFeaturesFailed": "Load client features failed.",
 		"loadUserFailed": "Load user failed.",
 		"loadUserRolesFailed": "Load user roles failed.",
+		"updateProfileInvalidProperties": "Update profile object contains invalid properties.",
 		"registeredWorkspaceURL": "Sorry, this workspace name has already been used.",
 		"emptyWorkspaceURL": "Workspace name does not exist.",
 		"emptyResetCode": "Password reset code does not exist or is invalid.",

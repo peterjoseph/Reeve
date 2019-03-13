@@ -7,6 +7,7 @@ import { t } from "shared/translations/i18n";
 
 import User from "common/components/User";
 
+import EditProfile from "./components/EditProfile";
 import LanguageSettings from "./components/LanguageSettings";
 import ChangePassword from "./components/ChangePassword";
 
@@ -35,7 +36,9 @@ class Profile extends Component {
 								<div className="mt-3 mb-5">
 									<h5>{t("label.profile")}</h5>
 									<div className="card rounded-0 mb-3 text-left">
-										<div className="card-body">Input</div>
+										<div className="card-body">
+											<EditProfile location={history.location} />
+										</div>
 									</div>
 								</div>
 								<div className="my-5">

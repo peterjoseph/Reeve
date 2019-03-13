@@ -115,6 +115,7 @@
 			}
 		},
 		"profile": {
+			"updateProfile": "Aggiorna il profilo",
 			"whichLanguage?": "Quale lingua dovrebbe usare $t(site.name)?",
 			"changeLanguage": "Cambia lingua",
 			"changePassword": "Cambia La Password",
@@ -209,6 +210,7 @@
 		"changePassword": "Successo! La password del tuo account è stata cambiata.",
 		"resetPassword": "Successo! La password del tuo account è stata ripristinata.",
 		"verifyEmail": "Successo! Il tuo indirizzo email è stato verificato",
+		"updatePersonalProfile": "Successo! Il tuo profilo è stato aggiornato.",
 		"changeLanguage": "Successo! La lingua utilizzata da $t(site.name) è stata aggiornata."
 	},
 	"error": {
@@ -239,6 +241,7 @@
 		"loadClientFeaturesFailed": "Carica le funzionalità del client non riuscite.",
 		"loadUserFailed": "Carica utente fallito.",
 		"loadUserRolesFailed": "Carica ruoli utente falliti.",
+		"updateProfileInvalidProperties": "L'oggetto del profilo di aggiornamento contiene proprietà non valide.",
 		"registeredWorkspaceURL": "Siamo spiacenti, questo nome dell'area di lavoro è già stato utilizzato.",
 		"emptyWorkspaceURL": "Il nome dell'area di lavoro non esiste.",
 		"emptyResetCode": "Il codice di reimpostazione della password non esiste o non è valido.",

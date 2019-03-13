@@ -1,6 +1,36 @@
 import { t } from "shared/translations/i18n";
 import { RESTRICTED_LANGUAGES } from "shared/constants";
 
+const updateUserProfile = () => {
+	return {
+		firstName: {
+			presence: {
+				allowEmpty: false
+			},
+			length: {
+				maximum: 255
+			}
+		},
+		lastName: {
+			presence: {
+				allowEmpty: false
+			},
+			length: {
+				maximum: 255
+			}
+		},
+		emailAddress: {
+			email: true,
+			presence: {
+				allowEmpty: false
+			},
+			length: {
+				maximum: 255
+			}
+		}
+	};
+};
+
 const changeUserPassword = () => {
 	return {
 		currentPassword: {
@@ -57,6 +87,7 @@ const changeSavedLanguage = () => {
 };
 
 module.exports = {
+	updateUserProfile: updateUserProfile,
 	changeUserPassword: changeUserPassword,
 	changeSavedLanguage: changeSavedLanguage
 };

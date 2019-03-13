@@ -7,6 +7,44 @@ import { t } from "shared/translations/i18n";
 import { EMAIL_TYPE, LANGUAGE_CODES } from "shared/constants";
 import { ServerResponseError } from "utilities/errors/serverResponseError";
 
+// Update user profile
+export function updateProfile(options, browserLng) {
+	return database().transaction(async function(transaction) {
+		try {
+			// Load client for authenticated user
+			const client = await models().client.findOne({ where: { id: options.clientId, active: true } }, { transaction: transaction });
+
+			// Throw an error if the client does not exist
+			if (client === null) {
+				throw new ServerResponseError(403, t("validation.loadUserPropertiesFailed", { lng: browserLng }), { client: [t("validation.loadClientFailed", { lng: browserLng })] });
+			}
+
+			// Load user properties for authenticated user
+			const user = await models().user.findOne({ where: { id: options.userId, clientId: client.get("id"), active: true } }, { transaction: transaction });
+
+			// Throw an error if the user does not exist
+			if (user === null) {
+				throw new ServerResponseError(403, t("validation.loadUserPropertiesFailed", { lng: browserLng }), { user: [t("validation.loadUserPropertiesFailed", { lng: browserLng })] });
+			}
+
+			// Update user row with new information
+			user.update({
+				firstName: options.firstName,
+				lastName: options.lastName,
+				emailAddress: options.emailAddress
+			});
+
+			// Create a response object
+			const response = { status: 200, message: t("label.success", { lng: browserLng }) };
+
+			// Return the response object
+			return response;
+		} catch (error) {
+			throw error;
+		}
+	});
+}
+
 // Change Language for logged in user
 export function changeLanguage(options, browserLng) {
 	return database().transaction(async function(transaction) {

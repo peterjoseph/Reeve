@@ -1,10 +1,14 @@
 import { fromJS } from "immutable";
 import { REDUX_STATE } from "shared/constants";
-import { changeUserPassword } from "client/api/profile.js";
+import { updatePersonalProfile, changeUserPassword } from "client/api/profile.js";
 
 import "./root";
 
 export const PROFILE = "profile";
+
+export const UPDATE_PROFILE_PENDING = PROFILE + "/UPDATE_PROFILE_PENDING";
+export const UPDATE_PROFILE_FULFILLED = PROFILE + "/UPDATE_PROFILE_FULFILLED";
+export const UPDATE_PROFILE_REJECTED = PROFILE + "/UPDATE_PROFILE_REJECTED";
 
 export const CHANGE_PASSWORD_PENDING = PROFILE + "/CHANGE_PASSWORD_PENDING";
 export const CHANGE_PASSWORD_FULFILLED = PROFILE + "/CHANGE_PASSWORD_FULFILLED";
@@ -14,6 +18,25 @@ const DEFAULT_STATE = fromJS({});
 
 export default function language(state = DEFAULT_STATE, action) {
 	switch (action.type) {
+		case UPDATE_PROFILE_PENDING:
+			return state.setIn(["updateProfile", "status"], REDUX_STATE.PENDING);
+		case UPDATE_PROFILE_FULFILLED:
+			return state.set(
+				"updateProfile",
+				fromJS({
+					status: REDUX_STATE.FULFILLED,
+					payload: action.payload
+				})
+			);
+		case UPDATE_PROFILE_REJECTED:
+			return state.set(
+				"updateProfile",
+				fromJS({
+					status: REDUX_STATE.REJECTED,
+					payload: {},
+					error: action.payload
+				})
+			);
 		case CHANGE_PASSWORD_PENDING:
 			return state.setIn(["changePassword", "status"], REDUX_STATE.PENDING);
 		case CHANGE_PASSWORD_FULFILLED:
@@ -36,6 +59,28 @@ export default function language(state = DEFAULT_STATE, action) {
 		default:
 			return state;
 	}
+}
+
+export function updateProfile(body) {
+	return dispatch => {
+		dispatch({
+			type: UPDATE_PROFILE_PENDING
+		});
+
+		return updatePersonalProfile(body).then(
+			result => {
+				return dispatch({
+					type: UPDATE_PROFILE_FULFILLED,
+					payload: result
+				});
+			},
+			error =>
+				dispatch({
+					type: UPDATE_PROFILE_REJECTED,
+					payload: error
+				})
+		);
+	};
 }
 
 export function changePassword(body) {
