@@ -11,7 +11,7 @@ import { loadProfile, updateProfile, verifyUserEmailChange, changeLanguage, chan
 module.exports = function(router) {
 	// Load personal profile details
 	router.get(
-		"/api/profile/",
+		"/api/v1.0/profile/",
 		restrict({
 			registered: true,
 			unregistered: false
@@ -40,7 +40,7 @@ module.exports = function(router) {
 
 	// Update user profile
 	router.post(
-		"/api/profile/update/",
+		"/api/v1.0/profile/update/",
 		restrict({
 			registered: true,
 			unregistered: false
@@ -83,7 +83,7 @@ module.exports = function(router) {
 	);
 
 	// Verify User Email Change
-	router.post("/api/verify/email_change/", restrict({ registered: true, unregistered: true }), function(req, res, next) {
+	router.post("/api/v1.0/verify/email_change/", restrict({ registered: true, unregistered: true }), function(req, res, next) {
 		// Store received object properties
 		const body = {
 			code: req.body.code,
@@ -114,7 +114,7 @@ module.exports = function(router) {
 
 	// Change User Language
 	router.post(
-		"/api/change_user_language/",
+		"/api/v1.0/change_user_language/",
 		restrict({
 			registered: true,
 			unregistered: false
@@ -153,7 +153,7 @@ module.exports = function(router) {
 
 	// Change User Password
 	router.post(
-		"/api/change_password/",
+		"/api/v1.0/change_password/",
 		restrict({
 			registered: true,
 			unregistered: false

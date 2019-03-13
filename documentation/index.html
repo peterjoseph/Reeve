@@ -961,7 +961,7 @@
 						<code>
 							// Reset User Password
 							export function resetPassword(reset) {
-								&nbsp;return fetch.perform("/api/reset_password/", {
+								&nbsp;return fetch.perform("/api/v1.0/reset_password/", {
 									&nbsp;&nbsp;method: "POST",
 									&nbsp;&nbsp;body: JSON.stringify({
 										&nbsp;&nbsp;&nbsp;password: reset.password,
@@ -1551,12 +1551,12 @@
 						<code>
 								module.exports = function(router) {
 									&nbsp;// Endpoint 1
-									&nbsp;router.get("/api/endpoint_one/", restrict({ registered: true, unregistered: true }), function(req, res, next) {
+									&nbsp;router.get("/api/v1.0/endpoint_one/", restrict({ registered: true, unregistered: true }), function(req, res, next) {
 										&nbsp;&nbsp;return res.status(200);
 									&nbsp;});
 
 									&nbsp;// Endpoint 2
-									&nbsp;router.get("/api/endpoint_two/", restrict({ registered: true, unregistered: true }), function(req, res, next) {
+									&nbsp;router.get("/api/v1.0/endpoint_two/", restrict({ registered: true, unregistered: true }), function(req, res, next) {
 										&nbsp;&nbsp;return res.status(200);
 									&nbsp;});
 								};
@@ -1568,7 +1568,7 @@
 				<div class="code__block code__block--notabs">
 					<pre class="code code--block">
 						<code>
-							HTTP GET https://&lt;server_address&gt;.com/api/endpoint_one/
+							HTTP GET https://&lt;server_address&gt;.com/api/v1.0/endpoint_one/
 						</code>
 					</pre>
 				</div>
@@ -1720,7 +1720,7 @@
 				<div class="code__block code__block--notabs">
 					<pre class="code code--block">
 						<code>
-							router.post("/api/endpoint_url/", restrict({ unregistered: true, registered: true }), function(req, res, next) {
+							router.post("/api/v1.0/endpoint_url/", restrict({ unregistered: true, registered: true }), function(req, res, next) {
 								&nbsp;// Store received object properties
 								&nbsp;const body = {
 									&nbsp;&nbsp;requestObject: req.body.requestObject,
@@ -1759,7 +1759,7 @@
 				<div class="code__block code__block--notabs">
 					<pre class="code code--block">
 						<code>
-								router.get("/api/endpoint_url/", restrict({ registered: true, unregistered: true }), function(req, res, next) {});
+								router.get("/api/v1.0/endpoint_url/", restrict({ registered: true, unregistered: true }), function(req, res, next) {});
 						</code>
 					</pre>
 				</div>

@@ -7,7 +7,7 @@ import { loadClientSubscriptionDetails, loadAvailableSubscriptions } from "../or
 module.exports = function(router) {
 	// Load client subscription details
 	router.get(
-		"/api/client_subscription_details/",
+		"/api/v1.0/client_subscription_details/",
 		restrict({
 			registered: true,
 			unregistered: true,
@@ -32,7 +32,7 @@ module.exports = function(router) {
 
 	// Load List of available subscriptions
 	router.get(
-		"/api/available_subscriptions/",
+		"/api/v1.0/available_subscriptions/",
 		restrict({
 			registered: true,
 			unregistered: true,

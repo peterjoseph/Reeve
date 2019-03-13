@@ -2,14 +2,14 @@ import fetch from "common/fetch";
 
 // Load User Personal Profile Details
 export function loadPersonalProfile() {
-	return fetch.perform("/api/profile/", {
+	return fetch.perform("/api/v1.0/profile/", {
 		method: "GET"
 	});
 }
 
 // Update User Personal Profile
 export function updatePersonalProfile(body) {
-	return fetch.perform("/api/profile/update/", {
+	return fetch.perform("/api/v1.0/profile/update/", {
 		method: "POST",
 		body: JSON.stringify({
 			firstName: body.firstName,
@@ -24,7 +24,7 @@ export function updatePersonalProfile(body) {
 
 // Verify User Email Change
 export function verifyEmailChange(user) {
-	return fetch.perform("/api/verify/email_change/", {
+	return fetch.perform("/api/v1.0/verify/email_change/", {
 		method: "POST",
 		body: JSON.stringify({
 			code: user.code,
@@ -36,7 +36,7 @@ export function verifyEmailChange(user) {
 
 // Change User Password
 export function changeUserPassword(body) {
-	return fetch.perform("/api/change_password/", {
+	return fetch.perform("/api/v1.0/change_password/", {
 		method: "POST",
 		body: JSON.stringify({
 			currentPassword: body.currentPassword,

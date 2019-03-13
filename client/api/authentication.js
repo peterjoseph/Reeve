@@ -2,7 +2,7 @@ import fetch from "common/fetch";
 
 // Account Registration
 export function clientRegistration(client) {
-	return fetch.perform("/api/register/", {
+	return fetch.perform("/api/v1.0/register/", {
 		method: "POST",
 		body: JSON.stringify({
 			workspaceURL: client.workspaceURL,
@@ -27,7 +27,7 @@ export function userLogin(user) {
 	if (user.authToken) {
 		body = { authToken: user.authToken };
 	}
-	return fetch.perform("/api/login/", {
+	return fetch.perform("/api/v1.0/login/", {
 		method: "POST",
 		body: JSON.stringify(body)
 	});
@@ -35,21 +35,21 @@ export function userLogin(user) {
 
 // User Logout
 export function userLogout() {
-	return fetch.perform("/api/logout/", {
+	return fetch.perform("/api/v1.0/logout/", {
 		method: "POST"
 	});
 }
 
 // Load user properties
 export function userLoad() {
-	return fetch.perform("/api/load_user/", {
+	return fetch.perform("/api/v1.0/load_user/", {
 		method: "GET"
 	});
 }
 
 // Workspace URL Validation
 export function workspaceURLValidation(workspaceURL) {
-	return fetch.perform("/api/validate_workspace_url/", {
+	return fetch.perform("/api/v1.0/validate_workspace_url/", {
 		method: "GET",
 		headers: {
 			workspaceURL: workspaceURL
@@ -59,7 +59,7 @@ export function workspaceURLValidation(workspaceURL) {
 
 // Forgot Account Details
 export function forgotAccountDetails(user) {
-	return fetch.perform("/api/forgot_account_details/", {
+	return fetch.perform("/api/v1.0/forgot_account_details/", {
 		method: "POST",
 		body: JSON.stringify(user)
 	});
@@ -67,14 +67,14 @@ export function forgotAccountDetails(user) {
 
 // Resend verify email address notification
 export function resendVerifyEmail() {
-	return fetch.perform("/api/resend_verify_email/", {
+	return fetch.perform("/api/v1.0/resend_verify_email/", {
 		method: "POST"
 	});
 }
 
 // Reset Password Code Validation
 export function resetPasswordCodeValidation(reset) {
-	return fetch.perform("/api/validate_reset_password_code/", {
+	return fetch.perform("/api/v1.0/validate_reset_password_code/", {
 		method: "GET",
 		headers: {
 			code: reset.code,
@@ -85,7 +85,7 @@ export function resetPasswordCodeValidation(reset) {
 
 // Reset User Password
 export function resetPassword(reset) {
-	return fetch.perform("/api/reset_password/", {
+	return fetch.perform("/api/v1.0/reset_password/", {
 		method: "POST",
 		body: JSON.stringify({
 			password: reset.password,
@@ -98,7 +98,7 @@ export function resetPassword(reset) {
 
 // Verify User Email
 export function verifyEmail(user) {
-	return fetch.perform("/api/verify_email/", {
+	return fetch.perform("/api/v1.0/verify_email/", {
 		method: "POST",
 		body: JSON.stringify({
 			code: user.code,

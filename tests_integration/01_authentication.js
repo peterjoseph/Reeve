@@ -26,7 +26,7 @@ module.exports = testData;
 
 // 403 - Create new client account
 test("Create New Client - Missing Body Content - 403 Response", async t => {
-	const response = await request.post("api/register/");
+	const response = await request.post("api/v1.0/register/");
 	t.is(response.status, 403);
 	t.deepEqual(response.body.reason.emailAddress, ["Error: Field cannot be blank."]);
 	t.deepEqual(response.body.reason.password, ["Error: Field cannot be blank."]);
@@ -35,7 +35,7 @@ test("Create New Client - Missing Body Content - 403 Response", async t => {
 
 // 200 - Create new client account
 test("Create New Client - Valid Body - 200 Response", async t => {
-	const response = await request.post("api/register/").send({
+	const response = await request.post("api/v1.0/register/").send({
 		workspaceURL: testData.workspaceURL,
 		firstName: testData.firstName,
 		lastName: testData.lastName,
@@ -49,7 +49,7 @@ test("Create New Client - Valid Body - 200 Response", async t => {
 
 // 403 - Create new client account, workspace url already used
 test("Create New Client - Duplicate body content - 403 Response", async t => {
-	const response = await request.post("api/register/").send({
+	const response = await request.post("api/v1.0/register/").send({
 		workspaceURL: testData.workspaceURL,
 		firstName: testData.firstName,
 		lastName: testData.lastName,
@@ -64,20 +64,20 @@ test("Create New Client - Duplicate body content - 403 Response", async t => {
 
 // 403 - Missing or incorrect Workspace URL provided
 test("Authenticate Workspace URL - Missing Header - 403 Response", async t => {
-	const response = await request.get("api/validate_workspace_url/");
+	const response = await request.get("api/v1.0/validate_workspace_url/");
 	t.is(response.status, 403);
 });
 
 // 200 - Valid Workspace URL supplied
 test("Authenticate Workspace URL - Valid Header - 200 Response", async t => {
-	const response = await request.get("api/validate_workspace_url/").set("workspaceurl", testData.workspaceURL);
+	const response = await request.get("api/v1.0/validate_workspace_url/").set("workspaceurl", testData.workspaceURL);
 	t.is(response.status, 200);
 	t.is(response.body.style.defaultLanguage, "en");
 });
 
 // 200 - Login to User Account (Client Owner)
 test("Owner Account Login - Valid Body - 200 Response", async t => {
-	const response = await request.post("api/login").send({
+	const response = await request.post("api/v1.0/login").send({
 		workspaceURL: testData.workspaceURL,
 		emailAddress: testData.emailAddress,
 		password: testData.password,
@@ -94,7 +94,7 @@ test("Owner Account Login - Valid Body - 200 Response", async t => {
 // 200 - Login to User Account with Security Token (Client Owner)
 test("Owner Account Security Token Login - Valid Body - 200 Response", async t => {
 	const response = await request
-		.post("api/login")
+		.post("api/v1.0/login")
 		.set("Authorization", testData.securityToken)
 		.send({
 			authToken: true
@@ -105,7 +105,7 @@ test("Owner Account Security Token Login - Valid Body - 200 Response", async t =
 // 403 - Login to User Account failure with invalid Security Token (Client Owner)
 test("Owner Account Invalid Security Token Login Failure - Invalid Token - 403 Response", async t => {
 	const response = await request
-		.post("api/login")
+		.post("api/v1.0/login")
 		.set("Authorization", "invalid security token")
 		.send({
 			authToken: true
@@ -115,7 +115,7 @@ test("Owner Account Invalid Security Token Login Failure - Invalid Token - 403 R
 
 // 200 - Load User (Client Owner)
 test("Load User Account - Valid Body - 200 Response", async t => {
-	const response = await request.get("api/load_user/").set("Authorization", testData.securityToken);
+	const response = await request.get("api/v1.0/load_user/").set("Authorization", testData.securityToken);
 	t.is(response.status, 200);
 	t.is(response.body.user.firstName, testData.firstName);
 	t.is(response.body.user.lastName, testData.lastName);
@@ -128,7 +128,7 @@ test("Load User Account - Valid Body - 200 Response", async t => {
 
 // 200 - Logout of active user account (Client Owner)
 test("Owner Account Logout - Valid Header - 200 Response", async t => {
-	const response = await request.post("api/logout").set("Authorization", testData.securityToken);
+	const response = await request.post("api/v1.0/logout").set("Authorization", testData.securityToken);
 	t.is(response.status, 200);
 });
 
