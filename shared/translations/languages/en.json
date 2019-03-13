@@ -93,7 +93,7 @@
 		},
 		"overview": {
 			"title": "Overview",
-			"leadDescription": "Reeve is a Node.js boilerplate framework that assists developers in reducing the setup time required to build production-ready scalable web applications. This framework includes pre-built pages that are commonly found in many web applications.",
+			"leadDescription": "Reeve is a Node.js boilerplate framework that assists developers in reducing the setup time required to build production-ready scalable web applications. The framework includes a variety of pre-built pages so you can focus on building your MVP faster.",
 			"cards": {
 				"profile": {
 					"title": "Profile Page",

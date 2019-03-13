@@ -96,7 +96,7 @@
 		},
 		"overview": {
 			"title": "Panoramica",
-			"leadDescription": "Reeve è un framework Node.js che aiuta gli sviluppatori a ridurre i tempi di installazione necessari per creare applicazioni web scalabili pronte per la produzione. Il framework include alcune pagine predefinite che si trovano comunemente in molte applicazioni Web.",
+			"leadDescription": "Reeve è un framework Node.js che aiuta gli sviluppatori a ridurre i tempi di installazione necessari per creare applicazioni web scalabili pronte per la produzione. Il framework include una varietà di pagine predefinite per consentirti di concentrarti sulla creazione del tuo MVP più velocemente.",
 			"cards": {
 				"profile": {
 					"title": "Pagina profilo",
