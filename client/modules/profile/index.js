@@ -1,12 +1,14 @@
 import React, { Component, Fragment } from "react";
 import PropTypes from "prop-types";
 import { Helmet } from "react-helmet";
-import { withRouter } from "react-router-dom";
+import { Route, withRouter } from "react-router-dom";
 
 import { t } from "shared/translations/i18n";
 
 import User from "common/components/User";
 
+import Avatar from "./components/Avatar";
+import ChangeAvatar from "./components/ChangeAvatar";
 import EditProfile from "./components/EditProfile";
 import LanguageSettings from "./components/LanguageSettings";
 import ChangePassword from "./components/ChangePassword";
@@ -26,9 +28,7 @@ class Profile extends Component {
 						<div className="mb-3">
 							<div className="col-md-8 mx-auto">
 								<div className="text-center">
-									<div className="profile-icon large mb-3 rounded-circle d-inline-block">
-										<img src={user.get("profilePhoto") || require("distribution/images/avatar.svg")} className="rounded-circle" />
-									</div>
+									<Avatar photo={user.get("profilePhoto")} />
 									<h3 className="text-capitalize">
 										{user.get("firstName")} {user.get("lastName")}
 									</h3>
@@ -59,6 +59,7 @@ class Profile extends Component {
 								</div>
 							</div>
 						</div>
+						<Route path={"/profile/change-profile-photo"} render={() => <ChangeAvatar />} />
 					</div>
 				</div>
 			</Fragment>

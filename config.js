@@ -57,6 +57,12 @@ let config = {
 		enabled: String(process.env.STRIPE_ENABLED) === "true",
 		apiKey: process.env.STRIPE_API_KEY
 	},
+	s3: {
+		enabled: String(process.env.S3_ENABLED) === "true",
+		accessKeyId: process.env.S3_ACCESS_KEY_ID,
+		secretAccessKey: process.env.S3_SECRET_ACCESS_KEY,
+		region: process.env.S3_REGION
+	},
 	googleAnalytics: {
 		enabled: String(process.env.GOOGLE_ANALYTICS_ENABLED) === "true",
 		tracking: process.env.GOOGLE_ANALYTICS_TRACKING

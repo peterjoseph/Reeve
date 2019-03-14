@@ -20,6 +20,7 @@ let redis = require("./services/redis");
 let database = require("./services/sequelize");
 let nodemailer = require("./services/nodemailer");
 let stripe = require("./services/stripe");
+let s3 = require("./services/s3");
 let i18n = require("../shared/translations/i18n");
 let config = require("../config");
 
@@ -33,6 +34,7 @@ devmiddleware.initialize(app); // Webpack Development Middleware
 nodemailer.initialize(app); // Nodemailer Email Service
 stripe.initialize(app); // Stripe Payment Gateway
 passport.initialize(app); // Passport user authentication
+s3.initialize(app); // Amazon Web Services S3 Bucket File Uploading
 
 // Set up view engine
 app.set("view engine", "html");

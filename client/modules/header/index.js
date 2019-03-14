@@ -118,7 +118,7 @@ class Header extends Component {
 								<div className="navbar-nav-scroll">
 									<ul className="navbar-nav bd-navbar-nav flex-md-row">
 										<NavMenuLink title={t("label.overview")} route={"/"} isExact={true} />
-										<NavMenuLink title={t("label.profile")} route={"/profile"} isExact={true} />
+										<NavMenuLink title={t("label.profile")} route={"/profile"} isExact={false} />
 										{STRIPE_ENABLED && user.get("subscriptionEndDate") !== null && <NavMenuLink title={t("label.billing")} route={"/billing"} isExact={true} />}
 										<NavMenuLink title={t("label.settings")} route={"/settings"} isExact={true} />
 									</ul>

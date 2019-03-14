@@ -17,6 +17,9 @@ class HelpCaller extends Component {
 			case "/profile":
 				articleLink = l("supportArticles.profile");
 				break;
+			case "/profile/change-profile-photo":
+				articleLink = l("supportArticles.profile");
+				break;
 			case "/billing":
 				articleLink = l("supportArticles.billing");
 				break;

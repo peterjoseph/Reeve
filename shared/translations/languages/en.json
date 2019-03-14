@@ -116,6 +116,7 @@
 		},
 		"profile": {
 			"updateProfile": "Update Profile",
+			"changeProfilePhoto": "Change Profile Photo",
 			"whichLanguage?": "Which language should $t(site.name) use?",
 			"changeEmailWarning": "Before we can change your email address, a confirmation email will be sent to your new email address. Please click the verification link in the email for the change to be applied.",
 			"changeLanguage": "Change Language",
