@@ -101,6 +101,7 @@
 		"raven-js": "^3.27.0",
 		"rc-switch": "^1.8.0",
 		"react": "^16.6.3",
+		"react-butterfiles": "^1.2.1",
 		"react-dom": "^16.6.3",
 		"react-emotion": "^9.2.12",
 		"react-ga": "^2.5.6",

@@ -1,9 +1,11 @@
-import React, { Component, Fragment } from "react";
-import { Link, withRouter } from "react-router-dom";
+import React, { Component } from "react";
+import { withRouter } from "react-router-dom";
 import PropTypes from "prop-types";
-import Alert from "common/components/Alert";
 
 import { t } from "shared/translations/i18n";
+
+import Alert from "common/components/Alert";
+import FileUploader from "common/components/inputs/FileUploader";
 
 class ChangeAvatar extends Component {
 	render() {
@@ -11,9 +13,7 @@ class ChangeAvatar extends Component {
 
 		return (
 			<Alert title={t("components.profile.changeProfilePhoto")} closeModal={() => history.push("/profile")}>
-				<Fragment>
-					<p>Modal contents</p>
-				</Fragment>
+				<FileUploader acceptedFormats={["image/jpg", "image/jpeg", "image/png"]} multiple={false} imagePreview={true} maximumFileSize={"1mb"} />
 			</Alert>
 		);
 	}

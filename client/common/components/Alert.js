@@ -10,7 +10,7 @@ class Alert extends Component {
 		return (
 			<div className="modal" tabIndex="-1">
 				<ReactModal contentLabel={title} className="modal-dialog modal-dialog-centered" isOpen ariaHideApp={false} onRequestClose={closeModal}>
-					<div className="modal-content" role="document">
+					<div className="modal-content rounded-0" role="document">
 						<div className="modal-header">
 							<h5 className="modal-title">{title}</h5>
 							<button type="button" className="close" aria-label="Close" onClick={closeModal}>

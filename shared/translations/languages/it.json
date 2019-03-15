@@ -50,7 +50,8 @@
 		"languageSettings": "Impostazioni della lingua",
 		"aboutMe": "Riguardo a me",
 		"location": "Posizione",
-		"website": "Sito web"
+		"website": "Sito web",
+		"browse": "Navigare"
 	},
 	"numbers": {
 		"1": "1",
@@ -63,6 +64,7 @@
 		"en": "Inglese",
 		"it": "Italiano"
 	},
+	"inputs": {},
 	"components": {
 		"authentication": {
 			"workspaceName": "spaziodilavoro",
