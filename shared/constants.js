@@ -66,6 +66,9 @@ module.exports = Object.freeze({
 		1: "month",
 		2: "year"
 	},
+	MAX_FILE_UPLOAD_SIZE: {
+		CHANGE_AVATAR: "1mb"
+	},
 	RESTRICTED_LANGUAGES: ["en", "it"],
 	RESTRICTED_DOMAINS: [
 		"domain",

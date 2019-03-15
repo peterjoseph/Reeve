@@ -100,7 +100,7 @@ class FileUploader extends Component {
 				{({ browseFiles, getDropZoneProps }) => (
 					<div id="file-input">
 						<div className="drop-zone" {...getDropZoneProps()}>
-							<div className="drop-window d-flex p-2 bg-light border border-light rounded">
+							<div className="drop-window d-flex p-2 bg-light border border-light">
 								<div className="no-files w-100 text-center">
 									{showPreview && (
 										<div className="w-100 text-center">
@@ -121,7 +121,7 @@ class FileUploader extends Component {
 											</div>
 										</Fragment>
 									)}
-									<button className="btn btn-primary btn-sm my-2" onClick={browseFiles} disabled={disabled}>
+									<button className="btn btn-outline-primary btn-sm my-2" onClick={browseFiles} disabled={disabled}>
 										{t("label.browse")}
 									</button>
 								</div>
@@ -129,22 +129,22 @@ class FileUploader extends Component {
 							<div className="file-list">
 								{files &&
 									files.map(file => (
-										<div key={file.name} className="file alert alert-success alert-dismissible fade show my-2 p-2">
+										<div key={file.name} className="file alert border-light rounded-0 my-2 p-2">
 											{file.name}
-											<button type="button" className="close p-2" value={file.id} onClick={this.removeFile} data-dismiss="alert" aria-label={t("action.close")}>
+											<button type="button" className="close" value={file.id} onClick={this.removeFile} data-dismiss="alert" aria-label={t("action.close")}>
 												&times;
 											</button>
 										</div>
 									))}
 								{errors &&
 									errors.map(error => (
-										<div key={error.id} className="error alert alert-danger alert-dismissible fade show my-2 p-2">
+										<div key={error.id} className="error alert border-danger rounded-0 my-2 p-2">
+											<button type="button" className="close" value={error.id} onClick={this.removeError} data-dismiss="alert" aria-label={t("action.close")}>
+												&times;
+											</button>
 											{error.file && error.file.name}
 											{error.file && <br />}
 											{this.showErrorMessage(error.type)}
-											<button type="button" className="close p-2" value={error.id} onClick={this.removeError} data-dismiss="alert" aria-label={t("action.close")}>
-												&times;
-											</button>
 										</div>
 									))}
 							</div>

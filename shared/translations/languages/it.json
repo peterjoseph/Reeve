@@ -70,12 +70,12 @@
 			"dragDropFile_plural": "Trascina e rilascia i file qui",
 			"dragDropImage": "Trascina e rilascia l'immagine qui",
 			"dragDropImage_plural": "Trascina e rilascia le immagini qui",
-			"unsupportedFileType": "Il file che hai tentato di caricare non è supportato",
-			"maxSizeExceeded": "Uno o più file sono più grandi di {{ maxFileSize }}",
-			"multipleMaxCountExceeded": "Hai selezionato più file di quelli consentiti. Massimo: {{ maximumFiles }}",
-			"multipleMaxSizeExceeded": "Hai selezionato uno o più file con una dimensione totale maggiore di {{ maxFileSize }}",
-			"multipleNotAllowed": "Hai provato a caricare più di {{ count }} file",
-			"multipleNotAllowed_plural": "Hai provato a caricare più di un massimo di {{ count }} file"
+			"unsupportedFileType": "$t(label.errorField) Il file che hai tentato di caricare non è supportato",
+			"maxSizeExceeded": "$t(label.errorField) Uno o più file sono più grandi di {{ maxFileSize }}",
+			"multipleMaxCountExceeded": "$t(label.errorField) Hai selezionato più file di quelli consentiti. Massimo: {{ maximumFiles }}",
+			"multipleMaxSizeExceeded": "$t(label.errorField) Hai selezionato uno o più file con una dimensione totale maggiore di {{ maxFileSize }}",
+			"multipleNotAllowed": "$t(label.errorField) Hai provato a caricare più di {{ count }} file",
+			"multipleNotAllowed_plural": "$t(label.errorField) Hai provato a caricare più di un massimo di {{ count }} file"
 		}
 	},
 	"components": {
@@ -135,6 +135,7 @@
 		"profile": {
 			"updateProfile": "Aggiorna il profilo",
 			"changeProfilePhoto": "Cambia la foto del profilo",
+			"saveImage": "Salva Immagine",
 			"whichLanguage?": "Quale lingua dovrebbe usare $t(site.name)?",
 			"changeEmailWarning": "Prima di poter modificare il tuo indirizzo email, verrà inviata un'email di conferma al tuo nuovo indirizzo email. Fare clic sul collegamento di verifica nell'e-mail per la modifica da applicare.",
 			"changeLanguage": "Cambia lingua",

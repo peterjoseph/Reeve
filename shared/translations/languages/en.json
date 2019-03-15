@@ -67,12 +67,12 @@
 			"dragDropFile_plural": "Drag and drop files here",
 			"dragDropImage": "Drag and drop image here",
 			"dragDropImage_plural": "Drag and drop images here",
-			"unsupportedFileType": "The file you have attempted to upload is not supported",
-			"maxSizeExceeded": "One or more files is larger than {{ maxFileSize }}",
-			"multipleMaxCountExceeded": "You have selected more files than allowed. Maximum: {{ maximumFiles }}",
-			"multipleMaxSizeExceeded": "You have selected one or more files with a total size greater than {{ maxFileSize }}",
-			"multipleNotAllowed": "You have tried to upload more than {{ count }} file",
-			"multipleNotAllowed_plural": "You have tried to upload more than a maximum of {{ count }} files"
+			"unsupportedFileType": "$t(label.errorField) The file you have attempted to upload is not supported",
+			"maxSizeExceeded": "$t(label.errorField) One or more files is larger than {{ maxFileSize }}",
+			"multipleMaxCountExceeded": "$t(label.errorField) You have selected more files than allowed. Maximum: {{ maximumFiles }}",
+			"multipleMaxSizeExceeded": "$t(label.errorField) You have selected one or more files with a total size greater than {{ maxFileSize }}",
+			"multipleNotAllowed": "$t(label.errorField) You have tried to upload more than {{ count }} file",
+			"multipleNotAllowed_plural": "$t(label.errorField) You have tried to upload more than a maximum of {{ count }} files"
 		}
 	},
 	"components": {
@@ -132,6 +132,7 @@
 		"profile": {
 			"updateProfile": "Update Profile",
 			"changeProfilePhoto": "Change Profile Photo",
+			"saveImage": "Save Image",
 			"whichLanguage?": "Which language should $t(site.name) use?",
 			"changeEmailWarning": "Before we can change your email address, a confirmation email will be sent to your new email address. Please click the verification link in the email for the change to be applied.",
 			"changeLanguage": "Change Language",
