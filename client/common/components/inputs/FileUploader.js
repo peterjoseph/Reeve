@@ -1,8 +1,9 @@
-import React, { Component } from "react";
+import React, { Component, Fragment } from "react";
 import PropTypes from "prop-types";
 import Files from "react-butterfiles";
 
 import { t } from "shared/translations/i18n";
+import { variableExists, parameterIsSafe } from "shared/utilities/filters";
 
 import Upload from "common/media/icons/Upload";
 
@@ -82,10 +83,14 @@ class FileUploader extends Component {
 		const { acceptedFormats, multiple, imagePreview, maximumFileSize, multipleMaximumFileSize, multipleMaximumCount, disabled } = this.props;
 		const { files, errors } = this.state;
 
+		// Show image preview on file load?
+		const showPreview = imagePreview && files && files.length > 0 && files[0].src && files[0].src.base64;
+
 		return (
 			<Files
 				multiple={multiple}
 				maxSize={maximumFileSize}
+				convertToBase64={imagePreview}
 				multipleMaxSize={multipleMaximumFileSize}
 				multipleMaxCount={multipleMaximumCount}
 				accept={acceptedFormats}
@@ -97,16 +102,25 @@ class FileUploader extends Component {
 						<div className="drop-zone" {...getDropZoneProps()}>
 							<div className="drop-window d-flex p-2 bg-light border border-light rounded">
 								<div className="no-files w-100 text-center">
-									<Upload className="text-primary my-2" width="1.5rem" height="1.5rem" />
-									<div className="my-2">
-										{multiple
-											? imagePreview
-												? t("inputs.fileUploader.dragDropImage_plural")
-												: t("inputs.fileUploader.dragDropFile_plural")
-											: imagePreview
-											? t("inputs.fileUploader.dragDropImage")
-											: t("inputs.fileUploader.dragDropFile")}
-									</div>
+									{showPreview && (
+										<div className="w-100 text-center">
+											<img src={files[0].src.base64} className="img-fluid img-thumbnail mb-3" style={{ maxHeight: "30vh" }} />
+										</div>
+									)}
+									{!showPreview && (
+										<Fragment>
+											<Upload className="text-primary my-2" width="1.5rem" height="1.5rem" />
+											<div className="my-2">
+												{multiple
+													? imagePreview
+														? t("inputs.fileUploader.dragDropImage_plural")
+														: t("inputs.fileUploader.dragDropFile_plural")
+													: imagePreview
+													? t("inputs.fileUploader.dragDropImage")
+													: t("inputs.fileUploader.dragDropFile")}
+											</div>
+										</Fragment>
+									)}
 									<button className="btn btn-primary btn-sm my-2" onClick={browseFiles} disabled={disabled}>
 										{t("label.browse")}
 									</button>
@@ -117,15 +131,7 @@ class FileUploader extends Component {
 									files.map(file => (
 										<div key={file.name} className="file alert alert-success alert-dismissible fade show my-2 p-2">
 											{file.name}
-											<button
-												type="button"
-												className="close p-2"
-												value={file.id}
-												onClick={this.removeFile}
-												data-dismiss="alert"
-												aria-label={t("action.close")}
-												disabled={disabled}
-											>
+											<button type="button" className="close p-2" value={file.id} onClick={this.removeFile} data-dismiss="alert" aria-label={t("action.close")}>
 												&times;
 											</button>
 										</div>
@@ -133,16 +139,10 @@ class FileUploader extends Component {
 								{errors &&
 									errors.map(error => (
 										<div key={error.id} className="error alert alert-danger alert-dismissible fade show my-2 p-2">
-											{error.file ? `${error.file.name} (${this.showErrorMessage(error.type)})` : this.showErrorMessage(error.type)}
-											<button
-												type="button"
-												className="close p-2"
-												value={error.id}
-												onClick={this.removeError}
-												data-dismiss="alert"
-												aria-label={t("action.close")}
-												disabled={disabled}
-											>
+											{error.file && error.file.name}
+											{error.file && <br />}
+											{this.showErrorMessage(error.type)}
+											<button type="button" className="close p-2" value={error.id} onClick={this.removeError} data-dismiss="alert" aria-label={t("action.close")}>
 												&times;
 											</button>
 										</div>

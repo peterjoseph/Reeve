@@ -64,7 +64,20 @@
 		"en": "Inglese",
 		"it": "Italiano"
 	},
-	"inputs": {},
+	"inputs": {
+		"fileUploader": {
+			"dragDropFile": "Trascina e rilascia il file qui",
+			"dragDropFile_plural": "Trascina e rilascia i file qui",
+			"dragDropImage": "Trascina e rilascia l'immagine qui",
+			"dragDropImage_plural": "Trascina e rilascia le immagini qui",
+			"unsupportedFileType": "Il file che hai tentato di caricare non è supportato",
+			"maxSizeExceeded": "Uno o più file sono più grandi di {{ maxFileSize }}",
+			"multipleMaxCountExceeded": "Hai selezionato più file di quelli consentiti. Massimo: {{ maximumFiles }}",
+			"multipleMaxSizeExceeded": "Hai selezionato uno o più file con una dimensione totale maggiore di {{ maxFileSize }}",
+			"multipleNotAllowed": "Hai provato a caricare più di {{ count }} file",
+			"multipleNotAllowed_plural": "Hai provato a caricare più di un massimo di {{ count }} file"
+		}
+	},
 	"components": {
 		"authentication": {
 			"workspaceName": "spaziodilavoro",

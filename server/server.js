@@ -49,7 +49,7 @@ app.use(compression());
 app.use(
 	lusca({
 		//csrf: true
-		csp: { policy: [{ "img-src": "'self' http:" }, "block-all-mixed-content"] },
+		csp: { policy: [{ "img-src": "'self' http: data:" }, "block-all-mixed-content"] },
 		hsts: { maxAge: 31536000, includeSubDomains: true, preload: true },
 		xssProtection: true,
 		nosniff: true
