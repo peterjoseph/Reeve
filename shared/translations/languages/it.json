@@ -51,7 +51,8 @@
 		"aboutMe": "Riguardo a me",
 		"location": "Posizione",
 		"website": "Sito web",
-		"browse": "Navigare"
+		"browse": "Navigare",
+		"offline": "Disconnesso"
 	},
 	"numbers": {
 		"1": "1",
@@ -162,6 +163,12 @@
 			"billingDetails": "Dettagli di fatturazione",
 			"chooseThisPlan": "Scegli questo piano",
 			"save20%": "Risparmia il 20%",
+			"subscriptionType": {
+				"1": "Prova",
+				"2": "Di Base",
+				"3": "Standard",
+				"4": "Professionale"
+			},
 			"cardFeatures": {
 				"cardOne": {
 					"1": "Funzionalità di base 1",
@@ -182,6 +189,10 @@
 					"4": "Caratteristica professionale 4"
 				}
 			}
+		},
+		"offline": {
+			"disconnectedLead": "Ciao! Sembra che tu sia stato disconnesso da internet.",
+			"continueAsNormal": "Sarai in grado di continuare normalmente quando il browser si connetterà nuovamente a internet."
 		}
 	},
 	"headers": {

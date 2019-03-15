@@ -48,7 +48,8 @@
 		"aboutMe": "About Me",
 		"location": "Location",
 		"website": "Website",
-		"browse": "Browse"
+		"browse": "Browse",
+		"offline": "Offline"
 	},
 	"numbers": {
 		"1": "1",
@@ -185,6 +186,10 @@
 					"4": "Professional Feature 4"
 				}
 			}
+		},
+		"offline": {
+			"disconnectedLead": "Hey! Looks like you've been disconnected from the internet.",
+			"continueAsNormal": "You will be able to continue as normal when the browser connects to the internet again."
 		}
 	},
 	"headers": {
@@ -222,6 +227,10 @@
 		"settings": {
 			"title": "Settings | $t(site.name)",
 			"description": "Global account settings"
+		},
+		"offline": {
+			"title": "Offline | $t(site.name)",
+			"description": "$t(site.name) is Offline"
 		},
 		"404": {
 			"title": "404 Page Not Found | $t(site.name)",

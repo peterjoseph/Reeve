@@ -3,6 +3,7 @@ import ReactDOM from "react-dom";
 import i18next from "shared/translations/i18n";
 import ReactTooltip from "react-tooltip";
 import Notifications from "react-notify-toast";
+import { Online } from "react-detect-offline";
 import Raven from "raven-js";
 import GoogleAnalytics from "common/components/GoogleAnalytics";
 
