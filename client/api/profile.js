@@ -45,3 +45,9 @@ export function changeUserPassword(body) {
 		})
 	});
 }
+
+// Upload user profile to back-end server for saving
+export function saveUserProfilePhoto(body) {}
+
+// Delete existing user profile photo
+export function deleteUserProfilePhoto(body) {}

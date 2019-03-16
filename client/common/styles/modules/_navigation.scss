@@ -10,12 +10,12 @@
 }
 
 .profile-icon {
-	width: 8rem;
-	height: 8rem;
+	width: 10rem;
+	height: 10rem;
 
 	img {
-		max-width: 8rem;
-		max-height: 8rem;
+		width: 10rem;
+		height: auto;
 	}
 
 	.image-overlay {
@@ -24,9 +24,9 @@
 		bottom: 0;
 		left: 50%;
 		right: 0;
-		height: 8rem;
-		width: 8rem;
-		margin-left: -4rem;
+		height: 10rem;
+		width: 10rem;
+		margin-left: -5rem;
 		opacity: 0;
 		transition: 0.3s ease;
 		background-color: #3a3a3a;

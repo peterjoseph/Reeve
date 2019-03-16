@@ -1,6 +1,6 @@
 import { fromJS } from "immutable";
 import { REDUX_STATE } from "shared/constants";
-import { loadPersonalProfile, updatePersonalProfile, changeUserPassword, verifyEmailChange } from "client/api/profile.js";
+import { loadPersonalProfile, updatePersonalProfile, changeUserPassword, verifyEmailChange, saveUserProfilePhoto, deleteUserProfilePhoto } from "client/api/profile.js";
 
 import "./root";
 
@@ -21,6 +21,14 @@ export const CHANGE_PASSWORD_REJECTED = PROFILE + "/CHANGE_PASSWORD_REJECTED";
 export const VERIFY_EMAIL_CHANGE_PENDING = PROFILE + "/VERIFY_EMAIL_CHANGE_PENDING";
 export const VERIFY_EMAIL_CHANGE_FULFILLED = PROFILE + "/VERIFY_EMAIL_CHANGE_FULFILLED";
 export const VERIFY_EMAIL_CHANGE_REJECTED = PROFILE + "/VERIFY_EMAIL_CHANGE_REJECTED";
+
+export const SAVE_PROFILE_PHOTO_PENDING = PROFILE + "/SAVE_PROFILE_PHOTO_PENDING";
+export const SAVE_PROFILE_PHOTO_FULFILLED = PROFILE + "/SAVE_PROFILE_PHOTO_FULFILLED";
+export const SAVE_PROFILE_PHOTO_REJECTED = PROFILE + "/SAVE_PROFILE_PHOTO_REJECTED";
+
+export const DELETE_PROFILE_PHOTO_PENDING = PROFILE + "/DELETE_PROFILE_PHOTO_PENDING";
+export const DELETE_PROFILE_PHOTO_FULFILLED = PROFILE + "/DELETE_PROFILE_PHOTO_FULFILLED";
+export const DELETE_PROFILE_PHOTO_REJECTED = PROFILE + "/DELETE_PROFILE_PHOTO_REJECTED";
 
 const DEFAULT_STATE = fromJS({});
 
@@ -77,6 +85,44 @@ export default function language(state = DEFAULT_STATE, action) {
 		case CHANGE_PASSWORD_REJECTED:
 			return state.set(
 				"changePassword",
+				fromJS({
+					status: REDUX_STATE.REJECTED,
+					payload: {},
+					error: action.payload
+				})
+			);
+		case SAVE_PROFILE_PHOTO_PENDING:
+			return state.setIn(["saveProfilePhoto", "status"], REDUX_STATE.PENDING);
+		case SAVE_PROFILE_PHOTO_FULFILLED:
+			return state.set(
+				"saveProfilePhoto",
+				fromJS({
+					status: REDUX_STATE.FULFILLED,
+					payload: action.payload
+				})
+			);
+		case SAVE_PROFILE_PHOTO_REJECTED:
+			return state.set(
+				"saveProfilePhoto",
+				fromJS({
+					status: REDUX_STATE.REJECTED,
+					payload: {},
+					error: action.payload
+				})
+			);
+		case DELETE_PROFILE_PHOTO_PENDING:
+			return state.setIn(["deleteProfilePhoto", "status"], REDUX_STATE.PENDING);
+		case DELETE_PROFILE_PHOTO_FULFILLED:
+			return state.set(
+				"deleteProfilePhoto",
+				fromJS({
+					status: REDUX_STATE.FULFILLED,
+					payload: action.payload
+				})
+			);
+		case DELETE_PROFILE_PHOTO_REJECTED:
+			return state.set(
+				"deleteProfilePhoto",
 				fromJS({
 					status: REDUX_STATE.REJECTED,
 					payload: {},
@@ -181,3 +227,7 @@ export function verifyUserEmailChange(body) {
 		);
 	};
 }
+
+export function saveProfilePhoto(body) {}
+
+export function deleteExistingProfilePhoto(body) {}

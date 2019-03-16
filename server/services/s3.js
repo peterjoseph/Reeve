@@ -1,5 +1,3 @@
-import multer from "multer";
-import multerS3 from "multer-s3";
 import aws from "aws-sdk";
 
 let config = require("../../config");
@@ -15,30 +13,67 @@ function initialize(app) {
 	s3 = new aws.S3({
 		accessKeyId: config.s3.accessKeyId,
 		secretAccessKey: config.s3.secretAccessKey,
-		region: config.s3.region
+		region: config.s3.region,
+		useAccelerateEndpoint: config.s3.useAccelerateEndpoint
 	});
 }
 
-function uploadFile(req, res, fileInformation) {
+// Generate pre-signed url for put object into bucket
+function generateSignedURL(contentType, bucket, signedUrlExpiryTime, acl, clientId, userId) {
 	if (!config.s3.enabled) {
 		return;
 	}
 
-	return multer({
-		storage: multerS3({
-			s3: s3,
-			...fileInformation,
-			metadata: function(req, file, cb) {
-				cb(null, { fieldName: file.fieldname });
-			},
-			key: function(req, file, cb) {
-				cb(null, `${Date.now().toString()}_${req.user.clientId}_${req.user.userId}`);
+	return s3.getSignedUrl(
+		"putObject",
+		{
+			Bucket: bucket,
+			Key: `${Date.now().toString()}_${clientId}_${userId}`,
+			Expires: signedUrlExpiryTime,
+			ACL: acl,
+			ContentType: contentType
+		},
+		function(err, url) {
+			if (err) {
+				throw err;
+			} else {
+				return url;
 			}
-		})
+		}
+	);
+}
+
+// Retrieve an object from a bucket
+function getObject(bucket, key) {
+	if (!config.s3.enabled) {
+		return;
+	}
+
+	return s3.getObject({ Bucket: bucket, Key: key }, function(err, object) {
+		if (err) {
+			throw err;
+		}
+		return object;
+	});
+}
+
+// Delete an object from a bucket
+function deleteObject(bucket, key) {
+	if (!config.s3.enabled) {
+		return;
+	}
+
+	return s3.deleteObjects({ Bucket: bucket, Key: key }, function(err, object) {
+		if (err) {
+			throw err;
+		}
+		return object;
 	});
 }
 
 module.exports = {
 	initialize: initialize,
-	uploadFile: uploadFile
+	generateSignedURL: generateSignedURL,
+	getObject: getObject,
+	deleteObject: deleteObject
 };

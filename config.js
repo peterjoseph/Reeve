@@ -61,7 +61,8 @@ let config = {
 		enabled: String(process.env.S3_ENABLED) === "true",
 		accessKeyId: process.env.S3_ACCESS_KEY_ID,
 		secretAccessKey: process.env.S3_SECRET_ACCESS_KEY,
-		region: process.env.S3_REGION
+		region: process.env.S3_REGION,
+		useAccelerateEndpoint: String(process.env.S3_ACCELERATE_ENDPOINT) === "true"
 	},
 	googleAnalytics: {
 		enabled: String(process.env.GOOGLE_ANALYTICS_ENABLED) === "true",
