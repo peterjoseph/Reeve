@@ -9,7 +9,7 @@ import { notify } from "react-notify-toast";
 import { t } from "shared/translations/i18n";
 import { extractSubdomain } from "shared/utilities/subdomain";
 import User from "common/components/User";
-import { VALIDATE_WORKSPACE_URL_REJECTED, validateWorkspaceURL } from "common/store/reducers/authentication.js";
+import { VALIDATE_WORKSPACE_URL_REJECTED, validateWorkspaceURL, LOAD_USER_REJECTED, loadUser } from "common/store/reducers/authentication.js";
 import { VERIFY_EMAIL_CHANGE_REJECTED, verifyUserEmailChange } from "common/store/reducers/profile.js";
 
 class VerifyEmailChange extends Component {
@@ -56,6 +56,21 @@ class VerifyEmailChange extends Component {
 					return;
 				}
 
+				// Reload user if logged in and success
+				if (body.userId !== null) {
+					this.props.loadUser().then(loadUserResult => {
+						if (loadUserResult.type === LOAD_USER_REJECTED) {
+							// Reload the web browser as loading the user failed
+							window.location.reload;
+							return;
+						}
+						// Display success notification
+						notify.show(t("success.verifyEmailChange"), "success");
+						this.props.history.replace("/");
+						return;
+					});
+				}
+
 				// Display success notification
 				notify.show(t("success.verifyEmailChange"), "success");
 				this.props.history.replace("/");
@@ -67,12 +82,14 @@ class VerifyEmailChange extends Component {
 VerifyEmailChange.propTypes = {
 	history: PropTypes.object,
 	user: PropTypes.object,
+	loadUser: PropTypes.func,
 	validateWorkspaceURL: PropTypes.func,
 	verifyUserEmailChange: PropTypes.func
 };
 
 function mapDispatchToProps(dispatch) {
 	return {
+		loadUser: bindActionCreators(loadUser, dispatch),
 		verifyUserEmailChange: bindActionCreators(verifyUserEmailChange, dispatch),
 		validateWorkspaceURL: bindActionCreators(validateWorkspaceURL, dispatch)
 	};
