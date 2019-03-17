@@ -5,12 +5,13 @@ import moment from "moment";
 
 import { database, models } from "services/sequelize";
 import passport from "services/passport";
+import { presignedGetObject, checkObjectExists } from "services/s3";
 import { sendEmail } from "services/nodemailer";
 import config from "../../config";
 import { variableExists, arrayContains } from "shared/utilities/filters";
 import { ServerResponseError } from "utilities/errors/serverResponseError";
 import { t } from "shared/translations/i18n";
-import { FEATURES, SUBSCRIPTION_TYPE, ROLE_TYPE, EMAIL_TYPE, BILLING_CYCLE, LANGUAGE_CODES } from "shared/constants";
+import { FEATURES, SUBSCRIPTION_TYPE, ROLE_TYPE, EMAIL_TYPE, BILLING_CYCLE, LANGUAGE_CODES, SIGNED_URL_EXPIRY_TIME } from "shared/constants";
 
 // Validate Workspace URL and retrieve client styling (if feature exists)
 export function validateWorkspaceURL(workspaceURL, browserLng) {
@@ -317,13 +318,24 @@ export function loadUser(received, browserLng) {
 				}
 			}
 
+			// Fetch a signed url with profile photo (if exists)
+			let profilePhoto = null;
+			const key = user.get("profilePhoto");
+			if (variableExists(key)) {
+				const objectExists = await checkObjectExists(config.s3.bucket, key);
+				if (objectExists == true) {
+					const url = await presignedGetObject(config.s3.bucket, key, SIGNED_URL_EXPIRY_TIME.DISPLAY_AVATAR);
+					profilePhoto = url.signedURL;
+				}
+			}
+
 			// Create user properties object to be returned back to the front-end
 			let userProperties = {
 				loginTime: time,
 				userId: user.get("id"),
 				firstName: user.get("firstName"),
 				lastName: user.get("lastName"),
-				profilePhoto: user.get("profilePhoto"),
+				profilePhoto: profilePhoto,
 				emailAddress: user.get("emailAddress"),
 				emailVerified: Boolean(Number(user.get("emailVerified"))),
 				clientName: client.get("name"),

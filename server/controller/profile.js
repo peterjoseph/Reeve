@@ -1,12 +1,24 @@
+import safe from "safe-regex";
+
 import restrict from "utilities/restrictRoutes";
 import browserResponseLng from "utilities/browserResponseLng";
 import { ServerResponseError } from "utilities/errors/serverResponseError";
 
+import { variableExists } from "shared/utilities/filters";
 import validate from "shared/validation/validate";
 import { t } from "shared/translations/i18n";
 import { updateUserProfile, verifyEmail, changeSavedLanguage, changeUserPassword } from "shared/validation/profile";
 
-import { loadProfile, updateProfile, verifyUserEmailChange, changeLanguage, changePassword } from "../orchestrator/profile";
+import {
+	loadProfile,
+	updateProfile,
+	verifyUserEmailChange,
+	changeLanguage,
+	changePassword,
+	generateSignedProfilePhotoURL,
+	saveUserProfilePhoto,
+	deleteUserProfilePhoto
+} from "../orchestrator/profile";
 
 module.exports = function(router) {
 	// Load personal profile details
@@ -182,6 +194,119 @@ module.exports = function(router) {
 
 			// Validate new password and return response
 			changePassword(body, browserLng).then(
+				result => {
+					return res.status(200).send(result);
+				},
+				error => {
+					return next(error);
+				}
+			);
+		}
+	);
+
+	// Generate a signed url to upload new profile photo
+	router.get(
+		"/api/v1.0/profile/generate_signed_profile_photo_url",
+		restrict({
+			registered: true,
+			unregistered: false
+		}),
+		function(req, res, next) {
+			// Get workspaceURL name from header
+			const contentType = req.headers["contenttype"] ? req.headers["contenttype"] : "";
+
+			// Load browser language from header
+			const browserLng = browserResponseLng(req);
+
+			// Validate header item exists and contentType is of suitable format
+			if (!variableExists(contentType) || !["image/jpg", "image/jpeg", "image/png"].includes(contentType)) {
+				const error = new ServerResponseError(403, t("validation.signedURLInvalidProperties", { lng: browserLng }), { contentType: [t("validation.invalidContentType", { lng: browserLng })] });
+				return next(error);
+			}
+
+			// Create object with authenticated user information
+			const body = {
+				userId: req.user.userId,
+				clientId: req.user.clientId,
+				contentType: contentType
+			};
+
+			// Generate signed url and return response
+			generateSignedProfilePhotoURL(body, browserLng).then(
+				result => {
+					return res.status(200).send(result);
+				},
+				error => {
+					return next(error);
+				}
+			);
+		}
+	);
+
+	// Save user profile photo
+	router.post(
+		"/api/v1.0/profile/save_profile_photo/",
+		restrict({
+			registered: true,
+			unregistered: false
+		}),
+		function(req, res, next) {
+			// Store received object properties
+			const body = {
+				key: req.body.key
+			};
+
+			// Load browser language from header
+			const browserLng = browserResponseLng(req);
+
+			// Append user information to body object
+			body.userId = req.user.userId;
+			body.clientId = req.user.clientId;
+
+			// Check that the image key parameter exists
+			if (body.key == null || typeof body.key !== "string") {
+				const errorMsg = new ServerResponseError(403, t("validation.imageKeyInvalid", { lng: browserLng }));
+				return next(errorMsg);
+			}
+
+			// Confirm that image key is of correct regex
+			const regex = /[0-9]*_[0-9]*_[0-9]*.[a-z]+$/;
+			if (!safe(body.key.match(regex))) {
+				const errorMsg = new ServerResponseError(403, t("validation.imageKeyInvalid", { lng: browserLng }));
+				return next(errorMsg);
+			}
+
+			// Save user profile photo and return response
+			saveUserProfilePhoto(body, browserLng).then(
+				result => {
+					return res.status(200).send(result);
+				},
+				error => {
+					return next(error);
+				}
+			);
+		}
+	);
+
+	// Delete authenticated users profile photo
+	router.patch(
+		"/api/v1.0/profile/delete_profile_photo",
+		restrict({
+			registered: true,
+			unregistered: false
+		}),
+		function(req, res, next) {
+			// Load browser language from header
+			const browserLng = browserResponseLng(req);
+
+			// Create object with authenticated user information
+			const body = {
+				userId: req.user.userId,
+				clientId: req.user.clientId
+			};
+
+			// Delete user profile photo and return response
+			deleteUserProfilePhoto(body, browserLng).then(
 				result => {
 					return res.status(200).send(result);
 				},

@@ -70,5 +70,20 @@ export default {
 
 	perform(path, options = {}) {
 		return this.execute(path, options);
+	},
+
+	async simple(path, options = {}) {
+		// Perform fetch on the endpoint
+		const response = await fetch(path, options);
+
+		// Valid response if status 200 ~ 299
+		if (response.status >= 200 && response.status < 300) {
+			return response;
+		}
+
+		// Throw error if any other response from server
+		return response.then(error => {
+			throw error;
+		});
 	}
 };

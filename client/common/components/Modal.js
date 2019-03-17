@@ -5,7 +5,19 @@ import { t } from "shared/translations/i18n";
 
 class Modal extends Component {
 	render() {
-		const { title, children, actionButtonLabel, actionButtonFunc, actionDisabled, actionLinkLabel, actionLinkFunc, actionLinkHidden, actionLinkDisabled, closeModal } = this.props;
+		const {
+			title,
+			children,
+			actionButtonLabel,
+			actionButtonFunc,
+			actionDisabled,
+			actionLinkLabel,
+			actionLinkFunc,
+			actionLinkHidden,
+			actionLinkDisabled,
+			closeModal,
+			closeModalDisabled
+		} = this.props;
 
 		return (
 			<div className="modal" tabIndex="-1">
@@ -30,7 +42,7 @@ class Modal extends Component {
 								</button>
 							)}
 							{closeModal && (
-								<button type="button" className="btn btn-secondary btn-sm" onClick={closeModal} data-dismiss="modal">
+								<button type="button" className="btn btn-secondary btn-sm" onClick={closeModal} data-dismiss="modal" disabled={closeModalDisabled}>
 									{t("action.close")}
 								</button>
 							)}
@@ -52,7 +64,8 @@ Modal.propTypes = {
 	actionLinkFunc: PropTypes.func,
 	actionLinkHidden: PropTypes.bool,
 	actionLinkDisabled: PropTypes.bool,
-	closeModal: PropTypes.func
+	closeModal: PropTypes.func,
+	closeModalDisabled: PropTypes.bool
 };
 
 export default Modal;

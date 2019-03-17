@@ -69,6 +69,13 @@ module.exports = Object.freeze({
 	MAX_FILE_UPLOAD_SIZE: {
 		CHANGE_AVATAR: "1mb"
 	},
+	SIGNED_URL_EXPIRY_TIME: {
+		CHANGE_AVATAR: 120,
+		DISPLAY_AVATAR: 172800
+	},
+	ACL_POLICIES: {
+		PUBLIC_READ: "public-read"
+	},
 	RESTRICTED_LANGUAGES: ["en", "it"],
 	RESTRICTED_DOMAINS: [
 		"domain",

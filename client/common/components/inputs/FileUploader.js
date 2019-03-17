@@ -39,19 +39,33 @@ class FileUploader extends Component {
 
 	removeFile(evt) {
 		evt.preventDefault(); // Prevent page refresh
+
+		if (this.props.disabled) {
+			return;
+		}
+
 		const files = this.state.files.filter(function(file) {
 			return file.id !== evt.target.value;
 		});
+
 		this.setState({ files });
+
 		this.props.fileUploadChange && this.props.fileUploadChange(files, this.state.errors);
 	}
 
 	removeError(evt) {
 		evt.preventDefault(); // Prevent page refresh
+
+		if (this.props.disabled) {
+			return;
+		}
+
 		const errors = this.state.errors.filter(function(error) {
 			return error.id !== evt.target.value;
 		});
+
 		this.setState({ errors });
+
 		this.props.fileUploadChange && this.props.fileUploadChange(this.state.files, errors);
 	}
 

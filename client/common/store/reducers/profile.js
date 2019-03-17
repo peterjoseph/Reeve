@@ -1,6 +1,15 @@
 import { fromJS } from "immutable";
 import { REDUX_STATE } from "shared/constants";
-import { loadPersonalProfile, updatePersonalProfile, changeUserPassword, verifyEmailChange, saveUserProfilePhoto, deleteUserProfilePhoto } from "client/api/profile.js";
+import {
+	loadPersonalProfile,
+	updatePersonalProfile,
+	changeUserPassword,
+	verifyEmailChange,
+	generateSignedProfilePhotoURL,
+	uploadProfilePhotoToSignedURL,
+	saveUserProfilePhoto,
+	deleteUserProfilePhoto
+} from "client/api/profile.js";
 
 import "./root";
 
@@ -228,6 +237,84 @@ export function verifyUserEmailChange(body) {
 	};
 }
 
-export function saveProfilePhoto(body) {}
+export function generateSignedURL(body) {
+	return dispatch => {
+		dispatch({
+			type: SAVE_PROFILE_PHOTO_PENDING
+		});
 
-export function deleteExistingProfilePhoto(body) {}
+		return generateSignedProfilePhotoURL(body).then(
+			result => {
+				return result;
+			},
+			error =>
+				dispatch({
+					type: SAVE_PROFILE_PHOTO_REJECTED,
+					payload: error
+				})
+		);
+	};
+}
+
+export function uploadToSignedURL(body) {
+	return dispatch => {
+		dispatch({
+			type: SAVE_PROFILE_PHOTO_PENDING
+		});
+
+		return uploadProfilePhotoToSignedURL(body).then(
+			result => {
+				return result;
+			},
+			error =>
+				dispatch({
+					type: SAVE_PROFILE_PHOTO_REJECTED,
+					payload: error
+				})
+		);
+	};
+}
+
+export function saveProfilePhoto(body) {
+	return dispatch => {
+		dispatch({
+			type: SAVE_PROFILE_PHOTO_PENDING
+		});
+
+		return saveUserProfilePhoto(body).then(
+			result => {
+				return dispatch({
+					type: SAVE_PROFILE_PHOTO_FULFILLED,
+					payload: result
+				});
+			},
+			error =>
+				dispatch({
+					type: SAVE_PROFILE_PHOTO_REJECTED,
+					payload: error
+				})
+		);
+	};
+}
+
+export function deleteExistingProfilePhoto() {
+	return dispatch => {
+		dispatch({
+			type: DELETE_PROFILE_PHOTO_PENDING
+		});
+
+		return deleteUserProfilePhoto().then(
+			result => {
+				return dispatch({
+					type: DELETE_PROFILE_PHOTO_FULFILLED,
+					payload: result
+				});
+			},
+			error =>
+				dispatch({
+					type: DELETE_PROFILE_PHOTO_REJECTED,
+					payload: error
+				})
+		);
+	};
+}

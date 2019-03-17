@@ -80,6 +80,7 @@
 		"jquery": "^3.3.1",
 		"jsonwebtoken": "^8.4.0",
 		"lusca": "^1.6.1",
+		"mime-types": "^2.1.22",
 		"moment": "^2.22.2",
 		"mysql2": "^1.6.4",
 		"node-sass": "^4.10.0",

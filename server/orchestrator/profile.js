@@ -6,10 +6,11 @@ import config from "../../config";
 
 import { database, models } from "services/sequelize";
 import { sendEmail } from "services/nodemailer";
+import { presignedPutObject, checkObjectExists, deleteObject } from "services/s3";
 
 import { variableExists } from "shared/utilities/filters";
 import { t } from "shared/translations/i18n";
-import { EMAIL_TYPE, LANGUAGE_CODES } from "shared/constants";
+import { EMAIL_TYPE, LANGUAGE_CODES, SIGNED_URL_EXPIRY_TIME, ACL_POLICIES } from "shared/constants";
 import { ServerResponseError } from "utilities/errors/serverResponseError";
 
 // Load user profile
@@ -37,7 +38,6 @@ export function loadProfile(options, browserLng) {
 				userId: user.get("id"),
 				firstName: user.get("firstName"),
 				lastName: user.get("lastName"),
-				profilePhoto: user.get("profilePhoto"),
 				emailAddress: user.get("emailAddress"),
 				bio: user.get("bio"),
 				location: user.get("location"),
@@ -224,7 +224,7 @@ export function verifyUserEmailChange(received, browserLng) {
 				firstName: user.get("firstName"),
 				workspaceName: client.get("workspaceURL"),
 				oldEmailAddress: changeEmailAddressCode.get("oldEmailAddress"),
-				newEmailAddress: user.get("emailAddress"),
+				newEmailAddress: user.get("emailAddress")
 			};
 
 			// Send an email to confirm the users email address has been updated
@@ -323,6 +323,126 @@ export function changePassword(options, browserLng) {
 
 			// Create a response object
 			const response = { status: 200, message: t("label.success", { lng: browserLng }) };
+
+			// Return the response object
+			return response;
+		} catch (error) {
+			throw error;
+		}
+	});
+}
+
+// Generate a signed url for profile photo uploading
+export function generateSignedProfilePhotoURL(options, browserLng) {
+	return database().transaction(async function() {
+		try {
+			// Generate S3 presigned URL
+			const url = await presignedPutObject(options.contentType, config.s3.bucket, SIGNED_URL_EXPIRY_TIME.CHANGE_AVATAR, ACL_POLICIES.PUBLIC_READ, options.clientId, options.userId);
+
+			// Create a response object
+			const response = { status: 200, message: t("label.success", { lng: browserLng }), key: url.key, signedURL: url.signedURL };
+
+			// Return the response object
+			return response;
+		} catch (error) {
+			throw error;
+		}
+	});
+}
+
+// Save user profile photo
+export function saveUserProfilePhoto(options, browserLng) {
+	return database().transaction(async function(transaction) {
+		try {
+			// Load client for authenticated user
+			const client = await models().client.findOne({ where: { id: options.clientId, active: true } }, { transaction: transaction });
+
+			// Throw an error if the client does not exist
+			if (client === null) {
+				throw new ServerResponseError(403, t("validation.loadUserPropertiesFailed", { lng: browserLng }), { client: [t("validation.loadClientFailed", { lng: browserLng })] });
+			}
+
+			// Load user properties for authenticated user
+			const user = await models().user.findOne({ where: { id: options.userId, clientId: client.get("id"), active: true } }, { transaction: transaction });
+
+			// Throw an error if the user does not exist
+			if (user === null) {
+				throw new ServerResponseError(403, t("validation.loadUserPropertiesFailed", { lng: browserLng }), { user: [t("validation.loadUserPropertiesFailed", { lng: browserLng })] });
+			}
+
+			// Confirm that the provided key links to an S3 bucket image
+			const objectExists = await checkObjectExists(config.s3.bucket, options.key);
+			if (objectExists !== true) {
+				throw new ServerResponseError(403, t("validation.imageKeyInvalid", { lng: browserLng }));
+			}
+
+			// If old image exists, temporarily store the key in a variable to delete later on
+			let oldImage = null;
+			if (user.get("profilePhoto") !== null) {
+				oldImage = user.get("profilePhoto");
+			}
+
+			// Store new image key in database
+			await user.update({
+				profilePhoto: options.key
+			});
+
+			// Finally delete the old image now that it has been replaced with the new one
+			if (oldImage !== null) {
+				await deleteObject(config.s3.bucket, oldImage);
+			}
+
+			// Create a response object
+			const response = { status: 200, message: t("label.success", { lng: browserLng }), language: options.language };
+
+			// Return the response object
+			return response;
+		} catch (error) {
+			throw error;
+		}
+	});
+}
+
+// Delete user profile photo
+export function deleteUserProfilePhoto(options, browserLng) {
+	return database().transaction(async function(transaction) {
+		try {
+			// Load client for authenticated user
+			const client = await models().client.findOne({ where: { id: options.clientId, active: true } }, { transaction: transaction });
+
+			// Throw an error if the client does not exist
+			if (client === null) {
+				throw new ServerResponseError(403, t("validation.loadUserPropertiesFailed", { lng: browserLng }), { client: [t("validation.loadClientFailed", { lng: browserLng })] });
+			}
+
+			// Load user properties for authenticated user
+			const user = await models().user.findOne({ where: { id: options.userId, clientId: client.get("id"), active: true } }, { transaction: transaction });
+
+			// Throw an error if the user does not exist
+			if (user === null) {
+				throw new ServerResponseError(403, t("validation.loadUserPropertiesFailed", { lng: browserLng }), { user: [t("validation.loadUserPropertiesFailed", { lng: browserLng })] });
+			}
+
+			// Delete profile photo from database
+			if (user.get("profilePhoto") !== null) {
+				// Temporarily store key in variable
+				const key = user.get("profilePhoto");
+
+				await user.update({
+					profilePhoto: null
+				});
+
+				// Check the old image still exists in the bucket before we try to delete
+				const objectExists = await checkObjectExists(config.s3.bucket, key);
+
+				if (objectExists == true) {
+					// Delete image from S3 bucket using key
+					await deleteObject(config.s3.bucket, key);
+				}
+			}
+
+			// Create a response object
+			const response = { status: 200, message: t("label.success", { lng: browserLng }), language: options.language };
 
 			// Return the response object
 			return response;

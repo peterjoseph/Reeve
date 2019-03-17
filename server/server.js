@@ -64,7 +64,7 @@ app.use(
 	cors({
 		origin: new RegExp(config.build.domainPath + "$"),
 		optionsSuccessStatus: 200,
-		methods: "GET,POST,PATCH"
+		methods: "GET,POST,PATCH,PUT,DELETE"
 	})
 );
 

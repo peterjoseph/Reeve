@@ -52,7 +52,9 @@
 		"location": "Posizione",
 		"website": "Sito web",
 		"browse": "Navigare",
-		"offline": "Disconnesso"
+		"offline": "Disconnesso",
+		"saving": "Salvataggio",
+		"deleting": "Eliminazione"
 	},
 	"numbers": {
 		"1": "1",
@@ -269,6 +271,8 @@
 		"invalidPasswordSupplied": "Password errata fornita Per cortesia inserire una password valida.",
 		"incorrectCurrentPasswordSupplied": "Password corrente errata fornita. Si prega di inserire la password corretta.",
 		"invalidUserId": "UserId errato fornito",
+		"invalidContentType": "Tipo di contenuto non valido fornito",
+		"imageKeyInvalid": "La chiave immagine fornita non è valida",
 		"incorrectLoginDetailsSupplied": "Abbiamo problemi a firmarti. Controlla il tuo indirizzo email e la password e riprova.",
 		"userDoesNotExist": "Un utente con questo indirizzo email non esiste.",
 		"changeLanguageInvalidProperties": "L'oggetto linguaggio contiene una selezione lingua non valida.",
@@ -295,6 +299,7 @@
 		"emptyChangeEmailCode": "Il codice email di modifica non esiste o non è valido.",
 		"changeEmailCodeAlreadyUsed": "Questo codice email di modifica è già stato utilizzato. Per favore cambia il tuo indirizzo email sulla pagina del profilo per inviare una nuova email.",
 		"changeEmailCodeExpired": "Questo codice email di modifica è scaduto. Potrebbe essere utilizzato entro un periodo di {{ gracePeriod }} ore.",
+		"signedURLInvalidProperties": "L'oggetto URL firmato contiene proprietà non valide.",
 		"validators": {
 			"validDate": "$t(label.errorField) Deve essere una data valida.",
 			"invalidEmail": "$t(label.errorField) Non è un'e-mail valida.",
