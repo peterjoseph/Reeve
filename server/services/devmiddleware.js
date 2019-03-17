@@ -13,6 +13,11 @@ function initialize(app) {
 	app.use(
 		webpackDevMiddleware(webpackcompiler, {
 			publicPath: webpackConfig.output.publicPath,
+			hot: true,
+			headers: {
+				"Access-Control-Allow-Origin": "*",
+				"Access-Control-Allow-Headers": "*"
+			},
 			stats: {
 				modules: 0
 			}
