@@ -33,7 +33,7 @@ class Settings extends Component {
 							</div>
 						</nav>
 						<div id="content" className="col-md-9 col-lg-10 p-0 bg-white">
-							<div className="col-md-8 p-3">
+							<div className="col-md-8 p-4">
 								<Switch>
 									<Route path="/settings/general" render={() => <GeneralSettings />} />
 									<Route path="/settings/appearance" render={() => <Appearance />} />

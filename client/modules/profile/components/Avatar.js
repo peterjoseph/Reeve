@@ -11,7 +11,7 @@ class Avatar extends Component {
 	render() {
 		return (
 			<div className="profile-icon large mb-3 view overlay rounded-circle d-inline-block">
-				<div data-tip={t("components.profile.changeProfilePhoto")}>
+				<div data-tip={t("components.profile.changeProfilePhoto")} data-for="avatar">
 					<Link to={{ pathname: "/profile/change-profile-photo" }}>
 						<img className="rounded-circle img-thumbnail" src={this.props.photo || require("distribution/images/avatar.svg")} />
 						<div className="image-overlay rounded-circle img-thumbnail">
@@ -20,7 +20,7 @@ class Avatar extends Component {
 							</div>
 						</div>
 					</Link>
-					<ReactTooltip place={"right"} effect={"solid"} />
+					<ReactTooltip id="avatar" place={"right"} effect={"solid"} />
 				</div>
 			</div>
 		);
