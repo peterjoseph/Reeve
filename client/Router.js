@@ -1,6 +1,7 @@
 import React, { Fragment, Component } from "react";
 import PropTypes from "prop-types";
 import { BrowserRouter, Switch } from "react-router-dom";
+import { Redirect } from "react-router";
 import { ROLE_TYPE, FEATURES, SUBSCRIPTION_TYPE } from "shared/constants";
 
 import User from "common/components/User";
@@ -81,13 +82,36 @@ class Router extends Component {
 								</DefaultLayout>
 							)}
 						/>
+						<RedirectComponent exact path="/settings" role={[ROLE_TYPE.OWNER, ROLE_TYPE.ADMINISTRATOR]} user={user} render={() => <Redirect to="/settings/general" />} />
 						<RedirectComponent
 							exact
-							path="/settings"
+							path="/settings/general"
 							role={[ROLE_TYPE.OWNER, ROLE_TYPE.ADMINISTRATOR]}
 							user={user}
 							render={() => (
-								<DefaultLayout key="/settings">
+								<DefaultLayout key="/settings/general">
+									<Settings />
+								</DefaultLayout>
+							)}
+						/>
+						<RedirectComponent
+							exact
+							path="/settings/appearance"
+							role={[ROLE_TYPE.OWNER, ROLE_TYPE.ADMINISTRATOR]}
+							user={user}
+							render={() => (
+								<DefaultLayout key="/settings/appearance">
+									<Settings />
+								</DefaultLayout>
+							)}
+						/>
+						<RedirectComponent
+							exact
+							path="/settings/localization"
+							role={[ROLE_TYPE.OWNER, ROLE_TYPE.ADMINISTRATOR]}
+							user={user}
+							render={() => (
+								<DefaultLayout key="/settings/localization">
 									<Settings />
 								</DefaultLayout>
 							)}

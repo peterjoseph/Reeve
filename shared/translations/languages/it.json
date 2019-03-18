@@ -54,7 +54,9 @@
 		"browse": "Navigare",
 		"offline": "Disconnesso",
 		"saving": "Salvataggio",
-		"deleting": "Eliminazione"
+		"deleting": "Eliminazione",
+		"help": "Aiuto",
+		"helpArticles": "Aiuto Articoli"
 	},
 	"numbers": {
 		"1": "1",
@@ -190,6 +192,17 @@
 					"3": "Caratteristica professionale 3",
 					"4": "Caratteristica professionale 4"
 				}
+			}
+		},
+		"settings": {
+			"general": {
+				"generalSettings": "Impostazioni Generali"
+			},
+			"appearance": {
+				"appearanceAndBranding": "Aspetto e Marchio"
+			},
+			"localization": {
+				"languageAndLocalization": "Lingua e Localizzazione"
 			}
 		},
 		"offline": {

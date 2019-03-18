@@ -120,7 +120,7 @@ class Header extends Component {
 										<NavMenuLink title={t("label.overview")} route={"/"} isExact={true} />
 										<NavMenuLink title={t("label.profile")} route={"/profile"} isExact={false} />
 										{STRIPE_ENABLED && user.get("subscriptionEndDate") !== null && <NavMenuLink title={t("label.billing")} route={"/billing"} isExact={true} />}
-										<NavMenuLink title={t("label.settings")} route={"/settings"} isExact={true} />
+										<NavMenuLink title={t("label.settings")} route={"/settings"} />
 									</ul>
 								</div>
 							</div>

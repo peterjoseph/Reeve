@@ -1,9 +1,10 @@
 import React, { Component } from "react";
 import { withRouter } from "react-router-dom";
 import PropTypes from "prop-types";
+import ReactTooltip from "react-tooltip";
 
 import Help from "common/media/icons/Help";
-import { l } from "shared/translations/i18n";
+import { t, l } from "shared/translations/i18n";
 
 class HelpCaller extends Component {
 	render() {
@@ -23,7 +24,13 @@ class HelpCaller extends Component {
 			case "/billing":
 				articleLink = l("supportArticles.billing");
 				break;
-			case "/settings":
+			case "/settings/general":
+				articleLink = l("supportArticles.settings");
+				break;
+			case "/settings/appearance":
+				articleLink = l("supportArticles.settings");
+				break;
+			case "/settings/localization":
 				articleLink = l("supportArticles.settings");
 				break;
 			default:
@@ -34,9 +41,10 @@ class HelpCaller extends Component {
 		if (articleLink !== null) {
 			return (
 				<li className="nav-item d-none d-md-inline-block">
-					<a href={articleLink} target="_blank" className={"nav-link m-1"}>
+					<a href={articleLink} target="_blank" className={"nav-link m-1"} data-tip={t("label.helpArticles")}>
 						<Help width="20px" height="20px" color="#FFF" />
 					</a>
+					<ReactTooltip place={"bottom"} effect={"solid"} />
 				</li>
 			);
 		} else {

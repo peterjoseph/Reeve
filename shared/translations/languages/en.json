@@ -51,7 +51,9 @@
 		"browse": "Browse",
 		"offline": "Offline",
 		"saving": "Saving",
-		"deleting": "Deleting"
+		"deleting": "Deleting",
+		"help": "Help",
+		"helpArticles": "Help Articles"
 	},
 	"numbers": {
 		"1": "1",
@@ -187,6 +189,17 @@
 					"3": "Professional Feature 3",
 					"4": "Professional Feature 4"
 				}
+			}
+		},
+		"settings": {
+			"general": {
+				"generalSettings": "General Settings"
+			},
+			"appearance": {
+				"appearanceAndBranding": "Appearance & Branding"
+			},
+			"localization": {
+				"languageAndLocalization": "Language & Localization"
 			}
 		},
 		"offline": {
