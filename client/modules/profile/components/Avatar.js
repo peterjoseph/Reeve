@@ -16,7 +16,7 @@ class Avatar extends Component {
 						<img className="rounded-circle img-thumbnail" src={this.props.photo || require("distribution/images/avatar.svg")} />
 						<div className="image-overlay rounded-circle img-thumbnail">
 							<div className="icon">
-								<Upload width="1.5rem" height="1.5rem" color="#FFF" />
+								<Upload width="1.5em" height="1.5em" color="#FFF" />
 							</div>
 						</div>
 					</Link>

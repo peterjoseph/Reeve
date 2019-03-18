@@ -3,7 +3,6 @@ import PropTypes from "prop-types";
 import Files from "react-butterfiles";
 
 import { t } from "shared/translations/i18n";
-import { variableExists, parameterIsSafe } from "shared/utilities/filters";
 
 import Upload from "common/media/icons/Upload";
 
@@ -123,7 +122,7 @@ class FileUploader extends Component {
 									)}
 									{!showPreview && (
 										<Fragment>
-											<Upload className="text-primary my-2" width="1.5rem" height="1.5rem" />
+											<Upload className="text-primary my-2" width="1.5em" height="1.5em" />
 											<div className="my-2">
 												{multiple
 													? imagePreview

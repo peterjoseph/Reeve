@@ -53,6 +53,11 @@ export default function(properties = {}) {
 				return next(errorMsg);
 			}
 
+			// Error if user does not have a verified email address
+			if (properties.emailVerified && req.user && req.user.emailVerified !== true) {
+				return next(errorMsg);
+			}
+
 			// Continue if all requirements are passed
 			if (req.user !== null) {
 				return next();

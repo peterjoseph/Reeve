@@ -1,33 +1,20 @@
 import React, { Component } from "react";
 import { Link } from "react-router-dom";
 import PropTypes from "prop-types";
-import { arrayContains, arrayHasAny } from "shared/utilities/filters";
+import HideComponent from "common/components/HideComponent";
 
 import User from "common/components/User";
 
 class NavDropdownLink extends Component {
 	render() {
-		const { title, route, user, icon, feature, role, subscription } = this.props;
-
-		// Hide if user has incorrect role
-		if (role && (!user.get("userRoles") || !arrayHasAny(role, user.get("userRoles").toJS() || []))) {
-			return null;
-		}
-
-		// Hide if user has incorrect feature
-		if (feature && (!user.get("clientFeatures") || !arrayContains(feature, user.get("clientFeatures").toJS() || []))) {
-			return null;
-		}
-
-		// Hide if user has incorrect subscription
-		if (subscription && (!user.get("subscriptionId") || !arrayHasAny(subscription, user.get("subscriptionId") || []))) {
-			return null;
-		}
+		const { title, route, user, icon, feature, role, subscription, verifiedEmail } = this.props;
 
 		return (
-			<Link to={route} className="dropdown-item">
-				{icon && <span className="mr-1">{icon}</span>} {title}
-			</Link>
+			<HideComponent user={user} feature={feature} role={role} subscription={subscription} verifiedEmail={verifiedEmail}>
+				<Link to={route} className="dropdown-item">
+					{icon && <span className="mr-1">{icon}</span>} {title}
+				</Link>
+			</HideComponent>
 		);
 	}
 }
@@ -44,7 +31,8 @@ NavDropdownLink.propTypes = {
 	icon: PropTypes.object,
 	feature: PropTypes.oneOfType([PropTypes.array, PropTypes.number]),
 	role: PropTypes.oneOfType([PropTypes.array, PropTypes.number]),
-	subscription: PropTypes.oneOfType([PropTypes.array, PropTypes.number])
+	subscription: PropTypes.oneOfType([PropTypes.array, PropTypes.number]),
+	verifiedEmail: PropTypes.bool
 };
 
 export default User(NavDropdownLink);

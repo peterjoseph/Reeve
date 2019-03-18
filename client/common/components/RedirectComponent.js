@@ -2,15 +2,14 @@ import React, { Component } from "react";
 import PropTypes from "prop-types";
 import { Route } from "react-router";
 import { Redirect } from "react-router-dom";
-import { arrayContains, arrayHasAny } from "shared/utilities/filters";
-import { variableExists } from "shared/utilities/filters";
+import { arrayContains, arrayHasAny, variableExists } from "shared/utilities/filters";
 import AsyncComponent from "./AsyncComponent";
 
 const MissingPath = AsyncComponent(() => import("./MissingPath"));
 
 class RedirectComponent extends Component {
 	render() {
-		const { path, user, role, feature, subscription } = this.props;
+		const { path, user, role, feature, subscription, verifiedEmail } = this.props;
 
 		const userLoggedIn = variableExists(user) && user.get("userId") !== null;
 
@@ -66,6 +65,15 @@ class RedirectComponent extends Component {
 			}
 		}
 
+		// Show Error 404 if user does not have a verified email
+		if (verifiedEmail && ((userLoggedIn && !user.get("emailVerified")) || (userLoggedIn && user.get("emailVerified")) !== true)) {
+			if (!userLoggedIn) {
+				return <Redirect to="/signin" />;
+			} else {
+				return <Route {...this.props} render={() => <MissingPath />} />;
+			}
+		}
+
 		return <Route {...this.props} />;
 	}
 }
@@ -75,7 +83,8 @@ RedirectComponent.propTypes = {
 	user: PropTypes.object,
 	feature: PropTypes.oneOfType([PropTypes.array, PropTypes.number]),
 	role: PropTypes.oneOfType([PropTypes.array, PropTypes.number]),
-	subscription: PropTypes.oneOfType([PropTypes.array, PropTypes.number])
+	subscription: PropTypes.oneOfType([PropTypes.array, PropTypes.number]),
+	verifiedEmail: PropTypes.bool
 };
 
 export default RedirectComponent;

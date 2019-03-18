@@ -31,7 +31,7 @@ class Overview extends Component {
 											<Link to={{ pathname: "/profile" }}>
 												<h5 className="card-title">
 													<span className="mr-2">
-														<ProfileIcon width="1rem" height="1rem" />
+														<ProfileIcon width="1em" height="1em" />
 													</span>
 													{t("components.overview.cards.profile.title")}
 												</h5>
@@ -52,7 +52,7 @@ class Overview extends Component {
 											<Link to={{ pathname: "/billing" }}>
 												<h5 className="card-title">
 													<span className="mr-2">
-														<CreditCardIcon width="1rem" height="1rem" />
+														<CreditCardIcon width="1em" height="1em" />
 													</span>
 													{t("components.overview.cards.billing.title")}
 												</h5>
@@ -73,7 +73,7 @@ class Overview extends Component {
 											<Link to={{ pathname: "/settings" }}>
 												<h5 className="card-title">
 													<span className="mr-2">
-														<SettingsIcon width="1rem" height="1rem" />
+														<SettingsIcon width="1em" height="1em" />
 													</span>
 													{t("components.overview.cards.settings.title")}
 												</h5>

@@ -1,5 +1,6 @@
 {
 	"extends": ["standard", "eslint:recommended", "plugin:react/recommended"],
+	"parser": "babel-eslint",
 	"rules": {
 		"quotes": [2, "double"],
 		"semi": [1, "always"],
