@@ -1,4 +1,4 @@
-import React, { Component, Fragment } from "react";
+import React, { Component } from "react";
 import PropTypes from "prop-types";
 import { connect } from "react-redux";
 import { bindActionCreators } from "redux";
@@ -11,6 +11,8 @@ import SubscriptionList from "./components/SubscriptionList";
 import PaymentForm from "./components/PaymentForm";
 
 class NewSubscription extends Component {
+	_isMounted = false;
+
 	constructor(props) {
 		super(props);
 
@@ -30,17 +32,27 @@ class NewSubscription extends Component {
 	}
 
 	componentDidMount() {
+		this._isMounted = true;
+
 		this.props.loadSubscriptionList({ currency: PAYMENT_CURRENCY_CODES[1], interval: PAYMENT_INTERVALS_CODES[1] }).then(result => {
 			if (result.type === LOAD_SUBSCRIPTION_LIST_REJECTED) {
-				this.setState({
-					serverError: result.payload
-				});
+				if (this._isMounted) {
+					this.setState({
+						serverError: result.payload
+					});
+				}
 			} else {
-				this.setState({
-					serverError: null
-				});
+				if (this._isMounted) {
+					this.setState({
+						serverError: null
+					});
+				}
 			}
 		});
+	}
+
+	componentWillUnmount() {
+		this._isMounted = false;
 	}
 
 	changeInterval(evt) {
