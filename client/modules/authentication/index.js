@@ -6,8 +6,8 @@ import SignIn from "./SignIn";
 import Register from "./Register";
 import Forgot from "./Forgot";
 import ResetPassword from "./ResetPassword";
-import VerifyEmail from "./VerifyEmail";
-import VerifyEmailChange from "./VerifyEmailChange";
+import VerifyEmail from "common/components/verification/VerifyEmail";
+import VerifyEmailChange from "common/components/verification/VerifyEmailChange";
 
 class Authentication extends Component {
 	render() {
