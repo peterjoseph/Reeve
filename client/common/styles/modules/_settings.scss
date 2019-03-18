@@ -7,6 +7,11 @@
 		flex-grow: 1;
 	}
 
+	.sticky-sidebar {
+		position: sticky;
+		top: calc(#{$nav-link-height} + #{$nav-link-padding-y * 2});
+	}
+
 	#navigation {
 		.nav-pills .nav-link {
 			border-radius: 0;

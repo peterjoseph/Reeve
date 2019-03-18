@@ -23,8 +23,8 @@ class Settings extends Component {
 				</Helmet>
 				<div id="settings" className="container-fluid d-flex flex-wrap">
 					<div className="row">
-						<nav id="navigation" className="col-md-3 col-lg-2 p-0 d-flex flex-column hidden-md-down bg-light">
-							<div className="py-3">
+						<nav id="navigation" className="col-md-3 col-lg-2 p-0 d-flex flex-column hidden-md-down border-right bg-light">
+							<div className="sticky-sidebar py-3">
 								<ul className="nav nav-pills flex-column">
 									<MenuLink title={t("components.settings.general.generalSettings")} route={"/settings/general"} isExact={true} />
 									<MenuLink title={t("components.settings.appearance.appearanceAndBranding")} route={"/settings/appearance"} isExact={true} />
