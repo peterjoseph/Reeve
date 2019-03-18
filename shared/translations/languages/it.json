@@ -108,8 +108,7 @@
 				"newWorkspace": "Voglio creare un nuovo spazio di lavoro per il mio team"
 			},
 			"verifyEmailNotification": {
-				"welcomeEmailSent": "Ciao {{ firstName }}, è stata inviata un'email di benvenuto a {{ email }}.",
-				"clickLink": "Fai clic sul link nell'e-mail per verificare il tuo indirizzo email."
+				"welcomeEmailSent": "Ciao {{ firstName }}, è stata inviata un'email di benvenuto a {{ email }}. Fai clic sul link nell'e-mail per verificare il tuo indirizzo email."
 			}
 		},
 		"overview": {

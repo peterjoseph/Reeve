@@ -17,10 +17,6 @@ class VerifyEmailChange extends Component {
 		this.VerifyEmailChange();
 	}
 
-	render() {
-		return null;
-	}
-
 	VerifyEmailChange() {
 		const subdomain = extractSubdomain(window.location.href);
 		this.props.validateWorkspaceURL(subdomain).then(result => {

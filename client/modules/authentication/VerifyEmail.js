@@ -16,10 +16,6 @@ class VerifyEmail extends Component {
 		this.verifyEmail();
 	}
 
-	render() {
-		return null;
-	}
-
 	verifyEmail() {
 		const subdomain = extractSubdomain(window.location.href);
 		this.props.validateWorkspaceURL(subdomain).then(result => {

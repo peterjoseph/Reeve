@@ -17,16 +17,21 @@ class VerifyEmail extends Component {
 		this.resendVerifyEmail = this.resendVerifyEmail.bind(this);
 	}
 
+	componentDidMount() {
+		if (!this.props.user.get("emailVerified")) {
+			this.showNotification();
+		}
+	}
+
 	showNotification() {
 		notify.show(
 			<span>
-				<div>{t("components.authentication.verifyEmailNotification.welcomeEmailSent", { firstName: this.props.user.get("firstName"), email: this.props.user.get("emailAddress") })}</div>
 				<div>
-					{t("components.authentication.verifyEmailNotification.clickLink")}
+					{t("components.authentication.verifyEmailNotification.welcomeEmailSent", { firstName: this.props.user.get("firstName"), email: this.props.user.get("emailAddress") })}
 					<span>
 						<button
 							type="button"
-							className={`btn ${this.state.emailSent ? "btn-default" : "btn-warning"} btn-sm p-1 ml-2 ${this.state.emailSent && "disabled"}`}
+							className={`btn btn-link btn-sm p-0 ml-2 ${this.state.emailSent && "disabled"}`}
 							onClick={this.resendVerifyEmail}
 							aria-disabled={this.state.emailSent ? "true" : "false"}
 						>
@@ -43,9 +48,6 @@ class VerifyEmail extends Component {
 	resendVerifyEmail(evt) {
 		evt.preventDefault(); // Prevent page refresh
 
-		// Hide existing notification as we need to re-render
-		notify.hide();
-
 		// Call API to send verify email
 		resendVerifyEmail()
 			.then(() => {
@@ -56,12 +58,12 @@ class VerifyEmail extends Component {
 				this.setState({ emailSent: false });
 				this.showNotification();
 			});
+
+		// Hide existing notification as we need to re-render
+		notify.hide();
 	}
 
 	render() {
-		if (!this.props.user.get("emailVerified")) {
-			this.showNotification();
-		}
 		return null;
 	}
 }

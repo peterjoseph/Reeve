@@ -95,6 +95,7 @@ class ChangeAvatar extends Component {
 							serverError: result
 						});
 					} else {
+						// Send key to our server and validate the image has been uploaded to S3
 						this.props.saveProfilePhoto({ key: key }).then(result => {
 							if (result.type === SAVE_PROFILE_PHOTO_REJECTED) {
 								this.setState({
@@ -102,6 +103,7 @@ class ChangeAvatar extends Component {
 									serverError: result
 								});
 							} else {
+								// Reload the user
 								this.props.loadUser().then(loadUserResult => {
 									if (loadUserResult.type === LOAD_USER_REJECTED) {
 										// Reload the web browser as loading the user failed

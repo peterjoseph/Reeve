@@ -105,8 +105,7 @@
 				"newWorkspace": "I want to create a new workspace for my team"
 			},
 			"verifyEmailNotification": {
-				"welcomeEmailSent": "Hi {{ firstName }}, a welcome email was sent to {{ email }}.",
-				"clickLink": "Please click the link in the email to verify your email address."
+				"welcomeEmailSent": "Hi {{ firstName }}, a welcome email was sent to {{ email }}. Please click the link in the email to verify your email address."
 			}
 		},
 		"overview": {
