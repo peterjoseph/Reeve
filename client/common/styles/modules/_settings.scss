@@ -1,4 +1,12 @@
+@import "./node_modules/bootstrap/scss/_nav";
+
 #settings {
+	min-height: calc(100vh - #{$nav-link-height} - #{$nav-link-padding-y * 2});
+
+	.row {
+		flex-grow: 1;
+	}
+
 	#navigation {
 		.nav-pills .nav-link {
 			border-radius: 0;

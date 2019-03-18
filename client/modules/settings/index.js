@@ -21,7 +21,7 @@ class Settings extends Component {
 					<title>{t("headers.settings.title")}</title>
 					<meta name="description" content={t("headers.settings.description")} />
 				</Helmet>
-				<div id="settings" className="container-fluid">
+				<div id="settings" className="container-fluid d-flex flex-wrap">
 					<div className="row">
 						<nav id="navigation" className="col-md-3 col-lg-2 p-0 d-flex flex-column hidden-md-down bg-light">
 							<div className="py-3">
