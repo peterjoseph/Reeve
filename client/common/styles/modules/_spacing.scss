@@ -1,0 +1,56 @@
+@import "./node_modules/bootstrap/scss/_nav";
+
+// Custom margins based on unique page elements
+.margin {
+	// Margin sizing from height of navigation bar
+	&.nav-height {
+		$nav-bar-height: calc(#{$nav-link-height} + #{$nav-link-padding-y * 1.5});
+
+		&.top {
+			margin-top: $nav-bar-height;
+		}
+
+		&.bottom {
+			margin-bottom: $nav-bar-height;
+		}
+
+		&.left {
+			margin-left: $nav-bar-height;
+		}
+
+		&.right {
+			margin-right: $nav-bar-height;
+		}
+	}
+}
+
+// Custom padding based on unique page elements
+.padding {
+	// Padding sizing from height of navigation bar
+	&.nav-height {
+		$nav-bar-height: calc(#{$nav-link-height} + #{$nav-link-padding-y * 1.5});
+
+		&.top {
+			padding-top: $nav-bar-height;
+		}
+
+		&.bottom {
+			padding-bottom: $nav-bar-height;
+		}
+
+		&.left {
+			padding-left: $nav-bar-height;
+		}
+
+		&.right {
+			padding-right: $nav-bar-height;
+		}
+	}
+}
+
+// Line heights
+.line-height {
+	&.none {
+		line-height: 0 !important;
+	}
+}

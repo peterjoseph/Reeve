@@ -50,7 +50,6 @@ $input-btn-padding-x-lg: 3rem !default;
 $btn-font-weight: 600 !default;
 
 // Forms
-$input-line-height: 1.5rem !default;
 $input-bg: $white !default;
 $input-disabled-bg: $gray-200 !default;
 $input-group-addon-bg: $gray-200 !default;
@@ -69,3 +68,25 @@ $pagination-disabled-border-color: $pagination-border-color !default;
 
 // Breadcrumbs
 $breadcrumb-bg: transparent !default;
+
+/*******************************
+        CSS Variations
+*******************************/
+
+// Nav-Bar Navigation Links
+.navbar-dark {
+	.navbar-nav {
+		.nav-link {
+			color: rgba(255, 255, 255, 0.9);
+		}
+
+		.active {
+			box-shadow: inset 0px -0.2rem 0px 0px rgba(255, 255, 255, 0.4);
+		}
+	}
+}
+
+// Dropdown Menus
+.dropdown-menu {
+	border-radius: 0px;
+}

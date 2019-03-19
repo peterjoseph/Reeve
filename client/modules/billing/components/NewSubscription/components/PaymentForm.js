@@ -93,7 +93,7 @@ class PaymentPlan extends Component {
 							</div>
 						</div>
 						<div className="col-8">
-							<div className="p-3 bg-white border-light">
+							<div className="p-3 bg-white border light">
 								<h4 className="text-center">Card Information</h4>
 								<div className="p-4">
 									<StripeProvider apiKey={STRIPE_API_KEY}>

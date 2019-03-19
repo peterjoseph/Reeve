@@ -1,7 +1,7 @@
 import React, { Component, Fragment } from "react";
 import PropTypes from "prop-types";
 import { withRouter } from "react-router-dom";
-import { Offline, Online } from "react-detect-offline";
+import { Offline } from "react-detect-offline";
 
 import Header from "client/modules/header";
 import GlobalStyling from "common/components/GlobalStyling";
@@ -15,10 +15,10 @@ class DefaultLayout extends Component {
 			<GlobalStyling>
 				<Fragment>
 					<Header key={history.location.key} />
-					<Online>{children}</Online>
 					<Offline>
-						<AppOffline />
+						<AppOffline addNavigationMargin={true} />
 					</Offline>
+					{children}
 				</Fragment>
 			</GlobalStyling>
 		);

@@ -6,12 +6,13 @@ import { Helmet } from "react-helmet";
 
 import { t } from "shared/translations/i18n";
 
+import AsyncComponent from "common/components/AsyncComponent";
 import User from "common/components/User";
-
-import GeneralSettings from "./components/GeneralSettings";
-import Appearance from "./components/Appearance";
-import Localization from "./components/Localization";
 import MenuLink from "./components/MenuLink";
+
+const GeneralSettings = AsyncComponent(() => import("./components/GeneralSettings"));
+const Appearance = AsyncComponent(() => import("./components/Appearance"));
+const Localization = AsyncComponent(() => import("./components/Localization"));
 
 class Settings extends Component {
 	render() {
@@ -21,10 +22,10 @@ class Settings extends Component {
 					<title>{t("headers.settings.title")}</title>
 					<meta name="description" content={t("headers.settings.description")} />
 				</Helmet>
-				<div id="settings" className="container-fluid d-flex flex-wrap">
+				<div className="container-flexible-height container-fluid">
 					<div className="row">
 						<nav id="navigation" className="col-md-3 col-lg-2 p-0 d-flex flex-column hidden-md-down border-right bg-light">
-							<div className="sticky-sidebar py-3">
+							<div className="sticky-sidebar p-3">
 								<ul className="nav nav-pills flex-column">
 									<MenuLink title={t("components.settings.general.generalSettings")} route={"/settings/general"} isExact={true} />
 									<MenuLink title={t("components.settings.appearance.appearanceAndBranding")} route={"/settings/appearance"} isExact={true} />

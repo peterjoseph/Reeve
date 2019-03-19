@@ -3,26 +3,3 @@ body {
 	height: 100%;
 	background-color: #fafafa;
 }
-
-#notification-wrapper {
-	position: fixed;
-	left: 0;
-	right: 0;
-	bottom: 0;
-	z-index: 1020 !important;
-	transition: none !important;
-	font-size: 0.8rem;
-
-	.toast-notification {
-		position: initial !important;
-		width: 100% !important;
-		transition: none !important;
-		z-index: 1020 !important;
-
-		span {
-			cursor: auto !important;
-			width: 100% !important;
-			border-radius: 0 !important;
-		}
-	}
-}

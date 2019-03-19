@@ -113,7 +113,7 @@ class FileUploader extends Component {
 				{({ browseFiles, getDropZoneProps }) => (
 					<div id="file-input">
 						<div className="drop-zone" {...getDropZoneProps()}>
-							<div className="drop-window d-flex p-2 bg-light border border-light">
+							<div className="drop-window d-flex p-2 bg-light border light">
 								<div className="no-files w-100 text-center">
 									{showPreview && (
 										<div className="w-100 text-center">
@@ -142,7 +142,7 @@ class FileUploader extends Component {
 							<div className="file-list">
 								{files &&
 									files.map(file => (
-										<div key={file.name} className="file alert border-light rounded-0 my-2 p-2">
+										<div key={file.name} className="file alert border light rounded-0 my-2 p-2">
 											{file.name}
 											<button type="button" className="close" value={file.id} onClick={this.removeFile} data-dismiss="alert" aria-label={t("action.close")}>
 												&times;

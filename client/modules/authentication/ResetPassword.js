@@ -163,7 +163,7 @@ class ResetPassword extends Component {
 				</Helmet>
 				<div className={`form-container col-xs-12 col-md-6 col-lg-5 d-flex flex-column hidden-md-down ${style.links}`}>
 					<div id="reset">
-						<div className="p-3 p-sm-5 align-vertical justify-content-center">
+						<div className="p-3 p-sm-5 alignment vertical justify-content-center">
 							<form className="w-100">
 								<div className="w-100 text-center mt-4 mb-4">
 									<span className="logo">{!workspaceURLPending && <img src={(clientStyle && clientStyle.get("logoImage")) || require("distribution/images/logo_dark.svg")} />}</span>

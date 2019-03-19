@@ -2,14 +2,11 @@
 @import "modules/bootstrap_variations";
 @import "~bootstrap/scss/bootstrap";
 
-// CSS Reset
+// Custom component styling
 @import "modules/reset";
-
-// Global Styles
-@import "modules/common";
-
-// Custom Styles
-@import "modules/authentication";
-@import "modules/navigation";
-@import "modules/inputs";
-@import "modules/settings";
+@import "modules/spacing";
+@import "modules/containers";
+@import "modules/borders";
+@import "modules/alignment";
+@import "modules/images";
+@import "modules/custom_components";

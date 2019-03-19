@@ -21,7 +21,7 @@ class InputField extends React.Component {
 						disabled={disabled}
 					/>
 					<div className="input-group-append">
-						<div className="input-group-text">{`.${BUILD_DOMAINPATH /* Environmental variable defined by Webpack DefinePlugin */}`}</div>
+						<div className="input-group-text line-height none">{`.${BUILD_DOMAINPATH /* Environmental variable defined by Webpack DefinePlugin */}`}</div>
 					</div>
 					{error && error["workspaceURL"] && <div className="d-block invalid-feedback">{error["workspaceURL"][0]}</div>}
 				</div>

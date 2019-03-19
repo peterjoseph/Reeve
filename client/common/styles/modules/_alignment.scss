@@ -1,0 +1,9 @@
+.alignment {
+	display: flex;
+	min-height: 100%;
+	min-height: 100vh;
+
+	&.vertical {
+		align-items: center;
+	}
+}

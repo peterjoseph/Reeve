@@ -61,7 +61,7 @@ class SubscriptionList extends Component {
 						<p className="lead">{subscriptionActive ? t("components.billing.selectPlan") : t("components.billing.selectPlan_expired")}</p>
 						<div className="mt-4">
 							<span className={interval === PAYMENT_INTERVALS.MONTH ? "font-weight-normal" : "font-weight-light"}>{t("label.monthly")}</span>
-							<Switch className="mx-4" checked={interval == PAYMENT_INTERVALS.YEAR ? true : false} onChange={changeInterval} />
+							<Switch className="switch mx-4" checked={interval == PAYMENT_INTERVALS.YEAR ? true : false} onChange={changeInterval} />
 							<span className={interval === PAYMENT_INTERVALS.YEAR ? "text-success font-weight-normal" : "font-weight-light"}>
 								{t("label.yearly")} ({t("components.billing.save20%")})
 							</span>

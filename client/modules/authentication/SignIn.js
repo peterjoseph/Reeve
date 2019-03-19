@@ -187,7 +187,7 @@ class SignIn extends Component {
 				{(workspaceURLPending || loginPending) && <Loading />}
 				<div className={`form-container col-xs-12 col-md-6 col-lg-5 d-flex flex-column hidden-md-down ${style.links}`}>
 					<div id="login">
-						<div className="p-3 p-sm-5 align-vertical justify-content-center">
+						<div className="p-3 p-sm-5 alignment vertical justify-content-center">
 							{workspaceURLStatus !== REDUX_STATE.PENDING && (
 								<form className="w-100">
 									<div className="w-100 text-center mb-4">

@@ -1,0 +1,63 @@
+@import "./node_modules/bootstrap/scss/_nav";
+
+// Container with 100% height that grows with the web browser
+.container-flexible-height {
+	// Calculate a container height excluding bootstrap nav-bar
+	$container-height: calc(100vh - #{$nav-link-height} - #{$nav-link-padding-y * 2});
+	$navigation-height: calc(#{$nav-link-height} + #{$nav-link-padding-y * 2});
+
+	display: flex !important;
+	flex-direction: column !important;
+	min-height: $container-height;
+
+	.row {
+		flex-grow: 1;
+	}
+
+	.sticky-sidebar {
+		position: sticky;
+		top: $navigation-height;
+	}
+}
+
+// Fixed position overlay over the entire browser window
+.window-overlay {
+	position: fixed;
+	z-index: 1300;
+	top: 0;
+	bottom: 0;
+	left: 0;
+	right: 0;
+
+	&.light {
+		background: rgba(255, 255, 255, 0.3);
+	}
+
+	&.dark {
+		background: rgba(0, 0, 0, 0.3);
+	}
+}
+
+// Container element for positioning forms
+.form-container {
+	background-color: #ffffff;
+
+	.logo {
+		img {
+			max-width: 180px;
+			height: auto;
+		}
+	}
+}
+
+// Container for positioning background images
+.background-container {
+	background-color: #f3f3f3;
+	background-repeat: no-repeat;
+	background-position: center center;
+	background-attachment: fixed;
+	background-size: cover;
+	-webkit-background-size: cover;
+	-moz-background-size: cover;
+	-o-background-size: cover;
+}
