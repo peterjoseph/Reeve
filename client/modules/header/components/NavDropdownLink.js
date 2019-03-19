@@ -7,7 +7,7 @@ import User from "common/components/User";
 
 class NavDropdownLink extends Component {
 	render() {
-		const { title, route, user, icon, hasAnyRole, hasAllRoles, hasAnyFeature, hasAllFeatures, hasAnySubscription, verifiedEmail } = this.props;
+		const { title, route, user, icon, hasAnyRole, hasAllRoles, hasAnyFeature, hasAllFeatures, hasAnySubscription, hasVerifiedEmail } = this.props;
 
 		return (
 			<HideComponent
@@ -17,7 +17,7 @@ class NavDropdownLink extends Component {
 				hasAnyFeature={hasAnyFeature}
 				hasAllFeatures={hasAllFeatures}
 				hasAnySubscription={hasAnySubscription}
-				verifiedEmail={verifiedEmail}
+				hasVerifiedEmail={hasVerifiedEmail}
 			>
 				<Link to={route} className="dropdown-item">
 					{icon && <span className="mr-1">{icon}</span>} {title}
@@ -42,7 +42,7 @@ NavDropdownLink.propTypes = {
 	hasAnyFeature: PropTypes.oneOfType([PropTypes.array, PropTypes.number]),
 	hasAllFeatures: PropTypes.oneOfType([PropTypes.array, PropTypes.number]),
 	hasAnySubscription: PropTypes.oneOfType([PropTypes.array, PropTypes.number]),
-	verifiedEmail: PropTypes.bool
+	hasVerifiedEmail: PropTypes.bool
 };
 
 export default User(NavDropdownLink);

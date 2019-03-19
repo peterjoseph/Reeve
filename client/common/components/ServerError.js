@@ -20,7 +20,7 @@ class ServerError extends Component {
 		if (showMessage && error && error.reason) {
 			const reason = error.reason;
 			if (typeof reason === "string" || reason instanceof String) {
-				return <div className="alert alert-danger">{reason}</div>;
+				return <div className="alert alert-danger rounded-0">{reason}</div>;
 			}
 
 			if (typeof reason === "object" || reason instanceof Object) {
@@ -29,7 +29,7 @@ class ServerError extends Component {
 					reasons.push(<div key={key}>{reason[key]}</div>);
 				}
 				if (reasons.length > 0) {
-					return <div className="alert alert-danger">{reasons}</div>;
+					return <div className="alert alert-danger rounded-0">{reasons}</div>;
 				}
 			}
 		}

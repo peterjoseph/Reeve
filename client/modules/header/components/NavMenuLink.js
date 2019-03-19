@@ -7,7 +7,7 @@ import HideComponent from "common/components/HideComponent";
 
 class NavMenuLink extends Component {
 	render() {
-		const { title, route, isExact, user, hasAnyRole, hasAllRoles, hasAnyFeature, hasAllFeatures, hasAnySubscription, verifiedEmail } = this.props;
+		const { title, route, isExact, user, hasAnyRole, hasAllRoles, hasAnyFeature, hasAllFeatures, hasAnySubscription, hasVerifiedEmail } = this.props;
 
 		return (
 			<HideComponent
@@ -17,7 +17,7 @@ class NavMenuLink extends Component {
 				hasAnyFeature={hasAnyFeature}
 				hasAllFeatures={hasAllFeatures}
 				hasAnySubscription={hasAnySubscription}
-				verifiedEmail={verifiedEmail}
+				hasVerifiedEmail={hasVerifiedEmail}
 			>
 				<li className="nav-item px-1">
 					<NavLink to={route} className={"nav-link"} activeClassName="active" exact={isExact}>
@@ -45,7 +45,7 @@ NavMenuLink.propTypes = {
 	hasAnyFeature: PropTypes.oneOfType([PropTypes.array, PropTypes.number]),
 	hasAllFeatures: PropTypes.oneOfType([PropTypes.array, PropTypes.number]),
 	hasAnySubscription: PropTypes.oneOfType([PropTypes.array, PropTypes.number]),
-	verifiedEmail: PropTypes.bool
+	hasVerifiedEmail: PropTypes.bool
 };
 
 export default User(NavMenuLink);

@@ -4,7 +4,7 @@ import { arrayContains, arrayHasAny, variableExists } from "shared/utilities/fil
 
 class HideComponent extends Component {
 	render() {
-		const { user, children, hasAnyRole, hasAllRoles, hasAnyFeature, hasAllFeatures, hasAnySubscription, verifiedEmail } = this.props;
+		const { user, children, hasAnyRole, hasAllRoles, hasAnyFeature, hasAllFeatures, hasAnySubscription, hasVerifiedEmail } = this.props;
 
 		// Validate if user is logged in
 		const userLoggedIn = variableExists(user) && user.get("userId") !== null;
@@ -35,7 +35,7 @@ class HideComponent extends Component {
 		}
 
 		// Hide if user does not have a verified email
-		if (verifiedEmail && ((userLoggedIn && !user.get("emailVerified")) || (userLoggedIn && user.get("emailVerified")) !== true)) {
+		if (hasVerifiedEmail && ((userLoggedIn && !user.get("emailVerified")) || (userLoggedIn && user.get("emailVerified")) !== true)) {
 			return null;
 		}
 
@@ -51,7 +51,7 @@ HideComponent.propTypes = {
 	hasAnyFeature: PropTypes.oneOfType([PropTypes.array, PropTypes.number]),
 	hasAllFeatures: PropTypes.oneOfType([PropTypes.array, PropTypes.number]),
 	hasAnySubscription: PropTypes.oneOfType([PropTypes.array, PropTypes.number]),
-	verifiedEmail: PropTypes.bool
+	hasVerifiedEmail: PropTypes.bool
 };
 
 export default HideComponent;

@@ -12,7 +12,7 @@ class ServerSuccess extends Component {
 
 		// Show success message if query string matches path object
 		if (message && equal(query, path) === true) {
-			return <div className="alert alert-success">{message}</div>;
+			return <div className="alert alert-success rounded-0">{message}</div>;
 		} else {
 			return null;
 		}
