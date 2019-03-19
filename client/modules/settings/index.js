@@ -1,12 +1,14 @@
 import React, { Component, Fragment } from "react";
 import PropTypes from "prop-types";
 import { Route } from "react-router";
-import { Switch } from "react-router-dom";
+import { Switch, Link } from "react-router-dom";
 import { Helmet } from "react-helmet";
 
 import { t } from "shared/translations/i18n";
+import { ROLE_TYPE, FEATURES, SUBSCRIPTION_TYPE } from "shared/constants";
 
 import AsyncComponent from "common/components/AsyncComponent";
+import HideComponent from "common/components/HideComponent";
 import User from "common/components/User";
 import MenuLink from "./components/MenuLink";
 
@@ -16,6 +18,8 @@ const Localization = AsyncComponent(() => import("./components/Localization"));
 
 class Settings extends Component {
 	render() {
+		const { user } = this.props;
+
 		return (
 			<Fragment>
 				<Helmet>
@@ -31,6 +35,26 @@ class Settings extends Component {
 									<MenuLink title={t("components.settings.appearance.appearanceAndBranding")} route={"/settings/appearance"} isExact={true} />
 									<MenuLink title={t("components.settings.localization.languageAndLocalization")} route={"/settings/localization"} isExact={true} />
 								</ul>
+
+								<HideComponent
+									user={user}
+									hasAnyRole={[ROLE_TYPE.OWNER, ROLE_TYPE.FINANCE]}
+									hasAllFeatures={[FEATURES.BILLING]}
+									hasAnySubscription={[SUBSCRIPTION_TYPE.TRIAL, SUBSCRIPTION_TYPE.BASIC]}
+								>
+									<Fragment>
+										<div className="d-flex justify-content-between align-items-center px-3 mt-4 mb-1 text-muted">
+											<span>{t("label.billing")}</span>
+										</div>
+										<ul className="nav nav-pills flex-column">
+											<li className="nav-item my-1">
+												<Link to={{ pathname: "/billing" }} className="nav-link py-2">
+													{t("components.settings.billingOverview")}
+												</Link>
+											</li>
+										</ul>
+									</Fragment>
+								</HideComponent>
 							</div>
 						</nav>
 						<div id="content" className="col-md-9 col-lg-10 p-0 bg-white">

@@ -195,6 +195,7 @@
 			}
 		},
 		"settings": {
+			"billingOverview": "Vai a Panoramica della fatturazione →",
 			"general": {
 				"generalSettings": "Impostazioni Generali"
 			},

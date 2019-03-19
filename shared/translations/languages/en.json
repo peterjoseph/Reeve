@@ -192,6 +192,7 @@
 			}
 		},
 		"settings": {
+			"billingOverview": "Go to Billing Overview →",
 			"general": {
 				"generalSettings": "General Settings"
 			},
