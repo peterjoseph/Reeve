@@ -41,7 +41,7 @@ class HelpCaller extends Component {
 		if (articleLink !== null) {
 			return (
 				<li className="nav-item d-none d-md-inline-block">
-					<a href={articleLink} target="_blank" className={"nav-link m-1"} data-tip={t("label.helpArticles")} data-for="help">
+					<a href={articleLink} target="_blank" className={"nav-link m-1"} data-tip={t("label.helpGuide")} data-for="help">
 						<Help width="20px" height="20px" color="#FFF" />
 					</a>
 					<ReactTooltip id="help" place={"bottom"} effect={"solid"} />

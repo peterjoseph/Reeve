@@ -95,9 +95,9 @@ class Header extends Component {
 										<NavDropdownLink
 											title={t("label.billing")}
 											route={"/billing"}
-											role={[ROLE_TYPE.OWNER, ROLE_TYPE.FINANCE]}
-											feature={[FEATURES.BILLING]}
-											subscription={[SUBSCRIPTION_TYPE.TRIAL, SUBSCRIPTION_TYPE.BASIC]}
+											hasAnyRole={[ROLE_TYPE.OWNER, ROLE_TYPE.FINANCE]}
+											hasAllFeatures={[FEATURES.BILLING]}
+											hasAnySubscription={[SUBSCRIPTION_TYPE.TRIAL, SUBSCRIPTION_TYPE.BASIC]}
 										/>
 									)}
 									<NavDropdownLink title={t("label.settings")} route={"/settings"} />

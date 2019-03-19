@@ -12,7 +12,7 @@ module.exports = function(router) {
 			registered: true,
 			unregistered: true,
 			hasAnyRole: [ROLE_TYPE.OWNER, ROLE_TYPE.FINANCE],
-			hasFeatures: [FEATURES.BILLING]
+			hasAllFeatures: [FEATURES.BILLING]
 		}),
 		function(req, res, next) {
 			// Load browser language from header
@@ -37,7 +37,7 @@ module.exports = function(router) {
 			registered: true,
 			unregistered: true,
 			hasAnyRole: [ROLE_TYPE.OWNER, ROLE_TYPE.FINANCE],
-			hasFeatures: [FEATURES.BILLING]
+			hasAllFeatures: [FEATURES.BILLING]
 		}),
 		function(req, res, next) {
 			// Load browser language from header

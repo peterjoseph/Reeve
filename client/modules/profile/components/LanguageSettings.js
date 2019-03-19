@@ -11,6 +11,7 @@ import { changeSavedLanguage } from "shared/validation/profile";
 import { variableExists } from "shared/utilities/filters";
 
 import { LOAD_USER_REJECTED, loadUser } from "common/store/reducers/authentication";
+import { PROFILE } from "common/store/reducers/profile.js";
 import { LANGUAGE, CHANGE_LANGUAGE_REJECTED, changeLanguage as changeActiveLanguage, saveUserLanguage } from "common/store/reducers/language.js";
 
 import User from "common/components/User";
@@ -103,7 +104,10 @@ class LanguageSettings extends Component {
 
 	render() {
 		const { language, loading, validationErrors, serverError } = this.state;
-		const { changeLanguageStatus } = this.props;
+		const { loadProfileStatus, changeLanguageStatus } = this.props;
+
+		const userProfileLoading = loadProfileStatus !== REDUX_STATE.FULFILLED;
+		const disabled = userProfileLoading || loading;
 
 		const successMessage = changeLanguageStatus === REDUX_STATE.FULFILLED && !serverError && !validationErrors;
 
@@ -113,12 +117,12 @@ class LanguageSettings extends Component {
 				<ServerError error={serverError} />
 				<div className="form-group">
 					<label htmlFor="changeLanguageControl">{t("components.profile.whichLanguage?")}</label>
-					<select className="form-control" id="changeLanguageControl" name={"language"} value={language} onChange={this.selectItem} disabled={loading}>
+					<select className="form-control" id="changeLanguageControl" name={"language"} value={language} onChange={this.selectItem} disabled={disabled}>
 						<option value={LANGUAGE_CODES[1]}>{t("languages.en")}</option>
 						<option value={LANGUAGE_CODES[2]}>{t("languages.it")}</option>
 					</select>
 				</div>
-				<button type="submit" className={"btn btn-primary btn-sm btn-block mt-4 p-3"} onClick={this.changeLanguage} disabled={loading}>
+				<button type="submit" className={"btn btn-primary btn-sm btn-block mt-4 p-3"} onClick={this.changeLanguage} disabled={disabled}>
 					{t("components.profile.changeLanguage")}
 				</button>
 			</div>
@@ -130,6 +134,7 @@ LanguageSettings.propTypes = {
 	history: PropTypes.object,
 	user: PropTypes.object,
 	loadUser: PropTypes.func,
+	loadProfileStatus: PropTypes.string,
 	changeActiveLanguage: PropTypes.func,
 	saveUserLanguage: PropTypes.func,
 	changeLanguageStatus: PropTypes.string
@@ -137,7 +142,8 @@ LanguageSettings.propTypes = {
 
 function mapStateToProps(state) {
 	return {
-		changeLanguageStatus: state.getIn([LANGUAGE, "changeLanguage", "status"])
+		changeLanguageStatus: state.getIn([LANGUAGE, "changeLanguage", "status"]),
+		loadProfileStatus: state.getIn([PROFILE, "loadProfile", "status"])
 	};
 }
 

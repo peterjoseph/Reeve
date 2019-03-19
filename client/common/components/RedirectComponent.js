@@ -9,9 +9,19 @@ const MissingPath = AsyncComponent(() => import("./MissingPath"));
 
 class RedirectComponent extends Component {
 	render() {
-		const { path, user, role, feature, subscription, verifiedEmail } = this.props;
+		const { path, user, hasAnyRole, hasAllRoles, hasAnyFeature, hasAllFeatures, hasAnySubscription, verifiedEmail } = this.props;
 
+		// Validate if user is logged in
 		const userLoggedIn = variableExists(user) && user.get("userId") !== null;
+
+		// Generic render component
+		const renderRoute = () => {
+			if (!userLoggedIn) {
+				return <Redirect to="/signin" />;
+			} else {
+				return <Route {...this.props} render={() => <MissingPath />} />;
+			}
+		};
 
 		// Redirect to signin page when on homepage and not logged in
 		if (path === "/" && !userLoggedIn) {
@@ -38,40 +48,34 @@ class RedirectComponent extends Component {
 			return <Redirect to="/" />;
 		}
 
-		// Show Error 404 if user has incorrect role
-		if (role && ((userLoggedIn && !user.get("userRoles")) || !arrayHasAny(role, (userLoggedIn && user.get("userRoles").toJS()) || []))) {
-			if (!userLoggedIn) {
-				return <Redirect to="/signin" />;
-			} else {
-				return <Route {...this.props} render={() => <MissingPath />} />;
-			}
+		// Show Error 404 if user does not have any of the following roles
+		if (hasAnyRole && ((userLoggedIn && !user.get("userRoles")) || !arrayHasAny(hasAnyRole, (userLoggedIn && user.get("userRoles").toJS()) || []))) {
+			renderRoute();
 		}
 
-		// Show Error 404 if user has incorrect feature
-		if (feature && ((userLoggedIn && !user.get("clientFeatures")) || !arrayContains(feature, (userLoggedIn && user.get("clientFeatures").toJS()) || []))) {
-			if (!userLoggedIn) {
-				return <Redirect to="/signin" />;
-			} else {
-				return <Route {...this.props} render={() => <MissingPath />} />;
-			}
+		// Show Error 404 if user does not have all of the following roles
+		if (hasAllRoles && ((userLoggedIn && !user.get("userRoles")) || !arrayHasAny(hasAllRoles, (userLoggedIn && user.get("userRoles").toJS()) || []))) {
+			renderRoute();
 		}
 
-		// Show Error 404 if user has incorrect subscription
-		if (subscription && ((userLoggedIn && !user.get("subscriptionId")) || !arrayHasAny(subscription, (userLoggedIn && user.get("subscriptionId")) || []))) {
-			if (!userLoggedIn) {
-				return <Redirect to="/signin" />;
-			} else {
-				return <Route {...this.props} render={() => <MissingPath />} />;
-			}
+		// Show Error 404 if user does not have any of the following features
+		if (hasAnyFeature && ((userLoggedIn && !user.get("clientFeatures")) || !arrayHasAny(hasAnyFeature, (userLoggedIn && user.get("clientFeatures").toJS()) || []))) {
+			renderRoute();
+		}
+
+		// Show Error 404 if user does not have all of the following features
+		if (hasAllFeatures && ((userLoggedIn && !user.get("clientFeatures")) || !arrayContains(hasAllFeatures, (userLoggedIn && user.get("clientFeatures").toJS()) || []))) {
+			renderRoute();
+		}
+
+		// Show Error 404 if user does not have any of the following subscriptions
+		if (hasAnySubscription && ((userLoggedIn && !user.get("subscriptionId")) || !arrayHasAny(hasAnySubscription, (userLoggedIn && user.get("subscriptionId")) || []))) {
+			renderRoute();
 		}
 
 		// Show Error 404 if user does not have a verified email
 		if (verifiedEmail && ((userLoggedIn && !user.get("emailVerified")) || (userLoggedIn && user.get("emailVerified")) !== true)) {
-			if (!userLoggedIn) {
-				return <Redirect to="/signin" />;
-			} else {
-				return <Route {...this.props} render={() => <MissingPath />} />;
-			}
+			renderRoute();
 		}
 
 		return <Route {...this.props} />;
@@ -81,9 +85,11 @@ class RedirectComponent extends Component {
 RedirectComponent.propTypes = {
 	path: PropTypes.string,
 	user: PropTypes.object,
-	feature: PropTypes.oneOfType([PropTypes.array, PropTypes.number]),
-	role: PropTypes.oneOfType([PropTypes.array, PropTypes.number]),
-	subscription: PropTypes.oneOfType([PropTypes.array, PropTypes.number]),
+	hasAnyRole: PropTypes.oneOfType([PropTypes.array, PropTypes.number]),
+	hasAllRoles: PropTypes.oneOfType([PropTypes.array, PropTypes.number]),
+	hasAnyFeature: PropTypes.oneOfType([PropTypes.array, PropTypes.number]),
+	hasAllFeatures: PropTypes.oneOfType([PropTypes.array, PropTypes.number]),
+	hasAnySubscription: PropTypes.oneOfType([PropTypes.array, PropTypes.number]),
 	verifiedEmail: PropTypes.bool
 };
 

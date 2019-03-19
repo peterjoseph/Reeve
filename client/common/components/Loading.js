@@ -4,8 +4,8 @@ import Pace from "react-pace-progress";
 class Loading extends Component {
 	render() {
 		return (
-			<div style={{ zIndex: 9999 }}>
-				<Pace color="#0000FF" height={2} />
+			<div className="loading-pacer">
+				<Pace color="#4bbf73" height={3} />
 			</div>
 		);
 	}

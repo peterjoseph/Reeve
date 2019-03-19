@@ -81,7 +81,10 @@ class ChangePassword extends Component {
 
 	render() {
 		const { currentPassword, newPassword, confirmPassword, loading, validationErrors, serverError } = this.state;
-		const { changePasswordStatus } = this.props;
+		const { loadProfileStatus, changePasswordStatus } = this.props;
+
+		const userProfileLoading = loadProfileStatus !== REDUX_STATE.FULFILLED;
+		const disabled = userProfileLoading || loading;
 
 		const successMessage = changePasswordStatus === REDUX_STATE.FULFILLED && !serverError && !validationErrors;
 
@@ -98,7 +101,7 @@ class ChangePassword extends Component {
 					ariaLabel={t("components.profile.currentPassword")}
 					onChange={this.changeField}
 					required
-					disabled={loading}
+					disabled={disabled}
 					error={validationErrors}
 				/>
 				<InputField
@@ -110,7 +113,7 @@ class ChangePassword extends Component {
 					ariaLabel={t("components.profile.newPassword")}
 					onChange={this.changeField}
 					required
-					disabled={loading}
+					disabled={disabled}
 					error={validationErrors}
 				/>
 				<InputField
@@ -122,11 +125,11 @@ class ChangePassword extends Component {
 					ariaLabel={t("components.profile.confirmNewPassword")}
 					onChange={this.changeField}
 					required
-					disabled={loading}
+					disabled={disabled}
 					error={validationErrors}
 				/>
 				{t("components.profile.passwordLengthRequirement")}
-				<button type="submit" className={"btn btn-primary btn-sm btn-block mt-4 p-3"} onClick={this.changePassword} disabled={loading}>
+				<button type="submit" className={"btn btn-primary btn-sm btn-block mt-4 p-3"} onClick={this.changePassword} disabled={disabled}>
 					{t("components.profile.changePassword")}
 				</button>
 			</div>
@@ -137,13 +140,15 @@ class ChangePassword extends Component {
 ChangePassword.propTypes = {
 	history: PropTypes.object,
 	user: PropTypes.object,
+	loadProfileStatus: PropTypes.string,
 	changePassword: PropTypes.func,
 	changePasswordStatus: PropTypes.string
 };
 
 function mapStateToProps(state) {
 	return {
-		changePasswordStatus: state.getIn([PROFILE, "changePassword", "status"])
+		changePasswordStatus: state.getIn([PROFILE, "changePassword", "status"]),
+		loadProfileStatus: state.getIn([PROFILE, "loadProfile", "status"])
 	};
 }
 

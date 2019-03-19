@@ -9,8 +9,10 @@ import RedirectComponent from "common/components/RedirectComponent";
 import AsyncComponent from "common/components/AsyncComponent";
 import GoogleAnalytics from "common/components/GoogleAnalytics";
 
+// Layout Components
 import DefaultLayout from "common/layouts/DefaultLayout";
 
+// Page Components
 const Overview = AsyncComponent(() => import("./modules/overview"));
 const Authentication = AsyncComponent(() => import("./modules/authentication"));
 const Profile = AsyncComponent(() => import("./modules/profile"));
@@ -30,7 +32,7 @@ class Router extends Component {
 						<RedirectComponent
 							exact
 							path="/"
-							role={[ROLE_TYPE.OWNER, ROLE_TYPE.ADMINISTRATOR, ROLE_TYPE.FINANCE]}
+							hasAnyRole={[ROLE_TYPE.OWNER, ROLE_TYPE.ADMINISTRATOR, ROLE_TYPE.FINANCE]}
 							user={user}
 							render={() => (
 								<DefaultLayout key="/">
@@ -38,20 +40,20 @@ class Router extends Component {
 								</DefaultLayout>
 							)}
 						/>
-						<RedirectComponent exact path="/signin" role={[ROLE_TYPE.UNREGISTERED]} user={user} render={() => <Authentication />} />
-						<RedirectComponent exact path="/signin/help" role={[ROLE_TYPE.UNREGISTERED]} user={user} render={() => <Authentication />} />
-						<RedirectComponent exact path="/register" role={[ROLE_TYPE.UNREGISTERED]} user={user} render={() => <Authentication />} />
-						<RedirectComponent exact path="/forgot" role={[ROLE_TYPE.UNREGISTERED]} user={user} render={() => <Authentication />} />
-						<RedirectComponent exact path="/reset" role={[ROLE_TYPE.UNREGISTERED]} user={user} render={() => <Authentication />} />
+						<RedirectComponent exact path="/signin" hasAnyRole={[ROLE_TYPE.UNREGISTERED]} user={user} render={() => <Authentication />} />
+						<RedirectComponent exact path="/signin/help" hasAnyRole={[ROLE_TYPE.UNREGISTERED]} user={user} render={() => <Authentication />} />
+						<RedirectComponent exact path="/register" hasAnyRole={[ROLE_TYPE.UNREGISTERED]} user={user} render={() => <Authentication />} />
+						<RedirectComponent exact path="/forgot" hasAnyRole={[ROLE_TYPE.UNREGISTERED]} user={user} render={() => <Authentication />} />
+						<RedirectComponent exact path="/reset" hasAnyRole={[ROLE_TYPE.UNREGISTERED]} user={user} render={() => <Authentication />} />
 						<RedirectComponent exact path="/verify" user={user} render={() => <Authentication />} />
 						<RedirectComponent exact path="/verify/email_change" user={user} render={() => <Authentication />} />
 						{STRIPE_ENABLED && (user && user.get("subscriptionEndDate") !== null) && (
 							<RedirectComponent
 								exact
 								path="/billing"
-								role={[ROLE_TYPE.OWNER, ROLE_TYPE.FINANCE]}
-								feature={[FEATURES.BILLING]}
-								subscription={[SUBSCRIPTION_TYPE.TRIAL, SUBSCRIPTION_TYPE.BASIC]}
+								hasAnyRole={[ROLE_TYPE.OWNER, ROLE_TYPE.FINANCE]}
+								hasAllFeatures={[FEATURES.BILLING]}
+								hasAnySubscription={[SUBSCRIPTION_TYPE.TRIAL, SUBSCRIPTION_TYPE.BASIC]}
 								user={user}
 								render={() => (
 									<DefaultLayout key="/billing">
@@ -63,7 +65,7 @@ class Router extends Component {
 						<RedirectComponent
 							exact
 							path="/profile"
-							role={[ROLE_TYPE.OWNER, ROLE_TYPE.ADMINISTRATOR, ROLE_TYPE.FINANCE]}
+							hasAnyRole={[ROLE_TYPE.OWNER, ROLE_TYPE.ADMINISTRATOR, ROLE_TYPE.FINANCE]}
 							user={user}
 							render={() => (
 								<DefaultLayout key="/profile">
@@ -74,7 +76,7 @@ class Router extends Component {
 						<RedirectComponent
 							exact
 							path="/profile/change-profile-photo"
-							role={[ROLE_TYPE.OWNER, ROLE_TYPE.ADMINISTRATOR, ROLE_TYPE.FINANCE]}
+							hasAnyRole={[ROLE_TYPE.OWNER, ROLE_TYPE.ADMINISTRATOR, ROLE_TYPE.FINANCE]}
 							user={user}
 							render={() => (
 								<DefaultLayout key="/profile">
@@ -82,11 +84,11 @@ class Router extends Component {
 								</DefaultLayout>
 							)}
 						/>
-						<RedirectComponent exact path="/settings" role={[ROLE_TYPE.OWNER, ROLE_TYPE.ADMINISTRATOR]} user={user} render={() => <Redirect to="/settings/general" />} />
+						<RedirectComponent exact path="/settings" hasAnyRole={[ROLE_TYPE.OWNER, ROLE_TYPE.ADMINISTRATOR]} user={user} render={() => <Redirect to="/settings/general" />} />
 						<RedirectComponent
 							exact
 							path="/settings/general"
-							role={[ROLE_TYPE.OWNER, ROLE_TYPE.ADMINISTRATOR]}
+							hasAnyRole={[ROLE_TYPE.OWNER, ROLE_TYPE.ADMINISTRATOR]}
 							user={user}
 							render={() => (
 								<DefaultLayout key="/settings/general">
@@ -97,7 +99,7 @@ class Router extends Component {
 						<RedirectComponent
 							exact
 							path="/settings/appearance"
-							role={[ROLE_TYPE.OWNER, ROLE_TYPE.ADMINISTRATOR]}
+							hasAnyRole={[ROLE_TYPE.OWNER, ROLE_TYPE.ADMINISTRATOR]}
 							user={user}
 							render={() => (
 								<DefaultLayout key="/settings/appearance">
@@ -108,7 +110,7 @@ class Router extends Component {
 						<RedirectComponent
 							exact
 							path="/settings/localization"
-							role={[ROLE_TYPE.OWNER, ROLE_TYPE.ADMINISTRATOR]}
+							hasAnyRole={[ROLE_TYPE.OWNER, ROLE_TYPE.ADMINISTRATOR]}
 							user={user}
 							render={() => (
 								<DefaultLayout key="/settings/localization">

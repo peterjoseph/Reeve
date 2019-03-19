@@ -39,22 +39,34 @@ class EditProfile extends Component {
 	}
 
 	componentDidMount() {
-		this.setState({
-			loading: true,
-			validationErrors: null,
-			serverError: null
-		});
+		this._isMounted = true;
+
+		if (this._isMounted) {
+			this.setState({
+				loading: true,
+				validationErrors: null,
+				serverError: null
+			});
+		}
 
 		this.props.loadProfile().then(result => {
 			if (result.type === LOAD_PROFILE_REJECTED) {
-				this.setState({
-					serverError: result.payload
-				});
+				if (this._isMounted) {
+					this.setState({
+						serverError: result.payload
+					});
+				}
 				return;
 			} else {
-				this.setProfileFields(result.payload.user);
+				if (this._isMounted) {
+					this.setProfileFields(result.payload.user);
+				}
 			}
 		});
+	}
+
+	componentWillUnmount() {
+		this._isMounted = false;
 	}
 
 	static getDerivedStateFromProps(nextProps, prevState) {

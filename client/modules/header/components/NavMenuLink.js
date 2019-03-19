@@ -7,10 +7,18 @@ import HideComponent from "common/components/HideComponent";
 
 class NavMenuLink extends Component {
 	render() {
-		const { title, route, isExact, user, feature, role, subscription, verifiedEmail } = this.props;
+		const { title, route, isExact, user, hasAnyRole, hasAllRoles, hasAnyFeature, hasAllFeatures, hasAnySubscription, verifiedEmail } = this.props;
 
 		return (
-			<HideComponent user={user} feature={feature} role={role} subscription={subscription} verifiedEmail={verifiedEmail}>
+			<HideComponent
+				user={user}
+				hasAnyRole={hasAnyRole}
+				hasAllRoles={hasAllRoles}
+				hasAnyFeature={hasAnyFeature}
+				hasAllFeatures={hasAllFeatures}
+				hasAnySubscription={hasAnySubscription}
+				verifiedEmail={verifiedEmail}
+			>
 				<li className="nav-item px-1">
 					<NavLink to={route} className={"nav-link"} activeClassName="active" exact={isExact}>
 						{title}
@@ -32,9 +40,11 @@ NavMenuLink.propTypes = {
 	route: PropTypes.string,
 	user: PropTypes.object,
 	isExact: PropTypes.bool,
-	feature: PropTypes.oneOfType([PropTypes.array, PropTypes.number]),
-	role: PropTypes.oneOfType([PropTypes.array, PropTypes.number]),
-	subscription: PropTypes.oneOfType([PropTypes.array, PropTypes.number]),
+	hasAnyRole: PropTypes.oneOfType([PropTypes.array, PropTypes.number]),
+	hasAllRoles: PropTypes.oneOfType([PropTypes.array, PropTypes.number]),
+	hasAnyFeature: PropTypes.oneOfType([PropTypes.array, PropTypes.number]),
+	hasAllFeatures: PropTypes.oneOfType([PropTypes.array, PropTypes.number]),
+	hasAnySubscription: PropTypes.oneOfType([PropTypes.array, PropTypes.number]),
 	verifiedEmail: PropTypes.bool
 };
 

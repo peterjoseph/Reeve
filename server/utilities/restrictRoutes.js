@@ -48,9 +48,24 @@ export default function(properties = {}) {
 				return next(errorMsg);
 			}
 
-			// Error if user is missing correct feature
-			if (properties.hasFeatures && !arrayContains(properties.hasFeatures, req.user.features || [])) {
+			// Error if user is missing any of the following roles
+			if (properties.hasAllRoles && !arrayHasAny(properties.hasAllRoles, req.user.roles || [])) {
 				return next(errorMsg);
+			}
+
+			// Error if user is missing any of the following features
+			if (properties.hasAnyFeature && !arrayHasAny(properties.hasAnyFeature, req.user.features || [])) {
+				return next(errorMsg);
+			}
+
+			// Error if user is missing all of the following features
+			if (properties.hasAllFeatures && !arrayContains(properties.hasAllFeatures, req.user.features || [])) {
+				return next(errorMsg);
+			}
+
+			// Error if user has incorrect subscription
+			if (properties.hasAnySubscription && (!req.user.subscriptionId || !arrayHasAny(properties.hasAnySubscription, req.user.subscriptionId) || [])) {
+				return null;
 			}
 
 			// Error if user does not have a verified email address

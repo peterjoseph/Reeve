@@ -16,18 +16,30 @@ class NavProfileMenu extends Component {
 		this.closeMenu = this.closeMenu.bind(this);
 	}
 
+	componentDidMount() {
+		this._isMounted = true;
+	}
+
+	componentWillUnmount() {
+		this._isMounted = false;
+	}
+
 	showMenu(evt) {
 		evt.preventDefault();
 
-		this.setState({ menuVisible: true }, () => {
-			document.addEventListener("click", this.closeMenu);
-		});
+		if (this._isMounted) {
+			this.setState({ menuVisible: true }, () => {
+				document.addEventListener("click", this.closeMenu);
+			});
+		}
 	}
 
 	closeMenu() {
-		this.setState({ menuVisible: false }, () => {
-			document.removeEventListener("click", this.closeMenu);
-		});
+		if (this._isMounted) {
+			this.setState({ menuVisible: false }, () => {
+				document.removeEventListener("click", this.closeMenu);
+			});
+		}
 	}
 
 	render() {

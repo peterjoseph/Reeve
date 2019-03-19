@@ -7,10 +7,18 @@ import User from "common/components/User";
 
 class NavDropdownLink extends Component {
 	render() {
-		const { title, route, user, icon, feature, role, subscription, verifiedEmail } = this.props;
+		const { title, route, user, icon, hasAnyRole, hasAllRoles, hasAnyFeature, hasAllFeatures, hasAnySubscription, verifiedEmail } = this.props;
 
 		return (
-			<HideComponent user={user} feature={feature} role={role} subscription={subscription} verifiedEmail={verifiedEmail}>
+			<HideComponent
+				user={user}
+				hasAnyRole={hasAnyRole}
+				hasAllRoles={hasAllRoles}
+				hasAnyFeature={hasAnyFeature}
+				hasAllFeatures={hasAllFeatures}
+				hasAnySubscription={hasAnySubscription}
+				verifiedEmail={verifiedEmail}
+			>
 				<Link to={route} className="dropdown-item">
 					{icon && <span className="mr-1">{icon}</span>} {title}
 				</Link>
@@ -29,9 +37,11 @@ NavDropdownLink.propTypes = {
 	route: PropTypes.string,
 	user: PropTypes.object,
 	icon: PropTypes.object,
-	feature: PropTypes.oneOfType([PropTypes.array, PropTypes.number]),
-	role: PropTypes.oneOfType([PropTypes.array, PropTypes.number]),
-	subscription: PropTypes.oneOfType([PropTypes.array, PropTypes.number]),
+	hasAnyRole: PropTypes.oneOfType([PropTypes.array, PropTypes.number]),
+	hasAllRoles: PropTypes.oneOfType([PropTypes.array, PropTypes.number]),
+	hasAnyFeature: PropTypes.oneOfType([PropTypes.array, PropTypes.number]),
+	hasAllFeatures: PropTypes.oneOfType([PropTypes.array, PropTypes.number]),
+	hasAnySubscription: PropTypes.oneOfType([PropTypes.array, PropTypes.number]),
 	verifiedEmail: PropTypes.bool
 };
 

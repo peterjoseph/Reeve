@@ -69,7 +69,7 @@ npm install && npm start
 -   [x] Forgot Password
 -   [ ] Billing
 -   [x] Change Password
--   [ ] User Profile
+-   [x] User Profile
 -   [ ] Application Settings
 
 ## Documentation
