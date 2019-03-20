@@ -6,13 +6,13 @@ class HideComponent extends Component {
 	render() {
 		const { user, children, hasAnyRole, hasAllRoles, hasAnyFeature, hasAllFeatures, hasAnySubscription, hasVerifiedEmail, disabled } = this.props;
 
-		// Validate if user is logged in
-		const userLoggedIn = variableExists(user) && user.get("userId") !== null;
-
-		// Hide component regardless of other props if disabled boolean set to true
+		// Hide component if disabled prop set to true
 		if (disabled) {
 			return null;
 		}
+
+		// Validate if user is logged in
+		const userLoggedIn = variableExists(user) && user.get("userId") !== null;
 
 		// Hide if user does not have any of the following roles
 		if (hasAnyRole && ((userLoggedIn && !user.get("userRoles")) || !arrayHasAny(hasAnyRole, (userLoggedIn && user.get("userRoles").toJS()) || []))) {
@@ -49,15 +49,15 @@ class HideComponent extends Component {
 }
 
 HideComponent.propTypes = {
+	disabled: PropTypes.bool,
 	user: PropTypes.object,
-	children: PropTypes.oneOfType([PropTypes.string, PropTypes.object]),
 	hasAnyRole: PropTypes.oneOfType([PropTypes.array, PropTypes.number]),
 	hasAllRoles: PropTypes.oneOfType([PropTypes.array, PropTypes.number]),
 	hasAnyFeature: PropTypes.oneOfType([PropTypes.array, PropTypes.number]),
 	hasAllFeatures: PropTypes.oneOfType([PropTypes.array, PropTypes.number]),
 	hasAnySubscription: PropTypes.oneOfType([PropTypes.array, PropTypes.number]),
 	hasVerifiedEmail: PropTypes.bool,
-	disabled: PropTypes.bool
+	children: PropTypes.oneOfType([PropTypes.string, PropTypes.object])
 };
 
 export default HideComponent;

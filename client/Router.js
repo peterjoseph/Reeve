@@ -119,6 +119,7 @@ class Router extends Component {
 						/>
 						<ProtectedRoute
 							path="*"
+							user={user}
 							render={() => (
 								<DefaultLayout key="*">
 									<MissingPath />

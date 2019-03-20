@@ -1,4 +1,5 @@
 import React, { Fragment } from "react";
+import { Link } from "react-router-dom";
 import { Helmet } from "react-helmet";
 import PropTypes from "prop-types";
 import { t } from "shared/translations/i18n";
@@ -24,6 +25,9 @@ class MissingPath extends React.Component {
 						<h1 className="display-4">{t("label.oops")}</h1>
 						<p className="lead">{t("error.code.404")}</p>
 						{subscriptionExpired && <p>{t("components.billing.subscriptionExpired")}</p>}
+						<Link to={{ pathname: "/" }}>
+							<span className="text-muted">{t("label.returnToHomepage")}</span>
+						</Link>
 					</div>
 				</div>
 			</Fragment>

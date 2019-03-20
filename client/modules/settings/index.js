@@ -35,7 +35,6 @@ class Settings extends Component {
 									<MenuLink title={t("components.settings.appearance.appearanceAndBranding")} route={"/settings/appearance"} isExact={true} />
 									<MenuLink title={t("components.settings.localization.languageAndLocalization")} route={"/settings/localization"} isExact={true} />
 								</ul>
-
 								<HideComponent
 									user={user}
 									hasAnyRole={[ROLE_TYPE.OWNER, ROLE_TYPE.FINANCE]}

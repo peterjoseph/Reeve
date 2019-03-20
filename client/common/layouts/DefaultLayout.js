@@ -16,7 +16,7 @@ class DefaultLayout extends Component {
 				<Fragment>
 					<Header key={history.location.key} />
 					<Offline>
-						<AppOffline addNavigationMargin={true} />
+						<AppOffline navMargin={true} />
 					</Offline>
 					{children}
 				</Fragment>

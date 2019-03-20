@@ -53,7 +53,8 @@
 		"saving": "Saving",
 		"deleting": "Deleting",
 		"help": "Help",
-		"helpGuide": "Help Guide"
+		"helpGuide": "Help Guide",
+		"returnToHomepage": "← Return to the homepage"
 	},
 	"numbers": {
 		"1": "1",
