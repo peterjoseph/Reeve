@@ -72,6 +72,10 @@ class VerifyEmail extends Component {
 			});
 		});
 	}
+
+	render() {
+		return null;
+	}
 }
 
 VerifyEmail.propTypes = {

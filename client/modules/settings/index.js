@@ -41,6 +41,7 @@ class Settings extends Component {
 									hasAnyRole={[ROLE_TYPE.OWNER, ROLE_TYPE.FINANCE]}
 									hasAllFeatures={[FEATURES.BILLING]}
 									hasAnySubscription={[SUBSCRIPTION_TYPE.TRIAL, SUBSCRIPTION_TYPE.BASIC]}
+									disabled={!(STRIPE_ENABLED && (user && user.get("subscriptionEndDate") !== null))}
 								>
 									<Fragment>
 										<div className="d-flex justify-content-between align-items-center px-3 mt-4 mb-1 text-muted">

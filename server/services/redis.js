@@ -43,7 +43,7 @@ function initialize(app) {
 	var apiLimiter = new RateLimit({
 		store: redisRateLimitStore,
 		windowMs: 15 * 60 * 1000,
-		max: 100,
+		max: 200,
 		delayMs: 0
 	});
 	app.use(apiLimiter);

@@ -7,9 +7,9 @@ import AsyncComponent from "./AsyncComponent";
 
 const MissingPath = AsyncComponent(() => import("./MissingPath"));
 
-class RedirectComponent extends Component {
+class ProtectedRoute extends Component {
 	render() {
-		const { path, user, hasAnyRole, hasAllRoles, hasAnyFeature, hasAllFeatures, hasAnySubscription, hasVerifiedEmail } = this.props;
+		const { path, user, hasAnyRole, hasAllRoles, hasAnyFeature, hasAllFeatures, hasAnySubscription, hasVerifiedEmail, disabled } = this.props;
 
 		// Validate if user is logged in
 		const userLoggedIn = variableExists(user) && user.get("userId") !== null;
@@ -22,6 +22,11 @@ class RedirectComponent extends Component {
 				return <Route {...this.props} render={() => <MissingPath />} />;
 			}
 		};
+
+		// If component disabled, render the MissingPath component
+		if (disabled) {
+			return <Route {...this.props} render={() => <MissingPath />} />;
+		}
 
 		// Redirect to signin page when on homepage and not logged in
 		if (path === "/" && !userLoggedIn) {
@@ -38,13 +43,21 @@ class RedirectComponent extends Component {
 			return <Redirect to="/billing" />;
 		}
 
-		// Show certain routes if user is not logged in
-		if ((path == "/register" || path == "/forgot" || path == "/signin" || path == "/signin/help" || path == "/reset") && !userLoggedIn) {
+		// Create a common array of paths we should redirect when found
+		const sharedPaths = ["/register", "/forgot", "/signin", "/signin/help", "/reset"];
+
+		// If user is not logged in and they access a non-authenticated path, return the contents
+		if (sharedPaths.includes(path) === true && !userLoggedIn) {
 			return <Route {...this.props} />;
 		}
 
-		// Redirect if user is loaded
-		if ((path == "/register" || path == "/forgot" || path == "/signin" || path == "/signin/help" || path == "/reset") && userLoggedIn) {
+		// If user is not logged in and they try to access one of the authenticated path, redirect to homescreen
+		if (sharedPaths.includes(path) === false && !userLoggedIn) {
+			return <Redirect to="/" />;
+		}
+
+		// If user is logged in and they access a non-authenticated path, redirect to home
+		if (sharedPaths.includes(path) === true && userLoggedIn) {
 			return <Redirect to="/" />;
 		}
 
@@ -82,15 +95,16 @@ class RedirectComponent extends Component {
 	}
 }
 
-RedirectComponent.propTypes = {
-	path: PropTypes.string,
+ProtectedRoute.propTypes = {
+	path: PropTypes.oneOfType([PropTypes.array, PropTypes.string]),
 	user: PropTypes.object,
 	hasAnyRole: PropTypes.oneOfType([PropTypes.array, PropTypes.number]),
 	hasAllRoles: PropTypes.oneOfType([PropTypes.array, PropTypes.number]),
 	hasAnyFeature: PropTypes.oneOfType([PropTypes.array, PropTypes.number]),
 	hasAllFeatures: PropTypes.oneOfType([PropTypes.array, PropTypes.number]),
 	hasAnySubscription: PropTypes.oneOfType([PropTypes.array, PropTypes.number]),
-	hasVerifiedEmail: PropTypes.bool
+	hasVerifiedEmail: PropTypes.bool,
+	disabled: PropTypes.bool
 };
 
-export default RedirectComponent;
+export default ProtectedRoute;

@@ -4,10 +4,15 @@ import { arrayContains, arrayHasAny, variableExists } from "shared/utilities/fil
 
 class HideComponent extends Component {
 	render() {
-		const { user, children, hasAnyRole, hasAllRoles, hasAnyFeature, hasAllFeatures, hasAnySubscription, hasVerifiedEmail } = this.props;
+		const { user, children, hasAnyRole, hasAllRoles, hasAnyFeature, hasAllFeatures, hasAnySubscription, hasVerifiedEmail, disabled } = this.props;
 
 		// Validate if user is logged in
 		const userLoggedIn = variableExists(user) && user.get("userId") !== null;
+
+		// Hide component regardless of other props if disabled boolean set to true
+		if (disabled) {
+			return null;
+		}
 
 		// Hide if user does not have any of the following roles
 		if (hasAnyRole && ((userLoggedIn && !user.get("userRoles")) || !arrayHasAny(hasAnyRole, (userLoggedIn && user.get("userRoles").toJS()) || []))) {
@@ -51,7 +56,8 @@ HideComponent.propTypes = {
 	hasAnyFeature: PropTypes.oneOfType([PropTypes.array, PropTypes.number]),
 	hasAllFeatures: PropTypes.oneOfType([PropTypes.array, PropTypes.number]),
 	hasAnySubscription: PropTypes.oneOfType([PropTypes.array, PropTypes.number]),
-	hasVerifiedEmail: PropTypes.bool
+	hasVerifiedEmail: PropTypes.bool,
+	disabled: PropTypes.bool
 };
 
 export default HideComponent;

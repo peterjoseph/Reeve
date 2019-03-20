@@ -73,6 +73,10 @@ class VerifyEmailChange extends Component {
 			});
 		});
 	}
+
+	render() {
+		return null;
+	}
 }
 
 VerifyEmailChange.propTypes = {

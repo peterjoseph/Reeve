@@ -12,6 +12,7 @@ import { AUTHENTICATION, LOGOUT_REJECTED, logoutUser } from "common/store/reduce
 
 import User from "common/components/User";
 import VerifyEmail from "./components/VerifyEmail";
+import HideComponent from "common/components/HideComponent";
 
 import NavLogo from "./components/NavLogo";
 import NavMenuLink from "./components/NavMenuLink";
@@ -78,20 +79,24 @@ class Header extends Component {
 			return null;
 		}
 
+		const billingEnabled = STRIPE_ENABLED && (user && user.get("subscriptionEndDate") !== null);
+
 		return (
 			<Fragment>
 				<VerifyEmail user={user} />
 				<nav className="navbar sticky-top navbar-expand-md bg-primary navbar-dark px-2 py-0">
 					<NavLogo />
 					<ul className="navbar-nav bd-navbar-nav flex-row ml-auto d-flex order-md-1">
-						{STRIPE_ENABLED && user.get("subscriptionEndDate") !== null && <ActiveTrial />}
+						<HideComponent disabled={!billingEnabled}>
+							<ActiveTrial />
+						</HideComponent>
 						<HelpCaller />
 						<NavProfileMenu>
 							<NavProfileMenuLogo />
 							{user.get("subscriptionActive") && (
 								<Fragment>
 									<NavDropdownLink title={t("label.profile")} route={"/profile"} />
-									{STRIPE_ENABLED && user.get("subscriptionEndDate") !== null && (
+									<HideComponent disabled={!billingEnabled}>
 										<NavDropdownLink
 											title={t("label.billing")}
 											route={"/billing"}
@@ -99,7 +104,7 @@ class Header extends Component {
 											hasAllFeatures={[FEATURES.BILLING]}
 											hasAnySubscription={[SUBSCRIPTION_TYPE.TRIAL, SUBSCRIPTION_TYPE.BASIC]}
 										/>
-									)}
+									</HideComponent>
 									<NavDropdownLink title={t("label.settings")} route={"/settings"} />
 									<div className="dropdown-divider" />
 								</Fragment>
@@ -119,7 +124,9 @@ class Header extends Component {
 									<ul className="navbar-nav bd-navbar-nav flex-md-row">
 										<NavMenuLink title={t("label.overview")} route={"/"} isExact={true} />
 										<NavMenuLink title={t("label.profile")} route={"/profile"} isExact={false} />
-										{STRIPE_ENABLED && user.get("subscriptionEndDate") !== null && <NavMenuLink title={t("label.billing")} route={"/billing"} isExact={true} />}
+										<HideComponent disabled={!billingEnabled}>
+											<NavMenuLink title={t("label.billing")} route={"/billing"} isExact={true} />
+										</HideComponent>
 										<NavMenuLink title={t("label.settings")} route={"/settings"} />
 									</ul>
 								</div>

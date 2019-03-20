@@ -835,11 +835,11 @@
 						</code>
 					</pre>
 				</div>
-				<p>Every page component is wrapped in a component called <i>RedirectComponent</i>.</p>
+				<p>Every page component is wrapped in a component called <i>ProtectedRoute</i>.</p>
 				<div class="code__block code__block--notabs">
 					<pre class="code code--block">
 						<code>
-							&lt;RedirectComponent
+							&lt;ProtectedRoute
 							exact path="/billing"
 							role={[ROLE_TYPE.OWNER, ROLE_TYPE.FINANCE]}
 							feature={[FEATURES.BILLING]}
@@ -853,7 +853,7 @@
 						</code>
 					</pre>
 				</div>
-				<p>By defining certain parameters within this <i>RedirectComponent</i>, we can restrict the accessibility of the page to a variety of conditions being met.</p>
+				<p>By defining certain parameters within this <i>ProtectedRoute</i>, we can restrict the accessibility of the page to a variety of conditions being met.</p>
 				<p><b>path:</b> The path the page will be accessible from when navigated to in a web browser.</p>
 				<p><b>role:</b> Pages can be restricted on the basis of the type of roles associated with a users account.</p>
 				<p><b>feature:</b> Features can be used to restrict functionality to certain paying customers. With an array of features, you can restrict a page to clients who only have certain features on their account.</p>
@@ -865,7 +865,7 @@
 					<h3 class="section__title">6.3 Redirects</h3>
 				</a>
 				<p>At times when you are developing the routing for your application, you may experience pages redirecting; whereby you visit one page and the application automatically navigates to another page. It is important to understand why this is happening to prevent frustration when building your application routes.</p>
-				<p>Inside of <i>RedirectComponent</i> there are a number of validation checks that need to be satisfied in order for the page to be correctly displayed.</p>
+				<p>Inside of <i>ProtectedRoute</i> there are a number of validation checks that need to be satisfied in order for the page to be correctly displayed.</p>
 				<div class="code__block code__block--notabs">
 					<pre class="code code--block">
 						<code>
@@ -917,11 +917,11 @@
 					<h3 class="section__title">6.4 Missing Paths</h3>
 				</a>
 				<p>When a user attempts to navigate in their web browser to a page route that does not exist, we need a way to catch this behaviour and display a generic 'Page Not Found' message.</p>
-				<p>At the end of the <i>Router.js</i> page, a final <i>RedirectComponent</i> with a wildcard path of "*" is supplied. If a user navigates to a page that does not exist on the router list, the final <i>MissingPath</i> component will be displayed</p>
+				<p>At the end of the <i>Router.js</i> page, a final <i>ProtectedRoute</i> with a wildcard path of "*" is supplied. If a user navigates to a page that does not exist on the router list, the final <i>MissingPath</i> component will be displayed</p>
 				<div class="code__block code__block--notabs">
 					<pre class="code code--block">
 						<code>
-							&lt;RedirectComponent
+							&lt;ProtectedRoute
 								&nbsp;path="*"
 								&nbsp;render={()=> (
 									&nbsp;&nbsp;&lt;DefaultLayout key="*"&gt;
@@ -1333,7 +1333,7 @@
 						<code>
 							import DefaultLayout from "common/layouts/DefaultLayout";
 
-							&lt;RedirectComponent
+							&lt;ProtectedRoute
 								&nbsp;exact
 								&nbsp;path="/settings"
 								&nbsp;role={[ROLE_TYPE.OWNER, ROLE_TYPE.ADMINISTRATOR]}
