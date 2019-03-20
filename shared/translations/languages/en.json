@@ -274,7 +274,9 @@
 		"outdatedBrowser": "Hey! You are using an out-of-date web browser version. This might cause compatibility issues with our service. Please consider upgrading your browser.",
 		"verifyEmail": "Error: Your email address could not be successfully verified. Please refresh the page and try again.",
 		"verifyEmailChange": "Error: Your email address could not be successfully changed. Please refresh the page and try again.",
-		"logout": "Error: We were unable to logout of your account. Please refresh the page and try again."
+		"logout": "Error: We were unable to logout of your account. Please refresh the page and try again.",
+		"s3notEnabled": "Error: S3 is not enabled.",
+		"deletionError": "File could not be deleted."
 	},
 	"validation": {
 		"userInvalidProperties": "User object contains invalid properties.",

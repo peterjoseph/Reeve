@@ -9,6 +9,8 @@
 		img {
 			min-width: $square;
 			min-height: $square;
+			max-width: $square;
+			max-height: $square;
 			object-fit: contain;
 		}
 	}
@@ -22,6 +24,8 @@
 		img {
 			min-width: $square;
 			min-height: $square;
+			max-width: $square;
+			max-height: $square;
 			object-fit: contain;
 		}
 

@@ -320,13 +320,17 @@ export function loadUser(received, browserLng) {
 
 			// Fetch a signed url with profile photo (if exists)
 			let profilePhoto = null;
-			const key = user.get("profilePhoto");
-			if (variableExists(key)) {
-				const objectExists = await checkObjectExists(config.s3.bucket, key);
-				if (objectExists == true) {
-					const url = await presignedGetObject(config.s3.bucket, key, SIGNED_URL_EXPIRY_TIME.DISPLAY_AVATAR);
-					profilePhoto = url.signedURL;
+			try {
+				const imageKey = user.get("profilePhoto");
+				if (variableExists(imageKey)) {
+					const imageExists = await checkObjectExists(config.s3.bucket, imageKey);
+					if (imageExists == true) {
+						const url = await presignedGetObject(config.s3.bucket, imageKey, SIGNED_URL_EXPIRY_TIME.DISPLAY_AVATAR);
+						profilePhoto = url.signedURL;
+					}
 				}
+			} catch (error) {
+				profilePhoto = null;
 			}
 
 			// Create user properties object to be returned back to the front-end

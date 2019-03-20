@@ -1,6 +1,10 @@
 import awsS3 from "aws-sdk/clients/s3";
 import mime from "mime-types";
 
+import { ServerResponseError } from "utilities/errors/serverResponseError";
+import { validateURL } from "shared/utilities/domain";
+import { t } from "shared/translations/i18n";
+
 let config = require("../../config");
 
 let s3 = null;
@@ -23,10 +27,24 @@ function initialize(app) {
 	});
 }
 
+// Check object exists in bucket
+async function checkObjectExists(bucket, key) {
+	if (!config.s3.enabled) {
+		throw new ServerResponseError(403, t("error.s3notEnabled"), null);
+	}
+
+	try {
+		await s3.headObject({ Bucket: bucket, Key: key }).promise();
+		return true;
+	} catch (error) {
+		return false;
+	}
+}
+
 // Generate pre-signed url for put object into bucket
 async function presignedPutObject(contentType, bucket, signedUrlExpiryTime, acl, clientId, userId) {
 	if (!config.s3.enabled) {
-		return;
+		throw new ServerResponseError(403, t("error.s3notEnabled"), null);
 	}
 
 	try {
@@ -42,6 +60,11 @@ async function presignedPutObject(contentType, bucket, signedUrlExpiryTime, acl,
 			ContentType: contentType
 		});
 
+		// Throw exception if url is not valid
+		if (!validateURL(url)) {
+			throw new ServerResponseError(403, t("validation.signedURLInvalidProperties"), null);
+		}
+
 		return {
 			key: key,
 			signedURL: url
@@ -54,7 +77,7 @@ async function presignedPutObject(contentType, bucket, signedUrlExpiryTime, acl,
 // Presigned get object from a bucket
 async function presignedGetObject(bucket, key, signedUrlExpiryTime) {
 	if (!config.s3.enabled) {
-		return;
+		throw new ServerResponseError(403, t("error.s3notEnabled"), null);
 	}
 	try {
 		const url = await s3.getSignedUrl("getObject", {
@@ -62,6 +85,11 @@ async function presignedGetObject(bucket, key, signedUrlExpiryTime) {
 			Key: key,
 			Expires: signedUrlExpiryTime
 		});
+
+		// Throw exception if url is not valid
+		if (!validateURL(url)) {
+			throw new ServerResponseError(403, t("validation.signedURLInvalidProperties"), null);
+		}
 
 		return {
 			key: key,
@@ -72,52 +100,26 @@ async function presignedGetObject(bucket, key, signedUrlExpiryTime) {
 	}
 }
 
-// Check object exists in bucket
-async function checkObjectExists(bucket, key) {
-	if (!config.s3.enabled) {
-		return;
-	}
-
-	try {
-		await s3.headObject({ Bucket: bucket, Key: key }).promise();
-		return true;
-	} catch (error) {
-		return false;
-	}
-}
-
-// Retrieve an object from a bucket
-async function getObject(bucket, key) {
-	if (!config.s3.enabled) {
-		return;
-	}
-
-	try {
-		const object = await s3.getObject({ Bucket: bucket, Key: key });
-		return object;
-	} catch (error) {
-		throw error;
-	}
-}
-
 // Delete an object from a bucket
 async function deleteObject(bucket, key) {
 	if (!config.s3.enabled) {
-		return;
+		throw new ServerResponseError(403, t("error.s3notEnabled"), null);
 	}
 	try {
 		await s3.deleteObject({ Bucket: bucket, Key: key }).promise();
-		return;
+		return {
+			key: key,
+			deleted: true
+		};
 	} catch (error) {
-		throw error;
+		throw new ServerResponseError(403, t("error.deletionError"), null);
 	}
 }
 
 module.exports = {
 	initialize: initialize,
+	checkObjectExists: checkObjectExists,
 	presignedPutObject: presignedPutObject,
 	presignedGetObject: presignedGetObject,
-	checkObjectExists: checkObjectExists,
-	getObject: getObject,
 	deleteObject: deleteObject
 };

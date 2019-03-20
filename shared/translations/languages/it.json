@@ -273,7 +273,9 @@
 		"outdatedBrowser": "Hey! Stai utilizzando una versione del browser Web non aggiornata. Ciò potrebbe causare problemi di compatibilità con il nostro servizio. Si prega di considerare l'aggiornamento del browser.",
 		"verifyEmail": "Errore: il tuo indirizzo email non può essere verificato con successo. Perfavore ricarica la pagina e riprova.",
 		"verifyEmailChange": "Errore: il tuo indirizzo email non può essere cambiato con successo. Perfavore ricarica la pagina e riprova.",
-		"logout": "Errore: non siamo riusciti a disconnettere il tuo account. Perfavore ricarica la pagina e riprova."
+		"logout": "Errore: non siamo riusciti a disconnettere il tuo account. Perfavore ricarica la pagina e riprova.",
+		"s3notEnabled": "Errore: S3 non è abilitato.",
+		"deletionError": "Il file non può essere cancellato."
 	},
 	"validation": {
 		"userInvalidProperties": "L'oggetto utente contiene proprietà non valide.",

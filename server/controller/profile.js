@@ -1,10 +1,8 @@
-import safe from "safe-regex";
-
 import restrict from "utilities/restrictRoutes";
 import browserResponseLng from "utilities/browserResponseLng";
 import { ServerResponseError } from "utilities/errors/serverResponseError";
 
-import { variableExists } from "shared/utilities/filters";
+import { variableExists, keyNameCorrect } from "shared/utilities/filters";
 import validate from "shared/validation/validate";
 import { t } from "shared/translations/i18n";
 import { updateUserProfile, verifyEmail, changeSavedLanguage, changeUserPassword } from "shared/validation/profile";
@@ -269,9 +267,8 @@ module.exports = function(router) {
 				return next(errorMsg);
 			}
 
-			// Confirm that image key is of correct regex
-			const regex = /[0-9]*_[0-9]*_[0-9]*.[a-z]+$/;
-			if (!safe(body.key.match(regex))) {
+			// Confirm that image key is of correct naming convention
+			if (!keyNameCorrect(body.key)) {
 				const errorMsg = new ServerResponseError(403, t("validation.imageKeyInvalid", { lng: browserLng }));
 				return next(errorMsg);
 			}

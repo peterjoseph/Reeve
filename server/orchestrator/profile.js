@@ -373,13 +373,13 @@ export function saveUserProfilePhoto(options, browserLng) {
 			// Confirm that the provided key links to an S3 bucket image
 			const objectExists = await checkObjectExists(config.s3.bucket, options.key);
 			if (objectExists !== true) {
-				throw new ServerResponseError(403, t("validation.imageKeyInvalid", { lng: browserLng }));
+				throw new ServerResponseError(403, t("validation.imageKeyInvalid", null));
 			}
 
 			// If old image exists, temporarily store the key in a variable to delete later on
-			let oldImage = null;
+			let previousProfilePhoto = null;
 			if (user.get("profilePhoto") !== null) {
-				oldImage = user.get("profilePhoto");
+				previousProfilePhoto = user.get("profilePhoto");
 			}
 
 			// Store new image key in database
@@ -388,8 +388,8 @@ export function saveUserProfilePhoto(options, browserLng) {
 			});
 
 			// Finally delete the old image now that it has been replaced with the new one
-			if (oldImage !== null) {
-				await deleteObject(config.s3.bucket, oldImage);
+			if (previousProfilePhoto !== null) {
+				await deleteObject(config.s3.bucket, previousProfilePhoto);
 			}
 
 			// Create a response object
@@ -426,18 +426,23 @@ export function deleteUserProfilePhoto(options, browserLng) {
 			// Delete profile photo from database
 			if (user.get("profilePhoto") !== null) {
 				// Temporarily store key in variable
-				const key = user.get("profilePhoto");
+				const imageKey = user.get("profilePhoto");
 
+				// Remove the key from the user profile
 				await user.update({
 					profilePhoto: null
 				});
 
-				// Check the old image still exists in the bucket before we try to delete
-				const objectExists = await checkObjectExists(config.s3.bucket, key);
+				try {
+					// Check the old image still exists in the bucket before we try to delete
+					const imageExists = await checkObjectExists(config.s3.bucket, imageKey);
 
-				if (objectExists == true) {
-					// Delete image from S3 bucket using key
-					await deleteObject(config.s3.bucket, key);
+					if (imageExists == true) {
+						// Delete image from S3 bucket using key
+						await deleteObject(config.s3.bucket, imageKey);
+					}
+				} catch (error) {
+					// Do nothing
 				}
 			}
 

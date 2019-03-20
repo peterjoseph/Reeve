@@ -1,3 +1,5 @@
+const safe = require("safe-regex");
+
 function array(element) {
 	if (element && !Array.isArray(element)) {
 		element = [element];
@@ -35,6 +37,16 @@ export function parameterIsSafe(fn) {
 		fn();
 		return true;
 	} catch (e) {
+		return false;
+	}
+}
+
+// Check if an object is of the correct naming convention for saving
+export function keyNameCorrect(key) {
+	const regex = /[0-9]*_[0-9]*_[0-9]*.[a-z]+$/;
+	if (safe(key.match(regex))) {
+		return true;
+	} else {
 		return false;
 	}
 }
