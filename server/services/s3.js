@@ -1,4 +1,4 @@
-import awsS3 from "aws-sdk/clients/s3";
+import aws from "aws-sdk";
 import mime from "mime-types";
 
 import { ServerResponseError } from "utilities/errors/serverResponseError";
@@ -8,6 +8,7 @@ import { t } from "shared/translations/i18n";
 let config = require("../../config");
 
 let s3 = null;
+let cfSigner = null;
 
 function initialize(app) {
 	if (!config.s3.enabled) {
@@ -15,7 +16,7 @@ function initialize(app) {
 	}
 
 	// Initialize new s3 connection
-	s3 = new awsS3({
+	s3 = new aws.S3({
 		accessKeyId: config.s3.accessKeyId,
 		secretAccessKey: config.s3.secretAccessKey,
 		region: config.s3.region,
@@ -25,6 +26,11 @@ function initialize(app) {
 		bucketEndpoint: config.s3.bucketEndpoint,
 		signatureVersion: config.s3.signatureVersion
 	});
+
+	// Connect to cloudfront Signer if enabled
+	if (config.cloudfront.enabled) {
+		cfSigner = new aws.CloudFront.Signer(config.cloudfront.accessKeyId, config.cloudfront.privateAccessKey);
+	}
 }
 
 // Check object exists in bucket
@@ -80,11 +86,23 @@ async function presignedGetObject(bucket, key, signedUrlExpiryTime) {
 		throw new ServerResponseError(403, t("error.s3notEnabled"), null);
 	}
 	try {
-		const url = await s3.getSignedUrl("getObject", {
-			Bucket: bucket,
-			Key: key,
-			Expires: signedUrlExpiryTime
-		});
+		// Create an empty url variable
+		let url = "";
+
+		// If cloudfront enabled, load the signed url from cloudfront, else, direct from S3 bucket
+		if (config.cloudfront.enabled) {
+			url = cfSigner.getSignedUrl({
+				url: `${config.cloudfront.endpoint}${key}`,
+				Expires: signedUrlExpiryTime
+			});
+		} else {
+			// Generate signed key from S3 bucket
+			url = await s3.getSignedUrl("getObject", {
+				Bucket: bucket,
+				Key: key,
+				Expires: signedUrlExpiryTime
+			});
+		}
 
 		// Throw exception if url is not valid
 		if (!validateURL(url)) {

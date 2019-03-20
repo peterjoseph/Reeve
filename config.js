@@ -62,12 +62,18 @@ let config = {
 		accessKeyId: process.env.S3_ACCESS_KEY_ID,
 		secretAccessKey: process.env.S3_SECRET_ACCESS_KEY,
 		region: process.env.S3_REGION,
-		endpoint: process.env.S3_ENDPOINT,
+		endpoint: process.env.S3_ENDPOINT_URL,
 		useAccelerateEndpoint: String(process.env.S3_ACCELERATE_ENDPOINT) === "true",
 		forcePathStyle: String(process.env.S3_FORCE_PATH_STYLE) === "true",
 		bucketEndpoint: String(process.env.S3_BUCKET_ENDPOINT) === "true",
 		signatureVersion: process.env.S3_SIGNATURE_VERSION,
 		bucket: process.env.S3_BUCKET
+	},
+	cloudfront: {
+		enabled: String(process.env.CF_ENABLED) === "true",
+		accessKeyId: process.env.CF_ACCESS_KEY_ID,
+		privateAccessKey: process.env.CF_PRIVATE_ACCESS_KEY,
+		endpoint: process.env.CF_ENDPOINT_URL
 	},
 	googleAnalytics: {
 		enabled: String(process.env.GOOGLE_ANALYTICS_ENABLED) === "true",
