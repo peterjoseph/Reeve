@@ -13,7 +13,8 @@
 		"save": "Salvare",
 		"sendEmail": "Invia una email",
 		"resendEmail": "Rinvia l'e-mail",
-		"emailSent": "Email inviata"
+		"emailSent": "Email inviata",
+		"update": "Aggiornare"
 	},
 	"label": {
 		"firstName": "Nome di battesimo",
@@ -198,7 +199,21 @@
 		"settings": {
 			"billingOverview": "Vai a Panoramica della fatturazione →",
 			"general": {
-				"generalSettings": "Impostazioni Generali"
+				"generalSettings": "Impostazioni Generali",
+				"accountSummary": "Riepilogo Account",
+				"subscriptionType": "Tipo Di Abbonamento:",
+				"upgradePaidPlan": "Esegui l'upgrade a un piano a pagamento",
+				"workspaceCreationDate": "Data di creazione dello spazio di lavoro:",
+				"activeUsers": "Utenti Attivi:",
+				"accessConfiguration": "Configurazione Di Accesso",
+				"workspaceTitle": "Titolo dell'area di lavoro",
+				"workspaceURL": "URL dell'area di lavoro",
+				"workspaceURLUniqueAddress": "L'URL dell'area di lavoro è un indirizzo univoco che è possibile utilizzare per accedere a questo spazio di lavoro dal browser Web. Si prega di contattarci se si desidera modificare questo indirizzo.",
+				"workspaceDescription": "Descrizione dello spazio di lavoro",
+				"workspaceDescriptionSubText": "Una buona descrizione del tuo spazio di lavoro può fornire informazioni preziose agli utenti nuovi e invitati.",
+				"dangerZone": "Zona Pericolosa",
+				"deleteWorkspace": "Elimina area di lavoro",
+				"deleteWorkspaceWarning": "L'eliminazione di un'area di lavoro rimuoverà tutti i contenuti, gli utenti e gli abbonamenti attivi. Questa azione non può essere annullata. Assicurati di aver eliminato quello corretto!"
 			},
 			"appearance": {
 				"appearanceAndBranding": "Aspetto e Marchio"
@@ -261,7 +276,8 @@
 		"verifyEmail": "Successo! Il tuo indirizzo email è stato verificato",
 		"verifyEmailChange": "Successo! Il tuo indirizzo email è stato aggiornato con successo.",
 		"updatePersonalProfile": "Successo! Il tuo profilo è stato aggiornato.",
-		"changeLanguage": "Successo! La lingua utilizzata da $t(site.name) è stata aggiornata."
+		"changeLanguage": "Successo! La lingua utilizzata da $t(site.name) è stata aggiornata.",
+		"updateAccessConfiguration": "Successo! Le impostazioni sono state aggiornate."
 	},
 	"error": {
 		"code": {
@@ -295,6 +311,7 @@
 		"loadUserPropertiesFailed": "Le proprietà dell'utente non possono essere caricate correttamente.",
 		"loadClientFailed": "Carica client non riuscito.",
 		"loadClientFeaturesFailed": "Carica le funzionalità del client non riuscite.",
+		"updateClientInvalidProperties": "L'oggetto client di aggiornamento contiene proprietà non valide.",
 		"loadUserFailed": "Carica utente fallito.",
 		"loadUserRolesFailed": "Carica ruoli utente falliti.",
 		"updateProfileInvalidProperties": "L'oggetto del profilo di aggiornamento contiene proprietà non valide.",

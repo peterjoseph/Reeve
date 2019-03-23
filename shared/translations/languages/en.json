@@ -13,7 +13,8 @@
 		"save": "Save",
 		"sendEmail": "Send Email",
 		"resendEmail": "Resend Email",
-		"emailSent": "Email Sent"
+		"emailSent": "Email Sent",
+		"update": "Update"
 	},
 	"label": {
 		"firstName": "First Name",
@@ -195,7 +196,21 @@
 		"settings": {
 			"billingOverview": "Go to Billing Overview →",
 			"general": {
-				"generalSettings": "General Settings"
+				"generalSettings": "General Settings",
+				"accountSummary": "Account Summary",
+				"subscriptionType": "Subscription Type:",
+				"upgradePaidPlan": "Upgrade to a paid plan",
+				"workspaceCreationDate": "Workspace creation date:",
+				"activeUsers": "Active users:",
+				"accessConfiguration": "Access Configuration",
+				"workspaceTitle": "Workspace Title",
+				"workspaceURL": "Workspace URL",
+				"workspaceURLUniqueAddress": "Your Workspace URL is a unique address you can use to access this workspace from your web browser. Please contact us if you would like to change this address.",
+				"workspaceDescription": "Workspace Description",
+				"workspaceDescriptionSubText": "A good description of your workspace can provide valuable information to new and invited users.",
+				"dangerZone": "Danger Zone",
+				"deleteWorkspace": "Delete Workspace",
+				"deleteWorkspaceWarning": "Deleting a Workspace will remove all contents, users, and active subscriptions. This action cannot be undone. Please make sure you are deleting the correct one!"
 			},
 			"appearance": {
 				"appearanceAndBranding": "Appearance & Branding"
@@ -262,7 +277,8 @@
 		"verifyEmail": "Success! Your email address has been verified.",
 		"verifyEmailChange": "Success! Your email address has been successfully updated.",
 		"updatePersonalProfile": "Success! Your profile has been updated.",
-		"changeLanguage": "Success! The language $t(site.name) will use has been updated."
+		"changeLanguage": "Success! The language $t(site.name) will use has been updated.",
+		"updateAccessConfiguration": "Success! Settings have been updated."
 	},
 	"error": {
 		"code": {
@@ -296,6 +312,7 @@
 		"loadUserPropertiesFailed": "User properties could not be successfully loaded.",
 		"loadClientFailed": "Load client failed.",
 		"loadClientFeaturesFailed": "Load client features failed.",
+		"updateClientInvalidProperties": "Update client object contains invalid properties.",
 		"loadUserFailed": "Load user failed.",
 		"loadUserRolesFailed": "Load user roles failed.",
 		"updateProfileInvalidProperties": "Update profile object contains invalid properties.",

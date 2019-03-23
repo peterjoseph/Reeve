@@ -101,6 +101,7 @@
 		"rc-switch": "^1.8.0",
 		"react": "^16.6.3",
 		"react-butterfiles": "^1.2.1",
+		"react-color": "^2.17.0",
 		"react-detect-offline": "^2.1.2",
 		"react-dom": "^16.6.3",
 		"react-emotion": "^9.2.12",

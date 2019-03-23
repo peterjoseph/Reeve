@@ -8,7 +8,7 @@ import validate from "shared/validation/validate";
 import queryString from "query-string";
 import { t, activeLanguage, getLNGToken } from "shared/translations/i18n";
 import { REDUX_STATE } from "shared/constants";
-import { extractSubdomain } from "shared/utilities/subdomain";
+import { extractSubdomain } from "shared/utilities/domains";
 import { resetPassword } from "shared/validation/authentication";
 import { variableExists } from "shared/utilities/filters";
 

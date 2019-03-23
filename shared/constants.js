@@ -1,4 +1,8 @@
 module.exports = Object.freeze({
+	CLIENT_INFORMATION: {
+		TYPE: "Desktop",
+		VERSION: "1.2.0"
+	},
 	MINIMUM_BROWSER_VERSIONS: {
 		msie: "11",
 		msedge: "16",

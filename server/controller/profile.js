@@ -50,7 +50,7 @@ module.exports = function(router) {
 
 	// Update user profile
 	router.post(
-		"/api/v1.0/profile/update/",
+		"/api/v1.0/profile/",
 		restrict({
 			registered: true,
 			unregistered: false

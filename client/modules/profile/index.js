@@ -26,7 +26,7 @@ class Profile extends Component {
 				<div className="container">
 					<div className="px-md-3 py-3 pt-5 pb-md-4 mx-auto">
 						<div className="mb-3">
-							<div className="col-md-8 mx-auto">
+							<div className="col-lg-7 mx-auto">
 								<div className="text-center">
 									<Avatar photo={user.get("profilePhoto")} />
 									<h3 className="text-capitalize">

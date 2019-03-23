@@ -11,7 +11,7 @@ import fetch from "common/fetch";
 import { t, activeLanguage, getLNGToken } from "shared/translations/i18n";
 import { saveToken, clearToken } from "shared/utilities/securityToken";
 import { REDUX_STATE } from "shared/constants";
-import { extractSubdomain } from "shared/utilities/subdomain";
+import { extractSubdomain } from "shared/utilities/domains";
 import { variableExists } from "shared/utilities/filters";
 
 import { AUTHENTICATION, LOGIN_REJECTED, validateWorkspaceURL, VALIDATE_WORKSPACE_URL_REJECTED, loginUser, loadUser, LOAD_USER_REJECTED } from "common/store/reducers/authentication.js";

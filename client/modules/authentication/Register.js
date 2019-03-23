@@ -6,7 +6,7 @@ import { Link } from "react-router-dom";
 import { Helmet } from "react-helmet";
 import validate from "shared/validation/validate";
 import { t, l, activeLanguage } from "shared/translations/i18n";
-import { extractSubdomain } from "shared/utilities/subdomain";
+import { extractSubdomain } from "shared/utilities/domains";
 
 import { registerClient, REGISTER_REJECTED } from "common/store/reducers/authentication.js";
 import { register } from "shared/validation/authentication";

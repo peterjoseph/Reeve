@@ -14,14 +14,14 @@ class InputField extends React.Component {
 						name={"workspaceURL"}
 						value={value}
 						id="domain-input"
-						className={"form-control text-right"}
+						className={"form-control text-right rounded-0"}
 						type="text"
 						placeholder={t("components.authentication.workspaceName")}
 						onChange={onChange}
 						disabled={disabled}
 					/>
 					<div className="input-group-append">
-						<div className="input-group-text line-height none">{`.${BUILD_DOMAINPATH /* Environmental variable defined by Webpack DefinePlugin */}`}</div>
+						<div className="input-group-text line-height rounded-0 none">{`.${BUILD_DOMAINPATH /* Environmental variable defined by Webpack DefinePlugin */}`}</div>
 					</div>
 					{error && error["workspaceURL"] && <div className="d-block invalid-feedback">{error["workspaceURL"][0]}</div>}
 				</div>

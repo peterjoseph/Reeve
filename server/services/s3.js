@@ -2,7 +2,7 @@ import aws from "aws-sdk";
 import mime from "mime-types";
 
 import { ServerResponseError } from "utilities/errors/serverResponseError";
-import { validateURL } from "shared/utilities/domain";
+import { validateURL } from "shared/utilities/domains";
 import { t } from "shared/translations/i18n";
 
 let config = require("../../config");

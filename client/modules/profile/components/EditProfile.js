@@ -15,6 +15,7 @@ import { LOAD_USER_REJECTED, loadUser } from "common/store/reducers/authenticati
 import User from "common/components/User";
 import Loading from "common/components/Loading";
 import InputField from "common/components/inputs/InputField";
+import TextArea from "common/components/inputs/TextArea";
 import ServerSuccess from "common/components/ServerSuccess";
 import ServerError from "common/components/ServerError";
 
@@ -213,13 +214,14 @@ class EditProfile extends Component {
 					error={validationErrors}
 				/>
 				{emailWarning && <div className="alert alert-warning rounded-0">{t("components.profile.changeEmailWarning")}</div>}
-				<InputField
+				<TextArea
 					label={t("label.aboutMe")}
 					name={"bio"}
 					id={"bio-input"}
 					value={bio}
 					type={"textField"}
 					ariaLabel={"bio"}
+					rows={2}
 					onChange={this.changeField}
 					disabled={loading}
 					error={validationErrors}

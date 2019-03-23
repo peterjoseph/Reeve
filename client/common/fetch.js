@@ -1,4 +1,5 @@
 import { activeLanguage } from "shared/translations/i18n";
+import { CLIENT_INFORMATION } from "shared/constants";
 
 // Async function for handling front-end get, post and patch calls
 export default {
@@ -10,7 +11,9 @@ export default {
 				Accept: "application/json",
 				Pragma: "no-cache",
 				"Content-Type": "application/json",
-				"Accept-Language": activeLanguage() || ""
+				"Accept-Language": activeLanguage() || "",
+				"X-Client-Type": CLIENT_INFORMATION.TYPE,
+				"X-Client-Version": CLIENT_INFORMATION.VERSION
 			},
 			options.headers || {}
 		);

@@ -1,7 +1,7 @@
 import React, { Component, Fragment } from "react";
 import PropTypes from "prop-types";
 import { Route } from "react-router";
-import { Switch, Link } from "react-router-dom";
+import { withRouter, Switch, Link } from "react-router-dom";
 import { Helmet } from "react-helmet";
 
 import { t } from "shared/translations/i18n";
@@ -18,7 +18,7 @@ const Localization = AsyncComponent(() => import("./components/Localization"));
 
 class Settings extends Component {
 	render() {
-		const { user } = this.props;
+		const { history, user } = this.props;
 
 		return (
 			<Fragment>
@@ -58,12 +58,14 @@ class Settings extends Component {
 							</div>
 						</nav>
 						<div id="content" className="col-md-9 col-lg-10 p-0 bg-white">
-							<div className="col-md-8 p-4">
-								<Switch>
-									<Route path="/settings/general" render={() => <GeneralSettings />} />
-									<Route path="/settings/appearance" render={() => <Appearance />} />
-									<Route path="/settings/localization" render={() => <Localization />} />
-								</Switch>
+							<div className="container m-0 p-0">
+								<div className="col-lg-7 p-4">
+									<Switch>
+										<Route path="/settings/general" render={() => <GeneralSettings location={history.location} />} />
+										<Route path="/settings/appearance" render={() => <Appearance location={history.location} />} />
+										<Route path="/settings/localization" render={() => <Localization location={history.location} />} />
+									</Switch>
+								</div>
 							</div>
 						</div>
 					</div>
@@ -74,7 +76,8 @@ class Settings extends Component {
 }
 
 Settings.propTypes = {
+	history: PropTypes.object,
 	user: PropTypes.object
 };
 
-export default User(Settings);
+export default withRouter(User(Settings));

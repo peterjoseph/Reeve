@@ -1,22 +1,23 @@
 import React from "react";
 import PropTypes from "prop-types";
 
-class InputField extends React.Component {
+class TextArea extends React.Component {
 	render() {
-		const { name, value, onChange, label, id, type, ariaLabel, smallText, placeholder, required, disabled, error } = this.props;
+		const { name, value, onChange, label, rows, id, ariaLabel, smallText, resize, placeholder, required, disabled, error } = this.props;
 
 		return (
-			<div className="form-group">
+			<div className={"form-group"}>
 				{label && (
 					<label htmlFor={id}>
 						{label} {required && "*"}
 					</label>
 				)}
 				<div className="input-group">
-					<input
+					<textarea
 						name={name}
 						value={value}
-						type={type}
+						style={{ resize: resize ? "vertical" : "none" }}
+						rows={rows}
 						className={"form-control rounded-0"}
 						id={id}
 						aria-describedby={ariaLabel}
@@ -36,14 +37,15 @@ class InputField extends React.Component {
 	}
 }
 
-InputField.propTypes = {
+TextArea.propTypes = {
 	name: PropTypes.string,
 	value: PropTypes.string,
 	onChange: PropTypes.func,
 	label: PropTypes.string,
 	id: PropTypes.string,
-	type: PropTypes.string,
 	ariaLabel: PropTypes.string,
+	rows: PropTypes.number,
+	resize: PropTypes.bool,
 	placeholder: PropTypes.string,
 	smallText: PropTypes.string,
 	required: PropTypes.bool,
@@ -51,4 +53,4 @@ InputField.propTypes = {
 	error: PropTypes.object
 };
 
-export default InputField;
+export default TextArea;

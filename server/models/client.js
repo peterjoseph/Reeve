@@ -21,6 +21,11 @@ module.exports = function(sequelize, DataTypes) {
 				defaultValue: "",
 				field: "workspaceURL"
 			},
+			description: {
+				type: DataTypes.STRING(255),
+				allowNull: true,
+				field: "description"
+			},
 			subscriptionId: {
 				type: DataTypes.INTEGER(3),
 				allowNull: false,

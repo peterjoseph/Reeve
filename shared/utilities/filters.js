@@ -41,7 +41,15 @@ export function parameterIsSafe(fn) {
 	}
 }
 
-// Check if an object is of the correct naming convention for saving
+// Check if an object does not contain any properties
+export function isObjectEmpty(object) {
+	if (Object.keys(object).length === 0) {
+		return true;
+	}
+	return false;
+}
+
+// Check if an S3 bucket object is of the correct naming convention for saving
 export function keyNameCorrect(key) {
 	const regex = /[0-9]*_[0-9]*_[0-9]*.[a-z]+$/;
 	if (safe(key.match(regex))) {
@@ -49,4 +57,37 @@ export function keyNameCorrect(key) {
 	} else {
 		return false;
 	}
+}
+
+// Remove any properties from object 1 (genericObject) that are the same in object 2 (immutableObject)
+export function removeSimilarProperties(genericObject = {}, immutableObject = {}) {
+	const newObject = { ...genericObject };
+
+	// Iterate over all properties in genericObject
+	for (var key in genericObject) {
+		if (genericObject.hasOwnProperty(key)) {
+			// Delete any properties that are the same in object2
+			if ((!variableExists(genericObject[key]) && !variableExists(immutableObject.get(key))) || genericObject[key] == immutableObject.get(key)) {
+				// null and "" and undefined should all be considered the same
+				delete newObject[key];
+			}
+		}
+	}
+	return newObject;
+}
+
+// Remove any properties in an object where the key does not exist in an array
+export function removeUniqueProperties(genericObject = {}, propertiesArray = []) {
+	const newObject = { ...genericObject };
+
+	// Iterate over all properties in genericObject
+	for (var key in genericObject) {
+		if (genericObject.hasOwnProperty(key)) {
+			// Delete any properties in the object that do not exist in the propertiesArray
+			if (!propertiesArray.includes(key)) {
+				delete newObject[key];
+			}
+		}
+	}
+	return newObject;
 }

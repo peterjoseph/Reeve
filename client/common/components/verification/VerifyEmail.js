@@ -7,7 +7,7 @@ import { withRouter } from "react-router-dom";
 import { notify } from "react-notify-toast";
 
 import { t } from "shared/translations/i18n";
-import { extractSubdomain } from "shared/utilities/subdomain";
+import { extractSubdomain } from "shared/utilities/domains";
 import User from "common/components/User";
 import { VALIDATE_WORKSPACE_URL_REJECTED, VERIFY_EMAIL_REJECTED, validateWorkspaceURL, verifyUserEmail, LOAD_USER_REJECTED, loadUser } from "common/store/reducers/authentication.js";
 

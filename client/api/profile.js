@@ -9,7 +9,7 @@ export function loadPersonalProfile() {
 
 // Update User Personal Profile
 export function updatePersonalProfile(body) {
-	return fetch.perform("/api/v1.0/profile/update/", {
+	return fetch.perform("/api/v1.0/profile/", {
 		method: "POST",
 		body: JSON.stringify({
 			firstName: body.firstName,

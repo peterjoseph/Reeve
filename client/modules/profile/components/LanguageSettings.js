@@ -117,7 +117,15 @@ class LanguageSettings extends Component {
 				<ServerError error={serverError} />
 				<div className="form-group">
 					<label htmlFor="changeLanguageControl">{t("components.profile.whichLanguage?")}</label>
-					<select className="form-control" id="changeLanguageControl" name={"language"} value={language} onChange={this.selectItem} disabled={disabled}>
+					<select
+						id="changeLanguageControl"
+						className="form-control"
+						style={{ border: "0px", outline: "1px solid #CCC", outlineOffset: "-1px" }} // Chrome doesnt like square select fields, so we do some css trickery
+						name={"language"}
+						value={language}
+						onChange={this.selectItem}
+						disabled={disabled}
+					>
 						<option value={LANGUAGE_CODES[1]}>{t("languages.en")}</option>
 						<option value={LANGUAGE_CODES[2]}>{t("languages.it")}</option>
 					</select>
