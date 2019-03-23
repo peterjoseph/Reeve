@@ -14,14 +14,14 @@ import { t } from "shared/translations/i18n";
 import { FEATURES, SUBSCRIPTION_TYPE, ROLE_TYPE, EMAIL_TYPE, BILLING_CYCLE, LANGUAGE_CODES, SIGNED_URL_EXPIRY_TIME } from "shared/constants";
 
 // Validate Workspace URL and retrieve client styling (if feature exists)
-export function validateWorkspaceURL(workspaceURL, browserLng) {
+export function validateWorkspaceURL(requestProperties, authenticatedUser, browserLng) {
 	return database().transaction(async function(transaction) {
 		try {
 			// Load a client using a workspaceURL
-			const client = await models().client.findOne({ where: { workspaceURL: workspaceURL, active: true } }, { transaction: transaction });
+			const client = await models().client.findOne({ where: { workspaceURL: requestProperties.workspaceURL, active: true } }, { transaction: transaction });
 
 			// Throw an error if the client was not returned for the WorkspaceURL
-			if (client === null || client.get("workspaceURL") === null || client.get("workspaceURL") !== workspaceURL) {
+			if (client === null || client.get("workspaceURL") === null || client.get("workspaceURL") !== requestProperties.workspaceURL) {
 				throw new ServerResponseError(403, t("validation.clientInvalidProperties", { lng: browserLng }), { workspaceURL: [t("validation.emptyWorkspaceURL", { lng: browserLng })] });
 			}
 
@@ -88,11 +88,11 @@ export async function generateUserEmailValidationCode(userId, clientId, transact
 }
 
 // Register new Client
-export function registerNewClient(received, browserLng) {
+export function registerNewClient(requestProperties, authenticatedUser, browserLng) {
 	return database().transaction(async function(transaction) {
 		try {
 			// Check if client already exists for workspaceURL
-			const client = await models().client.findOne({ where: { workspaceURL: received.workspaceURL, active: true } }, { transaction: transaction });
+			const client = await models().client.findOne({ where: { workspaceURL: requestProperties.workspaceURL, active: true } }, { transaction: transaction });
 
 			// Throw an error if a client already exists for a WorkspaceURL
 			if (client !== null) {
@@ -100,12 +100,12 @@ export function registerNewClient(received, browserLng) {
 			}
 
 			// Load active language numerical value from constants object
-			const activeLanguage = Object.keys(LANGUAGE_CODES).find(key => LANGUAGE_CODES[key] === received.language);
+			const activeLanguage = Object.keys(LANGUAGE_CODES).find(key => LANGUAGE_CODES[key] === requestProperties.language);
 
 			// Create new client object
 			const clientObject = {
-				name: received.workspaceURL,
-				workspaceURL: received.workspaceURL,
+				name: requestProperties.workspaceURL,
+				workspaceURL: requestProperties.workspaceURL,
 				subscriptionId: SUBSCRIPTION_TYPE.TRIAL,
 				defaultLanguage: activeLanguage
 			};
@@ -127,15 +127,15 @@ export function registerNewClient(received, browserLng) {
 			const clientInstance = await models().client.create(clientObject, { transaction: transaction });
 
 			// Encrypt and salt user password
-			const password = await bcrypt.hash(received.password, 10);
+			const password = await bcrypt.hash(requestProperties.password, 10);
 
 			// Create new user and save to database
 			const userInstance = await models().user.create(
 				{
-					firstName: received.firstName,
-					lastName: received.lastName,
+					firstName: requestProperties.firstName,
+					lastName: requestProperties.lastName,
 					clientId: clientInstance.get("id"),
-					emailAddress: received.emailAddress,
+					emailAddress: requestProperties.emailAddress,
 					password: password,
 					language: activeLanguage
 				},
@@ -220,19 +220,19 @@ export function authenticateWithToken(req, res, next, browserLng) {
 	})(req, res, next);
 }
 
-export function authenticateWithoutToken(received, browserLng) {
+export function authenticateWithoutToken(requestProperties, authenticatedUser, browserLng) {
 	return database().transaction(async function(transaction) {
 		try {
 			// Load a client using a workspaceURL
-			const client = await models().client.findOne({ where: { workspaceURL: received.workspaceURL, active: true } }, { transaction: transaction });
+			const client = await models().client.findOne({ where: { workspaceURL: requestProperties.workspaceURL, active: true } }, { transaction: transaction });
 
 			// Throw an error if the client was not returned for the WorkspaceURL
-			if (client === null || client.get("workspaceURL") === null || client.get("workspaceURL") !== received.workspaceURL) {
+			if (client === null || client.get("workspaceURL") === null || client.get("workspaceURL") !== requestProperties.workspaceURL) {
 				throw new ServerResponseError(403, t("validation.userInvalidProperties", { lng: browserLng }), { workspaceURL: [t("validation.emptyWorkspaceURL", { lng: browserLng })] });
 			}
 
 			// Load user based on provided values
-			const user = await models().user.findOne({ where: { clientId: client.get("id"), emailAddress: received.emailAddress, active: true } }, { transaction: transaction });
+			const user = await models().user.findOne({ where: { clientId: client.get("id"), emailAddress: requestProperties.emailAddress, active: true } }, { transaction: transaction });
 
 			// Throw an error if the user does not exist
 			if (user === null) {
@@ -240,7 +240,7 @@ export function authenticateWithoutToken(received, browserLng) {
 			}
 
 			// Validate the supplied user password
-			const valid = await bcrypt.compare(received.password, user.get("password"));
+			const valid = await bcrypt.compare(requestProperties.password, user.get("password"));
 			if (valid === false) {
 				throw new ServerResponseError(403, t("validation.userInvalidProperties", { lng: browserLng }), { password: [t("validation.incorrectLoginDetailsSupplied", { lng: browserLng })] });
 			}
@@ -257,7 +257,7 @@ export function authenticateWithoutToken(received, browserLng) {
 			});
 
 			// Build our response object
-			const response = { status: 200, message: t("label.success", { lng: browserLng }), token: token, keepSignedIn: received.keepSignedIn };
+			const response = { status: 200, message: t("label.success", { lng: browserLng }), token: token, keepSignedIn: requestProperties.keepSignedIn };
 
 			// Return the response object
 			return response;
@@ -268,11 +268,11 @@ export function authenticateWithoutToken(received, browserLng) {
 }
 
 // Load properties for a user
-export function loadUser(received, browserLng) {
+export function loadUser(requestProperties, authenticatedUser, browserLng) {
 	return database().transaction(async function(transaction) {
 		try {
 			// Load client for authenticated user
-			const client = await models().client.findOne({ where: { id: received.clientId, workspaceURL: received.workspaceURL, active: true } }, { transaction: transaction });
+			const client = await models().client.findOne({ where: { id: authenticatedUser.clientId, workspaceURL: authenticatedUser.workspaceURL, active: true } }, { transaction: transaction });
 
 			// Throw an error if the client does not exist
 			if (client === null) {
@@ -280,7 +280,7 @@ export function loadUser(received, browserLng) {
 			}
 
 			// Load user properties for authenticated user
-			const user = await models().user.findOne({ where: { id: received.userId, clientId: received.clientId, active: true } }, { transaction: transaction });
+			const user = await models().user.findOne({ where: { id: authenticatedUser.userId, clientId: authenticatedUser.clientId, active: true } }, { transaction: transaction });
 
 			// Throw an error if the user does not exist
 			if (user === null) {
@@ -381,21 +381,21 @@ export function loadUser(received, browserLng) {
 }
 
 // Resend verification email for validating email addresses
-export function resendVerifyEmail(userId, clientId, browserLng) {
+export function resendVerifyEmail(requestProperties, authenticatedUser, browserLng) {
 	return database().transaction(async function(transaction) {
 		try {
-			if (userId === null || !Number.isInteger(userId)) {
+			if (authenticatedUser.userId === null || !Number.isInteger(authenticatedUser.userId)) {
 				throw new ServerResponseError(403, t("validation.invalidUserId", { lng: browserLng }), null);
 			}
 
 			// Load user and check if email has already been verified
-			const user = await models().user.findOne({ where: { id: userId, clientId: clientId, active: true } }, { transaction: transaction });
+			const user = await models().user.findOne({ where: { id: authenticatedUser.userId, clientId: authenticatedUser.clientId, active: true } }, { transaction: transaction });
 			if (!user || Boolean(Number(user.get("emailVerified"))) === true) {
 				throw new ServerResponseError(403, t("validation.invalidUserId", { lng: browserLng }), null); // Email already verified response
 			}
 
 			// Load client object
-			const client = await models().client.findOne({ where: { id: clientId, active: true } }, { transaction: transaction });
+			const client = await models().client.findOne({ where: { id: authenticatedUser.clientId, active: true } }, { transaction: transaction });
 
 			// Check email table for last email sent
 			const currentTime = new Date();
@@ -403,8 +403,8 @@ export function resendVerifyEmail(userId, clientId, browserLng) {
 			const lastEmail = await models().sentEmails.findAll(
 				{
 					where: {
-						clientId: clientId,
-						userId: userId,
+						clientId: authenticatedUser.clientId,
+						userId: authenticatedUser.userId,
 						emailType: EMAIL_TYPE.CLIENT_WELCOME,
 						createdAt: {
 							[Op.between]: [
@@ -430,8 +430,8 @@ export function resendVerifyEmail(userId, clientId, browserLng) {
 					{
 						verificationCode: validationCode,
 						activated: false,
-						userId: userId,
-						clientId: clientId,
+						userId: authenticatedUser.userId,
+						clientId: authenticatedUser.clientId,
 						gracePeriod: 2
 					},
 					{ transaction: transaction }
@@ -444,7 +444,7 @@ export function resendVerifyEmail(userId, clientId, browserLng) {
 				};
 
 				// Send welcome email to user
-				sendEmail(EMAIL_TYPE.RESEND_VERIFY_EMAIL, user.get("language"), user.get("emailAddress"), emailParams, clientId, user.get("id"));
+				sendEmail(EMAIL_TYPE.RESEND_VERIFY_EMAIL, user.get("language"), user.get("emailAddress"), emailParams, authenticatedUser.clientId, user.get("id"));
 			}
 
 			// Create a response object
@@ -456,15 +456,15 @@ export function resendVerifyEmail(userId, clientId, browserLng) {
 }
 
 // Send email with password reset if user forgot their password but workspace name is provided
-export function forgotAccountPasswordEmail(received, browserLng) {
+export function forgotAccountPasswordEmail(requestProperties, authenticatedUser, browserLng) {
 	return database().transaction(async function(transaction) {
 		try {
 			// Load client object associated with the workspace name
-			const client = await models().client.findOne({ where: { workspaceURL: received.workspaceURL, active: true } }, { transaction: transaction });
+			const client = await models().client.findOne({ where: { workspaceURL: requestProperties.workspaceURL, active: true } }, { transaction: transaction });
 
 			// Load generic forgot account details page
 			if (client === null) {
-				return forgotAccountEmail(received, browserLng);
+				return forgotAccountEmail(requestProperties, null, browserLng);
 			}
 
 			// Check if email sent in the last 5 minutes
@@ -472,7 +472,7 @@ export function forgotAccountPasswordEmail(received, browserLng) {
 			const lastEmail = await models().sentEmails.findAll(
 				{
 					where: {
-						to: received.emailAddress,
+						to: requestProperties.emailAddress,
 						emailType: EMAIL_TYPE.FORGOT_PASSWORD,
 						createdAt: {
 							[database().Op.between]: [
@@ -491,7 +491,7 @@ export function forgotAccountPasswordEmail(received, browserLng) {
 			// Continue if no emails of type FORGOT_PASSWORD sent in the last 5 minutes
 			if (lastEmail === null || lastEmail.length === 0) {
 				// Load user account associated with the email address and workspace url
-				const user = await models().user.findOne({ where: { emailAddress: received.emailAddress, clientId: client.get("id"), active: true } }, { transaction: transaction });
+				const user = await models().user.findOne({ where: { emailAddress: requestProperties.emailAddress, clientId: client.get("id"), active: true } }, { transaction: transaction });
 
 				// Return success if no users associated with the email, or no accounts active
 				if (user === null) {
@@ -522,7 +522,7 @@ export function forgotAccountPasswordEmail(received, browserLng) {
 				};
 
 				// Send forgot account details
-				sendEmail(EMAIL_TYPE.FORGOT_PASSWORD, user.get("language"), received.emailAddress, emailParams, user.get("clientId"), user.get("id"));
+				sendEmail(EMAIL_TYPE.FORGOT_PASSWORD, user.get("language"), requestProperties.emailAddress, emailParams, user.get("clientId"), user.get("id"));
 			}
 
 			// Create a response object
@@ -534,7 +534,7 @@ export function forgotAccountPasswordEmail(received, browserLng) {
 }
 
 // Send email with account details if user forgot their account or workspace url
-export function forgotAccountEmail(received, browserLng) {
+export function forgotAccountEmail(requestProperties, authenticatedUser, browserLng) {
 	return database().transaction(async function(transaction) {
 		try {
 			// Check if email sent in the last 5 minutes
@@ -542,7 +542,7 @@ export function forgotAccountEmail(received, browserLng) {
 			const lastEmail = await models().sentEmails.findAll(
 				{
 					where: {
-						to: received.emailAddress,
+						to: requestProperties.emailAddress,
 						emailType: EMAIL_TYPE.FORGOT_ACCOUNT_DETAILS,
 						createdAt: {
 							[database().Op.between]: [
@@ -561,7 +561,7 @@ export function forgotAccountEmail(received, browserLng) {
 			// Continue if no emails of type FORGOT_ACCOUNT_DETAILS sent in the last 5 minutes
 			if (lastEmail === null || lastEmail.length === 0) {
 				// Load list of all active user accounts associated with the email address
-				const users = await models().user.findAll({ where: { emailAddress: received.emailAddress, active: true } }, { transaction: transaction });
+				const users = await models().user.findAll({ where: { emailAddress: requestProperties.emailAddress, active: true } }, { transaction: transaction });
 
 				// Return success if no users associated with the email, or no accounts active
 				if (users === null || users.length === 0) {
@@ -614,7 +614,7 @@ export function forgotAccountEmail(received, browserLng) {
 				};
 
 				// Send forgot account details
-				sendEmail(EMAIL_TYPE.FORGOT_ACCOUNT_DETAILS, users[0].get("language"), received.emailAddress, emailParams, null, null);
+				sendEmail(EMAIL_TYPE.FORGOT_ACCOUNT_DETAILS, users[0].get("language"), requestProperties.emailAddress, emailParams, null, null);
 			}
 
 			// Create a response object
@@ -626,11 +626,11 @@ export function forgotAccountEmail(received, browserLng) {
 }
 
 // Validate the reset code used to reset passwords
-export function validateResetPasswordCode(received, browserLng) {
+export function validateResetPasswordCode(requestProperties, authenticatedUser, browserLng) {
 	return database().transaction(async function(transaction) {
 		try {
 			// Load client from workspace url
-			const client = await models().client.findOne({ where: { workspaceURL: received.workspaceURL, active: true } }, { transaction: transaction });
+			const client = await models().client.findOne({ where: { workspaceURL: requestProperties.workspaceURL, active: true } }, { transaction: transaction });
 
 			// Throw an error if the client does not exist
 			if (client === null) {
@@ -641,7 +641,7 @@ export function validateResetPasswordCode(received, browserLng) {
 			const reset = await models().passwordReset.findOne(
 				{
 					where: {
-						resetCode: received.code,
+						resetCode: requestProperties.code,
 						clientId: client.get("id")
 					}
 				},
@@ -678,11 +678,11 @@ export function validateResetPasswordCode(received, browserLng) {
 }
 
 // Reset user password
-export function resetUserPassword(received, browserLng) {
+export function resetUserPassword(requestProperties, authenticatedUser, browserLng) {
 	return database().transaction(async function(transaction) {
 		try {
 			// Load client from workspace url
-			const client = await models().client.findOne({ where: { workspaceURL: received.workspaceURL, active: true } }, { transaction: transaction });
+			const client = await models().client.findOne({ where: { workspaceURL: requestProperties.workspaceURL, active: true } }, { transaction: transaction });
 
 			// Throw an error if the client does not exist
 			if (client === null) {
@@ -693,7 +693,7 @@ export function resetUserPassword(received, browserLng) {
 			const reset = await models().passwordReset.findOne(
 				{
 					where: {
-						resetCode: received.code,
+						resetCode: requestProperties.code,
 						clientId: client.get("id")
 					}
 				},
@@ -730,7 +730,7 @@ export function resetUserPassword(received, browserLng) {
 			}
 
 			// Encrypt user password
-			const password = await bcrypt.hash(received.password, 10);
+			const password = await bcrypt.hash(requestProperties.password, 10);
 
 			// store new password in user object
 			user.update({
@@ -760,11 +760,11 @@ export function resetUserPassword(received, browserLng) {
 }
 
 // Verify User Email
-export function verifyUserEmail(received, browserLng) {
+export function verifyUserEmail(requestProperties, authenticatedUser, browserLng) {
 	return database().transaction(async function(transaction) {
 		try {
 			// Load client from workspace url
-			const client = await models().client.findOne({ where: { workspaceURL: received.workspaceURL, active: true } }, { transaction: transaction });
+			const client = await models().client.findOne({ where: { workspaceURL: requestProperties.workspaceURL, active: true } }, { transaction: transaction });
 
 			// Throw an error if the client does not exist
 			if (client === null) {
@@ -773,10 +773,10 @@ export function verifyUserEmail(received, browserLng) {
 
 			// Determine values to use in fetching the email verification code
 			const where = {
-				verificationCode: received.code
+				verificationCode: requestProperties.code
 			};
-			if (variableExists(received.userId)) {
-				where.userId = received.userId;
+			if (variableExists(requestProperties.userId)) {
+				where.userId = requestProperties.userId;
 			}
 
 			// Check if email verification code is valid

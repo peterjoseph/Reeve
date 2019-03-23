@@ -31,13 +31,13 @@ module.exports = function(router) {
 			const browserLng = browserResponseLng(req);
 
 			// Create object with authenticated user information
-			const body = {
+			const authenticatedUser = {
 				userId: req.user.userId,
 				clientId: req.user.clientId
 			};
 
 			// Retrieve user profile details and return response
-			loadProfile(body, browserLng).then(
+			loadProfile(null, authenticatedUser, browserLng).then(
 				result => {
 					return res.status(200).send(result);
 				},
@@ -57,7 +57,7 @@ module.exports = function(router) {
 		}),
 		function(req, res, next) {
 			// Store received object properties
-			const body = {
+			const requestProperties = {
 				firstName: req.body.firstName,
 				lastName: req.body.lastName,
 				emailAddress: req.body.emailAddress,
@@ -69,19 +69,21 @@ module.exports = function(router) {
 			// Load browser language from header
 			const browserLng = browserResponseLng(req);
 
-			// Append user information to body object
-			body.userId = req.user.userId;
-			body.clientId = req.user.clientId;
+			// Create user information object
+			const authenticatedUser = {
+				userId: req.user.userId,
+				clientId: req.user.clientId
+			};
 
 			// Validate properties in received object
-			const valid = validate(body, updateUserProfile());
+			const valid = validate(requestProperties, updateUserProfile());
 			if (valid != null) {
 				const errorMsg = new ServerResponseError(403, t("validation.updateProfileInvalidProperties", { lng: browserLng }), valid);
 				return next(errorMsg);
 			}
 
 			// Perform new profile information write and return response
-			updateProfile(body, browserLng).then(
+			updateProfile(requestProperties, authenticatedUser, browserLng).then(
 				result => {
 					return res.status(200).send(result);
 				},
@@ -95,7 +97,7 @@ module.exports = function(router) {
 	// Verify User Email Change
 	router.post("/api/v1.0/verify/email_change/", restrict({ registered: true, unregistered: true }), function(req, res, next) {
 		// Store received object properties
-		const body = {
+		const requestProperties = {
 			code: req.body.code,
 			userId: req.body.userId,
 			workspaceURL: req.body.workspaceURL
@@ -105,14 +107,14 @@ module.exports = function(router) {
 		const browserLng = browserResponseLng(req);
 
 		// Validate properties in received object
-		const valid = validate(body, verifyEmail());
+		const valid = validate(requestProperties, verifyEmail());
 		if (valid != null) {
 			const errorMsg = new ServerResponseError(403, t("validation.verifyChangeEmailInvalidProperties", { lng: browserLng }), valid);
 			return next(errorMsg);
 		}
 
 		// Validate change email code and return response
-		verifyUserEmailChange(body, browserLng).then(
+		verifyUserEmailChange(requestProperties, null, browserLng).then(
 			result => {
 				return res.status(200).send(result);
 			},
@@ -131,26 +133,28 @@ module.exports = function(router) {
 		}),
 		function(req, res, next) {
 			// Store received object properties
-			const body = {
+			const requestProperties = {
 				language: req.body.language
 			};
 
 			// Load browser language from header
 			const browserLng = browserResponseLng(req);
 
-			// Append user information to body object
-			body.userId = req.user.userId;
-			body.clientId = req.user.clientId;
+			// Create user information object
+			const authenticatedUser = {
+				userId: req.user.userId,
+				clientId: req.user.clientId
+			};
 
 			// Validate properties in received object
-			const valid = validate(body, changeSavedLanguage());
+			const valid = validate(requestProperties, changeSavedLanguage());
 			if (valid != null) {
 				const errorMsg = new ServerResponseError(403, t("validation.changeLanguageInvalidProperties", { lng: browserLng }), valid);
 				return next(errorMsg);
 			}
 
 			// Validate new language and return response
-			changeLanguage(body, browserLng).then(
+			changeLanguage(requestProperties, authenticatedUser, browserLng).then(
 				result => {
 					return res.status(200).send(result);
 				},
@@ -170,7 +174,7 @@ module.exports = function(router) {
 		}),
 		function(req, res, next) {
 			// Store received object properties
-			const body = {
+			const requestProperties = {
 				currentPassword: req.body.currentPassword,
 				newPassword: req.body.newPassword,
 				confirmPassword: req.body.confirmPassword
@@ -179,19 +183,21 @@ module.exports = function(router) {
 			// Load browser language from header
 			const browserLng = browserResponseLng(req);
 
-			// Append user information to body object
-			body.userId = req.user.userId;
-			body.clientId = req.user.clientId;
+			// Create user information object
+			const authenticatedUser = {
+				userId: req.user.userId,
+				clientId: req.user.clientId
+			};
 
 			// Validate properties in received object
-			const valid = validate(body, changeUserPassword());
+			const valid = validate(requestProperties, changeUserPassword());
 			if (valid != null) {
 				const errorMsg = new ServerResponseError(403, t("validation.changePasswordInvalidProperties", { lng: browserLng }), valid);
 				return next(errorMsg);
 			}
 
 			// Validate new password and return response
-			changePassword(body, browserLng).then(
+			changePassword(requestProperties, authenticatedUser, browserLng).then(
 				result => {
 					return res.status(200).send(result);
 				},
@@ -222,15 +228,19 @@ module.exports = function(router) {
 				return next(error);
 			}
 
-			// Create object with authenticated user information
-			const body = {
-				userId: req.user.userId,
-				clientId: req.user.clientId,
+			// Store contentType in new object
+			const requestProperties = {
 				contentType: contentType
 			};
 
+			// Create object with authenticated user information
+			const authenticatedUser = {
+				userId: req.user.userId,
+				clientId: req.user.clientId
+			};
+
 			// Generate signed url and return response
-			generateSignedProfilePhotoURL(body, browserLng).then(
+			generateSignedProfilePhotoURL(requestProperties, authenticatedUser, browserLng).then(
 				result => {
 					return res.status(200).send(result);
 				},
@@ -250,31 +260,33 @@ module.exports = function(router) {
 		}),
 		function(req, res, next) {
 			// Store received object properties
-			const body = {
+			const requestProperties = {
 				key: req.body.key
 			};
 
 			// Load browser language from header
 			const browserLng = browserResponseLng(req);
 
-			// Append user information to body object
-			body.userId = req.user.userId;
-			body.clientId = req.user.clientId;
+			// Create user information object
+			const authenticatedUser = {
+				userId: req.user.userId,
+				clientId: req.user.clientId
+			};
 
 			// Check that the image key parameter exists
-			if (body.key == null || typeof body.key !== "string") {
+			if (requestProperties.key == null || typeof requestProperties.key !== "string") {
 				const errorMsg = new ServerResponseError(403, t("validation.imageKeyInvalid", { lng: browserLng }));
 				return next(errorMsg);
 			}
 
 			// Confirm that image key is of correct naming convention
-			if (!keyNameCorrect(body.key)) {
+			if (!keyNameCorrect(requestProperties.key)) {
 				const errorMsg = new ServerResponseError(403, t("validation.imageKeyInvalid", { lng: browserLng }));
 				return next(errorMsg);
 			}
 
 			// Save user profile photo and return response
-			saveUserProfilePhoto(body, browserLng).then(
+			saveUserProfilePhoto(requestProperties, authenticatedUser, browserLng).then(
 				result => {
 					return res.status(200).send(result);
 				},
@@ -297,13 +309,13 @@ module.exports = function(router) {
 			const browserLng = browserResponseLng(req);
 
 			// Create object with authenticated user information
-			const body = {
+			const authenticatedUser = {
 				userId: req.user.userId,
 				clientId: req.user.clientId
 			};
 
 			// Delete user profile photo and return response
-			deleteUserProfilePhoto(body, browserLng).then(
+			deleteUserProfilePhoto(null, authenticatedUser, browserLng).then(
 				result => {
 					return res.status(200).send(result);
 				},

@@ -28,14 +28,19 @@ module.exports = function(router) {
 		// Load browser language from header
 		const browserLng = browserResponseLng(req);
 
+		// Store workspaceURL in new object
+		const requestProperties = {
+			workspaceURL: workspaceURL
+		};
+
 		// Validate header item exists
-		if (!variableExists(workspaceURL)) {
+		if (!variableExists(requestProperties.workspaceURL)) {
 			const error = new ServerResponseError(403, t("validation.clientInvalidProperties", { lng: browserLng }), { workspaceURL: [t("validation.emptyWorkspaceURL", { lng: browserLng })] });
 			return next(error);
 		}
 
 		// Validate workspaceURL and return response
-		validateWorkspaceURL(workspaceURL, browserLng).then(
+		validateWorkspaceURL(requestProperties, null, browserLng).then(
 			result => {
 				return res.status(200).send(result);
 			},
@@ -48,7 +53,7 @@ module.exports = function(router) {
 	// Register New Client Account
 	router.post("/api/v1.0/register", restrict({ unregistered: true }), function(req, res, next) {
 		// Store received object properties
-		const body = {
+		const requestProperties = {
 			workspaceURL: req.body.workspaceURL,
 			firstName: req.body.firstName,
 			lastName: req.body.lastName,
@@ -62,14 +67,14 @@ module.exports = function(router) {
 		const browserLng = browserResponseLng(req);
 
 		// Validate properties in received object
-		const valid = validate(body, register());
+		const valid = validate(requestProperties, register());
 		if (valid != null) {
 			const errorMsg = new ServerResponseError(403, t("validation.clientInvalidProperties", { lng: browserLng }), valid);
 			return next(errorMsg);
 		}
 
 		// Register new client and return response
-		registerNewClient(body, browserLng).then(
+		registerNewClient(requestProperties, null, browserLng).then(
 			result => {
 				return res.status(200).send(result);
 			},
@@ -91,7 +96,7 @@ module.exports = function(router) {
 		}
 
 		// Authenticate with user properties sent in body
-		const body = {
+		const requestProperties = {
 			workspaceURL: req.body.workspaceURL,
 			emailAddress: req.body.emailAddress,
 			password: req.body.password,
@@ -99,14 +104,14 @@ module.exports = function(router) {
 		};
 
 		// Validate properties in received object
-		const valid = validate(body, login());
+		const valid = validate(requestProperties, login());
 		if (valid != null) {
 			const errorMsg = new ServerResponseError(403, t("validation.userInvalidProperties", { lng: browserLng }), valid);
 			return next(errorMsg);
 		}
 
 		// Authenticate without token
-		authenticateWithoutToken(body, browserLng).then(
+		authenticateWithoutToken(requestProperties, null, browserLng).then(
 			result => {
 				return res.status(200).send(result);
 			},
@@ -131,7 +136,9 @@ module.exports = function(router) {
 		// Load browser language from header
 		const browserLng = browserResponseLng(req);
 
-		loadUser(req.user, browserLng).then(
+		const authenticatedUser = req.user;
+
+		loadUser(null, authenticatedUser, browserLng).then(
 			result => {
 				return res.status(200).send(result);
 			},
@@ -146,12 +153,18 @@ module.exports = function(router) {
 		// Load browser language from header
 		const browserLng = browserResponseLng(req);
 
-		if (!variableExists(req.user.userId) || !Number.isInteger(req.user.userId)) {
+		// Create user information object
+		const authenticatedUser = {
+			userId: req.user.userId,
+			clientId: req.user.clientId
+		};
+
+		if (!variableExists(authenticatedUser.userId) || !Number.isInteger(authenticatedUser.userId)) {
 			const errorMsg = new ServerResponseError(403, t("validation.invalidUserId", { lng: browserLng }), null);
 			return next(errorMsg);
 		}
 
-		resendVerifyEmail(req.user.userId, req.user.clientId, browserLng).then(
+		resendVerifyEmail(null, authenticatedUser, browserLng).then(
 			result => {
 				return res.status(200).send(result);
 			},
@@ -164,36 +177,36 @@ module.exports = function(router) {
 	// Forgot account details password request
 	router.post("/api/v1.0/forgot_account_details/", restrict({ unregistered: true }), function(req, res, next) {
 		// Authenticate with user properties sent in body
-		const body = {
+		const requestProperties = {
 			emailAddress: req.body.emailAddress
 		};
 
 		// Append workspaceURL to body object if it exists
 		if (variableExists(req.body.workspaceURL)) {
-			Object.assign(body, { workspaceURL: req.body.workspaceURL });
+			Object.assign(requestProperties, { workspaceURL: req.body.workspaceURL });
 		}
 
 		// Load browser language from header
 		const browserLng = browserResponseLng(req);
 
 		// Validate email address
-		const valid = validate(body, forgot());
+		const valid = validate(requestProperties, forgot());
 		if (valid != null) {
 			const errorMsg = new ServerResponseError(403, t("validation.userInvalidProperties", { lng: browserLng }), valid);
 			return next(errorMsg);
 		}
 
-		// If workspace name is invalid, remove it from the body object
-		if (variableExists(body.workspaceURL)) {
-			const validWorkspaceURL = validate(body, workspaceURL());
+		// If workspace name is invalid, remove it from the requestProperties object
+		if (variableExists(requestProperties.workspaceURL)) {
+			const validWorkspaceURL = validate(requestProperties, workspaceURL());
 			if (validWorkspaceURL != null) {
-				delete body.workspaceURL;
+				delete requestProperties.workspaceURL;
 			}
 		}
 
 		// Orchestrate workspace or password email depending on whether workspaceURL is provided
-		if (variableExists(body.workspaceURL)) {
-			forgotAccountPasswordEmail(body, browserLng).then(
+		if (variableExists(requestProperties.workspaceURL)) {
+			forgotAccountPasswordEmail(requestProperties, null, browserLng).then(
 				result => {
 					return res.status(200).send(result);
 				},
@@ -202,7 +215,7 @@ module.exports = function(router) {
 				}
 			);
 		} else {
-			forgotAccountEmail(body, browserLng).then(
+			forgotAccountEmail(requestProperties, null, browserLng).then(
 				result => {
 					return res.status(200).send(result);
 				},
@@ -229,20 +242,20 @@ module.exports = function(router) {
 		}
 
 		// Build header object
-		const header = {
+		const requestProperties = {
 			workspaceURL: workspaceURL,
 			code: resetCode
 		};
 
 		// Validate header item exists
-		const valid = validate(header, verifyResetPassword());
+		const valid = validate(requestProperties, verifyResetPassword());
 		if (valid != null) {
 			const error = new ServerResponseError(403, t("validation.resetPasswordInvalidProperties", { lng: browserLng }), valid);
 			return next(error);
 		}
 
 		// Validate reset password code and return response
-		validateResetPasswordCode(header, browserLng).then(
+		validateResetPasswordCode(requestProperties, null, browserLng).then(
 			result => {
 				return res.status(200).send(result);
 			},
@@ -255,7 +268,7 @@ module.exports = function(router) {
 	// Reset user password
 	router.post("/api/v1.0/reset_password/", restrict({ unregistered: true }), function(req, res, next) {
 		// Store received object properties
-		const body = {
+		const requestProperties = {
 			password: req.body.password,
 			verifyPassword: req.body.verifyPassword,
 			code: req.body.code,
@@ -266,14 +279,14 @@ module.exports = function(router) {
 		const browserLng = browserResponseLng(req);
 
 		// Validate properties in received object
-		const valid = validate(body, resetPassword());
+		const valid = validate(requestProperties, resetPassword());
 		if (valid != null) {
 			const errorMsg = new ServerResponseError(403, t("validation.resetPasswordInvalidProperties", { lng: browserLng }), valid);
 			return next(errorMsg);
 		}
 
 		// Validate reset password code and return response
-		resetUserPassword(body, browserLng).then(
+		resetUserPassword(requestProperties, null, browserLng).then(
 			result => {
 				return res.status(200).send(result);
 			},
@@ -286,7 +299,7 @@ module.exports = function(router) {
 	// Verify User Email
 	router.post("/api/v1.0/verify_email/", restrict({ registered: true, unregistered: true }), function(req, res, next) {
 		// Store received object properties
-		const body = {
+		const requestProperties = {
 			code: req.body.code,
 			userId: req.body.userId,
 			workspaceURL: req.body.workspaceURL
@@ -296,14 +309,14 @@ module.exports = function(router) {
 		const browserLng = browserResponseLng(req);
 
 		// Validate properties in received object
-		const valid = validate(body, verifyEmail());
+		const valid = validate(requestProperties, verifyEmail());
 		if (valid != null) {
 			const errorMsg = new ServerResponseError(403, t("validation.verifyEmailInvalidProperties", { lng: browserLng }), valid);
 			return next(errorMsg);
 		}
 
 		// Validate verify email code and return response
-		verifyUserEmail(body, browserLng).then(
+		verifyUserEmail(requestProperties, null, browserLng).then(
 			result => {
 				return res.status(200).send(result);
 			},

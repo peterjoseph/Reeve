@@ -51,7 +51,7 @@ module.exports = function(router) {
 			const browserLng = browserResponseLng(req);
 
 			// We receive a PATCH object and need to make sure the user isn't sending across dangerous properties we don't want
-			const patchProperties = removeUniqueProperties({ ...req.body }, ["name", "description"]);
+			const requestProperties = removeUniqueProperties({ ...req.body }, ["name", "description"]);
 
 			// Create user information object
 			const authenticatedUser = {
@@ -60,7 +60,7 @@ module.exports = function(router) {
 			};
 
 			// Validate properties in received object
-			const valid = validate(patchProperties, updateClientValidation("patch"));
+			const valid = validate(requestProperties, updateClientValidation("patch"));
 
 			if (valid != null) {
 				const errorMsg = new ServerResponseError(403, t("validation.updateClientInvalidProperties", { lng: browserLng }), valid);
@@ -68,7 +68,7 @@ module.exports = function(router) {
 			}
 
 			// Perform new client parameters write and return response
-			updateClient(patchProperties, authenticatedUser, browserLng).then(
+			updateClient(requestProperties, authenticatedUser, browserLng).then(
 				result => {
 					return res.status(200).send(result);
 				},

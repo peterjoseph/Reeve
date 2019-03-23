@@ -3,7 +3,7 @@ import { t } from "shared/translations/i18n";
 import { ServerResponseError } from "utilities/errors/serverResponseError";
 
 // Load Client
-export function loadClient(loadProperties, authenticatedUser, browserLng) {
+export function loadClient(requestProperties, authenticatedUser, browserLng) {
 	return database().transaction(async function(transaction) {
 		try {
 			// Load client for authenticated user
@@ -53,7 +53,7 @@ export function loadClient(loadProperties, authenticatedUser, browserLng) {
 }
 
 // Update Client
-export function updateClient(patchProperties, authenticatedUser, browserLng) {
+export function updateClient(requestProperties, authenticatedUser, browserLng) {
 	return database().transaction(async function(transaction) {
 		try {
 			// Load client for authenticated user
@@ -73,8 +73,8 @@ export function updateClient(patchProperties, authenticatedUser, browserLng) {
 			}
 
 			// Patch our client model
-			if (patchProperties !== {}) {
-				client.update(patchProperties);
+			if (requestProperties !== {}) {
+				client.update(requestProperties);
 			}
 
 			// Create a response object

@@ -5,7 +5,7 @@ import { PAYMENT_CURRENCY, PAYMENT_INTERVALS } from "shared/constants";
 import { variableExists } from "shared/utilities/filters";
 
 // Load client subscription details
-export function loadClientSubscriptionDetails(browserLng) {
+export function loadClientSubscriptionDetails(requestProperties, authenticatedUser, browserLng) {
 	return database().transaction(async function(transaction) {
 		try {
 			// Create a response object
@@ -20,20 +20,20 @@ export function loadClientSubscriptionDetails(browserLng) {
 }
 
 // Load list of available subscriptions
-export function loadAvailableSubscriptions(options, browserLng) {
+export function loadAvailableSubscriptions(requestProperties, authenticatedUser, browserLng) {
 	return database().transaction(async function(transaction) {
 		try {
 			// Filter subscriptions based on parameters
 			const filterAttributes = { newSubscriptionsAllowed: true, active: true };
 
 			// Filter by currency
-			if (variableExists(options.currency)) {
-				filterAttributes.currency = PAYMENT_CURRENCY[options.currency.toUpperCase()] || null;
+			if (variableExists(requestProperties.currency)) {
+				filterAttributes.currency = PAYMENT_CURRENCY[requestProperties.currency.toUpperCase()] || null;
 			}
 
 			// Filter by payment interval
-			if (variableExists(options.interval)) {
-				filterAttributes.billingInterval = PAYMENT_INTERVALS[options.interval.toUpperCase()] || null;
+			if (variableExists(requestProperties.interval)) {
+				filterAttributes.billingInterval = PAYMENT_INTERVALS[requestProperties.interval.toUpperCase()] || null;
 			}
 
 			// Load a list of available stripe plans

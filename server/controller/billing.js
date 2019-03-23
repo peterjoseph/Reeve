@@ -19,7 +19,7 @@ module.exports = function(router) {
 			const browserLng = browserResponseLng(req);
 
 			// Retrieve client subscription details and return response
-			loadClientSubscriptionDetails(browserLng).then(
+			loadClientSubscriptionDetails(null, null, browserLng).then(
 				result => {
 					return res.status(200).send(result);
 				},
@@ -44,10 +44,10 @@ module.exports = function(router) {
 			const browserLng = browserResponseLng(req);
 
 			// Check for Query strings
-			const options = { currency: req.query.currency, interval: req.query.interval };
+			const requestProperties = { currency: req.query.currency, interval: req.query.interval };
 
 			// Retrieve client subscription details and return response
-			loadAvailableSubscriptions(options, browserLng).then(
+			loadAvailableSubscriptions(requestProperties, null, browserLng).then(
 				result => {
 					return res.status(200).send(result);
 				},

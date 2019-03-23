@@ -14,11 +14,11 @@ import { EMAIL_TYPE, LANGUAGE_CODES, SIGNED_URL_EXPIRY_TIME, ACL_POLICIES } from
 import { ServerResponseError } from "utilities/errors/serverResponseError";
 
 // Load user profile
-export function loadProfile(options, browserLng) {
+export function loadProfile(requestProperties, authenticatedUser, browserLng) {
 	return database().transaction(async function(transaction) {
 		try {
 			// Load client for authenticated user
-			const client = await models().client.findOne({ where: { id: options.clientId, active: true } }, { transaction: transaction });
+			const client = await models().client.findOne({ where: { id: authenticatedUser.clientId, active: true } }, { transaction: transaction });
 
 			// Throw an error if the client does not exist
 			if (client === null) {
@@ -26,7 +26,7 @@ export function loadProfile(options, browserLng) {
 			}
 
 			// Load user properties for authenticated user
-			const user = await models().user.findOne({ where: { id: options.userId, clientId: client.get("id"), active: true } }, { transaction: transaction });
+			const user = await models().user.findOne({ where: { id: authenticatedUser.userId, clientId: client.get("id"), active: true } }, { transaction: transaction });
 
 			// Throw an error if the user does not exist
 			if (user === null) {
@@ -56,11 +56,11 @@ export function loadProfile(options, browserLng) {
 }
 
 // Update user profile
-export function updateProfile(options, browserLng) {
+export function updateProfile(requestProperties, authenticatedUser, browserLng) {
 	return database().transaction(async function(transaction) {
 		try {
 			// Load client for authenticated user
-			const client = await models().client.findOne({ where: { id: options.clientId, active: true } }, { transaction: transaction });
+			const client = await models().client.findOne({ where: { id: authenticatedUser.clientId, active: true } }, { transaction: transaction });
 
 			// Throw an error if the client does not exist
 			if (client === null) {
@@ -68,7 +68,7 @@ export function updateProfile(options, browserLng) {
 			}
 
 			// Load user properties for authenticated user
-			const user = await models().user.findOne({ where: { id: options.userId, clientId: client.get("id"), active: true } }, { transaction: transaction });
+			const user = await models().user.findOne({ where: { id: authenticatedUser.userId, clientId: client.get("id"), active: true } }, { transaction: transaction });
 
 			// Throw an error if the user does not exist
 			if (user === null) {
@@ -76,21 +76,21 @@ export function updateProfile(options, browserLng) {
 			}
 
 			const updateParams = {
-				firstName: options.firstName,
-				lastName: options.lastName,
-				bio: options.bio,
-				location: options.location,
-				website: options.website
+				firstName: requestProperties.firstName,
+				lastName: requestProperties.lastName,
+				bio: requestProperties.bio,
+				location: requestProperties.location,
+				website: requestProperties.website
 			};
 
 			// Send verification email if user is attempting to change email address
-			if (options.emailAddress !== user.get("emailAddress")) {
+			if (requestProperties.emailAddress !== user.get("emailAddress")) {
 				// Check if email of type CHANGE_EMAIL_ADDRESS sent in the last 5 minutes
 				const currentTime = new Date();
 				const lastEmail = await models().sentEmails.findAll(
 					{
 						where: {
-							to: options.emailAddress,
+							to: requestProperties.emailAddress,
 							emailType: EMAIL_TYPE.CHANGE_EMAIL_ADDRESS,
 							createdAt: {
 								[database().Op.between]: [
@@ -120,7 +120,7 @@ export function updateProfile(options, browserLng) {
 							clientId: user.get("clientId"),
 							gracePeriod: 2,
 							oldEmailAddress: user.get("emailAddress"),
-							newEmailAddress: options.emailAddress
+							newEmailAddress: requestProperties.emailAddress
 						},
 						{ transaction: transaction }
 					);
@@ -134,7 +134,7 @@ export function updateProfile(options, browserLng) {
 					};
 
 					// Send verify email address message
-					sendEmail(EMAIL_TYPE.CHANGE_EMAIL_ADDRESS, user.get("language"), options.emailAddress, emailParams, user.get("clientId"), user.get("id"));
+					sendEmail(EMAIL_TYPE.CHANGE_EMAIL_ADDRESS, user.get("language"), requestProperties.emailAddress, emailParams, user.get("clientId"), user.get("id"));
 				}
 			}
 
@@ -153,11 +153,11 @@ export function updateProfile(options, browserLng) {
 }
 
 // Verify User Email Change Code
-export function verifyUserEmailChange(received, browserLng) {
+export function verifyUserEmailChange(requestProperties, authenticatedUser, browserLng) {
 	return database().transaction(async function(transaction) {
 		try {
 			// Load client from workspace url
-			const client = await models().client.findOne({ where: { workspaceURL: received.workspaceURL, active: true } }, { transaction: transaction });
+			const client = await models().client.findOne({ where: { workspaceURL: requestProperties.workspaceURL, active: true } }, { transaction: transaction });
 
 			// Throw an error if the client does not exist
 			if (client === null) {
@@ -166,11 +166,11 @@ export function verifyUserEmailChange(received, browserLng) {
 
 			// Determine values to use in fetching the email verification code
 			const where = {
-				emailCode: received.code
+				emailCode: requestProperties.code
 			};
 
-			if (variableExists(received.userId)) {
-				where.userId = received.userId;
+			if (variableExists(requestProperties.userId)) {
+				where.userId = requestProperties.userId;
 			}
 
 			// Check if change email address code is valid
@@ -239,11 +239,11 @@ export function verifyUserEmailChange(received, browserLng) {
 }
 
 // Change Language for logged in user
-export function changeLanguage(options, browserLng) {
+export function changeLanguage(requestProperties, authenticatedUser, browserLng) {
 	return database().transaction(async function(transaction) {
 		try {
 			// Load client for authenticated user
-			const client = await models().client.findOne({ where: { id: options.clientId, active: true } }, { transaction: transaction });
+			const client = await models().client.findOne({ where: { id: authenticatedUser.clientId, active: true } }, { transaction: transaction });
 
 			// Throw an error if the client does not exist
 			if (client === null) {
@@ -251,7 +251,7 @@ export function changeLanguage(options, browserLng) {
 			}
 
 			// Load user properties for authenticated user
-			const user = await models().user.findOne({ where: { id: options.userId, clientId: client.get("id"), active: true } }, { transaction: transaction });
+			const user = await models().user.findOne({ where: { id: authenticatedUser.userId, clientId: client.get("id"), active: true } }, { transaction: transaction });
 
 			// Throw an error if the user does not exist
 			if (user === null) {
@@ -259,7 +259,7 @@ export function changeLanguage(options, browserLng) {
 			}
 
 			// Store new user language in database
-			const newLanguage = Object.keys(LANGUAGE_CODES).find(key => LANGUAGE_CODES[key] === options.language);
+			const newLanguage = Object.keys(LANGUAGE_CODES).find(key => LANGUAGE_CODES[key] === requestProperties.language);
 
 			if (user.get("language") !== newLanguage) {
 				user.update({
@@ -268,7 +268,7 @@ export function changeLanguage(options, browserLng) {
 			}
 
 			// Create a response object
-			const response = { status: 200, message: t("label.success", { lng: browserLng }), language: options.language };
+			const response = { status: 200, message: t("label.success", { lng: browserLng }), language: requestProperties.language };
 
 			// Return the response object
 			return response;
@@ -279,11 +279,11 @@ export function changeLanguage(options, browserLng) {
 }
 
 // Change Password for logged in user
-export function changePassword(options, browserLng) {
+export function changePassword(requestProperties, authenticatedUser, browserLng) {
 	return database().transaction(async function(transaction) {
 		try {
 			// Load client for authenticated user
-			const client = await models().client.findOne({ where: { id: options.clientId, active: true } }, { transaction: transaction });
+			const client = await models().client.findOne({ where: { id: authenticatedUser.clientId, active: true } }, { transaction: transaction });
 
 			// Throw an error if the client does not exist
 			if (client === null) {
@@ -291,7 +291,7 @@ export function changePassword(options, browserLng) {
 			}
 
 			// Load user properties for authenticated user
-			const user = await models().user.findOne({ where: { id: options.userId, clientId: client.get("id"), active: true } }, { transaction: transaction });
+			const user = await models().user.findOne({ where: { id: authenticatedUser.userId, clientId: client.get("id"), active: true } }, { transaction: transaction });
 
 			// Throw an error if the user does not exist
 			if (user === null) {
@@ -299,13 +299,13 @@ export function changePassword(options, browserLng) {
 			}
 
 			// Check that the supplied password matches the one stored in database
-			const valid = await bcrypt.compare(options.currentPassword, user.get("password"));
+			const valid = await bcrypt.compare(requestProperties.currentPassword, user.get("password"));
 			if (valid === false) {
 				throw new ServerResponseError(403, t("validation.userInvalidProperties", { lng: browserLng }), { password: [t("validation.incorrectCurrentPasswordSupplied", { lng: browserLng })] });
 			}
 
 			// Encrypt and salt user password
-			const password = await bcrypt.hash(options.newPassword, 10);
+			const password = await bcrypt.hash(requestProperties.newPassword, 10);
 
 			// store new password in user object
 			user.update({
@@ -333,11 +333,18 @@ export function changePassword(options, browserLng) {
 }
 
 // Generate a signed url for profile photo uploading
-export function generateSignedProfilePhotoURL(options, browserLng) {
+export function generateSignedProfilePhotoURL(requestProperties, authenticatedUser, browserLng) {
 	return database().transaction(async function() {
 		try {
 			// Generate S3 presigned URL
-			const url = await presignedPutObject(options.contentType, config.s3.bucket, SIGNED_URL_EXPIRY_TIME.CHANGE_AVATAR, ACL_POLICIES.PUBLIC_READ, options.clientId, options.userId);
+			const url = await presignedPutObject(
+				requestProperties.contentType,
+				config.s3.bucket,
+				SIGNED_URL_EXPIRY_TIME.CHANGE_AVATAR,
+				ACL_POLICIES.PUBLIC_READ,
+				authenticatedUser.clientId,
+				authenticatedUser.userId
+			);
 
 			// Create a response object
 			const response = { status: 200, message: t("label.success", { lng: browserLng }), key: url.key, signedURL: url.signedURL };
@@ -351,11 +358,11 @@ export function generateSignedProfilePhotoURL(options, browserLng) {
 }
 
 // Save user profile photo
-export function saveUserProfilePhoto(options, browserLng) {
+export function saveUserProfilePhoto(requestProperties, authenticatedUser, browserLng) {
 	return database().transaction(async function(transaction) {
 		try {
 			// Load client for authenticated user
-			const client = await models().client.findOne({ where: { id: options.clientId, active: true } }, { transaction: transaction });
+			const client = await models().client.findOne({ where: { id: authenticatedUser.clientId, active: true } }, { transaction: transaction });
 
 			// Throw an error if the client does not exist
 			if (client === null) {
@@ -363,7 +370,7 @@ export function saveUserProfilePhoto(options, browserLng) {
 			}
 
 			// Load user properties for authenticated user
-			const user = await models().user.findOne({ where: { id: options.userId, clientId: client.get("id"), active: true } }, { transaction: transaction });
+			const user = await models().user.findOne({ where: { id: authenticatedUser.userId, clientId: client.get("id"), active: true } }, { transaction: transaction });
 
 			// Throw an error if the user does not exist
 			if (user === null) {
@@ -371,7 +378,7 @@ export function saveUserProfilePhoto(options, browserLng) {
 			}
 
 			// Confirm that the provided key links to an S3 bucket image
-			const objectExists = await checkObjectExists(config.s3.bucket, options.key);
+			const objectExists = await checkObjectExists(config.s3.bucket, requestProperties.key);
 			if (objectExists !== true) {
 				throw new ServerResponseError(403, t("validation.imageKeyInvalid", null));
 			}
@@ -384,7 +391,7 @@ export function saveUserProfilePhoto(options, browserLng) {
 
 			// Store new image key in database
 			await user.update({
-				profilePhoto: options.key
+				profilePhoto: requestProperties.key
 			});
 
 			// Finally delete the old image now that it has been replaced with the new one
@@ -393,7 +400,7 @@ export function saveUserProfilePhoto(options, browserLng) {
 			}
 
 			// Create a response object
-			const response = { status: 200, message: t("label.success", { lng: browserLng }), language: options.language };
+			const response = { status: 200, message: t("label.success", { lng: browserLng }) };
 
 			// Return the response object
 			return response;
@@ -404,11 +411,11 @@ export function saveUserProfilePhoto(options, browserLng) {
 }
 
 // Delete user profile photo
-export function deleteUserProfilePhoto(options, browserLng) {
+export function deleteUserProfilePhoto(requestProperties, authenticatedUser, browserLng) {
 	return database().transaction(async function(transaction) {
 		try {
 			// Load client for authenticated user
-			const client = await models().client.findOne({ where: { id: options.clientId, active: true } }, { transaction: transaction });
+			const client = await models().client.findOne({ where: { id: authenticatedUser.clientId, active: true } }, { transaction: transaction });
 
 			// Throw an error if the client does not exist
 			if (client === null) {
@@ -416,7 +423,7 @@ export function deleteUserProfilePhoto(options, browserLng) {
 			}
 
 			// Load user properties for authenticated user
-			const user = await models().user.findOne({ where: { id: options.userId, clientId: client.get("id"), active: true } }, { transaction: transaction });
+			const user = await models().user.findOne({ where: { id: authenticatedUser.userId, clientId: client.get("id"), active: true } }, { transaction: transaction });
 
 			// Throw an error if the user does not exist
 			if (user === null) {
@@ -447,7 +454,7 @@ export function deleteUserProfilePhoto(options, browserLng) {
 			}
 
 			// Create a response object
-			const response = { status: 200, message: t("label.success", { lng: browserLng }), language: options.language };
+			const response = { status: 200, message: t("label.success", { lng: browserLng }) };
 
 			// Return the response object
 			return response;
