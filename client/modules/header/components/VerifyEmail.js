@@ -1,16 +1,18 @@
 import React, { Component } from "react";
+import ReactDOM from "react-dom";
 import PropTypes from "prop-types";
 import { notify } from "react-notify-toast";
 import { t } from "shared/translations/i18n";
 
-import { resendVerifyEmail } from "client/api/authentication.js";
+import { resendVerifyEmail as resendEmail } from "client/api/authentication.js";
 
 class VerifyEmail extends Component {
 	constructor(props) {
 		super(props);
 
 		this.state = {
-			emailSent: false
+			emailSent: false,
+			language: "en"
 		};
 
 		this.showNotification = this.showNotification.bind(this);
@@ -21,6 +23,20 @@ class VerifyEmail extends Component {
 		if (!this.props.user.get("emailVerified")) {
 			this.showNotification();
 		}
+	}
+
+	static getDerivedStateFromProps(nextProps, prevState) {
+		if (nextProps.user.get("language") !== prevState.language) {
+			return {
+				language: nextProps.user.get("language")
+			};
+		}
+		return null;
+	}
+
+	componentDidUpdate() {
+		ReactDOM.unmountComponentAtNode(document.getElementById("notification-wrapper"));
+		this.showNotification();
 	}
 
 	showNotification() {
@@ -49,7 +65,7 @@ class VerifyEmail extends Component {
 		evt.preventDefault(); // Prevent page refresh
 
 		// Call API to send verify email
-		resendVerifyEmail()
+		resendEmail()
 			.then(() => {
 				this.setState({ emailSent: true });
 				this.showNotification();
