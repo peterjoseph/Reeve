@@ -10,15 +10,8 @@ export function loadPersonalProfile() {
 // Update User Personal Profile
 export function updatePersonalProfile(body) {
 	return fetch.perform("/api/v1.0/profile/", {
-		method: "POST",
-		body: JSON.stringify({
-			firstName: body.firstName,
-			lastName: body.lastName,
-			emailAddress: body.emailAddress,
-			bio: body.bio,
-			location: body.location,
-			website: body.website
-		})
+		method: "PATCH",
+		body: JSON.stringify(body)
 	});
 }
 

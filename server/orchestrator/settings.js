@@ -30,7 +30,7 @@ export function loadClient(requestProperties, authenticatedUser, browserLng) {
 				throw new ServerResponseError(500, t("error.somethingWentWrong", { lng: browserLng }), null);
 			}
 
-			// Create user properties object to be returned back to the front-end
+			// Create response properties to be returned back to the front-end
 			let clientProperties = {
 				name: client.get("name"),
 				description: client.get("description"),

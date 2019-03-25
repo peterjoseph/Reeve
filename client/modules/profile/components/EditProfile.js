@@ -8,6 +8,7 @@ import { REDUX_STATE } from "shared/constants";
 import validate from "shared/validation/validate";
 import { t } from "shared/translations/i18n";
 import { updateUserProfile } from "shared/validation/profile";
+import { removeSimilarProperties } from "shared/utilities/filters";
 
 import { PROFILE, UPDATE_PROFILE_REJECTED, LOAD_PROFILE_REJECTED, loadProfile, updateProfile } from "common/store/reducers/profile.js";
 import { LOAD_USER_REJECTED, loadUser } from "common/store/reducers/authentication";
@@ -36,7 +37,7 @@ class EditProfile extends Component {
 		};
 
 		this.updateProfile = this.updateProfile.bind(this);
-		this.setProfileFields = this.setProfileFields.bind(this);
+		this.setEditableFields = this.setEditableFields.bind(this);
 		this.changeField = this.changeField.bind(this);
 	}
 
@@ -61,7 +62,7 @@ class EditProfile extends Component {
 				return;
 			} else {
 				if (this._isMounted) {
-					this.setProfileFields(result.payload.user);
+					this.setEditableFields(result.payload.user);
 				}
 			}
 		});
@@ -84,7 +85,7 @@ class EditProfile extends Component {
 		return null;
 	}
 
-	setProfileFields(field) {
+	setEditableFields(field) {
 		this.setState({
 			firstName: field.firstName,
 			lastName: field.lastName,
@@ -127,8 +128,21 @@ class EditProfile extends Component {
 				loading: false,
 				validationErrors: valid
 			});
+			return;
+		}
+
+		// Strip body object of fields that have not changed and create new patch object
+		const patchObject = removeSimilarProperties(body, this.props.userProfile);
+
+		// Validate input parameters with PATCH parameter
+		const validPatch = validate(patchObject, updateUserProfile("patch"));
+		if (validPatch != null) {
+			this.setState({
+				loading: false,
+				validationErrors: valid
+			});
 		} else {
-			this.props.updateProfile(body).then(result => {
+			this.props.updateProfile(patchObject).then(result => {
 				if (result.type === UPDATE_PROFILE_REJECTED) {
 					this.setState({
 						loading: false,

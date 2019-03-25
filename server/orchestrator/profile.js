@@ -75,16 +75,8 @@ export function updateProfile(requestProperties, authenticatedUser, browserLng) 
 				throw new ServerResponseError(403, t("validation.loadUserPropertiesFailed", { lng: browserLng }), { user: [t("validation.loadUserPropertiesFailed", { lng: browserLng })] });
 			}
 
-			const updateParams = {
-				firstName: requestProperties.firstName,
-				lastName: requestProperties.lastName,
-				bio: requestProperties.bio,
-				location: requestProperties.location,
-				website: requestProperties.website
-			};
-
 			// Send verification email if user is attempting to change email address
-			if (requestProperties.emailAddress !== user.get("emailAddress")) {
+			if (variableExists(requestProperties.emailAddress) && requestProperties.emailAddress !== user.get("emailAddress")) {
 				// Check if email of type CHANGE_EMAIL_ADDRESS sent in the last 5 minutes
 				const currentTime = new Date();
 				const lastEmail = await models().sentEmails.findAll(
@@ -138,8 +130,13 @@ export function updateProfile(requestProperties, authenticatedUser, browserLng) 
 				}
 			}
 
+			// Remove the email object from requestProperties if it exists
+			if (variableExists(requestProperties.emailAddress) && requestProperties.emailAddress !== user.get("emailAddress")) {
+				delete requestProperties.emailAddress;
+			}
+
 			// Update user row with new information
-			user.update(updateParams);
+			user.update(requestProperties);
 
 			// Create a response object
 			const response = { status: 200, message: t("label.success", { lng: browserLng }) };

@@ -9,7 +9,7 @@ import { REDUX_STATE, SUBSCRIPTION_TYPE, ROLE_TYPE } from "shared/constants";
 import validate from "shared/validation/validate";
 import { updateClient as updateClientValidation } from "shared/validation/settings";
 import { t } from "shared/translations/i18n";
-import { isObjectEmpty, removeSimilarProperties } from "shared/utilities/filters";
+import { removeSimilarProperties } from "shared/utilities/filters";
 
 import { SETTINGS, LOAD_CLIENT_REJECTED, UPDATE_CLIENT_REJECTED, loadClient, updateClient } from "common/store/reducers/settings.js";
 import { LOAD_USER_REJECTED, loadUser } from "common/store/reducers/authentication";

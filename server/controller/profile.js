@@ -2,7 +2,7 @@ import restrict from "utilities/restrictRoutes";
 import browserResponseLng from "utilities/browserResponseLng";
 import { ServerResponseError } from "utilities/errors/serverResponseError";
 
-import { variableExists, keyNameCorrect } from "shared/utilities/filters";
+import { variableExists, keyNameCorrect, removeUniqueProperties } from "shared/utilities/filters";
 import validate from "shared/validation/validate";
 import { t } from "shared/translations/i18n";
 import { updateUserProfile, verifyEmail, changeSavedLanguage, changeUserPassword } from "shared/validation/profile";
@@ -49,25 +49,18 @@ module.exports = function(router) {
 	);
 
 	// Update user profile
-	router.post(
+	router.patch(
 		"/api/v1.0/profile/",
 		restrict({
 			registered: true,
 			unregistered: false
 		}),
 		function(req, res, next) {
-			// Store received object properties
-			const requestProperties = {
-				firstName: req.body.firstName,
-				lastName: req.body.lastName,
-				emailAddress: req.body.emailAddress,
-				bio: req.body.bio,
-				location: req.body.location,
-				website: req.body.website
-			};
-
 			// Load browser language from header
 			const browserLng = browserResponseLng(req);
+
+			// We receive a PATCH object and need to make sure the user isn't sending across dangerous properties we don't want
+			const requestProperties = removeUniqueProperties({ ...req.body }, ["firstName", "lastName", "emailAddress", "bio", "location", "website"]);
 
 			// Create user information object
 			const authenticatedUser = {
@@ -76,7 +69,7 @@ module.exports = function(router) {
 			};
 
 			// Validate properties in received object
-			const valid = validate(requestProperties, updateUserProfile());
+			const valid = validate(requestProperties, updateUserProfile("patch"));
 			if (valid != null) {
 				const errorMsg = new ServerResponseError(403, t("validation.updateProfileInvalidProperties", { lng: browserLng }), valid);
 				return next(errorMsg);

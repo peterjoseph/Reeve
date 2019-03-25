@@ -1,53 +1,50 @@
 import { t } from "shared/translations/i18n";
 import { RESTRICTED_LANGUAGES, RESTRICTED_DOMAINS } from "shared/constants";
 
-const updateUserProfile = () => {
+const updateUserProfile = (updateType = "post") => {
+	// Check if patching is enabled
+	const required = updateType == "patch" ? false : true;
+
 	return {
 		firstName: {
-			presence: {
-				allowEmpty: false
-			},
+			presence: required,
+			noEmptyValue: true,
 			length: {
 				maximum: 255
 			}
 		},
 		lastName: {
-			presence: {
-				allowEmpty: false
-			},
+			presence: required,
+			noEmptyValue: true,
 			length: {
 				maximum: 255
 			}
 		},
 		emailAddress: {
 			email: true,
-			presence: {
-				allowEmpty: false
-			},
+			presence: required,
+			noEmptyValue: true,
 			length: {
 				maximum: 255
 			}
 		},
 		bio: {
-			presence: {
-				allowEmpty: true
-			},
+			presence: required,
+			noEmptyValue: false,
 			length: {
 				maximum: 255
 			}
 		},
 		location: {
-			presence: {
-				allowEmpty: true
-			},
+			presence: required,
+			noEmptyValue: false,
 			length: {
 				maximum: 255
 			}
 		},
 		website: {
-			presence: {
-				allowEmpty: true
-			},
+			presence: required,
+			noEmptyValue: false,
 			length: {
 				maximum: 255
 			}
