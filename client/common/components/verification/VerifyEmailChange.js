@@ -47,7 +47,7 @@ class VerifyEmailChange extends Component {
 
 				// Display error notification if the email change cannot be completed successfully
 				if (result.type === VERIFY_EMAIL_CHANGE_REJECTED) {
-					notify.show(`${t("error.verifyEmailChange")} (${result.payload.message})`, "error", -1);
+					notify.show(`${t("error.verifyEmailChange")} (${result.payload.message})`, "error");
 					this.props.history.replace("/");
 					return;
 				}

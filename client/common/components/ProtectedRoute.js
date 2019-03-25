@@ -2,7 +2,7 @@ import React, { Component } from "react";
 import PropTypes from "prop-types";
 import { Route } from "react-router";
 import { Redirect } from "react-router-dom";
-import { arrayContains, arrayHasAny, variableExists } from "shared/utilities/filters";
+import { arrayContains, arrayHasAny, variableExists, isObjectEmpty } from "shared/utilities/filters";
 import AsyncComponent from "./AsyncComponent";
 
 const DefaultLayout = AsyncComponent(() => import("common/layouts/DefaultLayout"));
@@ -16,7 +16,7 @@ class ProtectedRoute extends Component {
 		const unauthenticatedUserPaths = ["/register", "/forgot", "/signin", "/signin/help", "/reset"];
 
 		// Validate if user is logged in
-		const userLoggedIn = variableExists(user) && user.get("userId") !== null;
+		const userLoggedIn = variableExists(user) && !isObjectEmpty(user) && variableExists(user.get("userId"));
 
 		// Missing path component for authenticated users
 		const mau = (
