@@ -140,7 +140,7 @@
 			"changeProfilePhoto": "Change Profile Photo",
 			"saveImage": "Save Image",
 			"removeExistingProfilePhoto": "Remove existing profile photo",
-			"whichLanguage?": "Which language should $t(site.name) use?",
+			"activeLanguage": "Active Language",
 			"changeEmailWarning": "Before we can change your email address, a confirmation email will be sent to your new email address. Please click the verification link in the email for the change to be applied.",
 			"changeLanguage": "Change Language",
 			"changePassword": "Change Password",

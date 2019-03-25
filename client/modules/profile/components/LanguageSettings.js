@@ -116,7 +116,7 @@ class LanguageSettings extends Component {
 				{successMessage && <ServerSuccess path={{ changelanguage: "success" }} message={t("success.changeLanguage")} />}
 				<ServerError error={serverError} />
 				<div className="form-group">
-					<label htmlFor="changeLanguageControl">{t("components.profile.whichLanguage?")}</label>
+					<label htmlFor="changeLanguageControl">{t("components.profile.activeLanguage")}</label>
 					<select
 						id="changeLanguageControl"
 						className="form-control"

@@ -143,7 +143,7 @@
 			"changeProfilePhoto": "Cambia la foto del profilo",
 			"saveImage": "Salva Immagine",
 			"removeExistingProfilePhoto": "Rimuovi la foto del profilo esistente",
-			"whichLanguage?": "Quale lingua dovrebbe usare $t(site.name)?",
+			"activeLanguage": "Linguaggio Attivo",
 			"changeEmailWarning": "Prima di poter modificare il tuo indirizzo email, verrà inviata un'email di conferma al tuo nuovo indirizzo email. Fare clic sul collegamento di verifica nell'e-mail per la modifica da applicare.",
 			"changeLanguage": "Cambia lingua",
 			"changePassword": "Cambia La Password",
