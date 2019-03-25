@@ -36,7 +36,9 @@ class VerifyEmail extends Component {
 
 	componentDidUpdate() {
 		ReactDOM.unmountComponentAtNode(document.getElementById("notification-wrapper"));
-		this.showNotification();
+		if (!this.props.user.get("emailVerified")) {
+			this.showNotification();
+		}
 	}
 
 	showNotification() {
