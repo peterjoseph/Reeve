@@ -55,7 +55,8 @@
 		"deleting": "Deleting",
 		"help": "Help",
 		"helpGuide": "Help Guide",
-		"returnToHomepage": "← Return to the homepage"
+		"returnToHomepage": "← Return to the homepage",
+		"general": "General"
 	},
 	"numbers": {
 		"1": "1",
@@ -216,7 +217,9 @@
 				"appearanceAndBranding": "Appearance & Branding"
 			},
 			"localization": {
-				"languageAndLocalization": "Language & Localization"
+				"languageAndLocalization": "Language & Localization",
+				"defaultLanguage": "Default Language",
+				"defaultLanguageSubText": "This will change the language that appears on the login screen, in emails, and content shown to new and invited users. It will not change the individual language preferences of existing users."
 			}
 		},
 		"offline": {
@@ -278,7 +281,8 @@
 		"verifyEmailChange": "Success! Your email address has been successfully updated.",
 		"updatePersonalProfile": "Success! Your profile has been updated.",
 		"changeLanguage": "Success! The language $t(site.name) will use has been updated.",
-		"updateAccessConfiguration": "Success! Settings have been updated."
+		"updateAccessConfiguration": "Success! Settings have been updated.",
+		"updateLocalization": "Success! Localization settings have been updated."
 	},
 	"error": {
 		"code": {
@@ -313,6 +317,7 @@
 		"loadClientFailed": "Load client failed.",
 		"loadClientFeaturesFailed": "Load client features failed.",
 		"updateClientInvalidProperties": "Update client object contains invalid properties.",
+		"updateLocalizationInvalidProperties": "Update localization object contains invalid properties.",
 		"loadUserFailed": "Load user failed.",
 		"loadUserRolesFailed": "Load user roles failed.",
 		"updateProfileInvalidProperties": "Update profile object contains invalid properties.",

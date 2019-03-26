@@ -2,7 +2,7 @@ import passport from "services/passport";
 
 import { t } from "shared/translations/i18n";
 import { ServerResponseError } from "utilities/errors/serverResponseError";
-import { arrayContains, arrayHasAny } from "shared/utilities/filters";
+import { arrayContains, arrayHasAny, variableExists } from "shared/utilities/filters";
 import config from "../../config";
 
 export default function(properties = {}) {
@@ -74,7 +74,7 @@ export default function(properties = {}) {
 			}
 
 			// Continue if all requirements are passed
-			if (req.user !== null) {
+			if (variableExists(req.user)) {
 				return next();
 			}
 

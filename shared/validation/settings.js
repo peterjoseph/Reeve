@@ -1,3 +1,5 @@
+import { RESTRICTED_LANGUAGES } from "shared/constants";
+
 const updateClient = (updateType = "post") => {
 	// Check if patching is enabled
 	const required = updateType == "patch" ? false : true;
@@ -20,6 +22,22 @@ const updateClient = (updateType = "post") => {
 	};
 };
 
+const updateLocalization = (updateType = "post") => {
+	// Check if patching is enabled
+	const required = updateType == "patch" ? false : true;
+
+	return {
+		defaultLanguage: {
+			presence: required,
+			noEmptyValue: true,
+			inclusion: {
+				within: RESTRICTED_LANGUAGES
+			}
+		}
+	};
+};
+
 module.exports = {
-	updateClient: updateClient
+	updateClient: updateClient,
+	updateLocalization: updateLocalization
 };
