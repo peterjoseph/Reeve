@@ -12,6 +12,11 @@ class GlobalStyling extends Component {
                 color: ${color};
             }
 
+            a:hover {
+                color: ${color};
+                filter: brightness(85%);
+            }
+
             .btn-primary {
                 background-color: ${color};
                 border-color: ${color};
