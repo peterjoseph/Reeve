@@ -3,8 +3,10 @@ import PropTypes from "prop-types";
 import { Link } from "react-router-dom";
 import { Helmet } from "react-helmet";
 
+import { ROLE_TYPE } from "shared/constants";
 import { t } from "shared/translations/i18n";
 
+import HideComponent from "common/components/HideComponent";
 import ProfileIcon from "common/media/icons/Profile";
 import CreditCardIcon from "common/media/icons/CreditCard";
 import SettingsIcon from "common/media/icons/Settings";
@@ -13,6 +15,8 @@ import User from "common/components/User";
 
 class Overview extends Component {
 	render() {
+		const billingEnabled = STRIPE_ENABLED && (this.props.user && this.props.user.get("subscriptionEndDate") !== null);
+
 		return (
 			<Fragment>
 				<Helmet>
@@ -46,47 +50,51 @@ class Overview extends Component {
 										</div>
 									</div>
 								</div>
-								<div className="col-md-4">
-									<div className="card rounded-0 mb-3 text-left">
-										<div className="card-body">
-											<Link to={{ pathname: "/billing" }}>
-												<h5 className="card-title">
-													<span className="mr-2">
-														<CreditCardIcon width="1em" height="1em" />
-													</span>
-													{t("components.overview.cards.billing.title")}
-												</h5>
-											</Link>
-											<div className="card-text">
-												<ul>
-													<li>{t("components.overview.cards.billing.listOne")}</li>
-													<li>{t("components.overview.cards.billing.listTwo")}</li>
-													<li>{t("components.overview.cards.billing.listThree")}</li>
-												</ul>
+								<HideComponent user={this.props.user} disabled={!billingEnabled} hasAnyRole={[ROLE_TYPE.OWNER, ROLE_TYPE.FINANCE]}>
+									<div className="col-md-4">
+										<div className="card rounded-0 mb-3 text-left">
+											<div className="card-body">
+												<Link to={{ pathname: "/billing" }}>
+													<h5 className="card-title">
+														<span className="mr-2">
+															<CreditCardIcon width="1em" height="1em" />
+														</span>
+														{t("components.overview.cards.billing.title")}
+													</h5>
+												</Link>
+												<div className="card-text">
+													<ul>
+														<li>{t("components.overview.cards.billing.listOne")}</li>
+														<li>{t("components.overview.cards.billing.listTwo")}</li>
+														<li>{t("components.overview.cards.billing.listThree")}</li>
+													</ul>
+												</div>
 											</div>
 										</div>
 									</div>
-								</div>
-								<div className="col-md-4">
-									<div className="card rounded-0 text-left">
-										<div className="card-body">
-											<Link to={{ pathname: "/settings" }}>
-												<h5 className="card-title">
-													<span className="mr-2">
-														<SettingsIcon width="1em" height="1em" />
-													</span>
-													{t("components.overview.cards.settings.title")}
-												</h5>
-											</Link>
-											<div className="card-text">
-												<ul>
-													<li>{t("components.overview.cards.settings.listOne")}</li>
-													<li>{t("components.overview.cards.settings.listTwo")}</li>
-												</ul>
+								</HideComponent>
+								<HideComponent user={this.props.user} hasAnyRole={[ROLE_TYPE.OWNER, ROLE_TYPE.ADMINISTRATOR]}>
+									<div className="col-md-4">
+										<div className="card rounded-0 text-left">
+											<div className="card-body">
+												<Link to={{ pathname: "/settings" }}>
+													<h5 className="card-title">
+														<span className="mr-2">
+															<SettingsIcon width="1em" height="1em" />
+														</span>
+														{t("components.overview.cards.settings.title")}
+													</h5>
+												</Link>
+												<div className="card-text">
+													<ul>
+														<li>{t("components.overview.cards.settings.listOne")}</li>
+														<li>{t("components.overview.cards.settings.listTwo")}</li>
+													</ul>
+												</div>
 											</div>
 										</div>
 									</div>
-								</div>
+								</HideComponent>
 							</div>
 						</div>
 					</div>

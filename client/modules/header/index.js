@@ -87,7 +87,7 @@ class Header extends Component {
 				<nav className="navbar sticky-top navbar-expand-md bg-primary navbar-dark px-2 py-0">
 					<NavLogo />
 					<ul className="navbar-nav bd-navbar-nav flex-row ml-auto d-flex order-md-1">
-						<HideComponent disabled={!billingEnabled}>
+						<HideComponent user={user} disabled={!billingEnabled} hasAnyRole={[ROLE_TYPE.OWNER, ROLE_TYPE.FINANCE]}>
 							<ActiveTrial />
 						</HideComponent>
 						<HelpCaller />
@@ -105,7 +105,9 @@ class Header extends Component {
 											hasAnySubscription={[SUBSCRIPTION_TYPE.TRIAL, SUBSCRIPTION_TYPE.BASIC]}
 										/>
 									</HideComponent>
-									<NavDropdownLink title={t("label.settings")} route={"/settings"} />
+									<HideComponent user={user} hasAnyRole={[ROLE_TYPE.OWNER, ROLE_TYPE.ADMINISTRATOR]}>
+										<NavDropdownLink title={t("label.settings")} route={"/settings"} />
+									</HideComponent>
 									<div className="dropdown-divider" />
 								</Fragment>
 							)}
@@ -124,10 +126,12 @@ class Header extends Component {
 									<ul className="navbar-nav bd-navbar-nav flex-md-row">
 										<NavMenuLink title={t("label.overview")} route={"/"} isExact={true} />
 										<NavMenuLink title={t("label.profile")} route={"/profile"} isExact={false} />
-										<HideComponent disabled={!billingEnabled}>
+										<HideComponent user={user} disabled={!billingEnabled} hasAnyRole={[ROLE_TYPE.OWNER, ROLE_TYPE.FINANCE]}>
 											<NavMenuLink title={t("label.billing")} route={"/billing"} isExact={true} />
 										</HideComponent>
-										<NavMenuLink title={t("label.settings")} route={"/settings"} />
+										<HideComponent user={user} hasAnyRole={[ROLE_TYPE.OWNER, ROLE_TYPE.ADMINISTRATOR]}>
+											<NavMenuLink title={t("label.settings")} route={"/settings"} />
+										</HideComponent>
 									</ul>
 								</div>
 							</div>

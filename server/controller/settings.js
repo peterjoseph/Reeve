@@ -16,7 +16,8 @@ module.exports = function(router) {
 		"/api/v1.0/client",
 		restrict({
 			registered: true,
-			unregistered: false
+			unregistered: false,
+			hasAnyRole: [ROLE_TYPE.OWNER, ROLE_TYPE.ADMINISTRATOR]
 		}),
 		function(req, res, next) {
 			// Load browser language from header
@@ -45,7 +46,8 @@ module.exports = function(router) {
 		"/api/v1.0/client",
 		restrict({
 			registered: true,
-			unregistered: false
+			unregistered: false,
+			hasAnyRole: [ROLE_TYPE.OWNER, ROLE_TYPE.ADMINISTRATOR]
 		}),
 		function(req, res, next) {
 			// Load browser language from header
@@ -85,7 +87,8 @@ module.exports = function(router) {
 		"/api/v1.0/settings/localization",
 		restrict({
 			registered: true,
-			unregistered: false
+			unregistered: false,
+			hasAnyRole: [ROLE_TYPE.OWNER, ROLE_TYPE.ADMINISTRATOR]
 		}),
 		function(req, res, next) {
 			// Load browser language from header
@@ -114,7 +117,8 @@ module.exports = function(router) {
 		"/api/v1.0/settings/localization",
 		restrict({
 			registered: true,
-			unregistered: false
+			unregistered: false,
+			hasAnyRole: [ROLE_TYPE.OWNER, ROLE_TYPE.ADMINISTRATOR]
 		}),
 		function(req, res, next) {
 			// Load browser language from header

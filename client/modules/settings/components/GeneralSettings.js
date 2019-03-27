@@ -198,7 +198,7 @@ class GeneralSettings extends Component {
 					<div className="card rounded-0 my-3 text-left">
 						<div className="card-body">
 							<div>
-								<HideComponent disabled={!STRIPE_ENABLED && (user && user.get("subscriptionEndDate") == null)}>
+								<HideComponent user={user} disabled={!STRIPE_ENABLED && (user && user.get("subscriptionEndDate") == null)} hasAnyRole={[ROLE_TYPE.OWNER, ROLE_TYPE.FINANCE]}>
 									<Fragment>
 										<b>{t("components.settings.general.subscriptionType")}</b>{" "}
 										<span className="text-uppercase text-muted">{client && t(`components.billing.subscriptionType.${client.get("subscriptionType")}`)}</span>{" "}
@@ -265,11 +265,11 @@ class GeneralSettings extends Component {
 						</div>
 					</div>
 				</div>
-				<div className="mt-3 mb-5">
-					<h5>{t("components.settings.general.dangerZone")}</h5>
-					<div className="card rounded-0 my-3 text-left">
-						<div className="card-body">
-							<HideComponent user={user} hasAllRoles={[ROLE_TYPE.OWNER]}>
+				<HideComponent user={user} hasAllRoles={[ROLE_TYPE.OWNER]}>
+					<div className="mt-3 mb-5">
+						<h5>{t("components.settings.general.dangerZone")}</h5>
+						<div className="card rounded-0 my-3 text-left">
+							<div className="card-body">
 								<Fragment>
 									<label className="text-danger">
 										<b>{t("components.settings.general.deleteWorkspace")}</b>
@@ -284,10 +284,10 @@ class GeneralSettings extends Component {
 										{t("components.settings.general.deleteWorkspace")}
 									</button>
 								</Fragment>
-							</HideComponent>
+							</div>
 						</div>
 					</div>
-				</div>
+				</HideComponent>
 			</div>
 		);
 	}

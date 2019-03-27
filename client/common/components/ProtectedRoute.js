@@ -25,15 +25,6 @@ class ProtectedRoute extends Component {
 			</DefaultLayout>
 		);
 
-		// Generic render component
-		const renderRoute = () => {
-			if (!userLoggedIn) {
-				return <Redirect to="/signin" />;
-			} else {
-				return <Route {...this.props} render={() => mau} />;
-			}
-		};
-
 		/****************************
 		NON AUTH REQUIRED USER ROUTES
 		****************************/
@@ -103,32 +94,56 @@ class ProtectedRoute extends Component {
 
 		// Show Error 404 if user does not have any of the following roles
 		if (hasAnyRole && ((userLoggedIn && !user.get("userRoles")) || !arrayHasAny(hasAnyRole, (userLoggedIn && user.get("userRoles").toJS()) || []))) {
-			renderRoute();
+			if (!userLoggedIn) {
+				return <Redirect to="/signin" />;
+			} else {
+				return <Route {...this.props} render={() => mau} />;
+			}
 		}
 
 		// Show Error 404 if user does not have all of the following roles
 		if (hasAllRoles && ((userLoggedIn && !user.get("userRoles")) || !arrayHasAny(hasAllRoles, (userLoggedIn && user.get("userRoles").toJS()) || []))) {
-			renderRoute();
+			if (!userLoggedIn) {
+				return <Redirect to="/signin" />;
+			} else {
+				return <Route {...this.props} render={() => mau} />;
+			}
 		}
 
 		// Show Error 404 if user does not have any of the following features
 		if (hasAnyFeature && ((userLoggedIn && !user.get("clientFeatures")) || !arrayHasAny(hasAnyFeature, (userLoggedIn && user.get("clientFeatures").toJS()) || []))) {
-			renderRoute();
+			if (!userLoggedIn) {
+				return <Redirect to="/signin" />;
+			} else {
+				return <Route {...this.props} render={() => mau} />;
+			}
 		}
 
 		// Show Error 404 if user does not have all of the following features
 		if (hasAllFeatures && ((userLoggedIn && !user.get("clientFeatures")) || !arrayContains(hasAllFeatures, (userLoggedIn && user.get("clientFeatures").toJS()) || []))) {
-			renderRoute();
+			if (!userLoggedIn) {
+				return <Redirect to="/signin" />;
+			} else {
+				return <Route {...this.props} render={() => mau} />;
+			}
 		}
 
 		// Show Error 404 if user does not have any of the following subscriptions
 		if (hasAnySubscription && ((userLoggedIn && !user.get("subscriptionId")) || !arrayHasAny(hasAnySubscription, (userLoggedIn && user.get("subscriptionId")) || []))) {
-			renderRoute();
+			if (!userLoggedIn) {
+				return <Redirect to="/signin" />;
+			} else {
+				return <Route {...this.props} render={() => mau} />;
+			}
 		}
 
 		// Show Error 404 if user does not have a verified email
 		if (hasVerifiedEmail && ((userLoggedIn && !user.get("emailVerified")) || (userLoggedIn && user.get("emailVerified")) !== true)) {
-			renderRoute();
+			if (!userLoggedIn) {
+				return <Redirect to="/signin" />;
+			} else {
+				return <Route {...this.props} render={() => mau} />;
+			}
 		}
 
 		return <Route {...this.props} />;
