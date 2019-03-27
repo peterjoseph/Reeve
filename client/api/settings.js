@@ -29,3 +29,14 @@ export function updateLocalization(body) {
 		body: JSON.stringify(body)
 	});
 }
+
+// Delete Workspace
+export function deleteWorkspace(body) {
+	return fetch.perform("/api/v1.0/settings/delete_workspace", {
+		method: "POST",
+		body: JSON.stringify({
+			workspaceURL: body.workspaceURL,
+			accountPassword: body.accountPassword
+		})
+	});
+}

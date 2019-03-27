@@ -10,6 +10,7 @@ class Modal extends Component {
 			children,
 			actionButtonLabel,
 			actionButtonFunc,
+			actionDangerous,
 			actionDisabled,
 			actionLinkLabel,
 			actionLinkFunc,
@@ -37,7 +38,7 @@ class Modal extends Component {
 								</button>
 							)}
 							{actionButtonLabel && (
-								<button type="button" className="btn btn-primary btn-sm" onClick={actionButtonFunc} disabled={actionDisabled}>
+								<button type="button" className={`btn ${actionDangerous == true ? "btn-danger" : "btn-primary"} btn-sm`} onClick={actionButtonFunc} disabled={actionDisabled}>
 									{actionButtonLabel}
 								</button>
 							)}
@@ -59,6 +60,7 @@ Modal.propTypes = {
 	children: PropTypes.oneOfType([PropTypes.string, PropTypes.object]),
 	actionButtonLabel: PropTypes.string,
 	actionButtonFunc: PropTypes.func,
+	actionDangerous: PropTypes.bool,
 	actionDisabled: PropTypes.bool,
 	actionLinkLabel: PropTypes.string,
 	actionLinkFunc: PropTypes.func,

@@ -26,7 +26,7 @@ class InputField extends React.Component {
 					/>
 					{error && error[name] && <div className="d-block invalid-feedback">{error[name][0]}</div>}
 					{smallText && (
-						<div className="text-muted">
+						<div className="w-100 text-muted">
 							<small>{smallText}</small>
 						</div>
 					)}

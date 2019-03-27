@@ -78,7 +78,7 @@ class Router extends Component {
 							hasAnyRole={[ROLE_TYPE.OWNER, ROLE_TYPE.ADMINISTRATOR, ROLE_TYPE.FINANCE]}
 							user={user}
 							render={() => (
-								<DefaultLayout key="/profile">
+								<DefaultLayout key="/profile/change-profile-photo">
 									<Profile />
 								</DefaultLayout>
 							)}
@@ -91,6 +91,17 @@ class Router extends Component {
 							user={user}
 							render={() => (
 								<DefaultLayout key="/settings/general">
+									<Settings />
+								</DefaultLayout>
+							)}
+						/>
+						<ProtectedRoute
+							exact
+							path="/settings/general/delete-workspace"
+							hasAllRoles={[ROLE_TYPE.OWNER]}
+							user={user}
+							render={() => (
+								<DefaultLayout key="/settings/general/delete-workspace">
 									<Settings />
 								</DefaultLayout>
 							)}

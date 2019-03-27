@@ -181,7 +181,7 @@ class ChangeAvatar extends Component {
 			<Modal
 				title={t("components.profile.changeProfilePhoto")}
 				actionButtonLabel={loading && !deleting ? t("label.saving") : t("components.profile.saveImage")}
-				actionButtonFunc={this.saveImage || loading}
+				actionButtonFunc={this.saveImage}
 				actionDisabled={saveDisabled || loading}
 				actionLinkLabel={deleting ? t("label.deleting") : t("components.profile.removeExistingProfilePhoto")}
 				actionLinkFunc={this.deleteProfilePhoto}

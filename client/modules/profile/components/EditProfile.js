@@ -90,9 +90,9 @@ class EditProfile extends Component {
 			firstName: field.firstName,
 			lastName: field.lastName,
 			emailAddress: field.emailAddress,
-			bio: field.bio,
-			location: field.location,
-			website: field.website,
+			bio: field.bio || "",
+			location: field.location || "",
+			website: field.website || "",
 			loading: false
 		});
 	}

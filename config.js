@@ -89,6 +89,9 @@ let config = {
 		port: process.env.PAPERTRAIL_PORT,
 		hostname: process.env.PAPERTRAIL_HOSTNAME,
 		level: process.env.PAPERTRAIL_LEVEL
+	},
+	deleteWorkspace: {
+		GDPRDelete: String(process.env.GDPR_HARD_DELETE) === "true"
 	}
 };
 

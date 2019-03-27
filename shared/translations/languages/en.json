@@ -211,7 +211,11 @@
 				"workspaceDescriptionSubText": "A good description of your workspace can provide valuable information to new and invited users.",
 				"dangerZone": "Danger Zone",
 				"deleteWorkspace": "Delete Workspace",
-				"deleteWorkspaceWarning": "Deleting a Workspace will remove all contents, users, and active subscriptions. This action cannot be undone. Please make sure you are deleting the correct one!"
+				"deleteWorkspaceWarning": "Deleting a Workspace will remove all contents, users, and active subscriptions. This action cannot be undone. Please make sure you are deleting the correct one!",
+				"deleteWorkspaceModal": {
+					"warning": "Are you sure you want to do this? Deleting a workspace will remove all contents, users, and active subscriptions. This action cannot be undone.",
+					"procedure": "To delete your workspace, enter the workspace name and your current password below."
+				}
 			},
 			"appearance": {
 				"appearanceAndBranding": "Appearance & Branding"
@@ -325,6 +329,7 @@
 		"emptyWorkspaceURL": "Workspace name does not exist.",
 		"emptyResetCode": "Password reset code does not exist or is invalid.",
 		"emptyVerifyCode": "Verify email code does not exist or is invalid.",
+		"incorrectWorkspaceURL": "Incorrect workspace name supplied.",
 		"sendNewVerify": "Please send a new verification email and use the provided code.",
 		"sendNewReset": "Please send a new password reset email and use the provided code.",
 		"resetCodeAlreadyUsed": "This password reset code has already been used. $t(validation.sendNewReset)",
@@ -339,6 +344,7 @@
 		"changeEmailCodeAlreadyUsed": "This change email code has already been used. Please change your email address on the profile page to send a new email.",
 		"changeEmailCodeExpired": "This change email code has expired. It could be used within a {{ gracePeriod }} hour period.",
 		"signedURLInvalidProperties": "Signed URL object contains invalid properties.",
+		"deleteWorkspaceInvalidProperties": "Delete workspace object contains invalid properties.",
 		"validators": {
 			"validDate": "$t(label.errorField) Must be a valid date.",
 			"invalidEmail": "$t(label.errorField) Not a valid email.",

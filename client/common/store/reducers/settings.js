@@ -4,7 +4,8 @@ import {
 	loadClient as loadClientDetails,
 	updateClient as updateClientDetails,
 	loadLocalization as loadLocalizationDetails,
-	updateLocalization as updateLocalizationDetails
+	updateLocalization as updateLocalizationDetails,
+	deleteWorkspace as performDeleteWorkspace
 } from "client/api/settings.js";
 
 import "./root";
@@ -26,6 +27,10 @@ export const LOAD_LOCALIZATION_REJECTED = SETTINGS + "/LOAD_LOCALIZATION_REJECTE
 export const UPDATE_LOCALIZATION_PENDING = SETTINGS + "/UPDATE_LOCALIZATION_PENDING";
 export const UPDATE_LOCALIZATION_FULFILLED = SETTINGS + "/UPDATE_LOCALIZATION_FULFILLED";
 export const UPDATE_LOCALIZATION_REJECTED = SETTINGS + "/UPDATE_LOCALIZATION_REJECTED";
+
+export const DELETE_WORKSPACE_PENDING = SETTINGS + "/DELETE_WORKSPACE_PENDING";
+export const DELETE_WORKSPACE_FULFILLED = SETTINGS + "/DELETE_WORKSPACE_FULFILLED";
+export const DELETE_WORKSPACE_REJECTED = SETTINGS + "/DELETE_WORKSPACE_REJECTED";
 
 const DEFAULT_STATE = fromJS({});
 
@@ -101,6 +106,25 @@ export default function language(state = DEFAULT_STATE, action) {
 		case UPDATE_LOCALIZATION_REJECTED:
 			return state.set(
 				"updateLocalization",
+				fromJS({
+					status: REDUX_STATE.REJECTED,
+					payload: {},
+					error: action.payload
+				})
+			);
+		case DELETE_WORKSPACE_PENDING:
+			return state.setIn(["deleteWorkspace", "status"], REDUX_STATE.PENDING);
+		case DELETE_WORKSPACE_FULFILLED:
+			return state.set(
+				"deleteWorkspace",
+				fromJS({
+					status: REDUX_STATE.FULFILLED,
+					payload: action.payload
+				})
+			);
+		case DELETE_WORKSPACE_REJECTED:
+			return state.set(
+				"deleteWorkspace",
 				fromJS({
 					status: REDUX_STATE.REJECTED,
 					payload: {},
@@ -194,6 +218,28 @@ export function updateLocalization(body) {
 			error =>
 				dispatch({
 					type: UPDATE_LOCALIZATION_REJECTED,
+					payload: error
+				})
+		);
+	};
+}
+
+export function deleteWorkspace(body) {
+	return dispatch => {
+		dispatch({
+			type: DELETE_WORKSPACE_PENDING
+		});
+
+		return performDeleteWorkspace(body).then(
+			result => {
+				return dispatch({
+					type: DELETE_WORKSPACE_FULFILLED,
+					payload: result
+				});
+			},
+			error =>
+				dispatch({
+					type: DELETE_WORKSPACE_REJECTED,
 					payload: error
 				})
 		);

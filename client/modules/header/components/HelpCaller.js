@@ -33,6 +33,9 @@ class HelpCaller extends Component {
 			case "/settings/localization":
 				articleLink = l("supportArticles.settings");
 				break;
+			case "/settings/general/delete-workspace":
+				articleLink = l("supportArticles.settings");
+				break;
 			default:
 				articleLink = null;
 		}

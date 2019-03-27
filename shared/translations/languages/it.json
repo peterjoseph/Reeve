@@ -214,7 +214,11 @@
 				"workspaceDescriptionSubText": "Una buona descrizione del tuo spazio di lavoro può fornire informazioni preziose agli utenti nuovi e invitati.",
 				"dangerZone": "Zona Pericolosa",
 				"deleteWorkspace": "Elimina area di lavoro",
-				"deleteWorkspaceWarning": "L'eliminazione di un'area di lavoro rimuoverà tutti i contenuti, gli utenti e gli abbonamenti attivi. Questa azione non può essere annullata. Assicurati di aver eliminato quello corretto!"
+				"deleteWorkspaceWarning": "L'eliminazione di un'area di lavoro rimuoverà tutti i contenuti, gli utenti e gli abbonamenti attivi. Questa azione non può essere annullata. Assicurati di aver eliminato quello corretto!",
+				"deleteWorkspaceModal": {
+					"warning": "Sei sicuro di volerlo fare? L'eliminazione di un'area di lavoro rimuoverà tutti i contenuti, gli utenti e le iscrizioni attive. Questa azione non può essere annullata.",
+					"procedure": "Per cancellare il tuo spazio di lavoro, inserisci il nome dell'area di lavoro e la tua password attuale qui sotto."
+				}
 			},
 			"appearance": {
 				"appearanceAndBranding": "Aspetto e Marchio"
@@ -324,6 +328,7 @@
 		"emptyWorkspaceURL": "Il nome dell'area di lavoro non esiste.",
 		"emptyResetCode": "Il codice di reimpostazione della password non esiste o non è valido.",
 		"emptyVerifyCode": "Verifica che il codice email non esista o non sia valido.",
+		"incorrectWorkspaceURL": "Fornito il nome dello spazio di lavoro errato.",
 		"sendNewVerify": "Invia una nuova email di verifica e utilizza il codice fornito.",
 		"sendNewReset": "Invia una nuova email di reimpostazione della password e utilizza il codice fornito.",
 		"resetCodeAlreadyUsed": "Questo codice di reimpostazione della password è già stato utilizzato. $t(validation.sendNewReset)",
@@ -338,6 +343,7 @@
 		"changeEmailCodeAlreadyUsed": "Questo codice email di modifica è già stato utilizzato. Per favore cambia il tuo indirizzo email sulla pagina del profilo per inviare una nuova email.",
 		"changeEmailCodeExpired": "Questo codice email di modifica è scaduto. Potrebbe essere utilizzato entro un periodo di {{ gracePeriod }} ore.",
 		"signedURLInvalidProperties": "L'oggetto URL firmato contiene proprietà non valide.",
+		"deleteWorkspaceInvalidProperties": "Elimina oggetto area di lavoro contiene proprietà non valide.",
 		"validators": {
 			"validDate": "$t(label.errorField) Deve essere una data valida.",
 			"invalidEmail": "$t(label.errorField) Non è un'e-mail valida.",
