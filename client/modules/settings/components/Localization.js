@@ -173,7 +173,6 @@ class Localization extends Component {
 				{localizationLoading && <Loading />}
 				<h1>{t("components.settings.localization.languageAndLocalization")}</h1>
 				<div className="mt-3 mb-5">
-					<h5>{t("label.general")}</h5>
 					<div className="card rounded-0 my-3 text-left">
 						<div className="card-body">
 							{successMessage && <ServerSuccess path={{ updatelocalization: "success" }} message={t("success.updateLocalization")} />}

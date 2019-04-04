@@ -1,5 +1,7 @@
 // Colors
-$white: #fff !default;
+$primary: #3c6fa5;
+$secondary: #919aa1;
+
 $gray-100: #f8f9fa !default;
 $gray-200: #f7f7f9 !default;
 $gray-300: #eceeef !default;
@@ -9,8 +11,9 @@ $gray-600: #919aa1 !default;
 $gray-700: #55595c !default;
 $gray-800: #343a40 !default;
 $gray-900: #1a1a1a !default;
-$black: #000 !default;
 
+$white: #fff !default;
+$black: #000 !default;
 $blue: #3c6fa5 !default;
 $indigo: #6610f2 !default;
 $purple: #6f42c1 !default;

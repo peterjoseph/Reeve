@@ -38,6 +38,41 @@ const updateLocalization = (updateType = "post") => {
 	};
 };
 
+const updateClientStyling = (updateType = "post") => {
+	// Check if patching is enabled
+	const required = updateType == "patch" ? false : true;
+
+	return {
+		backgroundColor: {
+			presence: required,
+			noEmptyValue: true,
+			format: {
+				pattern: "^#[0-9A-F]{6}$",
+				flags: "i",
+				message: t("validation.validators.validHex")
+			}
+		},
+		primaryColor: {
+			presence: required,
+			noEmptyValue: true,
+			format: {
+				pattern: "^#[0-9A-F]{6}$",
+				flags: "i",
+				message: t("validation.validators.validHex")
+			}
+		},
+		secondaryColor: {
+			presence: required,
+			noEmptyValue: true,
+			format: {
+				pattern: "^#[0-9A-F]{6}$",
+				flags: "i",
+				message: t("validation.validators.validHex")
+			}
+		}
+	};
+};
+
 const deleteWorkspace = () => {
 	return {
 		workspaceURL: {
@@ -72,6 +107,7 @@ const deleteWorkspace = () => {
 
 module.exports = {
 	updateClient: updateClient,
+	updateClientStyling: updateClientStyling,
 	updateLocalization: updateLocalization,
 	deleteWorkspace: deleteWorkspace
 };

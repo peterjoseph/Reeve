@@ -1,3 +1,37 @@
+// Color Picker
+.color-picker {
+	.color-window {
+		padding: 5px;
+		background: #fff;
+		box-shadow: inset 0 0 0 1px #ced4da;
+		display: inline-block;
+
+		.color {
+			width: 36px;
+			height: 36px;
+		}
+	}
+
+	.type-selector {
+		position: absolute;
+		z-index: 2;
+
+		.background-cover {
+			position: fixed;
+			top: 0px;
+			right: 0px;
+			bottom: 0px;
+			left: 0px;
+		}
+
+		.github-picker {
+			width: auto !important;
+			box-shadow: none !important;
+			border-radius: 0 !important;
+		}
+	}
+}
+
 // Loading Pacer component positioning
 .loading-pacer {
 	width: 100%;

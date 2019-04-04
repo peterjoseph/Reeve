@@ -15,6 +15,21 @@ export function updateClient(body) {
 	});
 }
 
+// Load Client Styling
+export function loadClientStyling() {
+	return fetch.perform("/api/v1.0/client/styling", {
+		method: "GET"
+	});
+}
+
+// Update Client Styling
+export function updateClientStyling(body) {
+	return fetch.perform("/api/v1.0/client/styling", {
+		method: "PATCH",
+		body: JSON.stringify(body)
+	});
+}
+
 // Load Localization Settings
 export function loadLocalization() {
 	return fetch.perform("/api/v1.0/settings/localization", {

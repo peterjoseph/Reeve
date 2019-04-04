@@ -110,6 +110,7 @@ class Router extends Component {
 							exact
 							path="/settings/appearance"
 							hasAnyRole={[ROLE_TYPE.OWNER, ROLE_TYPE.ADMINISTRATOR]}
+							hasAllFeatures={[FEATURES.STYLING]}
 							user={user}
 							render={() => (
 								<DefaultLayout key="/settings/appearance">

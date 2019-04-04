@@ -221,7 +221,13 @@
 				}
 			},
 			"appearance": {
-				"appearanceAndBranding": "Aspetto e Marchio"
+				"appearanceAndBranding": "Aspetto e Marchio",
+				"backgroundColor": "Colore di sfondo",
+				"backgroundColorDescription": "Questo è il colore di sfondo nella pagina di accesso dell'area di lavoro. Se hai anche selezionato un'immagine di sfondo, l'immagine si sovrapporrà a questo colore.",
+				"primaryColor": "Colore primario",
+				"primaryColorDescription": "Questo colore è il colore più evidente tra le pagine nel tuo spazio di lavoro. È visibile nella barra di navigazione nella parte superiore della pagina e nel colore della maggior parte dei pulsanti, dei collegamenti e di altri elementi della pagina significativi.",
+				"secondaryColor": "Colore secondario",
+				"secondaryColorDescription": "Un colore secondario offre più modi per marcare il tuo spazio di lavoro, accentuando le aree più piccole e meno evidenti di ciascuna pagina. Questo è un campo facoltativo."
 			},
 			"localization": {
 				"languageAndLocalization": "Lingua e Localizzazione",
@@ -285,7 +291,8 @@
 		"updatePersonalProfile": "Successo! Il tuo profilo è stato aggiornato.",
 		"changeLanguage": "Successo! La lingua utilizzata da $t(site.name) è stata aggiornata.",
 		"updateAccessConfiguration": "Successo! Le impostazioni sono state aggiornate.",
-		"updateLocalization": "Successo! Le impostazioni di localizzazione sono state aggiornate."
+		"updateLocalization": "Successo! Le impostazioni di localizzazione sono state aggiornate.",
+		"updateClientStyling": "Successo! Il tuo stile di lavoro è stato aggiornato."
 	},
 	"error": {
 		"code": {
@@ -320,6 +327,7 @@
 		"loadClientFailed": "Carica client non riuscito.",
 		"loadClientFeaturesFailed": "Carica le funzionalità del client non riuscite.",
 		"updateClientInvalidProperties": "L'oggetto client di aggiornamento contiene proprietà non valide.",
+		"updateClientStylingInvalidProperties": "Aggiorna l'oggetto styling del client contiene proprietà non valide.",
 		"updateLocalizationInvalidProperties": "Aggiorna oggetto di localizzazione contiene proprietà non valide.",
 		"loadUserFailed": "Carica utente fallito.",
 		"loadUserRolesFailed": "Carica ruoli utente falliti.",
@@ -355,6 +363,7 @@
 			"missingConsent": "$t(label.errorField) Deve essere accettato per continuare.",
 			"cannotBeBlank": "$t(label.errorField) Non può essere vuoto.",
 			"validCharactersAZ09": "$t(label.errorField) Può contenere solo caratteri da a-z e 0-9 e nessuno spazio.",
+			"validHex": "$t(label.errorField) Il campo non è un valore di colore esadecimale valido.",
 			"invalidURL": "$t(label.errorField) Non è un URL valido.",
 			"invalidPasswordLength": "$t(label.errorField) Il campo della password deve essere maggiore di 6 caratteri.",
 			"unmatchedPasswords": "$t(label.errorField) Conferma password deve corrispondere alla nuova password."

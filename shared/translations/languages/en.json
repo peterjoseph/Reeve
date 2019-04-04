@@ -195,7 +195,6 @@
 			}
 		},
 		"settings": {
-			"billingOverview": "Go to Billing Overview →",
 			"general": {
 				"generalSettings": "General Settings",
 				"accountSummary": "Account Summary",
@@ -218,13 +217,20 @@
 				}
 			},
 			"appearance": {
-				"appearanceAndBranding": "Appearance & Branding"
+				"appearanceAndBranding": "Appearance & Branding",
+				"backgroundColor": "Background Color",
+				"backgroundColorDescription": "This is the background color on the sign-in page of your workspace. If you also have a background image selected, the image will overlay this color.",
+				"primaryColor": "Primary Color",
+				"primaryColorDescription": "This color is the most prominent color across the pages in your workspace. It is visible in the navigation bar at the top of the page, and in the color of most buttons, links, and other significant page elements.",
+				"secondaryColor": "Secondary Color",
+				"secondaryColorDescription": "A secondary color provides more ways to brand your workspace by accenting smaller and less noticeable areas of each page. This is an optional field."
 			},
 			"localization": {
 				"languageAndLocalization": "Language & Localization",
 				"defaultLanguage": "Default Language",
 				"defaultLanguageSubText": "This will change the language that appears on the login screen, in emails, and content shown to new and invited users. It will not change the individual language preferences of existing users."
-			}
+			},
+			"billingOverview": "Go to Billing Overview →"
 		},
 		"offline": {
 			"disconnectedLead": "Hey! Looks like you've been disconnected from the internet.",
@@ -286,7 +292,8 @@
 		"updatePersonalProfile": "Success! Your profile has been updated.",
 		"changeLanguage": "Success! The language $t(site.name) will use has been updated.",
 		"updateAccessConfiguration": "Success! Settings have been updated.",
-		"updateLocalization": "Success! Localization settings have been updated."
+		"updateLocalization": "Success! Localization settings have been updated.",
+		"updateClientStyling": "Success! Your workspace styling has been updated."
 	},
 	"error": {
 		"code": {
@@ -321,6 +328,7 @@
 		"loadClientFailed": "Load client failed.",
 		"loadClientFeaturesFailed": "Load client features failed.",
 		"updateClientInvalidProperties": "Update client object contains invalid properties.",
+		"updateClientStylingInvalidProperties": "Update client styling object contains invalid properties.",
 		"updateLocalizationInvalidProperties": "Update localization object contains invalid properties.",
 		"loadUserFailed": "Load user failed.",
 		"loadUserRolesFailed": "Load user roles failed.",
@@ -356,6 +364,7 @@
 			"missingConsent": "$t(label.errorField) Must be accepted to continue.",
 			"cannotBeBlank": "$t(label.errorField) Field cannot be blank.",
 			"validCharactersAZ09": "$t(label.errorField) Field can only contain characters from a-z and 0-9, and no spaces.",
+			"validHex": "$t(label.errorField) Field is not a valid hex color value.",
 			"invalidURL": "$t(label.errorField) Not a valid URL.",
 			"invalidPasswordLength": "$t(label.errorField) Password field must be greater than 6 characters.",
 			"unmatchedPasswords": "$t(label.errorField) Confirm Password should match New Password."

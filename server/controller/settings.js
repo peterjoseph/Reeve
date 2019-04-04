@@ -4,11 +4,16 @@ import { ServerResponseError } from "utilities/errors/serverResponseError";
 
 import validate from "shared/validation/validate";
 import { t } from "shared/translations/i18n";
-import { ROLE_TYPE } from "shared/constants";
-import { updateClient as updateClientValidation, updateLocalization as updateLocalizationValidation, deleteWorkspace as deleteWorkspaceValidation } from "shared/validation/settings";
+import { ROLE_TYPE, FEATURES } from "shared/constants";
+import {
+	updateClient as updateClientValidation,
+	updateClientStyling as updateClientStylingValidation,
+	updateLocalization as updateLocalizationValidation,
+	deleteWorkspace as deleteWorkspaceValidation
+} from "shared/validation/settings";
 import { removeUniqueProperties } from "shared/utilities/filters";
 
-import { loadClient, updateClient, loadLocalization, updateLocalization, deleteWorkspace } from "../orchestrator/settings";
+import { loadClient, updateClient, loadClientStyling, updateClientStyling, loadLocalization, updateLocalization, deleteWorkspace } from "../orchestrator/settings";
 
 module.exports = function(router) {
 	// Load Client
@@ -72,6 +77,79 @@ module.exports = function(router) {
 
 			// Perform new client parameters write and return response
 			updateClient(requestProperties, authenticatedUser, browserLng).then(
+				result => {
+					return res.status(200).send(result);
+				},
+				error => {
+					return next(error);
+				}
+			);
+		}
+	);
+
+	// Load Client Styling
+	router.get(
+		"/api/v1.0/client/styling",
+		restrict({
+			registered: true,
+			unregistered: false,
+			hasAnyRole: [ROLE_TYPE.OWNER, ROLE_TYPE.ADMINISTRATOR],
+			hasAllFeatures: [FEATURES.STYLING]
+		}),
+		function(req, res, next) {
+			// Load browser language from header
+			const browserLng = browserResponseLng(req);
+
+			// Create object with authenticated user information
+			const authenticatedUser = {
+				userId: req.user.userId,
+				clientId: req.user.clientId
+			};
+
+			// Retrieve client styling and return response
+			loadClientStyling(null, authenticatedUser, browserLng).then(
+				result => {
+					return res.status(200).send(result);
+				},
+				error => {
+					return next(error);
+				}
+			);
+		}
+	);
+
+	// Update Client Styling
+	router.patch(
+		"/api/v1.0/client/styling",
+		restrict({
+			registered: true,
+			unregistered: false,
+			hasAnyRole: [ROLE_TYPE.OWNER, ROLE_TYPE.ADMINISTRATOR],
+			hasAllFeatures: [FEATURES.STYLING]
+		}),
+		function(req, res, next) {
+			// Load browser language from header
+			const browserLng = browserResponseLng(req);
+
+			// We receive a PATCH object and need to make sure the user isn't sending across dangerous properties we don't want
+			const requestProperties = removeUniqueProperties({ ...req.body }, ["logoImage", "backgroundImage", "backgroundColor", "primaryColor", "secondaryColor"]);
+
+			// Create user information object
+			const authenticatedUser = {
+				userId: req.user.userId,
+				clientId: req.user.clientId
+			};
+
+			// Validate properties in received object
+			const valid = validate(requestProperties, updateClientStylingValidation("patch"));
+
+			if (valid != null) {
+				const errorMsg = new ServerResponseError(403, t("validation.updateClientStylingInvalidProperties", { lng: browserLng }), valid);
+				return next(errorMsg);
+			}
+
+			// Perform new client parameters write and return response
+			updateClientStyling(requestProperties, authenticatedUser, browserLng).then(
 				result => {
 					return res.status(200).send(result);
 				},

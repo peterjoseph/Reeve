@@ -33,7 +33,9 @@ class Settings extends Component {
 							<div className="sticky-sidebar p-3">
 								<ul className="nav nav-pills flex-column">
 									<MenuLink title={t("components.settings.general.generalSettings")} route={"/settings/general"} isExact={true} />
-									<MenuLink title={t("components.settings.appearance.appearanceAndBranding")} route={"/settings/appearance"} isExact={true} />
+									<HideComponent user={user} hasAnyRole={[ROLE_TYPE.OWNER, ROLE_TYPE.ADMINISTRATOR]} hasAllFeatures={[FEATURES.STYLING]}>
+										<MenuLink title={t("components.settings.appearance.appearanceAndBranding")} route={"/settings/appearance"} isExact={true} />
+									</HideComponent>
 									<MenuLink title={t("components.settings.localization.languageAndLocalization")} route={"/settings/localization"} isExact={true} />
 								</ul>
 								<HideComponent

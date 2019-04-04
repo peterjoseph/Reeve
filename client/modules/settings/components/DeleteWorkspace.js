@@ -14,7 +14,6 @@ import { LOGOUT_REJECTED, logoutUser } from "common/store/reducers/authenticatio
 import { deleteWorkspace, DELETE_WORKSPACE_REJECTED } from "common/store/reducers/settings.js";
 
 import Modal from "common/components/Modal";
-import WorkspaceURLField from "common/components/inputs/WorkspaceURLField";
 import InputField from "common/components/inputs/InputField";
 import ServerError from "common/components/ServerError";
 

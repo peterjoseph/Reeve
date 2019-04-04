@@ -94,6 +94,92 @@ export function updateClient(requestProperties, authenticatedUser, browserLng) {
 	});
 }
 
+// Load Client Styling
+export function loadClientStyling(requestProperties, authenticatedUser, browserLng) {
+	return database().transaction(async function(transaction) {
+		try {
+			// Load client for authenticated user
+			const client = await models().client.findOne({ where: { id: authenticatedUser.clientId, active: true } }, { transaction: transaction });
+
+			// Throw an error if the client does not exist
+			if (client === null) {
+				throw new ServerResponseError(403, t("validation.loadUserPropertiesFailed", { lng: browserLng }), { client: [t("validation.loadClientFailed", { lng: browserLng })] });
+			}
+
+			// Load client styling
+			const clientStyling = await models().clientStyling.findOne({ where: { clientId: client.get("id") } }, { transaction: transaction });
+
+			// Create response properties to be returned back to the front-end
+			const clientStylingProperties = {
+				logoImage: clientStyling && clientStyling.get("logoImage") ? clientStyling.get("logoImage") : "",
+				backgroundImage: clientStyling && clientStyling.get("backgroundImage") ? clientStyling.get("backgroundImage") : "",
+				backgroundColor: clientStyling && clientStyling.get("backgroundColor") ? clientStyling.get("backgroundColor") : "#3c6fa5",
+				primaryColor: clientStyling && clientStyling.get("primaryColor") ? clientStyling.get("primaryColor") : "#3c6fa5",
+				secondaryColor: clientStyling && clientStyling.get("secondaryColor") ? clientStyling.get("secondaryColor") : "#919aa1"
+			};
+
+			// Create a response object
+			const response = { status: 200, message: t("label.success", { lng: browserLng }), clientStyling: clientStylingProperties };
+
+			// Return the response object
+			return response;
+		} catch (error) {
+			throw error;
+		}
+	});
+}
+
+// Update Client Styling
+export function updateClientStyling(requestProperties, authenticatedUser, browserLng) {
+	return database().transaction(async function(transaction) {
+		try {
+			// Load client for authenticated user
+			const client = await models().client.findOne({ where: { id: authenticatedUser.clientId, active: true } }, { transaction: transaction });
+
+			// Throw an error if the client does not exist
+			if (client === null) {
+				throw new ServerResponseError(403, t("validation.loadUserPropertiesFailed", { lng: browserLng }), { client: [t("validation.loadClientFailed", { lng: browserLng })] });
+			}
+
+			// Load user properties for authenticated user
+			const user = await models().user.findOne({ where: { id: authenticatedUser.userId, clientId: client.get("id"), active: true } }, { transaction: transaction });
+
+			// Throw an error if the user does not exist
+			if (user === null) {
+				throw new ServerResponseError(403, t("validation.loadUserPropertiesFailed", { lng: browserLng }), { user: [t("validation.loadUserPropertiesFailed", { lng: browserLng })] });
+			}
+
+			// Load client styling Object
+			const clientStyling = await models().clientStyling.findOne({ where: { clientId: client.get("id") } }, { transaction: transaction });
+
+			// If client styling row exists in database, update row
+			if (clientStyling !== null) {
+				// Patch our client model
+				if (requestProperties !== {}) {
+					clientStyling.update(requestProperties);
+				}
+			} else {
+				// Create new client styling object
+				await models().clientStyling.create(
+					{
+						clientId: client.get("id"),
+						...requestProperties
+					},
+					{ transaction: transaction }
+				);
+			}
+
+			// Create a response object
+			const response = { status: 200, message: t("label.success", { lng: browserLng }) };
+
+			// Return the response object
+			return response;
+		} catch (error) {
+			throw error;
+		}
+	});
+}
+
 // Load Localization
 export function loadLocalization(requestProperties, authenticatedUser, browserLng) {
 	return database().transaction(async function(transaction) {
