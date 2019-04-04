@@ -13,10 +13,12 @@ class Avatar extends Component {
 			<div className="avatar large large mb-3 view overlay rounded-circle d-inline-block">
 				<div data-tip={t("components.profile.changeProfilePhoto")} data-for="avatar">
 					<Link to={{ pathname: "/profile/change-profile-photo" }}>
-						<img className="rounded-circle img-thumbnail" src={this.props.photo || require("distribution/images/avatar.svg")} />
-						<div className="image-overlay rounded-circle img-thumbnail">
-							<div className="icon">
-								<Upload width="1.5em" height="1.5em" color="#FFF" />
+						<div>
+							<img className="rounded-circle img-thumbnail" src={this.props.photo || require("distribution/images/avatar.svg")} />
+							<div className="image-overlay rounded-circle img-thumbnail">
+								<div className="icon">
+									<Upload width="1.5em" height="1.5em" color="#FFF" />
+								</div>
 							</div>
 						</div>
 					</Link>
