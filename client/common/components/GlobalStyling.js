@@ -14,7 +14,7 @@ class GlobalStyling extends Component {
 
             a:hover {
                 color: ${color};
-                filter: brightness(85%);
+                filter: brightness(105%);
             }
 
             .btn-primary {
@@ -25,7 +25,7 @@ class GlobalStyling extends Component {
             .btn-primary:hover {
                 background-color: ${color};
                 border-color: ${color};
-                filter: brightness(120%);
+                filter: brightness(95%);
             }
 
             .btn-primary.active, .btn-primary:active, .btn-primary.focus, .btn-primary:focus {
@@ -74,7 +74,7 @@ class GlobalStyling extends Component {
 
             .btn-link:hover {
                 color: ${color};
-                filter: brightness(120%);
+                filter: brightness(95%);
             }
 
             .btn-link:disabled, .btn-link.disabled {
@@ -96,7 +96,7 @@ class GlobalStyling extends Component {
 
             .custom-control-input:active ~ .custom-control-label::before {
                 background-color: ${color};
-                filter: brightness(120%);
+                filter: brightness(95%);
             }
               
             .custom-control-input:disabled ~ .custom-control-label::before {

@@ -35,8 +35,10 @@
 			bottom: 0;
 			left: 50%;
 			right: 0;
-			height: 10rem;
-			width: 10rem;
+			min-width: $square;
+			min-height: $square;
+			max-width: $square;
+			max-height: $square;
 			margin-left: -5rem;
 			opacity: 0;
 			transition: 0.3s ease;

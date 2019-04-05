@@ -12,7 +12,7 @@ class Avatar extends Component {
 		return (
 			<div className="avatar large large mb-3 view overlay rounded-circle d-inline-block">
 				<div data-tip={t("components.profile.changeProfilePhoto")} data-for="avatar">
-					<Link to={{ pathname: "/profile/change-profile-photo" }}>
+					<Link to={{ pathname: "/profile/change-profile-photo" }} className="d-block">
 						<div>
 							<img className="rounded-circle img-thumbnail" src={this.props.photo || require("distribution/images/avatar.svg")} />
 							<div className="image-overlay rounded-circle img-thumbnail">
