@@ -5,6 +5,8 @@ import {
 	updateClient as updateClientDetails,
 	loadClientStyling as loadStyling,
 	updateClientStyling as updateStyling,
+	generateSignedPhotoURL,
+	uploadPhotoToSignedURL,
 	loadLocalization as loadLocalizationDetails,
 	updateLocalization as updateLocalizationDetails,
 	deleteWorkspace as performDeleteWorkspace
@@ -262,6 +264,44 @@ export function updateClientStyling(body) {
 					type: UPDATE_CLIENT_STYLING_FULFILLED,
 					payload: result
 				});
+			},
+			error =>
+				dispatch({
+					type: UPDATE_CLIENT_STYLING_REJECTED,
+					payload: error
+				})
+		);
+	};
+}
+
+export function generateSignedURL(body) {
+	return dispatch => {
+		dispatch({
+			type: UPDATE_CLIENT_STYLING_PENDING
+		});
+
+		return generateSignedPhotoURL(body).then(
+			result => {
+				return result;
+			},
+			error =>
+				dispatch({
+					type: UPDATE_CLIENT_STYLING_REJECTED,
+					payload: error
+				})
+		);
+	};
+}
+
+export function uploadToSignedURL(body) {
+	return dispatch => {
+		dispatch({
+			type: UPDATE_CLIENT_STYLING_PENDING
+		});
+
+		return uploadPhotoToSignedURL(body).then(
+			result => {
+				return result;
 			},
 			error =>
 				dispatch({

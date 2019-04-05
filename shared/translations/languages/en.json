@@ -223,7 +223,14 @@
 				"primaryColor": "Primary Color",
 				"primaryColorDescription": "This color is the most prominent color across the pages in your workspace. It is visible in the navigation bar at the top of the page, and in the color of most buttons, links, and other significant page elements.",
 				"secondaryColor": "Secondary Color",
-				"secondaryColorDescription": "A secondary color provides more ways to brand your workspace by accenting smaller and less noticeable areas of each page. This is an optional field."
+				"secondaryColorDescription": "A secondary color provides more ways to brand your workspace by accenting smaller and less noticeable areas of each page. This is an optional field.",
+				"logoImage": "Logo Image",
+				"selectLogoImage": "Select Logo Image",
+				"logoImageDescription": "A custom logo image is visible in two places, when a user visits the sign-in page of your workspace, and from the drop-down menu in the header. If no image is selected, the default will be shown.",
+				"backgroundImage": "Background Image",
+				"selectBackgroundImage": "Select Background Image",
+				"backgroundImageDescription": "A custom background image is visible from the sign-in page of your workspace. If no image is selected, a solid color will be shown instead.",
+				"deleteExistingImage": "Remove existing image?"
 			},
 			"localization": {
 				"languageAndLocalization": "Language & Localization",
@@ -365,6 +372,7 @@
 			"cannotBeBlank": "$t(label.errorField) Field cannot be blank.",
 			"validCharactersAZ09": "$t(label.errorField) Field can only contain characters from a-z and 0-9, and no spaces.",
 			"validHex": "$t(label.errorField) Field is not a valid hex color value.",
+			"validKey": "$t(label.errorField) File upload is not of the correct format.",
 			"invalidURL": "$t(label.errorField) Not a valid URL.",
 			"invalidPasswordLength": "$t(label.errorField) Password field must be greater than 6 characters.",
 			"unmatchedPasswords": "$t(label.errorField) Confirm Password should match New Password."

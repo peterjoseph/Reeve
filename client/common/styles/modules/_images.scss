@@ -1,3 +1,5 @@
+@import "./bootstrap_variations";
+
 // Avatar Icon
 .avatar {
 	&.small {
@@ -61,5 +63,19 @@
 			opacity: 0.5;
 			cursor: pointer;
 		}
+	}
+}
+
+// Appearance & Branding Image Containers
+.image-container {
+	$size: 6rem;
+	background-color: $gray-200;
+
+	img {
+		min-width: calc(#{$size * 1.8});
+		min-height: $size;
+		max-width: calc(#{$size * 1.8});
+		max-height: $size;
+		object-fit: contain;
 	}
 }

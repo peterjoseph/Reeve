@@ -70,7 +70,7 @@ npm install && npm start
 -   [ ] Billing
 -   [x] Change Password
 -   [x] User Profile
--   [ ] Application Settings
+-   [x] Application Settings
 
 ## Documentation
 

@@ -30,6 +30,27 @@ export function updateClientStyling(body) {
 	});
 }
 
+// Generate signed S3 url to client styling photo
+export function generateSignedPhotoURL(body) {
+	return fetch.perform("/api/v1.0/client/styling/generate_signed_photo_url", {
+		method: "GET",
+		headers: {
+			contentType: body.contentType
+		}
+	});
+}
+
+// Send file to signed S3 url
+export function uploadPhotoToSignedURL(body) {
+	return fetch.simple(body.signedURL, {
+		method: "PUT",
+		headers: {
+			"Content-Type": body.contentType
+		},
+		body: body.data
+	});
+}
+
 // Load Localization Settings
 export function loadLocalization() {
 	return fetch.perform("/api/v1.0/settings/localization", {

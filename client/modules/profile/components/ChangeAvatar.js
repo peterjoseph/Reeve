@@ -71,7 +71,7 @@ class ChangeAvatar extends Component {
 		// Get single file from files object and check object type
 		const file = body.files[0].src.file;
 
-		if (!file instanceof File) {
+		if (!(file instanceof File)) {
 			this.setState({
 				loading: false
 			});

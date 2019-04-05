@@ -43,6 +43,22 @@ const updateClientStyling = (updateType = "post") => {
 	const required = updateType == "patch" ? false : true;
 
 	return {
+		logoImage: {
+			presence: required,
+			format: {
+				pattern: "^$|[0-9]*_[0-9]*_[0-9]*.[a-z]+$",
+				flags: "i",
+				message: t("validation.validators.validKey")
+			}
+		},
+		backgroundImage: {
+			presence: required,
+			format: {
+				pattern: "^$|[0-9]*_[0-9]*_[0-9]*.[a-z]+$",
+				flags: "i",
+				message: t("validation.validators.validKey")
+			}
+		},
 		backgroundColor: {
 			presence: required,
 			noEmptyValue: true,

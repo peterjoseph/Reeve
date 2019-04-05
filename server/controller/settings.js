@@ -11,9 +11,9 @@ import {
 	updateLocalization as updateLocalizationValidation,
 	deleteWorkspace as deleteWorkspaceValidation
 } from "shared/validation/settings";
-import { removeUniqueProperties } from "shared/utilities/filters";
+import { removeUniqueProperties, variableExists } from "shared/utilities/filters";
 
-import { loadClient, updateClient, loadClientStyling, updateClientStyling, loadLocalization, updateLocalization, deleteWorkspace } from "../orchestrator/settings";
+import { loadClient, updateClient, loadClientStyling, updateClientStyling, generateSignedPhotoURL, loadLocalization, updateLocalization, deleteWorkspace } from "../orchestrator/settings";
 
 module.exports = function(router) {
 	// Load Client
@@ -150,6 +150,51 @@ module.exports = function(router) {
 
 			// Perform new client parameters write and return response
 			updateClientStyling(requestProperties, authenticatedUser, browserLng).then(
+				result => {
+					return res.status(200).send(result);
+				},
+				error => {
+					return next(error);
+				}
+			);
+		}
+	);
+
+	// Generate a signed url to upload client styling photos
+	router.get(
+		"/api/v1.0/client/styling/generate_signed_photo_url",
+		restrict({
+			registered: true,
+			unregistered: false,
+			hasAnyRole: [ROLE_TYPE.OWNER, ROLE_TYPE.ADMINISTRATOR],
+			hasAllFeatures: [FEATURES.STYLING]
+		}),
+		function(req, res, next) {
+			// Get workspaceURL name from header
+			const contentType = req.headers["contenttype"] ? req.headers["contenttype"] : "";
+
+			// Load browser language from header
+			const browserLng = browserResponseLng(req);
+
+			// Validate header item exists and contentType is of suitable format
+			if (!variableExists(contentType) || !["image/jpg", "image/jpeg", "image/png"].includes(contentType)) {
+				const error = new ServerResponseError(403, t("validation.signedURLInvalidProperties", { lng: browserLng }), { contentType: [t("validation.invalidContentType", { lng: browserLng })] });
+				return next(error);
+			}
+
+			// Store contentType in new object
+			const requestProperties = {
+				contentType: contentType
+			};
+
+			// Create object with authenticated user information
+			const authenticatedUser = {
+				userId: req.user.userId,
+				clientId: req.user.clientId
+			};
+
+			// Generate signed url and return response
+			generateSignedPhotoURL(requestProperties, authenticatedUser, browserLng).then(
 				result => {
 					return res.status(200).send(result);
 				},

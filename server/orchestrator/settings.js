@@ -1,9 +1,10 @@
 import bcrypt from "bcrypt";
 
 import { database, models } from "services/sequelize";
+import { presignedGetObject, presignedPutObject, checkObjectExists, deleteObject } from "services/s3";
 import { t } from "shared/translations/i18n";
 import { variableExists, arrayHasAny } from "shared/utilities/filters";
-import { LANGUAGE_CODES, ROLE_TYPE } from "shared/constants";
+import { LANGUAGE_CODES, ROLE_TYPE, SIGNED_URL_EXPIRY_TIME, ACL_POLICIES } from "shared/constants";
 import { ServerResponseError } from "utilities/errors/serverResponseError";
 
 import config from "../../config";
@@ -109,10 +110,42 @@ export function loadClientStyling(requestProperties, authenticatedUser, browserL
 			// Load client styling
 			const clientStyling = await models().clientStyling.findOne({ where: { clientId: client.get("id") } }, { transaction: transaction });
 
+			// Fetch a signed url for logo Image
+			let logoImageURL = "";
+			try {
+				const imageKey = clientStyling.get("logoImage");
+				if (variableExists(imageKey)) {
+					const imageExists = await checkObjectExists(config.s3.bucket, imageKey);
+					if (imageExists == true) {
+						const url = await presignedGetObject(config.s3.bucket, imageKey, SIGNED_URL_EXPIRY_TIME.DISPLAY_CLIENT_STYLING_IMAGES);
+						logoImageURL = url.signedURL;
+					}
+				}
+			} catch (error) {
+				logoImageURL = "";
+			}
+
+			// Fetch a signed url for background image
+			let backgroundImageURL = "";
+			try {
+				const imageKey = clientStyling.get("backgroundImage");
+				if (variableExists(imageKey)) {
+					const imageExists = await checkObjectExists(config.s3.bucket, imageKey);
+					if (imageExists == true) {
+						const url = await presignedGetObject(config.s3.bucket, imageKey, SIGNED_URL_EXPIRY_TIME.DISPLAY_CLIENT_STYLING_IMAGES);
+						backgroundImageURL = url.signedURL;
+					}
+				}
+			} catch (error) {
+				backgroundImageURL = "";
+			}
+
 			// Create response properties to be returned back to the front-end
 			const clientStylingProperties = {
 				logoImage: clientStyling && clientStyling.get("logoImage") ? clientStyling.get("logoImage") : "",
+				logoImageURL: logoImageURL,
 				backgroundImage: clientStyling && clientStyling.get("backgroundImage") ? clientStyling.get("backgroundImage") : "",
+				backgroundImageURL: backgroundImageURL,
 				backgroundColor: clientStyling && clientStyling.get("backgroundColor") ? clientStyling.get("backgroundColor") : "#3c6fa5",
 				primaryColor: clientStyling && clientStyling.get("primaryColor") ? clientStyling.get("primaryColor") : "#3c6fa5",
 				secondaryColor: clientStyling && clientStyling.get("secondaryColor") ? clientStyling.get("secondaryColor") : "#919aa1"
@@ -152,8 +185,36 @@ export function updateClientStyling(requestProperties, authenticatedUser, browse
 			// Load client styling Object
 			const clientStyling = await models().clientStyling.findOne({ where: { clientId: client.get("id") } }, { transaction: transaction });
 
+			// If logoImage is being supplied validate it exists in the bucket
+			if ("logoImage" in requestProperties && variableExists(requestProperties.logoImage)) {
+				// Confirm that the provided key links to an S3 bucket image
+				const objectExists = await checkObjectExists(config.s3.bucket, requestProperties.logoImage);
+				if (objectExists !== true) {
+					throw new ServerResponseError(403, t("validation.imageKeyInvalid", null));
+				}
+			}
+
+			// If backgroundImage is being supplied validate it exists in the bucket
+			if ("backgroundImage" in requestProperties && variableExists(requestProperties.backgroundImage)) {
+				// Confirm that the provided key links to an S3 bucket image
+				const objectExists = await checkObjectExists(config.s3.bucket, requestProperties.backgroundImage);
+				if (objectExists !== true) {
+					throw new ServerResponseError(403, t("validation.imageKeyInvalid", null));
+				}
+			}
+
 			// If client styling row exists in database, update row
 			if (clientStyling !== null) {
+				// If old logo image exists delete image
+				if ("logoImage" in requestProperties && variableExists(clientStyling.get("logoImage"))) {
+					await deleteObject(config.s3.bucket, clientStyling.get("logoImage"));
+				}
+
+				// If old background image exists delete image
+				if ("backgroundImage" in requestProperties && variableExists(clientStyling.get("backgroundImage"))) {
+					await deleteObject(config.s3.bucket, clientStyling.get("backgroundImage"));
+				}
+
 				// Patch our client model
 				if (requestProperties !== {}) {
 					clientStyling.update(requestProperties);
@@ -171,6 +232,31 @@ export function updateClientStyling(requestProperties, authenticatedUser, browse
 
 			// Create a response object
 			const response = { status: 200, message: t("label.success", { lng: browserLng }) };
+
+			// Return the response object
+			return response;
+		} catch (error) {
+			throw error;
+		}
+	});
+}
+
+// Generate a signed url for client styling photo uploading
+export function generateSignedPhotoURL(requestProperties, authenticatedUser, browserLng) {
+	return database().transaction(async function() {
+		try {
+			// Generate S3 presigned URL
+			const url = await presignedPutObject(
+				requestProperties.contentType,
+				config.s3.bucket,
+				SIGNED_URL_EXPIRY_TIME.CHANGE_CLIENT_STYLING_IMAGES,
+				ACL_POLICIES.PUBLIC_READ,
+				authenticatedUser.clientId,
+				authenticatedUser.userId
+			);
+
+			// Create a response object
+			const response = { status: 200, message: t("label.success", { lng: browserLng }), key: url.key, signedURL: url.signedURL };
 
 			// Return the response object
 			return response;

@@ -38,9 +38,33 @@ export function validateWorkspaceURL(requestProperties, authenticatedUser, brows
 			if (arrayContains(FEATURES.STYLING, features)) {
 				let styling = await models().clientStyling.findOne({ where: { clientId: client.get("id") } }, { transaction: transaction });
 				if (styling != null) {
+					// Fetch a signed url for logo Image
+					let logoImageURL = "";
+					try {
+						const imageKey = styling.get("logoImage");
+						if (variableExists(imageKey)) {
+							const url = await presignedGetObject(config.s3.bucket, imageKey, SIGNED_URL_EXPIRY_TIME.DISPLAY_CLIENT_STYLING_IMAGES);
+							logoImageURL = url.signedURL;
+						}
+					} catch (error) {
+						logoImageURL = "";
+					}
+
+					// Fetch a signed url for background image
+					let backgroundImageURL = "";
+					try {
+						const imageKey = styling.get("backgroundImage");
+						if (variableExists(imageKey)) {
+							const url = await presignedGetObject(config.s3.bucket, imageKey, SIGNED_URL_EXPIRY_TIME.DISPLAY_CLIENT_STYLING_IMAGES);
+							backgroundImageURL = url.signedURL;
+						}
+					} catch (error) {
+						backgroundImageURL = "";
+					}
+
 					clientStyling = {
-						logoImage: styling.get("logoImage"),
-						backgroundImage: styling.get("backgroundImage"),
+						logoImage: logoImageURL,
+						backgroundImage: backgroundImageURL,
 						backgroundColor: styling.get("backgroundColor"),
 						primaryColor: styling.get("primaryColor"),
 						secondaryColor: styling.get("secondaryColor")
@@ -358,10 +382,35 @@ export function loadUser(requestProperties, authenticatedUser, browserLng) {
 			if (arrayContains(FEATURES.STYLING, features)) {
 				let styling = await models().clientStyling.findOne({ where: { clientId: client.get("id") } }, { transaction: transaction });
 				if (styling != null) {
+					// Fetch a signed url for logo Image
+					let logoImageURL = "";
+					try {
+						const imageKey = styling.get("logoImage");
+						if (variableExists(imageKey)) {
+							const url = await presignedGetObject(config.s3.bucket, imageKey, SIGNED_URL_EXPIRY_TIME.DISPLAY_CLIENT_STYLING_IMAGES);
+							logoImageURL = url.signedURL;
+						}
+					} catch (error) {
+						logoImageURL = "";
+					}
+
+					// Fetch a signed url for background image
+					let backgroundImageURL = "";
+					try {
+						const imageKey = styling.get("backgroundImage");
+						if (variableExists(imageKey)) {
+							const url = await presignedGetObject(config.s3.bucket, imageKey, SIGNED_URL_EXPIRY_TIME.DISPLAY_CLIENT_STYLING_IMAGES);
+							backgroundImageURL = url.signedURL;
+						}
+					} catch (error) {
+						backgroundImageURL = "";
+					}
+
+					// Create user properties object including client styling
 					userProperties = {
 						...userProperties,
-						logoImage: styling.get("logoImage"),
-						backgroundImage: styling.get("backgroundImage"),
+						logoImage: logoImageURL,
+						backgroundImage: backgroundImageURL,
 						backgroundColor: styling.get("backgroundColor"),
 						primaryColor: styling.get("primaryColor"),
 						secondaryColor: styling.get("secondaryColor")

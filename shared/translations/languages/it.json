@@ -227,7 +227,14 @@
 				"primaryColor": "Colore primario",
 				"primaryColorDescription": "Questo colore è il colore più evidente tra le pagine nel tuo spazio di lavoro. È visibile nella barra di navigazione nella parte superiore della pagina e nel colore della maggior parte dei pulsanti, dei collegamenti e di altri elementi della pagina significativi.",
 				"secondaryColor": "Colore secondario",
-				"secondaryColorDescription": "Un colore secondario offre più modi per marcare il tuo spazio di lavoro, accentuando le aree più piccole e meno evidenti di ciascuna pagina. Questo è un campo facoltativo."
+				"secondaryColorDescription": "Un colore secondario offre più modi per marcare il tuo spazio di lavoro, accentuando le aree più piccole e meno evidenti di ciascuna pagina. Questo è un campo facoltativo.",
+				"logoImage": "Immagine del logo",
+				"selectLogoImage": "Seleziona l'immagine del logo",
+				"logoImageDescription": "Un'immagine del logo personalizzato è visibile in due punti, quando un utente visita la pagina di accesso dell'area di lavoro e dal menu a discesa nell'intestazione. Se non è selezionata alcuna immagine, verrà mostrato il valore predefinito.",
+				"backgroundImage": "Immagine di sfondo",
+				"selectBackgroundImage": "Seleziona l'immagine di sfondo",
+				"backgroundImageDescription": "Un'immagine di sfondo personalizzata è visibile dalla pagina di accesso dell'area di lavoro. Se non è selezionata alcuna immagine, verrà invece visualizzato un colore a tinta unita.",
+				"deleteExistingImage": "Elimina l'immagine esistente"
 			},
 			"localization": {
 				"languageAndLocalization": "Lingua e Localizzazione",
@@ -364,6 +371,7 @@
 			"cannotBeBlank": "$t(label.errorField) Non può essere vuoto.",
 			"validCharactersAZ09": "$t(label.errorField) Può contenere solo caratteri da a-z e 0-9 e nessuno spazio.",
 			"validHex": "$t(label.errorField) Il campo non è un valore di colore esadecimale valido.",
+			"validKey": "$t(label.errorField) Il caricamento del file non è del formato corretto.",
 			"invalidURL": "$t(label.errorField) Non è un URL valido.",
 			"invalidPasswordLength": "$t(label.errorField) Il campo della password deve essere maggiore di 6 caratteri.",
 			"unmatchedPasswords": "$t(label.errorField) Conferma password deve corrispondere alla nuova password."
