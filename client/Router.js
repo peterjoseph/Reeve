@@ -10,7 +10,7 @@ import AsyncComponent from "common/components/AsyncComponent";
 import GoogleAnalytics from "common/components/GoogleAnalytics";
 
 // Layout Components
-const DefaultLayout = AsyncComponent(() => import("common/layouts/DefaultLayout"));
+import DefaultLayout from "common/layouts/DefaultLayout";
 
 // Page Components
 const Authentication = AsyncComponent(() => import("./modules/authentication"));

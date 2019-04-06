@@ -1,18 +1,16 @@
 import { fromJS } from "immutable";
 import { REDUX_STATE } from "shared/constants";
 import {
-	clientRegistration,
+	validateWorkspaceURL as workspaceURLValidation,
 	userLogin,
 	userLogout,
 	userLoad,
-	workspaceURLValidation,
+	clientRegistration,
 	forgotAccountDetails,
 	resetPasswordCodeValidation,
 	resetPassword,
 	verifyEmail
 } from "client/api/authentication.js";
-
-import "./root";
 
 export const AUTHENTICATION = "authentication";
 

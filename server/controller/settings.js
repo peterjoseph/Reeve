@@ -18,7 +18,7 @@ import { loadClient, updateClient, loadClientStyling, updateClientStyling, gener
 module.exports = function(router) {
 	// Load Client
 	router.get(
-		"/api/v1.0/client",
+		"/api/v1.0/settings",
 		restrict({
 			registered: true,
 			unregistered: false,
@@ -48,7 +48,7 @@ module.exports = function(router) {
 
 	// Update Client
 	router.patch(
-		"/api/v1.0/client",
+		"/api/v1.0/settings",
 		restrict({
 			registered: true,
 			unregistered: false,
@@ -89,7 +89,7 @@ module.exports = function(router) {
 
 	// Load Client Styling
 	router.get(
-		"/api/v1.0/client/styling",
+		"/api/v1.0/settings/workspace-styling",
 		restrict({
 			registered: true,
 			unregistered: false,
@@ -120,7 +120,7 @@ module.exports = function(router) {
 
 	// Update Client Styling
 	router.patch(
-		"/api/v1.0/client/styling",
+		"/api/v1.0/settings/workspace-styling",
 		restrict({
 			registered: true,
 			unregistered: false,
@@ -162,7 +162,7 @@ module.exports = function(router) {
 
 	// Generate a signed url to upload client styling photos
 	router.get(
-		"/api/v1.0/client/styling/generate_signed_photo_url",
+		"/api/v1.0/settings/generate-signed-photo-url",
 		restrict({
 			registered: true,
 			unregistered: false,
@@ -277,7 +277,7 @@ module.exports = function(router) {
 	);
 
 	// Delete Workspace
-	router.post("/api/v1.0/settings/delete_workspace", restrict({ registered: true, unregistered: false, hasAllRoles: [ROLE_TYPE.OWNER] }), function(req, res, next) {
+	router.post("/api/v1.0/settings/delete-workspace", restrict({ registered: true, unregistered: false, hasAllRoles: [ROLE_TYPE.OWNER] }), function(req, res, next) {
 		// Store received object properties
 		const requestProperties = {
 			workspaceURL: req.body.workspaceURL,

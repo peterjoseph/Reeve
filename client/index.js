@@ -33,7 +33,7 @@ ReactDOM.render(
 	<Provider store={store}>
 		<I18nextProvider i18n={i18next}>
 			<Fragment>
-				<Notifications options={{ animationDuration: 0 }} />
+				<Notifications />
 				<App />
 				<ReactTooltip />
 			</Fragment>

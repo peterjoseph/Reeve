@@ -5,13 +5,11 @@ import {
 	updatePersonalProfile,
 	changeUserPassword,
 	verifyEmailChange,
-	generateSignedProfilePhotoURL,
-	uploadProfilePhotoToSignedURL,
 	saveUserProfilePhoto,
-	deleteUserProfilePhoto
+	deleteUserProfilePhoto,
+	generateSignedProfilePhotoURL,
+	uploadProfilePhotoToSignedURL
 } from "client/api/profile.js";
-
-import "./root";
 
 export const PROFILE = "profile";
 

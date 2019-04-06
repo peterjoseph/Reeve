@@ -2,8 +2,6 @@ import { fromJS } from "immutable";
 import { REDUX_STATE } from "shared/constants";
 import { clientSubscriptionDetails, availableSubscriptions } from "client/api/billing.js";
 
-import "./root";
-
 export const BILLING = "billing";
 
 export const LOAD_CLIENT_SUBSCRIPTION_DETAILS_PENDING = BILLING + "/LOAD_CLIENT_SUBSCRIPTION_DETAILS_PENDING";

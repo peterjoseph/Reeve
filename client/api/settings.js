@@ -1,30 +1,30 @@
 import fetch from "common/fetch";
 
-// Load Client Details
+// Load Client Settings
 export function loadClient() {
-	return fetch.perform("/api/v1.0/client", {
+	return fetch.perform("/api/v1.0/settings", {
 		method: "GET"
 	});
 }
 
-// Update Client Details
+// Update Client Settings
 export function updateClient(body) {
-	return fetch.perform("/api/v1.0/client", {
+	return fetch.perform("/api/v1.0/settings", {
 		method: "PATCH",
 		body: JSON.stringify(body)
 	});
 }
 
-// Load Client Styling
+// Load Client Workspace Styling
 export function loadClientStyling() {
-	return fetch.perform("/api/v1.0/client/styling", {
+	return fetch.perform("/api/v1.0/settings/workspace-styling", {
 		method: "GET"
 	});
 }
 
-// Update Client Styling
+// Update Client Workspace Styling
 export function updateClientStyling(body) {
-	return fetch.perform("/api/v1.0/client/styling", {
+	return fetch.perform("/api/v1.0/settings/workspace-styling", {
 		method: "PATCH",
 		body: JSON.stringify(body)
 	});
@@ -32,7 +32,7 @@ export function updateClientStyling(body) {
 
 // Generate signed S3 url to client styling photo
 export function generateSignedPhotoURL(body) {
-	return fetch.perform("/api/v1.0/client/styling/generate_signed_photo_url", {
+	return fetch.perform("/api/v1.0/settings/generate-signed-photo-url", {
 		method: "GET",
 		headers: {
 			contentType: body.contentType
@@ -68,7 +68,7 @@ export function updateLocalization(body) {
 
 // Delete Workspace
 export function deleteWorkspace(body) {
-	return fetch.perform("/api/v1.0/settings/delete_workspace", {
+	return fetch.perform("/api/v1.0/settings/delete-workspace", {
 		method: "POST",
 		body: JSON.stringify({
 			workspaceURL: body.workspaceURL,

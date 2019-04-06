@@ -21,7 +21,7 @@ import {
 
 module.exports = function(router) {
 	// Validate Workspace URL
-	router.get("/api/v1.0/validate_workspace_url/", restrict({ registered: true, unregistered: true }), function(req, res, next) {
+	router.get("/api/v1.0/authentication/validate-workspace-url", restrict({ registered: true, unregistered: true }), function(req, res, next) {
 		// Get workspaceURL name from header
 		const workspaceURL = req.headers["workspaceurl"] ? req.headers["workspaceurl"] : "";
 
@@ -51,7 +51,7 @@ module.exports = function(router) {
 	});
 
 	// Register New Client Account
-	router.post("/api/v1.0/register", restrict({ unregistered: true }), function(req, res, next) {
+	router.post("/api/v1.0/authentication/register", restrict({ unregistered: true }), function(req, res, next) {
 		// Store received object properties
 		const requestProperties = {
 			workspaceURL: req.body.workspaceURL,
@@ -85,7 +85,7 @@ module.exports = function(router) {
 	});
 
 	// Login to user account
-	router.post("/api/v1.0/login", restrict({ unregistered: true, registered: true }), function(req, res, next) {
+	router.post("/api/v1.0/authentication/login", restrict({ unregistered: true, registered: true }), function(req, res, next) {
 		// Load browser language from header
 		const browserLng = browserResponseLng(req);
 
@@ -122,7 +122,7 @@ module.exports = function(router) {
 	});
 
 	// Logout of user account
-	router.post("/api/v1.0/logout/", restrict({ registered: true }), function(req, res) {
+	router.post("/api/v1.0/authentication/logout", restrict({ registered: true }), function(req, res) {
 		// Express Logout
 		req.logout();
 		// Destroy the session
@@ -132,7 +132,7 @@ module.exports = function(router) {
 	});
 
 	// Load user properties
-	router.get("/api/v1.0/load_user/", restrict({ registered: true }), function(req, res, next) {
+	router.get("/api/v1.0/authentication/load-user", restrict({ registered: true }), function(req, res, next) {
 		// Load browser language from header
 		const browserLng = browserResponseLng(req);
 
@@ -149,7 +149,7 @@ module.exports = function(router) {
 	});
 
 	// Resend verify email address email
-	router.post("/api/v1.0/resend_verify_email/", restrict({ registered: true }), function(req, res, next) {
+	router.post("/api/v1.0/authentication/resend-verify-email", restrict({ registered: true }), function(req, res, next) {
 		// Load browser language from header
 		const browserLng = browserResponseLng(req);
 
@@ -175,7 +175,7 @@ module.exports = function(router) {
 	});
 
 	// Forgot account details password request
-	router.post("/api/v1.0/forgot_account_details/", restrict({ unregistered: true }), function(req, res, next) {
+	router.post("/api/v1.0/authentication/forgot-account-details", restrict({ unregistered: true }), function(req, res, next) {
 		// Authenticate with user properties sent in body
 		const requestProperties = {
 			emailAddress: req.body.emailAddress
@@ -227,7 +227,7 @@ module.exports = function(router) {
 	});
 
 	// Confirm a supplied reset password code is valid
-	router.get("/api/v1.0/validate_reset_password_code/", restrict({ unregistered: true }), function(req, res, next) {
+	router.get("/api/v1.0/authentication/validate-reset-password-code", restrict({ unregistered: true }), function(req, res, next) {
 		// Get reset password code and workspaceURL from header
 		const resetCode = req.headers["code"] ? req.headers["code"] : "";
 		const workspaceURL = req.headers["workspaceurl"] ? req.headers["workspaceurl"] : "";
@@ -266,7 +266,7 @@ module.exports = function(router) {
 	});
 
 	// Reset user password
-	router.post("/api/v1.0/reset_password/", restrict({ unregistered: true }), function(req, res, next) {
+	router.post("/api/v1.0/authentication/reset-password", restrict({ unregistered: true }), function(req, res, next) {
 		// Store received object properties
 		const requestProperties = {
 			password: req.body.password,
@@ -297,7 +297,7 @@ module.exports = function(router) {
 	});
 
 	// Verify User Email
-	router.post("/api/v1.0/verify_email/", restrict({ registered: true, unregistered: true }), function(req, res, next) {
+	router.post("/api/v1.0/authentication/verify-email", restrict({ registered: true, unregistered: true }), function(req, res, next) {
 		// Store received object properties
 		const requestProperties = {
 			code: req.body.code,

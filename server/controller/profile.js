@@ -21,7 +21,7 @@ import {
 module.exports = function(router) {
 	// Load personal profile details
 	router.get(
-		"/api/v1.0/profile/",
+		"/api/v1.0/profile",
 		restrict({
 			registered: true,
 			unregistered: false
@@ -50,7 +50,7 @@ module.exports = function(router) {
 
 	// Update user profile
 	router.patch(
-		"/api/v1.0/profile/",
+		"/api/v1.0/profile",
 		restrict({
 			registered: true,
 			unregistered: false
@@ -88,7 +88,7 @@ module.exports = function(router) {
 	);
 
 	// Verify User Email Change
-	router.post("/api/v1.0/verify/email_change/", restrict({ registered: true, unregistered: true }), function(req, res, next) {
+	router.post("/api/v1.0/profile/verify-email-change", restrict({ registered: true, unregistered: true }), function(req, res, next) {
 		// Store received object properties
 		const requestProperties = {
 			code: req.body.code,
@@ -117,50 +117,9 @@ module.exports = function(router) {
 		);
 	});
 
-	// Change User Language
-	router.post(
-		"/api/v1.0/change_user_language/",
-		restrict({
-			registered: true,
-			unregistered: false
-		}),
-		function(req, res, next) {
-			// Store received object properties
-			const requestProperties = {
-				language: req.body.language
-			};
-
-			// Load browser language from header
-			const browserLng = browserResponseLng(req);
-
-			// Create user information object
-			const authenticatedUser = {
-				userId: req.user.userId,
-				clientId: req.user.clientId
-			};
-
-			// Validate properties in received object
-			const valid = validate(requestProperties, changeSavedLanguage());
-			if (valid != null) {
-				const errorMsg = new ServerResponseError(403, t("validation.changeLanguageInvalidProperties", { lng: browserLng }), valid);
-				return next(errorMsg);
-			}
-
-			// Validate new language and return response
-			changeLanguage(requestProperties, authenticatedUser, browserLng).then(
-				result => {
-					return res.status(200).send(result);
-				},
-				error => {
-					return next(error);
-				}
-			);
-		}
-	);
-
 	// Change User Password
 	router.post(
-		"/api/v1.0/change_password/",
+		"/api/v1.0/profile/change-password",
 		restrict({
 			registered: true,
 			unregistered: false
@@ -203,7 +162,7 @@ module.exports = function(router) {
 
 	// Generate a signed url to upload new profile photo
 	router.get(
-		"/api/v1.0/profile/generate_signed_profile_photo_url",
+		"/api/v1.0/profile/generate-signed-profile-photo-url",
 		restrict({
 			registered: true,
 			unregistered: false
@@ -246,7 +205,7 @@ module.exports = function(router) {
 
 	// Save user profile photo
 	router.post(
-		"/api/v1.0/profile/save_profile_photo/",
+		"/api/v1.0/profile/save-profile-photo",
 		restrict({
 			registered: true,
 			unregistered: false
@@ -292,7 +251,7 @@ module.exports = function(router) {
 
 	// Delete authenticated users profile photo
 	router.patch(
-		"/api/v1.0/profile/delete_profile_photo",
+		"/api/v1.0/profile/delete-profile-photo",
 		restrict({
 			registered: true,
 			unregistered: false
@@ -309,6 +268,47 @@ module.exports = function(router) {
 
 			// Delete user profile photo and return response
 			deleteUserProfilePhoto(null, authenticatedUser, browserLng).then(
+				result => {
+					return res.status(200).send(result);
+				},
+				error => {
+					return next(error);
+				}
+			);
+		}
+	);
+
+	// Change User Language
+	router.post(
+		"/api/v1.0/language/change-user-language",
+		restrict({
+			registered: true,
+			unregistered: false
+		}),
+		function(req, res, next) {
+			// Store received object properties
+			const requestProperties = {
+				language: req.body.language
+			};
+
+			// Load browser language from header
+			const browserLng = browserResponseLng(req);
+
+			// Create user information object
+			const authenticatedUser = {
+				userId: req.user.userId,
+				clientId: req.user.clientId
+			};
+
+			// Validate properties in received object
+			const valid = validate(requestProperties, changeSavedLanguage());
+			if (valid != null) {
+				const errorMsg = new ServerResponseError(403, t("validation.changeLanguageInvalidProperties", { lng: browserLng }), valid);
+				return next(errorMsg);
+			}
+
+			// Validate new language and return response
+			changeLanguage(requestProperties, authenticatedUser, browserLng).then(
 				result => {
 					return res.status(200).send(result);
 				},

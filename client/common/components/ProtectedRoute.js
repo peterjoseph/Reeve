@@ -3,10 +3,9 @@ import PropTypes from "prop-types";
 import { Route } from "react-router";
 import { Redirect } from "react-router-dom";
 import { arrayContains, arrayHasAny, variableExists, isObjectEmpty } from "shared/utilities/filters";
-import AsyncComponent from "./AsyncComponent";
 
-const DefaultLayout = AsyncComponent(() => import("common/layouts/DefaultLayout"));
-const MissingPath = AsyncComponent(() => import("./MissingPath"));
+import DefaultLayout from "common/layouts/DefaultLayout";
+import MissingPath from "./MissingPath";
 
 class ProtectedRoute extends Component {
 	render() {

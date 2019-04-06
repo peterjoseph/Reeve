@@ -3,8 +3,6 @@ import { REDUX_STATE } from "shared/constants";
 import i18next, { saveLNGToken } from "shared/translations/i18n";
 import { changeUserLanguage } from "client/api/language.js";
 
-import "./root";
-
 export const LANGUAGE = "language";
 
 export const CHANGE_LANGUAGE_PENDING = LANGUAGE + "/CHANGE_LANGUAGE_PENDING";

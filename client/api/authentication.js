@@ -1,8 +1,18 @@
 import fetch from "common/fetch";
 
+// Workspace URL Validation
+export function validateWorkspaceURL(workspaceURL) {
+	return fetch.perform("/api/v1.0/authentication/validate-workspace-url", {
+		method: "GET",
+		headers: {
+			workspaceURL: workspaceURL
+		}
+	});
+}
+
 // Account Registration
 export function clientRegistration(client) {
-	return fetch.perform("/api/v1.0/register/", {
+	return fetch.perform("/api/v1.0/authentication/register", {
 		method: "POST",
 		body: JSON.stringify({
 			workspaceURL: client.workspaceURL,
@@ -27,7 +37,7 @@ export function userLogin(user) {
 	if (user.authToken) {
 		body = { authToken: user.authToken };
 	}
-	return fetch.perform("/api/v1.0/login/", {
+	return fetch.perform("/api/v1.0/authentication/login", {
 		method: "POST",
 		body: JSON.stringify(body)
 	});
@@ -35,46 +45,36 @@ export function userLogin(user) {
 
 // User Logout
 export function userLogout() {
-	return fetch.perform("/api/v1.0/logout/", {
+	return fetch.perform("/api/v1.0/authentication/logout", {
 		method: "POST"
 	});
 }
 
 // Load user properties
 export function userLoad() {
-	return fetch.perform("/api/v1.0/load_user/", {
+	return fetch.perform("/api/v1.0/authentication/load-user", {
 		method: "GET"
-	});
-}
-
-// Workspace URL Validation
-export function workspaceURLValidation(workspaceURL) {
-	return fetch.perform("/api/v1.0/validate_workspace_url/", {
-		method: "GET",
-		headers: {
-			workspaceURL: workspaceURL
-		}
-	});
-}
-
-// Forgot Account Details
-export function forgotAccountDetails(user) {
-	return fetch.perform("/api/v1.0/forgot_account_details/", {
-		method: "POST",
-		body: JSON.stringify(user)
 	});
 }
 
 // Resend verify email address notification
 export function resendVerifyEmail() {
-	return fetch.perform("/api/v1.0/resend_verify_email/", {
+	return fetch.perform("/api/v1.0/authentication/resend-verify-email", {
 		method: "POST"
+	});
+}
+
+// Forgot Account Details
+export function forgotAccountDetails(user) {
+	return fetch.perform("/api/v1.0/authentication/forgot-account-details", {
+		method: "POST",
+		body: JSON.stringify(user)
 	});
 }
 
 // Reset Password Code Validation
 export function resetPasswordCodeValidation(reset) {
-	return fetch.perform("/api/v1.0/validate_reset_password_code/", {
+	return fetch.perform("/api/v1.0/authentication/validate-reset-password-code", {
 		method: "GET",
 		headers: {
 			code: reset.code,
@@ -85,7 +85,7 @@ export function resetPasswordCodeValidation(reset) {
 
 // Reset User Password
 export function resetPassword(reset) {
-	return fetch.perform("/api/v1.0/reset_password/", {
+	return fetch.perform("/api/v1.0/authentication/reset-password", {
 		method: "POST",
 		body: JSON.stringify({
 			password: reset.password,
@@ -98,7 +98,7 @@ export function resetPassword(reset) {
 
 // Verify User Email
 export function verifyEmail(user) {
-	return fetch.perform("/api/v1.0/verify_email/", {
+	return fetch.perform("/api/v1.0/authentication/verify-email", {
 		method: "POST",
 		body: JSON.stringify({
 			code: user.code,

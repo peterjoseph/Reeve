@@ -5,14 +5,12 @@ import {
 	updateClient as updateClientDetails,
 	loadClientStyling as loadStyling,
 	updateClientStyling as updateStyling,
-	generateSignedPhotoURL,
-	uploadPhotoToSignedURL,
 	loadLocalization as loadLocalizationDetails,
 	updateLocalization as updateLocalizationDetails,
-	deleteWorkspace as performDeleteWorkspace
+	deleteWorkspace as performDeleteWorkspace,
+	generateSignedPhotoURL,
+	uploadPhotoToSignedURL
 } from "client/api/settings.js";
-
-import "./root";
 
 export const SETTINGS = "settings";
 

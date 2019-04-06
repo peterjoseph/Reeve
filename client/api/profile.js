@@ -2,14 +2,14 @@ import fetch from "common/fetch";
 
 // Load User Personal Profile Details
 export function loadPersonalProfile() {
-	return fetch.perform("/api/v1.0/profile/", {
+	return fetch.perform("/api/v1.0/profile", {
 		method: "GET"
 	});
 }
 
 // Update User Personal Profile
 export function updatePersonalProfile(body) {
-	return fetch.perform("/api/v1.0/profile/", {
+	return fetch.perform("/api/v1.0/profile", {
 		method: "PATCH",
 		body: JSON.stringify(body)
 	});
@@ -17,7 +17,7 @@ export function updatePersonalProfile(body) {
 
 // Verify User Email Change
 export function verifyEmailChange(user) {
-	return fetch.perform("/api/v1.0/verify/email_change/", {
+	return fetch.perform("/api/v1.0/profile/verify-email-change", {
 		method: "POST",
 		body: JSON.stringify({
 			code: user.code,
@@ -29,7 +29,7 @@ export function verifyEmailChange(user) {
 
 // Change User Password
 export function changeUserPassword(body) {
-	return fetch.perform("/api/v1.0/change_password/", {
+	return fetch.perform("/api/v1.0/profile/change-password", {
 		method: "POST",
 		body: JSON.stringify({
 			currentPassword: body.currentPassword,
@@ -41,7 +41,7 @@ export function changeUserPassword(body) {
 
 // Generate signed S3 url to upload photo
 export function generateSignedProfilePhotoURL(body) {
-	return fetch.perform("/api/v1.0/profile/generate_signed_profile_photo_url/", {
+	return fetch.perform("/api/v1.0/profile/generate-signed-profile-photo-url", {
 		method: "GET",
 		headers: {
 			contentType: body.contentType
@@ -62,7 +62,7 @@ export function uploadProfilePhotoToSignedURL(body) {
 
 // Upload photo to signed url and notify backend
 export function saveUserProfilePhoto(body) {
-	return fetch.perform("/api/v1.0/profile/save_profile_photo/", {
+	return fetch.perform("/api/v1.0/profile/save-profile-photo", {
 		method: "POST",
 		body: JSON.stringify({
 			key: body.key
@@ -72,7 +72,7 @@ export function saveUserProfilePhoto(body) {
 
 // Delete existing user profile photo
 export function deleteUserProfilePhoto() {
-	return fetch.perform("/api/v1.0/profile/delete_profile_photo/", {
+	return fetch.perform("/api/v1.0/profile/delete-profile-photo", {
 		method: "PATCH"
 	});
 }

@@ -71,10 +71,12 @@ export default {
 		this.language = null;
 	},
 
+	// Complex fetch with headers
 	perform(path, options = {}) {
 		return this.execute(path, options);
 	},
 
+	// Simple fetch method without all the headers
 	async simple(path, options = {}) {
 		// Perform fetch on the endpoint
 		const response = await fetch(path, options);
