@@ -11,7 +11,6 @@ import { variableExists } from "shared/utilities/filters";
 
 import Router from "./Router";
 import GoogleAnalytics from "common/components/GoogleAnalytics";
-import Loading from "common/components/Loading";
 
 import { AUTHENTICATION, LOGIN_REJECTED, LOAD_USER_REJECTED, loginUser, loadUser } from "./common/store/reducers/authentication";
 import { LANGUAGE, changeLanguage } from "common/store/reducers/language.js";
@@ -111,7 +110,7 @@ class App extends Component {
 	}
 
 	render() {
-		return <Fragment>{this.state.loading ? <Loading /> : <Router {...this.props} />}</Fragment>;
+		return <Fragment>{this.state.loading ? null : <Router {...this.props} />}</Fragment>;
 	}
 }
 

@@ -10,18 +10,18 @@ import validate from "shared/validation/validate";
 import { updateClientStyling as updateClientStylingValidation } from "shared/validation/settings";
 import { removeSimilarProperties } from "shared/utilities/filters";
 
+import { LOAD_USER_REJECTED, loadUser } from "common/store/reducers/authentication";
 import {
-	SETTINGS,
-	LOAD_CLIENT_STYLING_REJECTED,
-	UPDATE_CLIENT_STYLING_REJECTED,
 	loadClientStyling,
 	updateClientStyling,
 	generateSignedURL,
-	uploadToSignedURL
+	uploadToSignedURL,
+	SETTINGS,
+	LOAD_CLIENT_STYLING_REJECTED,
+	UPDATE_CLIENT_STYLING_REJECTED
 } from "common/store/reducers/settings.js";
-import { LOAD_USER_REJECTED, loadUser } from "common/store/reducers/authentication";
 
-import ImageField from "./ImageField";
+import ImageField from "./components/ImageField";
 import ColorPicker from "common/components/inputs/ColorPicker";
 import Modal from "common/components/Modal";
 import FileUploader from "common/components/inputs/FileUploader";
@@ -33,31 +33,31 @@ class Appearance extends Component {
 		super(props);
 
 		this.state = {
+			loading: false,
+			logoImageModal: false,
+			backgroundImageModal: false,
 			logoImage: "",
 			logoImageURL: "",
 			logoImageUpload: null,
 			backgroundImage: "",
 			backgroundImageURL: "",
 			backgroundImageUpload: null,
+			tempFileUpload: {},
 			backgroundColor: "",
 			primaryColor: "",
 			secondaryColor: "",
-			tempFileUpload: {},
-			logoImageModal: false,
-			backgroundImageModal: false,
-			loading: false,
 			validationErrors: null,
 			serverError: null
 		};
 
-		this.selectColor = this.selectColor.bind(this);
 		this.openModal = this.openModal.bind(this);
 		this.closeModal = this.closeModal.bind(this);
-		this.fileUploaded = this.fileUploaded.bind(this);
-		this.storeImage = this.storeImage.bind(this);
-		this.deleteExistingPhoto = this.deleteExistingPhoto.bind(this);
 		this.setEditableFields = this.setEditableFields.bind(this);
+		this.selectColor = this.selectColor.bind(this);
+		this.storeImage = this.storeImage.bind(this);
+		this.fileUploaded = this.fileUploaded.bind(this);
 		this.saveClientStyling = this.saveClientStyling.bind(this);
+		this.deleteExistingPhoto = this.deleteExistingPhoto.bind(this);
 	}
 
 	componentDidMount() {
@@ -119,10 +119,6 @@ class Appearance extends Component {
 		});
 	}
 
-	selectColor(event) {
-		this.setState({ [event.name]: event.color });
-	}
-
 	openModal(name) {
 		if (this._isMounted) {
 			if (name === "logoImage") {
@@ -145,15 +141,8 @@ class Appearance extends Component {
 		}
 	}
 
-	fileUploaded(files, errors) {
-		if (this._isMounted) {
-			this.setState({
-				tempFileUpload: {
-					files: files,
-					errors: errors
-				}
-			});
-		}
+	selectColor(event) {
+		this.setState({ [event.name]: event.color });
 	}
 
 	storeImage(name) {
@@ -176,6 +165,17 @@ class Appearance extends Component {
 				};
 			}
 			this.setState(stateObject);
+		}
+	}
+
+	fileUploaded(files, errors) {
+		if (this._isMounted) {
+			this.setState({
+				tempFileUpload: {
+					files: files,
+					errors: errors
+				}
+			});
 		}
 	}
 

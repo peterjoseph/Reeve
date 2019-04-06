@@ -12,9 +12,9 @@ import HideComponent from "common/components/HideComponent";
 import User from "common/components/User";
 import MenuLink from "./components/MenuLink";
 
-const GeneralSettings = AsyncComponent(() => import("./components/GeneralSettings"));
-const Appearance = AsyncComponent(() => import("./components/Appearance"));
-const Localization = AsyncComponent(() => import("./components/Localization"));
+const GeneralSettings = AsyncComponent(() => import("./components/GeneralSettings/"));
+const Appearance = AsyncComponent(() => import("./components/Appearance/"));
+const Localization = AsyncComponent(() => import("./components/Localization/"));
 const DeleteWorkspace = AsyncComponent(() => import("./components/DeleteWorkspace"));
 
 class Settings extends Component {

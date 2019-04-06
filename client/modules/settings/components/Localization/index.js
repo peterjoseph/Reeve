@@ -13,7 +13,6 @@ import { removeSimilarProperties } from "shared/utilities/filters";
 
 import { SETTINGS, LOAD_LOCALIZATION_REJECTED, UPDATE_LOCALIZATION_REJECTED, loadLocalization, updateLocalization } from "common/store/reducers/settings.js";
 
-import Loading from "common/components/Loading";
 import ServerSuccess from "common/components/ServerSuccess";
 import ServerError from "common/components/ServerError";
 
@@ -164,13 +163,11 @@ class Localization extends Component {
 		const { loadLocalizationStatus, updateLocalizationStatus } = this.props;
 		const { defaultLanguage, loading, validationErrors, serverError } = this.state;
 
-		const localizationLoading = loadLocalizationStatus !== REDUX_STATE.FULFILLED;
 		const disabled = loading || loadLocalizationStatus == REDUX_STATE.PENDING || updateLocalizationStatus == REDUX_STATE.PENDING;
 		const successMessage = updateLocalizationStatus === REDUX_STATE.FULFILLED && !serverError && !validationErrors;
 
 		return (
 			<div>
-				{localizationLoading && <Loading />}
 				<h1>{t("components.settings.localization.languageAndLocalization")}</h1>
 				<div className="mt-3 mb-5">
 					<div className="card rounded-0 my-3 text-left">

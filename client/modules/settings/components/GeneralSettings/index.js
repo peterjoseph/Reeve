@@ -15,7 +15,6 @@ import { SETTINGS, LOAD_CLIENT_REJECTED, UPDATE_CLIENT_REJECTED, loadClient, upd
 import { LOAD_USER_REJECTED, loadUser } from "common/store/reducers/authentication";
 
 import User from "common/components/User";
-import Loading from "common/components/Loading";
 import HideComponent from "common/components/HideComponent";
 import InputField from "common/components/inputs/InputField";
 import TextArea from "common/components/inputs/TextArea";
@@ -185,13 +184,11 @@ class GeneralSettings extends Component {
 		const { client, user, loadClientStatus, updateClientStatus } = this.props;
 		const { name, description, loading, validationErrors, serverError } = this.state;
 
-		const clientLoading = loadClientStatus !== REDUX_STATE.FULFILLED;
 		const disabled = loading || loadClientStatus == REDUX_STATE.PENDING || updateClientStatus == REDUX_STATE.PENDING;
 		const successMessage = updateClientStatus === REDUX_STATE.FULFILLED && !serverError && !validationErrors;
 
 		return (
 			<div>
-				{clientLoading && <Loading />}
 				<h1>{t("components.settings.general.generalSettings")}</h1>
 				<div className="mt-3 mb-5">
 					<h5>{t("components.settings.general.accountSummary")}</h5>

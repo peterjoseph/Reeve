@@ -14,7 +14,6 @@ import { PROFILE, UPDATE_PROFILE_REJECTED, LOAD_PROFILE_REJECTED, loadProfile, u
 import { LOAD_USER_REJECTED, loadUser } from "common/store/reducers/authentication";
 
 import User from "common/components/User";
-import Loading from "common/components/Loading";
 import InputField from "common/components/inputs/InputField";
 import TextArea from "common/components/inputs/TextArea";
 import ServerSuccess from "common/components/ServerSuccess";
@@ -175,14 +174,11 @@ class EditProfile extends Component {
 		const { firstName, lastName, emailAddress, bio, location, website, loading, validationErrors, serverError } = this.state;
 		const { loadProfileStatus, updateProfileStatus, user } = this.props;
 
-		const userProfileLoading = loadProfileStatus !== REDUX_STATE.FULFILLED;
-
 		const successMessage = updateProfileStatus === REDUX_STATE.FULFILLED && !serverError && !validationErrors;
 		const emailWarning = loadProfileStatus === REDUX_STATE.FULFILLED && user.get("emailAddress") !== emailAddress;
 
 		return (
 			<div>
-				{userProfileLoading && <Loading />}
 				{successMessage && <ServerSuccess path={{ updateprofile: "success" }} message={t("success.updatePersonalProfile")} />}
 				<ServerError error={serverError} />
 				<div className="form-row">

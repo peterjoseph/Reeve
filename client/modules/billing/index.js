@@ -9,7 +9,6 @@ import { REDUX_STATE } from "shared/constants";
 import { BILLING, LOAD_CLIENT_SUBSCRIPTION_DETAILS_REJECTED, loadSubscriptionDetails } from "common/store/reducers/billing.js";
 
 import ServerError from "common/components/ServerError";
-import Loading from "common/components/Loading";
 import User from "common/components/User";
 
 import NewSubscription from "./components/NewSubscription";
@@ -55,7 +54,7 @@ class Billing extends Component {
 					<title>{t("headers.billing.title")}</title>
 					<meta name="description" content={t("headers.billing.description")} />
 				</Helmet>
-				{loading ? <Loading /> : <NewSubscription />}
+				{loading ? null : <NewSubscription />}
 			</Fragment>
 		);
 	}
