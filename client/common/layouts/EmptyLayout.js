@@ -4,8 +4,6 @@ import { withRouter } from "react-router-dom";
 import { TransitionGroup, CSSTransition } from "react-transition-group";
 import { Offline } from "react-detect-offline";
 
-import Header from "client/modules/header";
-import GlobalStyling from "common/components/GlobalStyling";
 import AppOffline from "common/components/AppOffline";
 
 class DefaultLayout extends Component {
@@ -13,21 +11,18 @@ class DefaultLayout extends Component {
 		const { history, children } = this.props;
 
 		return (
-			<GlobalStyling>
-				<Fragment>
-					<Header key={history.location.key} />
-					<TransitionGroup component="main" className="page-main">
-						<CSSTransition key={history.location.key} timeout={500} classNames="fade" appear>
-							<div key={history.location.key}>
-								<Offline>
-									<AppOffline navMargin={true} />
-								</Offline>
-								{children}
-							</div>
-						</CSSTransition>
-					</TransitionGroup>
-				</Fragment>
-			</GlobalStyling>
+			<Fragment>
+				<TransitionGroup component="main" className="page-main">
+					<CSSTransition key={history.location.key} timeout={500} classNames="fade" appear>
+						<div key={history.location.key}>
+							<Offline>
+								<AppOffline />
+							</Offline>
+							{children}
+						</div>
+					</CSSTransition>
+				</TransitionGroup>
+			</Fragment>
 		);
 	}
 }

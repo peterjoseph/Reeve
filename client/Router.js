@@ -11,6 +11,7 @@ import GoogleAnalytics from "common/components/GoogleAnalytics";
 
 // Layout Components
 import DefaultLayout from "common/layouts/DefaultLayout";
+import EmptyLayout from "common/layouts/EmptyLayout";
 
 // Page Components
 const Authentication = AsyncComponent(() => import("./modules/authentication"));
@@ -40,11 +41,61 @@ class Router extends Component {
 								</DefaultLayout>
 							)}
 						/>
-						<ProtectedRoute exact path="/signin" hasAnyRole={[ROLE_TYPE.UNREGISTERED]} user={user} render={() => <Authentication />} />
-						<ProtectedRoute exact path="/signin/help" hasAnyRole={[ROLE_TYPE.UNREGISTERED]} user={user} render={() => <Authentication />} />
-						<ProtectedRoute exact path="/register" hasAnyRole={[ROLE_TYPE.UNREGISTERED]} user={user} render={() => <Authentication />} />
-						<ProtectedRoute exact path="/forgot" hasAnyRole={[ROLE_TYPE.UNREGISTERED]} user={user} render={() => <Authentication />} />
-						<ProtectedRoute exact path="/reset" hasAnyRole={[ROLE_TYPE.UNREGISTERED]} user={user} render={() => <Authentication />} />
+						<ProtectedRoute
+							exact
+							path="/signin"
+							hasAnyRole={[ROLE_TYPE.UNREGISTERED]}
+							user={user}
+							render={() => (
+								<EmptyLayout key="/signin">
+									<Authentication />
+								</EmptyLayout>
+							)}
+						/>
+						<ProtectedRoute
+							exact
+							path="/signin/help"
+							hasAnyRole={[ROLE_TYPE.UNREGISTERED]}
+							user={user}
+							render={() => (
+								<EmptyLayout key="/signin/help">
+									<Authentication />
+								</EmptyLayout>
+							)}
+						/>
+						<ProtectedRoute
+							exact
+							path="/register"
+							hasAnyRole={[ROLE_TYPE.UNREGISTERED]}
+							user={user}
+							render={() => (
+								<EmptyLayout key="/register">
+									<Authentication />
+								</EmptyLayout>
+							)}
+						/>
+						<ProtectedRoute
+							exact
+							path="/forgot"
+							hasAnyRole={[ROLE_TYPE.UNREGISTERED]}
+							user={user}
+							render={() => (
+								<EmptyLayout key="/forgot">
+									<Authentication />
+								</EmptyLayout>
+							)}
+						/>
+						<ProtectedRoute
+							exact
+							path="/reset"
+							hasAnyRole={[ROLE_TYPE.UNREGISTERED]}
+							user={user}
+							render={() => (
+								<EmptyLayout key="/reset">
+									<Authentication />
+								</EmptyLayout>
+							)}
+						/>
 						<ProtectedRoute exact path="/verify" user={user} render={() => <Authentication />} />
 						<ProtectedRoute exact path="/verify/email_change" user={user} render={() => <Authentication />} />
 						<ProtectedRoute
