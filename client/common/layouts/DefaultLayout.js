@@ -17,15 +17,7 @@ class DefaultLayout extends Component {
 				<Fragment>
 					<Header key={history.location.key} />
 					<TransitionGroup component="main" className="page-main">
-						<CSSTransition
-							key={history.location.key}
-							timeout={500}
-							classNames="fade"
-							appear
-							onExit={node => {
-								node.style.top = window.scrollY + "px";
-							}}
-						>
+						<CSSTransition key={history.location.path} timeout={500} classNames="fade" appear>
 							<div key={history.location.key}>
 								<Offline>
 									<AppOffline navMargin={true} />
