@@ -7,6 +7,10 @@ import { Helmet } from "react-helmet";
 import { t } from "shared/translations/i18n";
 import { ROLE_TYPE, FEATURES, SUBSCRIPTION_TYPE } from "shared/constants";
 
+// Import Redux Store
+import store, { injectReducer } from "common/store/store";
+import settings, { SETTINGS } from "common/store/reducers/settings.js";
+
 import AsyncComponent from "common/components/AsyncComponent";
 import HideComponent from "common/components/HideComponent";
 import User from "common/components/User";
@@ -78,6 +82,9 @@ class Settings extends Component {
 		);
 	}
 }
+
+// Inject Settings Reducer
+injectReducer(store, SETTINGS, settings);
 
 Settings.propTypes = {
 	history: PropTypes.object,

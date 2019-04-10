@@ -5,6 +5,10 @@ import { Route, withRouter } from "react-router-dom";
 
 import { t } from "shared/translations/i18n";
 
+// Import Redux Store
+import store, { injectReducer } from "common/store/store";
+import profile, { PROFILE } from "common/store/reducers/profile.js";
+
 import User from "common/components/User";
 
 import Avatar from "./components/Avatar";
@@ -66,6 +70,9 @@ class Profile extends Component {
 		);
 	}
 }
+
+// Inject Profile Reducer
+injectReducer(store, PROFILE, profile);
 
 Profile.propTypes = {
 	history: PropTypes.object,

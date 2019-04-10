@@ -5,10 +5,7 @@ import Raven from "raven-js";
 import createRavenMiddleware from "raven-for-redux";
 
 import authentication from "./reducers/authentication";
-import profile from "./reducers/profile";
-import billing from "./reducers/billing";
 import language from "./reducers/language";
-import settings from "./reducers/settings";
 
 // Determine if React development tools should be enabled or disabled
 if (BUILD_ENVIRONMENT === "production" && window.__REACT_DEVTOOLS_GLOBAL_HOOK__ && Object.keys(window.__REACT_DEVTOOLS_GLOBAL_HOOK__._renderers).length) {
@@ -30,15 +27,23 @@ if (SENTRY_ENABLED) {
 	);
 }
 
-const store = createStore(
+// Create default reducer object with combined authentication and language reducers
+const createReducer = asyncReducers =>
 	combineReducers({
 		authentication,
-		profile,
-		billing,
 		language,
-		settings
-	}),
-	composeEnhancers(applyMiddleware(...middleware))
-);
+		...asyncReducers
+	});
 
-export default store;
+// Inject async reducers
+export const injectReducer = (store, key, asyncReducer) => {
+	store.asyncReducers[key] = asyncReducer;
+	store.replaceReducer(createReducer(store.asyncReducers));
+};
+
+export default (() => {
+	const store = createStore(createReducer(), composeEnhancers(applyMiddleware(...middleware)));
+
+	store.asyncReducers = {};
+	return store;
+})();

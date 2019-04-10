@@ -39,7 +39,7 @@ export const DELETE_PROFILE_PHOTO_REJECTED = PROFILE + "/DELETE_PROFILE_PHOTO_RE
 
 const DEFAULT_STATE = fromJS({});
 
-export default function language(state = DEFAULT_STATE, action) {
+export default function profile(state = DEFAULT_STATE, action) {
 	switch (action.type) {
 		case LOAD_PROFILE_PENDING:
 			return state.setIn(["loadProfile", "status"], REDUX_STATE.PENDING);

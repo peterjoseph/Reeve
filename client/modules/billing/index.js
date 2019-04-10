@@ -6,7 +6,10 @@ import { withRouter } from "react-router-dom";
 import { Helmet } from "react-helmet";
 import { t } from "shared/translations/i18n";
 import { REDUX_STATE } from "shared/constants";
-import { BILLING, LOAD_CLIENT_SUBSCRIPTION_DETAILS_REJECTED, loadSubscriptionDetails } from "common/store/reducers/billing.js";
+
+// Import Redux Store
+import store, { injectReducer } from "common/store/store";
+import billing, { BILLING, LOAD_CLIENT_SUBSCRIPTION_DETAILS_REJECTED, loadSubscriptionDetails } from "common/store/reducers/billing.js";
 
 import ServerError from "common/components/ServerError";
 import User from "common/components/User";
@@ -78,6 +81,9 @@ function mapDispatchToProps(dispatch) {
 		loadSubscriptionDetails: bindActionCreators(loadSubscriptionDetails, dispatch)
 	};
 }
+
+// Inject Billing Reducer
+injectReducer(store, BILLING, billing);
 
 export default withRouter(
 	User(

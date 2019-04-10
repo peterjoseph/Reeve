@@ -14,7 +14,7 @@ export const LOAD_SUBSCRIPTION_LIST_REJECTED = BILLING + "/LOAD_SUBSCRIPTION_LIS
 
 const DEFAULT_STATE = fromJS({});
 
-export default function language(state = DEFAULT_STATE, action) {
+export default function billing(state = DEFAULT_STATE, action) {
 	switch (action.type) {
 		case LOAD_CLIENT_SUBSCRIPTION_DETAILS_PENDING:
 			return state.setIn(["subscriptionDetails", "status"], REDUX_STATE.PENDING);

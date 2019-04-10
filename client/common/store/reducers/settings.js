@@ -44,7 +44,7 @@ export const DELETE_WORKSPACE_REJECTED = SETTINGS + "/DELETE_WORKSPACE_REJECTED"
 
 const DEFAULT_STATE = fromJS({});
 
-export default function language(state = DEFAULT_STATE, action) {
+export default function settings(state = DEFAULT_STATE, action) {
 	switch (action.type) {
 		case LOAD_CLIENT_PENDING:
 			return state.setIn(["loadClient", "status"], REDUX_STATE.PENDING);
