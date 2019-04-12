@@ -41,8 +41,7 @@ class ResetAppearance extends Component {
 					serverError: result.payload
 				});
 			} else {
-				window.location.assign("/settings/appearance?resetstyling=success");
-				/* this.props.loadUser().then(loadUserResult => {
+				this.props.loadUser().then(loadUserResult => {
 					if (loadUserResult.type === LOAD_USER_REJECTED) {
 						this.setState({
 							loading: false
@@ -56,7 +55,8 @@ class ResetAppearance extends Component {
 					this.setState({
 						loading: false
 					});
-				}); */
+					this.closeModal();
+				});
 			}
 		});
 	}

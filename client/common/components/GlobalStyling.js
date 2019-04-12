@@ -321,11 +321,12 @@ class GlobalStyling extends Component {
 		// Inject styles if user has loaded
 		if (variableExists(user) && variableExists(user.get("userId"))) {
 			// Load styles if custom primary color exists for client
-			const primary = variableExists(user.get("primaryColor")) ? this.loadPCS(user.get("primaryColor")) : "";
+			const primary = variableExists(user.get("primaryColor")) ? this.loadPCS(user.get("primaryColor")) : this.loadPCS("#3c6fa5");
 			// Load styles if custom secondary color exists for client
-			const secondary = variableExists(user.get("secondaryColor")) ? this.loadSCS(user.get("secondaryColor")) : "";
+			const secondary = variableExists(user.get("secondaryColor")) ? this.loadSCS(user.get("secondaryColor")) : this.loadSCS("#919aa1");
 
-			injectGlobal`${primary} ${secondary}`;
+			injectGlobal(primary);
+			injectGlobal(secondary);
 		}
 		return React.Children.only(children);
 	}
