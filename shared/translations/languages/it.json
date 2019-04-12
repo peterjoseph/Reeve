@@ -14,7 +14,8 @@
 		"sendEmail": "Invia una email",
 		"resendEmail": "Rinvia l'e-mail",
 		"emailSent": "Email inviata",
-		"update": "Aggiornare"
+		"update": "Aggiornare",
+		"resetToDefault": "Riportare alle condizioni originali"
 	},
 	"label": {
 		"firstName": "Nome di battesimo",
@@ -234,7 +235,12 @@
 				"backgroundImage": "Immagine di sfondo",
 				"selectBackgroundImage": "Seleziona l'immagine di sfondo",
 				"backgroundImageDescription": "Un'immagine di sfondo personalizzata è visibile dalla pagina di accesso dell'area di lavoro. Se non è selezionata alcuna immagine, verrà invece visualizzato un colore a tinta unita.",
-				"deleteExistingImage": "Elimina l'immagine esistente"
+				"deleteExistingImage": "Elimina l'immagine esistente",
+				"resetAppearance": "Resetta le opzioni di aspetto e di branding ai valori predefiniti?",
+				"resetAppearanceAlert": {
+					"title": "Resetta l'aspetto e il marchio?",
+					"message": "Sei sicuro di volerlo fare? Selezionando 'Ripristina impostazioni predefinite' si rimuoverà l'immagine del logo e l'immagine di sfondo dallo spazio di lavoro e si ripristineranno tutte le impostazioni del colore sui valori originali. Questo cambiamento verrà applicato immediatamente."
+				}
 			},
 			"localization": {
 				"languageAndLocalization": "Lingua e Localizzazione",

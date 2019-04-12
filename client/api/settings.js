@@ -30,6 +30,13 @@ export function updateClientStyling(body) {
 	});
 }
 
+// Reset Client Workspace Styling
+export function resetClientStyling() {
+	return fetch.perform("/api/v1.0/settings/reset-workspace-styling", {
+		method: "POST"
+	});
+}
+
 // Generate signed S3 url to client styling photo
 export function generateSignedPhotoURL(body) {
 	return fetch.perform("/api/v1.0/settings/generate-signed-photo-url", {

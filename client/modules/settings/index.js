@@ -18,6 +18,7 @@ import MenuLink from "./components/MenuLink";
 
 const GeneralSettings = AsyncComponent(() => import("./components/GeneralSettings/"));
 const Appearance = AsyncComponent(() => import("./components/Appearance/"));
+const ResetAppearance = AsyncComponent(() => import("./components/ResetAppearance"));
 const Localization = AsyncComponent(() => import("./components/Localization/"));
 const DeleteWorkspace = AsyncComponent(() => import("./components/DeleteWorkspace"));
 
@@ -76,6 +77,7 @@ class Settings extends Component {
 							</div>
 						</div>
 					</div>
+					<Route path={"/settings/appearance/confirm-reset"} render={() => <ResetAppearance />} />
 					<Route path={"/settings/general/delete-workspace"} render={() => <DeleteWorkspace />} />
 				</div>
 			</Fragment>

@@ -14,7 +14,8 @@
 		"sendEmail": "Send Email",
 		"resendEmail": "Resend Email",
 		"emailSent": "Email Sent",
-		"update": "Update"
+		"update": "Update",
+		"resetToDefault": "Reset to Default"
 	},
 	"label": {
 		"firstName": "First Name",
@@ -230,7 +231,12 @@
 				"backgroundImage": "Background Image",
 				"selectBackgroundImage": "Select Background Image",
 				"backgroundImageDescription": "A custom background image is visible from the sign-in page of your workspace. If no image is selected, a solid color will be shown instead.",
-				"deleteExistingImage": "Remove existing image?"
+				"deleteExistingImage": "Remove existing image?",
+				"resetAppearance": "Reset Appearance & Branding options to their defaults?",
+				"resetAppearanceAlert": {
+					"title": "Reset Appearance & Branding?",
+					"message": "Are you sure you want to do this? Selecting 'Reset to Default' will remove the Logo Image and Background Image from your workspace, and reset all color settings to their original values. This change will be applied immediately."
+				}
 			},
 			"localization": {
 				"languageAndLocalization": "Language & Localization",

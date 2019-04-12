@@ -215,7 +215,7 @@ export function updateClientStyling(requestProperties, authenticatedUser, browse
 					await deleteObject(config.s3.bucket, clientStyling.get("backgroundImage"));
 				}
 
-				// Patch our client model
+				// Patch our client styling model
 				if (requestProperties !== {}) {
 					clientStyling.update(requestProperties);
 				}
@@ -228,6 +228,60 @@ export function updateClientStyling(requestProperties, authenticatedUser, browse
 					},
 					{ transaction: transaction }
 				);
+			}
+
+			// Create a response object
+			const response = { status: 200, message: t("label.success", { lng: browserLng }) };
+
+			// Return the response object
+			return response;
+		} catch (error) {
+			throw error;
+		}
+	});
+}
+
+// Reset Client Styling
+export function resetClientStyling(requestProperties, authenticatedUser, browserLng) {
+	return database().transaction(async function(transaction) {
+		try {
+			// Load client for authenticated user
+			const client = await models().client.findOne({ where: { id: authenticatedUser.clientId, active: true } }, { transaction: transaction });
+
+			// Throw an error if the client does not exist
+			if (client === null) {
+				throw new ServerResponseError(403, t("validation.loadUserPropertiesFailed", { lng: browserLng }), { client: [t("validation.loadClientFailed", { lng: browserLng })] });
+			}
+
+			// Load user properties for authenticated user
+			const user = await models().user.findOne({ where: { id: authenticatedUser.userId, clientId: client.get("id"), active: true } }, { transaction: transaction });
+
+			// Throw an error if the user does not exist
+			if (user === null) {
+				throw new ServerResponseError(403, t("validation.loadUserPropertiesFailed", { lng: browserLng }), { user: [t("validation.loadUserPropertiesFailed", { lng: browserLng })] });
+			}
+
+			// Load client styling Object
+			const clientStyling = await models().clientStyling.findOne({ where: { clientId: client.get("id") } }, { transaction: transaction });
+
+			// If client styling row exists in database, update row
+			if (clientStyling !== null) {
+				// If logo image exists delete image from s3 bucket
+				if (variableExists(clientStyling.get("logoImage"))) {
+					await deleteObject(config.s3.bucket, clientStyling.get("logoImage"));
+				}
+
+				// If background image exists delete image from s3 bucket
+				if (variableExists(clientStyling.get("backgroundImage"))) {
+					await deleteObject(config.s3.bucket, clientStyling.get("backgroundImage"));
+				}
+
+				// Delete our client styling model
+				await models().clientStyling.destroy({
+					where: {
+						clientId: clientStyling.get("clientId")
+					}
+				});
 			}
 
 			// Create a response object

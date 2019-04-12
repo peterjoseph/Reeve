@@ -5,6 +5,7 @@ import {
 	updateClient as updateClientDetails,
 	loadClientStyling as loadStyling,
 	updateClientStyling as updateStyling,
+	resetClientStyling as resetStyling,
 	loadLocalization as loadLocalizationDetails,
 	updateLocalization as updateLocalizationDetails,
 	deleteWorkspace as performDeleteWorkspace,
@@ -29,6 +30,10 @@ export const LOAD_CLIENT_STYLING_REJECTED = SETTINGS + "/LOAD_CLIENT_STYLING_REJ
 export const UPDATE_CLIENT_STYLING_PENDING = SETTINGS + "/UPDATE_CLIENT_STYLING_PENDING";
 export const UPDATE_CLIENT_STYLING_FULFILLED = SETTINGS + "/UPDATE_CLIENT_STYLING_FULFILLED";
 export const UPDATE_CLIENT_STYLING_REJECTED = SETTINGS + "/UPDATE_CLIENT_STYLING_REJECTED";
+
+export const RESET_CLIENT_STYLING_PENDING = SETTINGS + "/RESET_CLIENT_STYLING_PENDING";
+export const RESET_CLIENT_STYLING_FULFILLED = SETTINGS + "/RESET_CLIENT_STYLING_FULFILLED";
+export const RESET_CLIENT_STYLING_REJECTED = SETTINGS + "/RESET_CLIENT_STYLING_REJECTED";
 
 export const LOAD_LOCALIZATION_PENDING = SETTINGS + "/LOAD_LOCALIZATION_PENDING";
 export const LOAD_LOCALIZATION_FULFILLED = SETTINGS + "/LOAD_LOCALIZATION_FULFILLED";
@@ -116,6 +121,25 @@ export default function settings(state = DEFAULT_STATE, action) {
 		case UPDATE_CLIENT_STYLING_REJECTED:
 			return state.set(
 				"updateClientStyling",
+				fromJS({
+					status: REDUX_STATE.REJECTED,
+					payload: {},
+					error: action.payload
+				})
+			);
+		case RESET_CLIENT_STYLING_PENDING:
+			return state.setIn(["resetClientStyling", "status"], REDUX_STATE.PENDING);
+		case RESET_CLIENT_STYLING_FULFILLED:
+			return state.set(
+				"resetClientStyling",
+				fromJS({
+					status: REDUX_STATE.FULFILLED,
+					payload: action.payload
+				})
+			);
+		case RESET_CLIENT_STYLING_REJECTED:
+			return state.set(
+				"resetClientStyling",
 				fromJS({
 					status: REDUX_STATE.REJECTED,
 					payload: {},
@@ -266,6 +290,28 @@ export function updateClientStyling(body) {
 			error =>
 				dispatch({
 					type: UPDATE_CLIENT_STYLING_REJECTED,
+					payload: error
+				})
+		);
+	};
+}
+
+export function resetClientStyling() {
+	return dispatch => {
+		dispatch({
+			type: RESET_CLIENT_STYLING_PENDING
+		});
+
+		return resetStyling().then(
+			result => {
+				return dispatch({
+					type: RESET_CLIENT_STYLING_FULFILLED,
+					payload: result
+				});
+			},
+			error =>
+				dispatch({
+					type: RESET_CLIENT_STYLING_REJECTED,
 					payload: error
 				})
 		);

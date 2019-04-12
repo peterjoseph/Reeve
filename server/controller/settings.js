@@ -13,7 +13,17 @@ import {
 } from "shared/validation/settings";
 import { removeUniqueProperties, variableExists } from "shared/utilities/filters";
 
-import { loadClient, updateClient, loadClientStyling, updateClientStyling, generateSignedPhotoURL, loadLocalization, updateLocalization, deleteWorkspace } from "../orchestrator/settings";
+import {
+	loadClient,
+	updateClient,
+	loadClientStyling,
+	updateClientStyling,
+	resetClientStyling,
+	generateSignedPhotoURL,
+	loadLocalization,
+	updateLocalization,
+	deleteWorkspace
+} from "../orchestrator/settings";
 
 module.exports = function(router) {
 	// Load Client
@@ -150,6 +160,37 @@ module.exports = function(router) {
 
 			// Perform new client parameters write and return response
 			updateClientStyling(requestProperties, authenticatedUser, browserLng).then(
+				result => {
+					return res.status(200).send(result);
+				},
+				error => {
+					return next(error);
+				}
+			);
+		}
+	);
+
+	// Reset Client Styling
+	router.post(
+		"/api/v1.0/settings/reset-workspace-styling",
+		restrict({
+			registered: true,
+			unregistered: false,
+			hasAnyRole: [ROLE_TYPE.OWNER, ROLE_TYPE.ADMINISTRATOR],
+			hasAllFeatures: [FEATURES.STYLING]
+		}),
+		function(req, res, next) {
+			// Load browser language from header
+			const browserLng = browserResponseLng(req);
+
+			// Create user information object
+			const authenticatedUser = {
+				userId: req.user.userId,
+				clientId: req.user.clientId
+			};
+
+			// Remove client styling row from db and return response
+			resetClientStyling(null, authenticatedUser, browserLng).then(
 				result => {
 					return res.status(200).send(result);
 				},

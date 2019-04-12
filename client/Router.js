@@ -171,6 +171,18 @@ class Router extends Component {
 						/>
 						<ProtectedRoute
 							exact
+							path="/settings/appearance/confirm-reset"
+							hasAnyRole={[ROLE_TYPE.OWNER, ROLE_TYPE.ADMINISTRATOR]}
+							hasAllFeatures={[FEATURES.STYLING]}
+							user={user}
+							render={() => (
+								<DefaultLayout key="/settings/appearance/confirm-reset">
+									<Settings />
+								</DefaultLayout>
+							)}
+						/>
+						<ProtectedRoute
+							exact
 							path="/settings/localization"
 							hasAnyRole={[ROLE_TYPE.OWNER, ROLE_TYPE.ADMINISTRATOR]}
 							user={user}

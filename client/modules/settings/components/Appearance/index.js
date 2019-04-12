@@ -2,7 +2,7 @@ import React, { Component, Fragment } from "react";
 import PropTypes from "prop-types";
 import { bindActionCreators } from "redux";
 import { connect } from "react-redux";
-import { withRouter } from "react-router-dom";
+import { withRouter, Link } from "react-router-dom";
 
 import { REDUX_STATE, MAX_FILE_UPLOAD_SIZE } from "shared/constants";
 import { t } from "shared/translations/i18n";
@@ -534,6 +534,11 @@ class Appearance extends Component {
 							{t("action.update")}
 						</button>
 					</div>
+				</div>
+				<div className="ml-4">
+					<Link to={{ pathname: "/settings/appearance/confirm-reset" }}>
+						<span>{t("components.settings.appearance.resetAppearance")}</span>
+					</Link>
 				</div>
 			</div>
 		);
