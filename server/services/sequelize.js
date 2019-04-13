@@ -11,7 +11,6 @@ export function connect(done) {
 	connection = new Sequelize(config.database.schema, config.database.username, config.database.password, {
 		host: config.database.host,
 		dialect: "mysql",
-		operatorsAliases: false,
 		pool: {
 			max: config.database.max,
 			min: config.database.min,

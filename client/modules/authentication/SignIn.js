@@ -180,10 +180,15 @@ class SignIn extends Component {
 
 		return (
 			<Fragment>
-				<Helmet>
-					<title>{t("headers.login.title")}</title>
-					<meta name="description" content={t("headers.login.description")} />
-				</Helmet>
+				<Helmet
+					title={t("headers.login.title")}
+					meta={[
+						{
+							name: "description",
+							content: t("headers.login.description")
+						}
+					]}
+				/>
 				{(workspaceURLPending || loginPending) && <Loading />}
 				<div className={`form-container col-xs-12 col-md-6 col-lg-5 d-flex flex-column hidden-md-down ${style.links}`}>
 					<div id="login">

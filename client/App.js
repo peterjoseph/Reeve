@@ -48,7 +48,8 @@ class App extends Component {
 	}
 
 	browserVersionCheck() {
-		const isSupported = bowser.check(MINIMUM_BROWSER_VERSIONS);
+		const activeBrowser = bowser.getParser(window.navigator.userAgent);
+		const isSupported = activeBrowser.satisfies(MINIMUM_BROWSER_VERSIONS);
 		if (!isSupported) {
 			notify.show(t("error.outdatedBrowser"), "warning", -1);
 		}

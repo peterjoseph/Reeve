@@ -8,10 +8,15 @@ class AppOffline extends Component {
 		const { navMargin } = this.props;
 		return (
 			<Fragment>
-				<Helmet>
-					<title>{t("headers.offline.title")}</title>
-					<meta name="description" content={t("headers.offline.description")} />
-				</Helmet>
+				<Helmet
+					title={t("headers.offline.title")}
+					meta={[
+						{
+							name: "description",
+							content: t("headers.offline.description")
+						}
+					]}
+				/>
 				<div className="offline window-overlay light">
 					<div className={`alert alert-warning ${navMargin && "margin nav-height top"} text-center border-0 rounded-0`}>
 						<b>{t("label.offline")}</b>: {t("components.offline.disconnectedLead")} {t("components.offline.continueAsNormal")}

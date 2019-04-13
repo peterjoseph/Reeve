@@ -23,10 +23,15 @@ class Profile extends Component {
 
 		return (
 			<Fragment>
-				<Helmet>
-					<title>{t("headers.profile.title")}</title>
-					<meta name="description" content={t("headers.profile.description")} />
-				</Helmet>
+				<Helmet
+					title={t("headers.profile.title")}
+					meta={[
+						{
+							name: "description",
+							content: t("headers.profile.description")
+						}
+					]}
+				/>
 				<div className="container">
 					<div className="px-md-3 py-3 pt-5 pb-md-4 mx-auto">
 						<div className="mb-3">

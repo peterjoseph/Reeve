@@ -4,14 +4,14 @@ module.exports = Object.freeze({
 		VERSION: "1.2.0"
 	},
 	MINIMUM_BROWSER_VERSIONS: {
-		msie: "11",
-		msedge: "16",
-		firefox: "45",
-		chrome: "59",
-		safari: "10",
-		opera: "46",
-		ios: "11",
-		android: "5.0"
+		msie: ">11",
+		msedge: ">16",
+		firefox: ">45",
+		chrome: ">59",
+		safari: ">10",
+		opera: ">46",
+		ios: ">11",
+		android: ">5.0"
 	},
 	FEATURES: {
 		STYLING: 1,

@@ -109,10 +109,15 @@ class Register extends Component {
 		const { firstName, lastName, emailAddress, password, workspaceURL, privacyConsent, visible, loading, serverError, validationErrors } = this.state;
 		return (
 			<Fragment>
-				<Helmet>
-					<title>{t("headers.register.title")}</title>
-					<meta name="description" content={t("headers.register.description")} />
-				</Helmet>
+				<Helmet
+					title={t("headers.register.title")}
+					meta={[
+						{
+							name: "description",
+							content: t("headers.register.description")
+						}
+					]}
+				/>
 				<div className="form-container col-xs-12 col-md-6 col-lg-5 d-flex flex-column hidden-md-down">
 					{visible && (
 						<div id="register">

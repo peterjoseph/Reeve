@@ -157,10 +157,15 @@ class ResetPassword extends Component {
 
 		return (
 			<Fragment>
-				<Helmet>
-					<title>{t("headers.reset.title")}</title>
-					<meta name="description" content={t("headers.reset.description")} />
-				</Helmet>
+				<Helmet
+					title={t("headers.reset.title")}
+					meta={[
+						{
+							name: "description",
+							content: t("headers.reset.description")
+						}
+					]}
+				/>
 				<div className={`form-container col-xs-12 col-md-6 col-lg-5 d-flex flex-column hidden-md-down ${style.links}`}>
 					<div id="reset">
 						<div className="p-3 p-sm-5 alignment vertical justify-content-center">

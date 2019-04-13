@@ -16,10 +16,15 @@ class MissingPath extends React.Component {
 
 		return (
 			<Fragment>
-				<Helmet>
-					<title>{t("headers.404.title")}</title>
-					<meta name="description" content={t("headers.404.description")} />
-				</Helmet>
+				<Helmet
+					title={t("headers.404.title")}
+					meta={[
+						{
+							name: "description",
+							content: t("headers.404.description")
+						}
+					]}
+				/>
 				<div className="page-not-found container">
 					<div className="px-3 py-3 pt-md-5 pb-md-4 mx-auto text-center">
 						<h1 className="display-4">{t("label.oops")}</h1>

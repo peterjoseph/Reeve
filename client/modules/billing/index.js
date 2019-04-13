@@ -53,10 +53,15 @@ class Billing extends Component {
 
 		return (
 			<Fragment>
-				<Helmet>
-					<title>{t("headers.billing.title")}</title>
-					<meta name="description" content={t("headers.billing.description")} />
-				</Helmet>
+				<Helmet
+					title={t("headers.billing.title")}
+					meta={[
+						{
+							name: "description",
+							content: t("headers.billing.description")
+						}
+					]}
+				/>
 				{loading ? null : <NewSubscription />}
 			</Fragment>
 		);

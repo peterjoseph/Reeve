@@ -19,10 +19,15 @@ class Overview extends Component {
 
 		return (
 			<Fragment>
-				<Helmet>
-					<title>{t("headers.overview.title")}</title>
-					<meta name="description" content={t("headers.overview.description")} />
-				</Helmet>
+				<Helmet
+					title={t("headers.overview.title")}
+					meta={[
+						{
+							name: "description",
+							content: t("headers.overview.description")
+						}
+					]}
+				/>
 				<div className="container p-3">
 					<div className="p-3 pt-md-5 pb-md-4">
 						<div className="text-center">

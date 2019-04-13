@@ -132,10 +132,15 @@ class Forgot extends Component {
 
 		return (
 			<Fragment>
-				<Helmet>
-					<title>{t("headers.forgot.title")}</title>
-					<meta name="description" content={t("headers.forgot.description")} />
-				</Helmet>
+				<Helmet
+					title={t("headers.forgot.title")}
+					meta={[
+						{
+							name: "description",
+							content: t("headers.forgot.description")
+						}
+					]}
+				/>
 				<div className={`form-container col-xs-12 col-md-6 col-lg-5 d-flex flex-column hidden-md-down ${style.links}`}>
 					<div id="forgot">
 						<div className="p-3 p-sm-5 alignment vertical justify-content-center">

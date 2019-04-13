@@ -28,10 +28,15 @@ class Settings extends Component {
 
 		return (
 			<Fragment>
-				<Helmet>
-					<title>{t("headers.settings.title")}</title>
-					<meta name="description" content={t("headers.settings.description")} />
-				</Helmet>
+				<Helmet
+					title={t("headers.settings.title")}
+					meta={[
+						{
+							name: "description",
+							content: t("headers.settings.description")
+						}
+					]}
+				/>
 				<div className="container-flexible-height container-fluid">
 					<div className="row">
 						<nav id="navigation" className="col-md-3 col-lg-2 p-0 d-flex flex-column hidden-md-down border-right bg-light">
