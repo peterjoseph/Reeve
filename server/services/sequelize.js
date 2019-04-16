@@ -39,6 +39,8 @@ export function connect(done) {
 	done();
 }
 
+export { Sequelize };
+
 export function database() {
 	return connection;
 }

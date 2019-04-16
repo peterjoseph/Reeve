@@ -1,7 +1,7 @@
 import { t } from "shared/translations/i18n";
 import { RESTRICTED_LANGUAGES, RESTRICTED_DOMAINS } from "shared/constants";
 
-const updateClient = (updateType = "post") => {
+export function updateClient(updateType = "post") {
 	// Check if patching is enabled
 	const required = updateType == "patch" ? false : true;
 
@@ -21,9 +21,9 @@ const updateClient = (updateType = "post") => {
 			}
 		}
 	};
-};
+}
 
-const updateLocalization = (updateType = "post") => {
+export function updateLocalization(updateType = "post") {
 	// Check if patching is enabled
 	const required = updateType == "patch" ? false : true;
 
@@ -36,9 +36,9 @@ const updateLocalization = (updateType = "post") => {
 			}
 		}
 	};
-};
+}
 
-const updateClientStyling = (updateType = "post") => {
+export function updateClientStyling(updateType = "post") {
 	// Check if patching is enabled
 	const required = updateType == "patch" ? false : true;
 
@@ -87,9 +87,9 @@ const updateClientStyling = (updateType = "post") => {
 			}
 		}
 	};
-};
+}
 
-const deleteWorkspace = () => {
+export function deleteWorkspace() {
 	return {
 		workspaceURL: {
 			presence: {
@@ -119,11 +119,4 @@ const deleteWorkspace = () => {
 			}
 		}
 	};
-};
-
-module.exports = {
-	updateClient: updateClient,
-	updateClientStyling: updateClientStyling,
-	updateLocalization: updateLocalization,
-	deleteWorkspace: deleteWorkspace
-};
+}

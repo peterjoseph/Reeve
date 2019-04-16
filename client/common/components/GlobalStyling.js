@@ -1,6 +1,6 @@
-import React, { Component } from "react";
+import React, { Component, Fragment } from "react";
 import PropTypes from "prop-types";
-import { injectGlobal } from "react-emotion";
+import { Global, css } from "@emotion/core";
 import { variableExists } from "shared/utilities/filters";
 
 import User from "common/components/User";
@@ -318,17 +318,27 @@ class GlobalStyling extends Component {
 
 	render() {
 		const { user, children } = this.props;
+
+		let primary = "";
+		let secondary = "";
+
 		// Inject styles if user has loaded
 		if (variableExists(user) && variableExists(user.get("userId"))) {
 			// Load styles if custom primary color exists for client
-			const primary = variableExists(user.get("primaryColor")) ? this.loadPCS(user.get("primaryColor")) : this.loadPCS("#3c6fa5");
+			primary = variableExists(user.get("primaryColor")) ? this.loadPCS(user.get("primaryColor")) : "";
 			// Load styles if custom secondary color exists for client
-			const secondary = variableExists(user.get("secondaryColor")) ? this.loadSCS(user.get("secondaryColor")) : this.loadSCS("#919aa1");
-
-			injectGlobal(primary);
-			injectGlobal(secondary);
+			secondary = variableExists(user.get("secondaryColor")) ? this.loadSCS(user.get("secondaryColor")) : "";
 		}
-		return React.Children.only(children);
+		return (
+			<Fragment>
+				<Global
+					styles={css`
+						${primary} ${secondary}
+					`}
+				/>
+				{children}
+			</Fragment>
+		);
 	}
 }
 

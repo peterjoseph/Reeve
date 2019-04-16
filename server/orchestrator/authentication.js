@@ -3,7 +3,7 @@ import bcrypt from "bcrypt";
 import uniqid from "uniqid";
 import moment from "moment";
 
-import { database, models } from "services/sequelize";
+import { Sequelize, database, models } from "services/sequelize";
 import passport from "services/passport";
 import { presignedGetObject, checkObjectExists } from "services/s3";
 import { sendEmail } from "services/nodemailer";
@@ -448,7 +448,7 @@ export function resendVerifyEmail(requestProperties, authenticatedUser, browserL
 
 			// Check email table for last email sent
 			const currentTime = new Date();
-			const Op = database().Op;
+			const Op = Sequelize.Op;
 			const lastEmail = await models().sentEmails.findAll(
 				{
 					where: {
@@ -524,7 +524,7 @@ export function forgotAccountPasswordEmail(requestProperties, authenticatedUser,
 						to: requestProperties.emailAddress,
 						emailType: EMAIL_TYPE.FORGOT_PASSWORD,
 						createdAt: {
-							[database().Op.between]: [
+							[Sequelize.Op.between]: [
 								// Find all emails of type sent in last 5 minutes
 								moment(currentTime)
 									.subtract(5, "minutes")
@@ -594,7 +594,7 @@ export function forgotAccountEmail(requestProperties, authenticatedUser, browser
 						to: requestProperties.emailAddress,
 						emailType: EMAIL_TYPE.FORGOT_ACCOUNT_DETAILS,
 						createdAt: {
-							[database().Op.between]: [
+							[Sequelize.Op.between]: [
 								// Find all emails of type sent in last 5 minutes
 								moment(currentTime)
 									.subtract(5, "minutes")

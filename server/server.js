@@ -1,4 +1,4 @@
-require("babel-register")({ presets: ["env"] }); // Transpile server code to support ES6
+require("@babel/register")({ presets: ["@babel/env"] }); // Transpile server code to support ES6
 
 let express = require("express");
 let path = require("path");

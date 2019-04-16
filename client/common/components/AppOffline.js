@@ -17,7 +17,7 @@ class AppOffline extends Component {
 						}
 					]}
 				/>
-				<div className="offline window-overlay light">
+				<div className="offline window-overlay dark">
 					<div className={`alert alert-warning ${navMargin && "margin nav-height top"} text-center border-0 rounded-0`}>
 						<b>{t("label.offline")}</b>: {t("components.offline.disconnectedLead")} {t("components.offline.continueAsNormal")}
 					</div>

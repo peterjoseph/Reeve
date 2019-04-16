@@ -1,7 +1,7 @@
 import { t } from "shared/translations/i18n";
 import { RESTRICTED_LANGUAGES, RESTRICTED_DOMAINS } from "shared/constants";
 
-const updateUserProfile = (updateType = "post") => {
+export function updateUserProfile(updateType = "post") {
 	// Check if patching is enabled
 	const required = updateType == "patch" ? false : true;
 
@@ -50,9 +50,9 @@ const updateUserProfile = (updateType = "post") => {
 			}
 		}
 	};
-};
+}
 
-const verifyEmail = () => {
+export function verifyEmail() {
 	return {
 		code: {
 			presence: {
@@ -81,9 +81,9 @@ const verifyEmail = () => {
 			}
 		}
 	};
-};
+}
 
-const changeUserPassword = () => {
+export function changeUserPassword() {
 	return {
 		currentPassword: {
 			presence: {
@@ -123,9 +123,9 @@ const changeUserPassword = () => {
 			}
 		}
 	};
-};
+}
 
-const changeSavedLanguage = () => {
+export function changeSavedLanguage() {
 	return {
 		language: {
 			presence: {
@@ -136,11 +136,4 @@ const changeSavedLanguage = () => {
 			}
 		}
 	};
-};
-
-module.exports = {
-	updateUserProfile: updateUserProfile,
-	verifyEmail: verifyEmail,
-	changeUserPassword: changeUserPassword,
-	changeSavedLanguage: changeSavedLanguage
-};
+}

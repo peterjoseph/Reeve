@@ -9,7 +9,8 @@ import {
 	forgotAccountDetails,
 	resetPasswordCodeValidation,
 	resetPassword,
-	verifyEmail
+	verifyEmail,
+	resendVerifyEmail as resendEmail
 } from "client/api/authentication.js";
 
 export const AUTHENTICATION = "authentication";
@@ -49,6 +50,10 @@ export const RESET_PASSWORD_REJECTED = AUTHENTICATION + "/RESET_PASSWORD_REJECTE
 export const VERIFY_EMAIL_PENDING = AUTHENTICATION + "/VERIFY_EMAIL_PENDING";
 export const VERIFY_EMAIL_FULFILLED = AUTHENTICATION + "/VERIFY_EMAIL_FULFILLED";
 export const VERIFY_EMAIL_REJECTED = AUTHENTICATION + "/VERIFY_EMAIL_REJECTED";
+
+export const RESEND_VERIFY_EMAIL_PENDING = AUTHENTICATION + "/RESEND_VERIFY_EMAIL_PENDING";
+export const RESEND_VERIFY_EMAIL_FULFILLED = AUTHENTICATION + "/RESEND_VERIFY_EMAIL_FULFILLED";
+export const RESEND_VERIFY_EMAIL_REJECTED = AUTHENTICATION + "/RESEND_VERIFY_EMAIL_REJECTED";
 
 const DEFAULT_STATE = fromJS({});
 
@@ -173,6 +178,12 @@ export default function authentication(state = DEFAULT_STATE, action) {
 			return state.setIn(["verifyEmail", "status"], REDUX_STATE.FULFILLED);
 		case VERIFY_EMAIL_REJECTED:
 			return state.setIn(["verifyEmail", "status"], REDUX_STATE.REJECTED);
+		case RESEND_VERIFY_EMAIL_PENDING:
+			return state.setIn(["resendVerifyEmail", "status"], REDUX_STATE.PENDING);
+		case RESEND_VERIFY_EMAIL_FULFILLED:
+			return state.setIn(["resendVerifyEmail", "status"], REDUX_STATE.FULFILLED);
+		case RESEND_VERIFY_EMAIL_REJECTED:
+			return state.setIn(["resendVerifyEmail", "status"], REDUX_STATE.REJECTED);
 		default:
 			return state;
 	}
@@ -370,6 +381,28 @@ export function verifyUserEmail(body) {
 			error =>
 				dispatch({
 					type: VERIFY_EMAIL_REJECTED,
+					payload: error
+				})
+		);
+	};
+}
+
+export function resendVerifyEmail() {
+	return dispatch => {
+		dispatch({
+			type: RESEND_VERIFY_EMAIL_PENDING
+		});
+
+		return resendEmail().then(
+			result => {
+				return dispatch({
+					type: RESEND_VERIFY_EMAIL_FULFILLED,
+					payload: result
+				});
+			},
+			error =>
+				dispatch({
+					type: RESEND_VERIFY_EMAIL_REJECTED,
 					payload: error
 				})
 		);

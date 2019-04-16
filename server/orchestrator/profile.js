@@ -4,7 +4,7 @@ import moment from "moment";
 
 import config from "../../config";
 
-import { database, models } from "services/sequelize";
+import { Sequelize, database, models } from "services/sequelize";
 import { sendEmail } from "services/nodemailer";
 import { presignedPutObject, checkObjectExists, deleteObject } from "services/s3";
 
@@ -85,7 +85,7 @@ export function updateProfile(requestProperties, authenticatedUser, browserLng) 
 							to: requestProperties.emailAddress,
 							emailType: EMAIL_TYPE.CHANGE_EMAIL_ADDRESS,
 							createdAt: {
-								[database().Op.between]: [
+								[Sequelize.Op.between]: [
 									// Find all emails of type sent in last 5 minutes
 									moment(currentTime)
 										.subtract(5, "minutes")

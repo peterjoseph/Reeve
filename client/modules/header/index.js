@@ -8,10 +8,10 @@ import { ROLE_TYPE, FEATURES, SUBSCRIPTION_TYPE } from "shared/constants";
 import { t } from "shared/translations/i18n";
 import fetch from "common/fetch";
 import { clearToken } from "shared/utilities/securityToken";
+import { variableExists, isObjectEmpty } from "shared/utilities/filters";
 import { AUTHENTICATION, LOGOUT_REJECTED, logoutUser } from "common/store/reducers/authentication";
 
 import User from "common/components/User";
-import VerifyEmail from "./components/VerifyEmail";
 import HideComponent from "common/components/HideComponent";
 
 import NavLogo from "./components/NavLogo";
@@ -21,6 +21,7 @@ import NavProfileMenuLogo from "./components/NavProfileMenuLogo";
 import NavDropdownLink from "./components/NavDropdownLink";
 import ActiveTrial from "./components/ActiveTrial";
 import HelpCaller from "./components/HelpCaller";
+import VerifyEmail from "./components/VerifyEmail";
 
 import BurgerMenu from "common/media/icons/BurgerMenu";
 
@@ -75,16 +76,15 @@ class Header extends Component {
 		const { menuVisible } = this.state;
 
 		// Hide header if user is not logged in
-		if (!user || !user.get("userId")) {
+		if (!(variableExists(user) && !isObjectEmpty(user) && variableExists(user.get("userId")))) {
 			return null;
 		}
 
 		const billingEnabled = STRIPE_ENABLED && (user && user.get("subscriptionEndDate") !== null);
 
 		return (
-			<Fragment>
-				<VerifyEmail user={user} />
-				<nav className="navbar sticky-top navbar-expand-md bg-primary navbar-dark px-2 py-0">
+			<div className="sticky-top">
+				<nav className="navbar navbar-expand-md bg-primary navbar-dark px-2 py-0">
 					<NavLogo />
 					<ul className="navbar-nav bd-navbar-nav flex-row ml-auto d-flex order-md-1">
 						<HideComponent user={user} disabled={!billingEnabled} hasAnyRole={[ROLE_TYPE.OWNER, ROLE_TYPE.FINANCE]}>
@@ -138,7 +138,8 @@ class Header extends Component {
 						</Fragment>
 					)}
 				</nav>
-			</Fragment>
+				<VerifyEmail />
+			</div>
 		);
 	}
 }

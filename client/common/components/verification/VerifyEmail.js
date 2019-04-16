@@ -46,7 +46,7 @@ class VerifyEmail extends Component {
 
 				// Display error notification if the email cannot be verified
 				if (result.type === VERIFY_EMAIL_REJECTED) {
-					notify.show(`${t("error.verifyEmail")} (${result.payload.message})`, "error", -1);
+					notify.show(`${t("error.verifyEmail")} (${result.payload.message})`, "error");
 					this.props.history.replace("/");
 					return;
 				}

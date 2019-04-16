@@ -8,13 +8,13 @@ const enabled = GOOGLE_ANALYTICS_ENABLED;
 const tracking = GOOGLE_ANALYTICS_TRACKING;
 /* eslint-enable */
 
-function initialize() {
+export function initializeGA() {
 	if (enabled) {
 		ReactGA.initialize(tracking);
 	}
 }
 
-function setUser(userId) {
+export function setGAUser(userId) {
 	if (enabled) {
 		ReactGA.set({ userId: userId });
 	}
@@ -53,7 +53,7 @@ class GoogleAnalytics extends Component {
 	}
 }
 
-function track() {
+export function GoogleAnalyticsTracker() {
 	if (enabled) {
 		const Tracker = withRouter(GoogleAnalytics);
 		return <Route render={() => <Tracker />} />;
@@ -62,8 +62,4 @@ function track() {
 	}
 }
 
-module.exports = {
-	initialize: initialize,
-	setUser: setUser,
-	tracker: track
-};
+export default GoogleAnalytics;

@@ -24,7 +24,7 @@ import WorkspaceURL from "./components/WorkspaceURL";
 import SignInForm from "./components/SignInForm";
 import Loading from "common/components/Loading";
 import LanguageSwitcher from "./components/LanguageSwitcher";
-import GoogleAnalytics from "common/components/GoogleAnalytics";
+import { setGAUser } from "common/components/GoogleAnalytics";
 
 class SignIn extends Component {
 	constructor(props) {
@@ -129,7 +129,7 @@ class SignIn extends Component {
 						}
 
 						// Set Google Analytics User
-						GoogleAnalytics.setUser(result.payload.userId);
+						setGAUser(result.payload.userId);
 
 						// Load client specific default language
 						const lng = result.payload.language;

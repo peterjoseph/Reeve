@@ -4,10 +4,10 @@ import { BrowserRouter, Switch } from "react-router-dom";
 import { Redirect } from "react-router";
 import { ROLE_TYPE, FEATURES, SUBSCRIPTION_TYPE } from "shared/constants";
 
-import User from "common/components/User";
-import ProtectedRoute from "common/components/ProtectedRoute";
 import AsyncComponent from "common/components/AsyncComponent";
-import GoogleAnalytics from "common/components/GoogleAnalytics";
+import ProtectedRoute from "common/components/ProtectedRoute";
+import { GoogleAnalyticsTracker } from "common/components/GoogleAnalytics";
+import User from "common/components/User";
 
 // Layout Components
 import DefaultLayout from "common/layouts/DefaultLayout";
@@ -28,7 +28,7 @@ class Router extends Component {
 		return (
 			<BrowserRouter>
 				<Fragment>
-					<GoogleAnalytics.tracker />
+					<GoogleAnalyticsTracker />
 					<Switch>
 						<ProtectedRoute
 							exact

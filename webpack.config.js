@@ -71,9 +71,9 @@ module.exports = {
 	mode: config.build.environment !== "test" ? config.build.environment : "none",
 	entry: () => {
 		if (config.build.environment === "development") {
-			return ["babel-polyfill", "whatwg-fetch", "./client/index.js", "webpack-hot-middleware/client", "webpack/hot/dev-server"];
+			return ["@babel/polyfill", "whatwg-fetch", "./client/index.js", "webpack-hot-middleware/client", "webpack/hot/dev-server"];
 		} else {
-			return ["babel-polyfill", "whatwg-fetch", "./client/index.js"];
+			return ["@babel/polyfill", "whatwg-fetch", "./client/index.js"];
 		}
 	},
 	output: {
@@ -90,7 +90,7 @@ module.exports = {
 				loader: "babel-loader",
 				exclude: /node_modules/,
 				query: {
-					presets: ["es2015", "stage-0", "react"]
+					presets: ["@babel/preset-env", "@babel/preset-react"]
 				}
 			},
 			{

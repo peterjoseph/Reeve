@@ -1,5 +1,4 @@
 {
-	"presets": ["es2015", "stage-0"],
 	"plugins": [
 		[
 			"module-resolver",
@@ -20,7 +19,9 @@
 				}
 			}
 		],
-		["transform-runtime"],
+		["@babel/plugin-transform-runtime"],
+		["@babel/plugin-syntax-dynamic-import"],
+		["@babel/plugin-proposal-class-properties"],
 		["emotion"]
 	]
 }

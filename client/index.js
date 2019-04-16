@@ -1,13 +1,10 @@
-import React, { Fragment } from "react";
+import React from "react";
 import ReactDOM from "react-dom";
 import i18next from "shared/translations/i18n";
-import ReactTooltip from "react-tooltip";
-import Notifications from "react-notify-toast";
 import Raven from "raven-js";
-import GoogleAnalytics from "common/components/GoogleAnalytics";
-
 import { Provider } from "react-redux";
 import { I18nextProvider } from "react-i18next";
+import { initializeGA } from "common/components/GoogleAnalytics";
 
 import "./common/styles/entry.scss";
 
@@ -17,7 +14,7 @@ import store from "./common/store/store";
 /* eslint-disable */
 
 // Load Google Analytics Tracking
-GoogleAnalytics.initialize();
+initializeGA();
 
 // Load Sentry error reporting
 if (SENTRY_ENABLED) {
@@ -32,11 +29,7 @@ if (SENTRY_ENABLED) {
 ReactDOM.render(
 	<Provider store={store}>
 		<I18nextProvider i18n={i18next}>
-			<Fragment>
-				<Notifications />
-				<App />
-				<ReactTooltip />
-			</Fragment>
+			<App />
 		</I18nextProvider>
 	</Provider>,
 	document.getElementById("app")

@@ -67,6 +67,7 @@ class SubscriptionList extends Component {
 							</span>
 						</div>
 					</div>
+					{!emailVerified && <div className="text-danger text-center">{t("validation.verifyEmail")}</div>}
 					<div className="card-deck py-3 text-center">
 						<div className="card rounded-0">
 							<div className="card-header bg-white mt-1 border-bottom-0">
@@ -141,7 +142,6 @@ class SubscriptionList extends Component {
 							</div>
 						</div>
 					</div>
-					{!emailVerified && <div className="alert alert-danger rounded-0 text-center">{t("validation.verifyEmail")}</div>}
 				</div>
 			</Fragment>
 		);

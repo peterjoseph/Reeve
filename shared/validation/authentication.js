@@ -1,7 +1,7 @@
 import { t } from "shared/translations/i18n";
 import { RESTRICTED_LANGUAGES, RESTRICTED_DOMAINS } from "shared/constants";
 
-const login = () => {
+export function login() {
 	return {
 		workspaceURL: {
 			presence: {
@@ -38,9 +38,9 @@ const login = () => {
 			}
 		}
 	};
-};
+}
 
-const register = () => {
+export function register() {
 	return {
 		firstName: {
 			presence: {
@@ -114,9 +114,9 @@ const register = () => {
 			}
 		}
 	};
-};
+}
 
-const workspaceURL = () => {
+export function workspaceURL() {
 	return {
 		workspaceURL: {
 			presence: {
@@ -137,9 +137,9 @@ const workspaceURL = () => {
 			}
 		}
 	};
-};
+}
 
-const forgot = () => {
+export function forgot() {
 	return {
 		emailAddress: {
 			email: true,
@@ -151,9 +151,9 @@ const forgot = () => {
 			}
 		}
 	};
-};
+}
 
-const verifyResetPassword = () => {
+export function verifyResetPassword() {
 	return {
 		code: {
 			presence: {
@@ -182,9 +182,9 @@ const verifyResetPassword = () => {
 			}
 		}
 	};
-};
+}
 
-const resetPassword = () => {
+export function resetPassword() {
 	return {
 		password: {
 			presence: {
@@ -239,9 +239,9 @@ const resetPassword = () => {
 			}
 		}
 	};
-};
+}
 
-const verifyEmail = () => {
+export function verifyEmail() {
 	return {
 		code: {
 			presence: {
@@ -270,14 +270,4 @@ const verifyEmail = () => {
 			}
 		}
 	};
-};
-
-module.exports = {
-	login: login,
-	register: register,
-	workspaceURL: workspaceURL,
-	forgot: forgot,
-	verifyResetPassword: verifyResetPassword,
-	resetPassword: resetPassword,
-	verifyEmail: verifyEmail
-};
+}
