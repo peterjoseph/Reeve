@@ -1,15 +1,45 @@
 import { models } from "services/sequelize";
+import redis from "services/redis";
+import jwt from "jsonwebtoken";
 import moment from "moment";
+import bcrypt from "bcrypt";
+import { variableExists } from "shared/utilities/filters";
 
+let uuidv1 = require("uuid/v1");
 let passport = require("passport");
+let LocalStrategy = require("passport-local").Strategy;
 let JwtStrategy = require("passport-jwt").Strategy;
 let ExtractJwt = require("passport-jwt").ExtractJwt;
 let config = require("../../config");
 
 function initialize(app) {
 	app.use(passport.initialize());
-	app.use(passport.session());
 
+	// Local Authentication Strategy (Workspace Name, Username & Password)
+	passport.use(
+		new LocalStrategy(
+			{
+				usernameField: "emailAddress",
+				passwordField: "password",
+				passReqToCallback: true
+			},
+			function(req, u, p, done) {
+				if (req.body == null) {
+					return done(null, false);
+				} else {
+					LocalStrategyLoadUser(req.body.workspaceURL, req.body.emailAddress, req.body.password)
+						.then(result => {
+							return done(null, result);
+						})
+						.catch(error => {
+							return done(null, error);
+						});
+				}
+			}
+		)
+	);
+
+	// JSON Web Token Authentication Strategy
 	passport.use(
 		new JwtStrategy(
 			{
@@ -20,7 +50,7 @@ function initialize(app) {
 				if (payload == null) {
 					return done(null, false);
 				} else {
-					loadUser(payload.workspaceURL, payload.clientId, payload.userId)
+					JWTStrategyLoadUser(payload.sessionId, payload.workspaceURL, payload.clientId, payload.userId)
 						.then(result => {
 							return done(null, result);
 						})
@@ -33,22 +63,63 @@ function initialize(app) {
 	);
 
 	passport.serializeUser(function(user, done) {
-		done(null, user);
-	});
-
-	passport.deserializeUser(function(user, done) {
-		models()
-			.user.findOne({ where: { id: user.userId, clientId: user.clientId, active: true } })
-			.then(result => {
-				done(null, result);
-			})
-			.catch(error => {
-				done(error, null);
-			});
+		done(null, user.userId);
 	});
 }
 
-async function loadUser(workspaceURL, clientId, userId) {
+async function LocalStrategyLoadUser(workspaceURL, emailAddress, password) {
+	// Load a client using a workspaceURL
+	const client = await models().client.findOne({ where: { workspaceURL: workspaceURL, active: true } });
+
+	// Load user based on provided values
+	const user = await models().user.findOne({ where: { clientId: client.get("id"), emailAddress: emailAddress, active: true } });
+
+	// Return false if client or user could not be loaded
+	if (client === null || user === null) {
+		return false;
+	}
+
+	// Validate the supplied user password
+	const valid = await bcrypt.compare(password, user.get("password"));
+	if (valid === false) {
+		return false;
+	}
+
+	// Generate a unique session id to store in the redis db and compare with the active token
+	const sessionId = await uuidv1();
+
+	// Create the JSON Web Token for the User
+	const token = await jwt.sign(
+		{
+			sessionId: sessionId,
+			userId: user.get("id"),
+			clientId: client.get("id"),
+			workspaceURL: client.get("workspaceURL")
+		},
+		config.authentication.jwtSecret,
+		{
+			expiresIn: config.authentication.expiry
+		}
+	);
+
+	// Send new token to redis store
+	await redis.set(sessionId, new Date().getTime().toString(), config.redis.keyExpiry);
+
+	return {
+		userId: user.get("id"),
+		clientId: client.get("id"),
+		workspaceURL: client.get("workspaceURL"),
+		token: token
+	};
+}
+
+async function JWTStrategyLoadUser(sessionId, workspaceURL, clientId, userId) {
+	// Connect to redis and check if there is an active session for the provided key
+	const activeSession = await redis.get(sessionId);
+	if (!variableExists(activeSession)) {
+		return false;
+	}
+
 	// Load a client using a workspaceURL
 	const client = await models().client.findOne({ where: { id: clientId, workspaceURL: workspaceURL, active: true } });
 
@@ -78,12 +149,14 @@ async function loadUser(workspaceURL, clientId, userId) {
 	roles = roles && roles.length > 0 && roles.map(result => result.get("roleId"));
 
 	return {
+		sessionId: sessionId,
 		userId: user.get("id"),
 		clientId: client.get("id"),
 		workspaceURL: client.get("workspaceURL"),
 		subscriptionActive: subscriptionActive,
 		features: features,
-		roles: roles
+		roles: roles,
+		emailVerified: String(user.get("emailVerified")) === "true"
 	};
 }
 

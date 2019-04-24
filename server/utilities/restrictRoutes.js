@@ -3,26 +3,30 @@ import passport from "services/passport";
 import { t } from "shared/translations/i18n";
 import { ServerResponseError } from "utilities/errors/serverResponseError";
 import { arrayContains, arrayHasAny, variableExists } from "shared/utilities/filters";
+import { extractSubdomain } from "shared/utilities/domains";
 import config from "../../config";
 
 export default function(properties = {}) {
 	return function(req, res, next) {
-		passport.perform().authenticate("jwt", function(error, user, info) {
+		passport.perform().authenticate("jwt", { session: false }, function(error, user, info) {
 			if (error) {
 				return next(error);
 			}
-
-			// Define unauthorized error message
-			const errorMsg = new ServerResponseError(403, t("error.code.403"), null);
 
 			// Check if properties params contain logged in restrictions
 			const registered = properties.registered;
 			const unregistered = properties.unregistered;
 
-			if (!user) {
+			// Define unauthorized error message
+			const errorMsg = new ServerResponseError(403, t("error.code.403"), null);
+
+			// If user object is not successfully loaded throw error message
+			if (!variableExists(user) || user === false) {
 				// If no user exists but route is restricted to logged in users, throw error
 				if (registered === true && !unregistered) {
-					return next(errorMsg);
+					const subdomain = extractSubdomain(req.headers.origin);
+					const url = `${config.build.protocol}://${subdomain ? subdomain + "." : ""}${config.build.domainPath}/signin`;
+					return res.redirect(url);
 				} else {
 					return next();
 				}

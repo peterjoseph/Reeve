@@ -36,11 +36,7 @@ let config = {
 		host: process.env.R_HOST,
 		port: process.env.R_PORT,
 		pass: process.env.R_PASS,
-		proxy: String(process.env.R_PROXY) === "true",
-		secret: process.env.R_SECRET,
-		resave: String(process.env.R_RESAVE) === "true",
-		saveUninitialized: String(process.env.R_SAVE_UNINITIALIZED) === "true",
-		ttl: process.env.R_TTL
+		keyExpiry: process.env.R_KEY_EXPIRY
 	},
 	email: {
 		enabled: String(process.env.EMAIL_ENABLED) === "true",

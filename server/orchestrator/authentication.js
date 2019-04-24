@@ -1,9 +1,9 @@
-import jwt from "jsonwebtoken";
 import bcrypt from "bcrypt";
 import uniqid from "uniqid";
 import moment from "moment";
 
 import { Sequelize, database, models } from "services/sequelize";
+import redis from "services/redis";
 import passport from "services/passport";
 import { presignedGetObject, checkObjectExists } from "services/s3";
 import { sendEmail } from "services/nodemailer";
@@ -202,19 +202,21 @@ export function registerNewClient(requestProperties, authenticatedUser, browserL
 }
 
 // Authenticate User with security token
-export function authenticateWithToken(req, res, next, browserLng) {
-	return passport.perform().authenticate("jwt", function(error, user) {
+export function authenticateWithJWTStrategy(req, res, next, browserLng) {
+	return passport.perform().authenticate("jwt", { session: false }, function(error, user) {
+		// Throw exception if loading passport strategy fails
 		if (error) {
 			throw new ServerResponseError(403, t("validation.tokenInvalidOrExpired", { lng: browserLng }), { token: [t("validation.tokenInvalidOrExpired", { lng: browserLng })] });
 		}
+		// Authenticate user with strategy
 		req.logIn(user, function(error) {
 			if (error) {
 				throw new ServerResponseError(403, t("validation.tokenInvalidOrExpired", { lng: browserLng }), { token: [t("validation.tokenInvalidOrExpired", { lng: browserLng })] });
 			}
 			if (user) {
-				// Store lastLoginDate in database
 				database().transaction(async function(transaction) {
 					try {
+						// Get current server time
 						const currentTime = moment(new Date()).format("YYYY-MM-DD HH:mm:ss");
 
 						// Load user from database
@@ -224,6 +226,8 @@ export function authenticateWithToken(req, res, next, browserLng) {
 						if (userObject === null) {
 							throw new ServerResponseError(403, t("validation.tokenInvalidOrExpired", { lng: browserLng }), { token: [t("validation.tokenInvalidOrExpired", { lng: browserLng })] });
 						}
+
+						// Store lastLoginDate in database
 						userObject.update({
 							lastLoginDate: currentTime
 						});
@@ -234,6 +238,7 @@ export function authenticateWithToken(req, res, next, browserLng) {
 
 				// Create a response object
 				const response = { status: 200, message: t("label.success", { lng: browserLng }) };
+
 				// Return the response object
 				return res.status(200).send(response);
 			} else {
@@ -244,47 +249,67 @@ export function authenticateWithToken(req, res, next, browserLng) {
 	})(req, res, next);
 }
 
-export function authenticateWithoutToken(requestProperties, authenticatedUser, browserLng) {
-	return database().transaction(async function(transaction) {
-		try {
-			// Load a client using a workspaceURL
-			const client = await models().client.findOne({ where: { workspaceURL: requestProperties.workspaceURL, active: true } }, { transaction: transaction });
-
-			// Throw an error if the client was not returned for the WorkspaceURL
-			if (client === null || client.get("workspaceURL") === null || client.get("workspaceURL") !== requestProperties.workspaceURL) {
-				throw new ServerResponseError(403, t("validation.userInvalidProperties", { lng: browserLng }), { workspaceURL: [t("validation.emptyWorkspaceURL", { lng: browserLng })] });
-			}
-
-			// Load user based on provided values
-			const user = await models().user.findOne({ where: { clientId: client.get("id"), emailAddress: requestProperties.emailAddress, active: true } }, { transaction: transaction });
-
-			// Throw an error if the user does not exist
-			if (user === null) {
+// Authenticate using Local authentication strategy
+export function authenticateWithLocalStrategy(req, res, next, browserLng) {
+	return passport.perform().authenticate("local", { session: false }, function(error, user) {
+		// Throw exception if loading passport strategy fails
+		if (error) {
+			throw new ServerResponseError(403, t("validation.userInvalidProperties", { lng: browserLng }), { emailAddress: [t("validation.incorrectLoginDetailsSupplied", { lng: browserLng })] });
+		}
+		// Authenticate user with strategy
+		req.logIn(user, function(error) {
+			if (error) {
 				throw new ServerResponseError(403, t("validation.userInvalidProperties", { lng: browserLng }), { emailAddress: [t("validation.incorrectLoginDetailsSupplied", { lng: browserLng })] });
 			}
+			if (user) {
+				database().transaction(async function(transaction) {
+					try {
+						// Get current server time
+						const currentTime = moment(new Date()).format("YYYY-MM-DD HH:mm:ss");
 
-			// Validate the supplied user password
-			const valid = await bcrypt.compare(requestProperties.password, user.get("password"));
-			if (valid === false) {
-				throw new ServerResponseError(403, t("validation.userInvalidProperties", { lng: browserLng }), { password: [t("validation.incorrectLoginDetailsSupplied", { lng: browserLng })] });
+						// Load user from database
+						const userObject = await models().user.findOne({ where: { id: user.userId, clientId: user.clientId, active: true } }, { transaction: transaction });
+
+						// Throw an error if user could not be loaded from database
+						if (userObject === null) {
+							throw new ServerResponseError(403, t("validation.userInvalidProperties", { lng: browserLng }), {
+								emailAddress: [t("validation.incorrectLoginDetailsSupplied", { lng: browserLng })]
+							});
+						}
+
+						// Store lastLoginDate in database
+						userObject.update({
+							lastLoginDate: currentTime
+						});
+					} catch (error) {
+						throw error;
+					}
+				});
+
+				// Build our response object
+				const response = { status: 200, message: t("label.success", { lng: browserLng }), token: user.token, keepSignedIn: req.body.keepSignedIn };
+
+				// Return the response object
+				return res.status(200).send(response);
+			} else {
+				const errorMsg = new ServerResponseError(403, t("validation.userInvalidProperties", { lng: browserLng }), {
+					emailAddress: [t("validation.incorrectLoginDetailsSupplied", { lng: browserLng })]
+				});
+				return next(errorMsg);
 			}
+		});
+	})(req, res, next);
+}
 
-			// Create the JSON Web Token for the User
-			const token = await jwt.sign({ userId: user.get("id"), clientId: client.get("id"), workspaceURL: client.get("workspaceURL") }, config.authentication.jwtSecret, {
-				expiresIn: config.authentication.expiry
-			});
+// Delete session
+export function deleteSession(requestProperties, authenticatedUser, browserLng) {
+	return database().transaction(async function(transaction) {
+		try {
+			// Delete session from redis db
+			await redis.delete(authenticatedUser.sessionId);
 
-			// Update lastLoginDate in database
-			const currentTime = moment(new Date()).format("YYYY-MM-DD HH:mm:ss");
-			user.update({
-				lastLoginDate: currentTime
-			});
-
-			// Build our response object
-			const response = { status: 200, message: t("label.success", { lng: browserLng }), token: token, keepSignedIn: requestProperties.keepSignedIn };
-
-			// Return the response object
-			return response;
+			// Create a response object
+			return { status: 200, message: t("label.success", { lng: browserLng }) };
 		} catch (error) {
 			throw error;
 		}
@@ -292,7 +317,7 @@ export function authenticateWithoutToken(requestProperties, authenticatedUser, b
 }
 
 // Load properties for a user
-export function loadUser(requestProperties, authenticatedUser, browserLng) {
+export function loadUserProperties(requestProperties, authenticatedUser, browserLng) {
 	return database().transaction(async function(transaction) {
 		try {
 			// Load client for authenticated user

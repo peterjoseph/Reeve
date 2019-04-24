@@ -8,9 +8,10 @@ import { variableExists } from "shared/utilities/filters";
 import {
 	validateWorkspaceURL,
 	registerNewClient,
-	authenticateWithToken,
-	authenticateWithoutToken,
-	loadUser,
+	authenticateWithJWTStrategy,
+	authenticateWithLocalStrategy,
+	loadUserProperties,
+	deleteSession,
 	resendVerifyEmail,
 	forgotAccountEmail,
 	forgotAccountPasswordEmail,
@@ -91,7 +92,7 @@ module.exports = function(router) {
 
 		// Authenticate with token if authToken exists
 		if (variableExists(req.body.authToken) && req.body.authToken === true) {
-			authenticateWithToken(req, res, next, browserLng);
+			authenticateWithJWTStrategy(req, res, next, browserLng);
 			return;
 		}
 
@@ -110,8 +111,19 @@ module.exports = function(router) {
 			return next(errorMsg);
 		}
 
-		// Authenticate without token
-		authenticateWithoutToken(requestProperties, null, browserLng).then(
+		// Authenticate using local authentication strategy (username & password)
+		authenticateWithLocalStrategy(req, res, next, browserLng);
+	});
+
+	// Logout of user account
+	router.post("/api/v1.0/authentication/logout", restrict({ registered: true }), function(req, res, next) {
+		// Load browser language from header
+		const browserLng = browserResponseLng(req);
+
+		// Load user properties from session
+		const authenticatedUser = req.user;
+
+		deleteSession(null, authenticatedUser, browserLng).then(
 			result => {
 				return res.status(200).send(result);
 			},
@@ -121,24 +133,15 @@ module.exports = function(router) {
 		);
 	});
 
-	// Logout of user account
-	router.post("/api/v1.0/authentication/logout", restrict({ registered: true }), function(req, res) {
-		// Express Logout
-		req.logout();
-		// Destroy the session
-		req.session.destroy();
-		// Return success message
-		return res.status(200).send({ status: 200, message: t("label.success") });
-	});
-
 	// Load user properties
 	router.get("/api/v1.0/authentication/load-user", restrict({ registered: true }), function(req, res, next) {
 		// Load browser language from header
 		const browserLng = browserResponseLng(req);
 
+		// Load user properties from session
 		const authenticatedUser = req.user;
 
-		loadUser(null, authenticatedUser, browserLng).then(
+		loadUserProperties(null, authenticatedUser, browserLng).then(
 			result => {
 				return res.status(200).send(result);
 			},
