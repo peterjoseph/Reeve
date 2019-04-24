@@ -237,7 +237,7 @@ class GeneralSettings extends Component {
 								label={t("components.settings.general.workspaceURL")}
 								name={"workspaceurl"}
 								id={"workspaceurl-input"}
-								value={client ? `${BUILD_PROTOCOL}://${client.get("workspaceURL")}.${BUILD_DOMAINPATH}/` : ""}
+								value={client ? `${BUILD_PROTOCOL}://${client.get("workspaceURL")}.${BUILD_DOMAINPATH}/`.toLowerCase() : ""}
 								type={"textField"}
 								ariaLabel={t("components.settings.general.workspaceURL")}
 								smallText={t("components.settings.general.workspaceURLUniqueAddress")}

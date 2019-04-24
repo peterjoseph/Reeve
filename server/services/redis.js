@@ -2,42 +2,45 @@ let util = require("util");
 let redisClient = require("redis");
 let RateLimit = require("express-rate-limit");
 let RateLimitRedisStore = require("rate-limit-redis");
-let bodyParser = require("body-parser");
 let config = require("../../config");
 
 // Create redis client
-let redisInterface = redisClient.createClient({
-	host: config.redis.host,
-	port: config.redis.port,
-	password: config.redis.pass,
-	retry_strategy: function(options) {
-		if (options.error && options.error.code === "ECONNREFUSED") {
-			process.stdout.write("ECONNREFUSED: Unable to connect to Redis server\n");
-			process.exit(1);
-		}
-		if (options.total_retry_time > 1000 * 60 * 60) {
-			process.stdout.write("Redis: Retry time exhausted\n");
-			process.exit(1);
-		}
-		if (options.attempt > 10) {
-			process.stdout.write("Redis: Connection attempts exhausted\n");
-			process.exit(1);
-		}
-		return Math.min(options.attempt * 100, 3000);
-	}
-});
-
+let redisInterface = null;
 let redisRateLimitStore = null;
 
+// Load redis client if env variable is enabled
+if (config.redis.enabled) {
+	redisInterface = redisClient.createClient({
+		host: config.redis.host,
+		port: config.redis.port,
+		password: config.redis.pass,
+		retry_strategy: function(options) {
+			if (options.error && options.error.code === "ECONNREFUSED") {
+				process.stdout.write("ECONNREFUSED: Unable to connect to Redis server\n");
+				process.exit(1);
+			}
+			if (options.total_retry_time > 1000 * 60 * 60) {
+				process.stdout.write("Redis: Retry time exhausted\n");
+				process.exit(1);
+			}
+			if (options.attempt > 10) {
+				process.stdout.write("Redis: Connection attempts exhausted\n");
+				process.exit(1);
+			}
+			return Math.min(options.attempt * 100, 3000);
+		}
+	});
+}
+
 // Add promises functionality to specific redis client functions
-const getAsync = util.promisify(redisInterface.get).bind(redisInterface);
-const delAsync = util.promisify(redisInterface.del).bind(redisInterface);
+const getAsync = config.redis.enabled ? util.promisify(redisInterface.get).bind(redisInterface) : null;
+const delAsync = config.redis.enabled ? util.promisify(redisInterface.del).bind(redisInterface) : null;
 
 // Initialize the redis connection
 function initialize(app) {
-	// Handle HTTP Post body data
-	app.use(bodyParser.json());
-	app.use(bodyParser.urlencoded({ extended: false }));
+	if (!config.redis.enabled) {
+		return;
+	}
 
 	// Create Rate Limit Store
 	redisRateLimitStore = new RateLimitRedisStore({ client: redisInterface });
@@ -55,16 +58,28 @@ function initialize(app) {
 
 // Retrieve key and value from Redis store
 function getKey(key) {
+	if (!config.redis.enabled) {
+		return;
+	}
+
 	return getAsync(key);
 }
 
 // Add key and value to Redis store
 function setKey(key, value, expiry) {
+	if (!config.redis.enabled) {
+		return;
+	}
+
 	return redisInterface.set(key, value, "EX", expiry);
 }
 
 // Delete existing key from Redis store
 function deleteKey(key) {
+	if (!config.redis.enabled) {
+		return;
+	}
+
 	return delAsync(key);
 }
 

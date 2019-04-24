@@ -33,6 +33,7 @@ let config = {
 		idle: parseInt(process.env.DB_POOL_IDLE)
 	},
 	redis: {
+		enabled: String(process.env.R_ENABLED) === "true",
 		host: process.env.R_HOST,
 		port: process.env.R_PORT,
 		pass: process.env.R_PASS,

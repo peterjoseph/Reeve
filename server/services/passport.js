@@ -103,7 +103,9 @@ async function LocalStrategyLoadUser(workspaceURL, emailAddress, password) {
 	);
 
 	// Send new token to redis store
-	await redis.set(sessionId, new Date().getTime().toString(), config.redis.keyExpiry);
+	if (config.redis.enabled) {
+		await redis.set(sessionId, new Date().getTime().toString(), config.redis.keyExpiry);
+	}
 
 	return {
 		userId: user.get("id"),
@@ -115,9 +117,11 @@ async function LocalStrategyLoadUser(workspaceURL, emailAddress, password) {
 
 async function JWTStrategyLoadUser(sessionId, workspaceURL, clientId, userId) {
 	// Connect to redis and check if there is an active session for the provided key
-	const activeSession = await redis.get(sessionId);
-	if (!variableExists(activeSession)) {
-		return false;
+	if (config.redis.enabled) {
+		const activeSession = await redis.get(sessionId);
+		if (!variableExists(activeSession)) {
+			return false;
+		}
 	}
 
 	// Load a client using a workspaceURL

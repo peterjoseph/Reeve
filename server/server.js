@@ -10,6 +10,7 @@ let favicon = require("serve-favicon");
 let lusca = require("lusca");
 let cors = require("cors");
 let compression = require("compression");
+let bodyParser = require("body-parser");
 
 let routes = require("./services/router");
 let devmiddleware = require("./services/devmiddleware");
@@ -41,6 +42,10 @@ app.set("view engine", "html");
 app.engine("html", function(path, options, callback) {
 	fs.readFile(path, "utf-8", callback);
 });
+
+// Handle HTTP Post body data
+app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({ extended: false }));
 
 // Enable compression on Routes
 app.use(compression());
