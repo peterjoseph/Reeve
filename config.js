@@ -64,7 +64,8 @@ let config = {
 		forcePathStyle: String(process.env.S3_FORCE_PATH_STYLE) === "true",
 		bucketEndpoint: String(process.env.S3_BUCKET_ENDPOINT) === "true",
 		signatureVersion: process.env.S3_SIGNATURE_VERSION,
-		bucket: process.env.S3_BUCKET
+		bucket: process.env.S3_BUCKET,
+		fileDestination: process.env.S3_FILE_DEST
 	},
 	cloudfront: {
 		enabled: String(process.env.CF_ENABLED) === "true",

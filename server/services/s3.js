@@ -56,7 +56,7 @@ async function presignedPutObject(contentType, bucket, signedUrlExpiryTime, acl,
 	try {
 		// Create file name to store object in bucket
 		const extension = mime.extension(contentType);
-		const key = `${Date.now().toString()}_${clientId}_${userId}.${extension}`;
+		const key = `${config.s3.fileDestination}${Date.now().toString()}_${clientId}_${userId}.${extension}`;
 
 		const url = await s3.getSignedUrl("putObject", {
 			Bucket: bucket,

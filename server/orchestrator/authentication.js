@@ -206,12 +206,16 @@ export function authenticateWithJWTStrategy(req, res, next, browserLng) {
 	return passport.perform().authenticate("jwt", { session: false }, function(error, user) {
 		// Throw exception if loading passport strategy fails
 		if (error) {
-			throw new ServerResponseError(403, t("validation.tokenInvalidOrExpired", { lng: browserLng }), { token: [t("validation.tokenInvalidOrExpired", { lng: browserLng })] });
+			return res
+				.status(403)
+				.send(new ServerResponseError(403, t("validation.tokenInvalidOrExpired", { lng: browserLng }), { token: [t("validation.tokenInvalidOrExpired", { lng: browserLng })] }));
 		}
 		// Authenticate user with strategy
 		req.logIn(user, function(error) {
 			if (error) {
-				throw new ServerResponseError(403, t("validation.tokenInvalidOrExpired", { lng: browserLng }), { token: [t("validation.tokenInvalidOrExpired", { lng: browserLng })] });
+				return res
+					.status(403)
+					.send(new ServerResponseError(403, t("validation.tokenInvalidOrExpired", { lng: browserLng }), { token: [t("validation.tokenInvalidOrExpired", { lng: browserLng })] }));
 			}
 			if (user) {
 				database().transaction(async function(transaction) {
@@ -224,7 +228,11 @@ export function authenticateWithJWTStrategy(req, res, next, browserLng) {
 
 						// Throw an error if user could not be loaded from database
 						if (userObject === null) {
-							throw new ServerResponseError(403, t("validation.tokenInvalidOrExpired", { lng: browserLng }), { token: [t("validation.tokenInvalidOrExpired", { lng: browserLng })] });
+							return res
+								.status(403)
+								.send(
+									new ServerResponseError(403, t("validation.tokenInvalidOrExpired", { lng: browserLng }), { token: [t("validation.tokenInvalidOrExpired", { lng: browserLng })] })
+								);
 						}
 
 						// Store lastLoginDate in database
@@ -243,7 +251,7 @@ export function authenticateWithJWTStrategy(req, res, next, browserLng) {
 				return res.status(200).send(response);
 			} else {
 				const errorMsg = new ServerResponseError(403, t("validation.tokenInvalidOrExpired", { lng: browserLng }), { token: [t("validation.tokenInvalidOrExpired", { lng: browserLng })] });
-				return next(errorMsg);
+				return res.status(403).send(errorMsg);
 			}
 		});
 	})(req, res, next);
@@ -254,12 +262,18 @@ export function authenticateWithLocalStrategy(req, res, next, browserLng) {
 	return passport.perform().authenticate("local", { session: false }, function(error, user) {
 		// Throw exception if loading passport strategy fails
 		if (error) {
-			throw new ServerResponseError(403, t("validation.userInvalidProperties", { lng: browserLng }), { emailAddress: [t("validation.incorrectLoginDetailsSupplied", { lng: browserLng })] });
+			return res
+				.status(403)
+				.send(new ServerResponseError(403, t("validation.userInvalidProperties", { lng: browserLng }), { emailAddress: [t("validation.incorrectLoginDetailsSupplied", { lng: browserLng })] }));
 		}
 		// Authenticate user with strategy
 		req.logIn(user, function(error) {
 			if (error) {
-				throw new ServerResponseError(403, t("validation.userInvalidProperties", { lng: browserLng }), { emailAddress: [t("validation.incorrectLoginDetailsSupplied", { lng: browserLng })] });
+				return res
+					.status(403)
+					.send(
+						new ServerResponseError(403, t("validation.userInvalidProperties", { lng: browserLng }), { emailAddress: [t("validation.incorrectLoginDetailsSupplied", { lng: browserLng })] })
+					);
 			}
 			if (user) {
 				database().transaction(async function(transaction) {
@@ -272,9 +286,11 @@ export function authenticateWithLocalStrategy(req, res, next, browserLng) {
 
 						// Throw an error if user could not be loaded from database
 						if (userObject === null) {
-							throw new ServerResponseError(403, t("validation.userInvalidProperties", { lng: browserLng }), {
-								emailAddress: [t("validation.incorrectLoginDetailsSupplied", { lng: browserLng })]
-							});
+							return res.status(403).send(
+								new ServerResponseError(403, t("validation.userInvalidProperties", { lng: browserLng }), {
+									emailAddress: [t("validation.incorrectLoginDetailsSupplied", { lng: browserLng })]
+								})
+							);
 						}
 
 						// Store lastLoginDate in database
@@ -295,7 +311,7 @@ export function authenticateWithLocalStrategy(req, res, next, browserLng) {
 				const errorMsg = new ServerResponseError(403, t("validation.userInvalidProperties", { lng: browserLng }), {
 					emailAddress: [t("validation.incorrectLoginDetailsSupplied", { lng: browserLng })]
 				});
-				return next(errorMsg);
+				return res.status(403).send(errorMsg);
 			}
 		});
 	})(req, res, next);

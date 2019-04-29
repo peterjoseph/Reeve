@@ -4,12 +4,20 @@ let RateLimit = require("express-rate-limit");
 let RateLimitRedisStore = require("rate-limit-redis");
 let config = require("../../config");
 
-// Create redis client
+// Redis interface variables
 let redisInterface = null;
 let redisRateLimitStore = null;
 
-// Load redis client if env variable is enabled
-if (config.redis.enabled) {
+let getAsync = null;
+let delAsync = null;
+
+// Initialize the redis connection
+function initialize(app) {
+	if (!config.redis.enabled) {
+		return;
+	}
+
+	// Load redis client
 	redisInterface = redisClient.createClient({
 		host: config.redis.host,
 		port: config.redis.port,
@@ -30,17 +38,10 @@ if (config.redis.enabled) {
 			return Math.min(options.attempt * 100, 3000);
 		}
 	});
-}
 
-// Add promises functionality to specific redis client functions
-const getAsync = config.redis.enabled ? util.promisify(redisInterface.get).bind(redisInterface) : null;
-const delAsync = config.redis.enabled ? util.promisify(redisInterface.del).bind(redisInterface) : null;
-
-// Initialize the redis connection
-function initialize(app) {
-	if (!config.redis.enabled) {
-		return;
-	}
+	// Add promises functionality to specific redis client functions
+	getAsync = util.promisify(redisInterface.get).bind(redisInterface);
+	delAsync = util.promisify(redisInterface.del).bind(redisInterface);
 
 	// Create Rate Limit Store
 	redisRateLimitStore = new RateLimitRedisStore({ client: redisInterface });
