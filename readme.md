@@ -18,6 +18,14 @@ cd Reeve
 npm install && npm start
 ```
 
+## Online Application Demo
+
+Heroku Demo [Master Branch] <http://demo.getreeve.com/signin>
+
+Heroku Demo [Development Branch] <http://demo-development.getreeve.com/signin>
+
+-   Some features such as stripe billing and email sending in the online demo versions have been disabled.
+
 ## Application Screenshots
 
 ![](https://i.imgur.com/c6cYmSl.png)
@@ -73,7 +81,15 @@ npm install && npm start
 
 ## Documentation
 
-Further documentation can be found in the ./documentation directory
+Further documentation can be found in the ./documentation directory of the repository.
+
+An online copy of the documentation can be found at <https://getreeve.com/documentation.html>
+
+## Feature Updates
+
+The following public trello board provides scope for some of the features that are planned in future versions of Reeve.
+
+<https://trello.com/b/pxdfRq4i>
 
 ## License
 

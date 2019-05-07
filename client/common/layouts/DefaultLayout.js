@@ -1,7 +1,6 @@
 import React, { Component, Fragment } from "react";
 import PropTypes from "prop-types";
 import { withRouter } from "react-router-dom";
-import { TransitionGroup, CSSTransition } from "react-transition-group";
 import { Offline } from "react-detect-offline";
 
 import Header from "client/modules/header";
@@ -16,16 +15,12 @@ class DefaultLayout extends Component {
 			<GlobalStyling>
 				<Fragment>
 					<Header key={history.location.key} />
-					<TransitionGroup component="main" className="page-main">
-						<CSSTransition key={history.location.path} timeout={500} classNames="fade" appear>
-							<div key={history.location.path}>
-								<Offline>
-									<AppOffline navMargin={true} />
-								</Offline>
-								{children}
-							</div>
-						</CSSTransition>
-					</TransitionGroup>
+					<div key={history.location.path}>
+						<Offline>
+							<AppOffline navMargin={true} />
+						</Offline>
+						{children}
+					</div>
 				</Fragment>
 			</GlobalStyling>
 		);
