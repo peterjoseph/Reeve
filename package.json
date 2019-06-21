@@ -123,7 +123,7 @@
 		"redux-thunk": "^2.2.0",
 		"safe-regex": "^2.0.2",
 		"sass-loader": "^7.0.1",
-		"sequelize": "^5.8.0",
+		"sequelize": "^5.8.11",
 		"serialize-error": "^4.1.0",
 		"serve-favicon": "^2.5.0",
 		"stripe": "^6.31.1",
