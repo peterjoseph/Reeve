@@ -71,7 +71,7 @@
 		"express-rate-limit": "^3.5.0",
 		"express-winston": "^3.1.0",
 		"file-loader": "^3.0.1",
-		"helmet": "^3.16.0",
+		"helmet": "^3.21.1",
 		"i18next": "^15.1.0",
 		"i18next-browser-languagedetector": "^3.0.1",
 		"i18next-markdown-jsx-plugin": "^1.0.13",
