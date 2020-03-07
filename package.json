@@ -45,7 +45,7 @@
 		"@babel/register": "^7.4.4",
 		"@babel/runtime": "^7.4.4",
 		"@emotion/core": "^10.0.10",
-		"acorn": "^6.1.1",
+		"acorn": "^7.1.1",
 		"async": "^2.6.2",
 		"ava": "^1.4.1",
 		"aws-sdk": "^2.445.0",
