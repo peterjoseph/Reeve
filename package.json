@@ -78,7 +78,7 @@
 		"if-env": "^1.0.4",
 		"immutable": "^4.0.0-rc.12",
 		"imports-loader": "^0.8.0",
-		"jquery": "^3.4.0",
+		"jquery": "^3.5.0",
 		"jsonwebtoken": "^8.5.1",
 		"lusca": "^1.6.1",
 		"mime-types": "^2.1.24",
