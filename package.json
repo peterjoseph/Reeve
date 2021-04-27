@@ -117,7 +117,7 @@
 		"react-script-loader-hoc": "^1.2.2",
 		"react-stripe-elements": "^3.0.0",
 		"react-tooltip": "^3.10.0",
-		"redis": "^2.8.0",
+		"redis": "^3.1.1",
 		"redux": "^4.0.1",
 		"redux-immutable": "^4.0.0",
 		"redux-thunk": "^2.2.0",
