@@ -46,7 +46,7 @@
 		"@babel/runtime": "^7.4.4",
 		"@emotion/core": "^10.0.10",
 		"acorn": "^6.1.1",
-		"async": "^2.6.2",
+		"async": "^3.2.2",
 		"ava": "^1.4.1",
 		"aws-sdk": "^2.445.0",
 		"babel-loader": "^8.0.5",
@@ -139,7 +139,7 @@
 		"webpack-dev-middleware": "^3.6.2",
 		"webpack-hot-middleware": "^2.24.4",
 		"whatwg-fetch": "^3.0.0",
-		"winston": "^3.2.1",
+		"winston": "^3.3.0",
 		"winston-papertrail": "^1.0.5"
 	},
 	"devDependencies": {
