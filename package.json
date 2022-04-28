@@ -46,7 +46,7 @@
 		"@babel/runtime": "^7.4.4",
 		"@emotion/core": "^10.0.10",
 		"acorn": "^6.1.1",
-		"async": "^2.6.2",
+		"async": "^2.6.4",
 		"ava": "^1.4.1",
 		"aws-sdk": "^2.445.0",
 		"babel-loader": "^8.0.5",
