@@ -67,7 +67,7 @@
 		"emotion": "^10.0.9",
 		"es6-promise": "^4.2.6",
 		"exports-loader": "^0.7.0",
-		"express": "^4.16.4",
+		"express": "^4.19.2",
 		"express-rate-limit": "^3.5.0",
 		"express-winston": "^3.1.0",
 		"file-loader": "^3.0.1",
