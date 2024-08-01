@@ -55,7 +55,7 @@
 		"babel-plugin-module-resolver": "^3.2.0",
 		"bcrypt": "^3.0.6",
 		"body-parser": "^1.19.0",
-		"bootstrap": "^4.3.1",
+		"bootstrap": "^5.0.0",
 		"bowser": "^2.3.0",
 		"compression": "^1.7.4",
 		"compression-webpack-plugin": "^2.0.0",
