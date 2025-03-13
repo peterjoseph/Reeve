@@ -35,7 +35,7 @@
 	},
 	"homepage": "https://github.com/peterjoseph/reeve#readme",
 	"dependencies": {
-		"@babel/core": "^7.4.4",
+		"@babel/core": "^7.26.10",
 		"@babel/plugin-proposal-class-properties": "^7.4.4",
 		"@babel/plugin-syntax-dynamic-import": "^7.2.0",
 		"@babel/plugin-transform-runtime": "^7.4.4",
@@ -47,7 +47,7 @@
 		"@emotion/core": "^10.0.10",
 		"acorn": "^6.1.1",
 		"async": "^2.6.2",
-		"ava": "^1.4.1",
+		"ava": "^3.0.0",
 		"aws-sdk": "^2.445.0",
 		"babel-loader": "^8.0.5",
 		"babel-plugin-add-module-exports": "^1.0.2",
